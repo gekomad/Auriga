@@ -29,7 +29,7 @@ int main(int argc, const char *argv[]) {
     //Perft &perft = Perft::getInstance();
     //perft.status();
     WrapperCinnamon a;
-    a.getTotMoves1();
+    cout <<"tot :" << a.getTotMoves("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")<<endl;
     cout << "FINE AURIGA" << endl;
     return 0;
 }

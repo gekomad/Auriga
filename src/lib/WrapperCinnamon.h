@@ -17,9 +17,10 @@
 */
 
 #pragma once
-
+#include <string>
+#include <iostream>
 class WrapperCinnamon {
 
 public:
-    void getTotMoves1(void);
+    int getTotMoves(string);
 };
