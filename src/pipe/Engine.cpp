@@ -18,68 +18,68 @@
 
 #include "Engine.h"
 
-void Engine::run() {
-    int bytes_read;
+Engine::Engine(const string &fileName1, PROTOCOL_TYPE type1) {
+    programName = fileName1;
+    type = type1;
     pid_t childpid;
-    char readbuffer[1024];
+    assert (!pipe(fd_p2c) && !pipe(fd_c2p));
 
-    string receive_output = "";
-
-    if (pipe(fd_p2c) != 0 || pipe(fd_c2p) != 0) {
-        cerr << "Failed to pipe\n";
-        exit(1);
-    }
     childpid = fork();
 
-    if (childpid < 0) {
-        cout << "Fork failed" << endl;
-        exit(-1);
-    } else if (childpid == 0) {
-        if (dup2(fd_p2c[0], 0) != 0 || close(fd_p2c[0]) != 0 || close(fd_p2c[1]) != 0) {
-            cerr << "Child: failed to set up standard input\n";
-            exit(1);
-        }
-        if (dup2(fd_c2p[1], 1) != 1 || close(fd_c2p[1]) != 0 || close(fd_c2p[0]) != 0) {
-            cerr << "Child: failed to set up standard output\n";
-            exit(1);
-        }
+    assert (childpid >= 0);
+    if (childpid == 0) {
+        assert (dup2(fd_p2c[0], 0) == 0 && close(fd_p2c[0]) == 0 && close(fd_p2c[1]) == 0);
+        assert (dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
 
         execl(programName.c_str(), programName.c_str(), (char *) 0);
-        cerr << "Failed to execute " << programName << endl;
-        exit(1);
-    } else {
-        close(fd_p2c[0]);
-        close(fd_c2p[1]);
+        // cerr << "Failed to execute " << programName << endl;
+        // exit(1);
+    }
+    close(fd_p2c[0]);
+    close(fd_c2p[1]);
 
+}
 
-        while (1) {
-            bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
+void Engine::run() {
+    int bytes_read;
 
-            if (bytes_read <= 0)
-                break;
+    string receive_output = "";
+    char readbuffer[1024];
 
-            readbuffer[bytes_read] = '\0';
-            receive_output += readbuffer;
-            cout << "From child: <<" << receive_output << ">>" << endl;
-            receive_output.clear();
-        }
+    while (1) {
+        bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
 
+        if (bytes_read <= 0)
+            break;
+
+        readbuffer[bytes_read] = '\0';
+        receive_output += readbuffer;
+        String receive(receive_output);
+        receive = receive.replace("\n", "");
+//        debug( "Reading from engine: |" + receive + "|") ;
+        cout << receive << endl;
+        receive_output.clear();
     }
 }
 
 void Engine::endRun() {
     close(fd_c2p[0]);
     close(fd_p2c[1]);
-
 }
 
 void Engine::put(string command) {
-    cout << "Writing to child: <<" << command << ">>" << endl;
+    debug("Writing to engine: |" + command + "\\n|");
     command.append("\n");
     int nbytes = command.length();
-    if (write(fd_p2c[1], command.c_str(), nbytes) != nbytes) {
-        cerr << "Parent: short write to child\n";
-        exit(1);
-    }
+    assert (write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
 
+}
+
+void Engine::setPosition(const string &fen) {
+    if (type == PROTOCOL_TYPE::UCI) {
+        put("position fen " + fen);
+    } else {
+        string x = "setboard " + fen;
+        put(x);
+    }
 }

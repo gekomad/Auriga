@@ -25,20 +25,23 @@
 
 class Engine : public Thread {
 public :
+    static enum PROTOCOL_TYPE {
+        UCI, XBOARD
+    } _PROTOCOL_TYPE;
 
-    Engine(const string &fileName1, const string &type1) {
-        programName = fileName1;
-        type = type1;
-    }
+    Engine(const string &fileName, PROTOCOL_TYPE type);
 
     void put(string);
+
     virtual void run();
 
     virtual void endRun();
 
+    void setPosition(const string &fen);
+
 private:
     string programName;
-    string type;
+    PROTOCOL_TYPE type;
     int fd_p2c[2], fd_c2p[2];
 };
 
