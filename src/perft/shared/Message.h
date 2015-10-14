@@ -18,8 +18,8 @@
 
 #pragma once
 
-#include "../namespaces/def.h"
-#include "../network/Server.h"
+#include "../../namespaces/def.h"
+#include "../../network/Server.h"
 
 
 using namespace _debug;

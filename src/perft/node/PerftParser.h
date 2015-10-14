@@ -23,16 +23,16 @@
 #include <atomic>
 #include <fstream>
 #include <unistd.h>
-#include "../util/Timer.h"
+#include "../../util/Timer.h"
 #include <mutex>
 
 #include <signal.h>
 #include <set>
-#include "Message.h"
+#include "../shared/Message.h"
 
-#include "../network/Server.h"
-#include "../blockingThreadPool/ThreadPool.h"
-#include "RemoteNode.h"
+#include "../../network/Server.h"
+#include "../../blockingThreadPool/ThreadPool.h"
+#include "../master/RemoteNode.h"
 #include "PerftClient.h"
 #include "PerftResultCallback.h"
 

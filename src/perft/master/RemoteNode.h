@@ -18,10 +18,10 @@
 
 #pragma once
 
-#include "../blockingThreadPool/Thread.h"
-#include "../network/Client.h"
-#include "Message.h"
-#include "PerftClient.h"
+#include "../../blockingThreadPool/Thread.h"
+#include "../../network/Client.h"
+#include "../shared/Message.h"
+#include "../node/PerftClient.h"
 
 
 class RemoteNode : public Thread {

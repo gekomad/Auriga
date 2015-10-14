@@ -17,7 +17,7 @@
 */
 
 #include "PerftResultCallback.h"
-#include "PerftDistributed.h"
+#include "../master/PerftSplitter.h"
 
 void PerftResultCallback::setTot(const u64 tot) {
     info("send result to server");

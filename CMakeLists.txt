@@ -11,17 +11,17 @@ set(SOURCE_FILES
         src/network/Iparser.h
         src/network/Server.cpp
         src/network/Server.h
-        src/perft/Message.cpp
-        src/perft/Message.h
-        src/perft/PerftClient.h
-        src/perft/PerftDistributed.cpp
-        src/perft/PerftDistributed.h
-        src/perft/PerftParser.cpp
-        src/perft/PerftParser.h
-        src/perft/PerftResultCallback.cpp
-        src/perft/PerftResultCallback.h
-        src/perft/RemoteNode.cpp
-        src/perft/RemoteNode.h
+        src/perft/shared/Message.cpp
+        src/perft/shared/Message.h
+        src/perft/node/PerftClient.h
+        src/perft/master/PerftSplitter.cpp
+        src/perft/master/PerftSplitter.h
+        src/perft/node/PerftParser.cpp
+        src/perft/node/PerftParser.h
+        src/perft/node/PerftResultCallback.cpp
+        src/perft/node/PerftResultCallback.h
+        src/perft/master/RemoteNode.cpp
+        src/perft/master/RemoteNode.h
         src/main.cpp)
 
 add_executable(Auriga ${SOURCE_FILES})

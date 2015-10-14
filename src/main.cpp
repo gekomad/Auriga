@@ -21,19 +21,25 @@
 using namespace std;
 
 #include "pipe/Engine.h"
+#include "perft/master/PerftSplitter.h"
 
 int main(int argc, const char *argv[]) {
 
-//    Engine e("/home/geko/crafty", Engine::PROTOCOL_TYPE::XBOARD);
-    Engine e("/home/geko/stockfish", Engine::PROTOCOL_TYPE::UCI);
-//    Engine e("/home/geko/cinnamon", Engine::PROTOCOL_TYPE::UCI);
-//    Engine e("/home/geko/cheng", Engine::PROTOCOL_TYPE::UCI);
+////    Engine e("/home/geko/crafty", Engine::PROTOCOL_TYPE::XBOARD);
+//    Engine e("/home/geko/stockfish", Engine::PROTOCOL_TYPE::UCI);
+////    Engine e("/home/geko/cinnamon", Engine::PROTOCOL_TYPE::UCI);
+////    Engine e("/home/geko/cheng", Engine::PROTOCOL_TYPE::UCI);
+//
+//    e.start();
+//    e.setPosition("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
+//    e.put("perft 5");
+//    e.put("quit");
+//    e.join();
 
-    e.start();
-    e.setPosition("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
-    e.put("perft 5");
-    e.put("quit");
-    e.join();
+    PerftDistributed *  perftDistributed = &PerftDistributed::getInstance();
+    perftDistributed->setServer(5002);
+    perftDistributed->start();
+    perftDistributed->join();
     cout << "FINE AURIGA" << endl;
     return 0;
 }
