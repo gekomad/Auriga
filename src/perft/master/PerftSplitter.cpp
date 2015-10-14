@@ -17,7 +17,7 @@
 */
 
 
-#include "PerftDistributed.h"
+#include "PerftSplitter.h"
 
 PerftDistributed::~PerftDistributed() {
     debug("~PerftDistributed()");
@@ -99,6 +99,7 @@ void PerftDistributed::run() {
         server = new Server(port, new PerftParser());//TODO delete PerftParser deleteserver??
         server->start();
         usleep(10000);//wait complete startup
+
     } else {
         callRemoteNode();
     }

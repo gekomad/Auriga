@@ -25,15 +25,15 @@
 
 #include <mutex>
 
-#include "../blockingThreadPool/ThreadPool.h"
+#include "../../blockingThreadPool/ThreadPool.h"
 
 #include <set>
-#include "../lib/WrapperCinnamon.h"
+#include "../../lib/WrapperCinnamon.h"
 #include "RemoteNode.h"
-#include "../util/IniFile.h"
-#include "PerftParser.h"
-#include "PerftDistributed.h"
-#include "../network/Client.h"
+#include "../../util/IniFile.h"
+#include "../node/PerftParser.h"
+#include "PerftSplitter.h"
+#include "../../network/Client.h"
 
 
 class PerftDistributed : public Thread, public ThreadPool<RemoteNode>, public Singleton<PerftDistributed> {
