@@ -19,11 +19,11 @@
 
 #include "PerftSplitter.h"
 
-PerftDistributed::~PerftDistributed() {
-    debug("~PerftDistributed()");
+PerftSplitter::~PerftSplitter() {
+    debug("~PerftSplitter()");
 }
 
-std::vector<tuple<string, int, int, string>> PerftDistributed::getRemoteNodes(const string &distributedFile) {
+std::vector<tuple<string, int, int, string>> PerftSplitter::getRemoteNodes(const string &distributedFile) {
 
     IniFile iniFile(distributedFile);
     string nodeIp;
@@ -73,13 +73,13 @@ std::vector<tuple<string, int, int, string>> PerftDistributed::getRemoteNodes(co
     return nodesSet;
 }
 
-void PerftDistributed::setServer(int port1) {
+void PerftSplitter::setServer(int port1) {
     debug("SERVER MODE on port", port1);
     serverMode = true;
     port = port1;
 }
 
-void PerftDistributed::setParam(const string &fen1, int depth1, const string &distributedFile, int port1) {
+void PerftSplitter::setParam(const string &fen1, int depth1, const string &distributedFile, int port1) {
     debug("setParam");
     serverMode = false;
     fen = fen1;
@@ -92,7 +92,7 @@ void PerftDistributed::setParam(const string &fen1, int depth1, const string &di
     nodesSet = getRemoteNodes(distributedFile);
 }
 
-void PerftDistributed::run() {
+void PerftSplitter::run() {
     debug("run");
 
     if (serverMode) {
@@ -105,12 +105,12 @@ void PerftDistributed::run() {
     }
 }
 
-void PerftDistributed::endRun() {
+void PerftSplitter::endRun() {
     debug("endRun");
 
 }
 
-void PerftDistributed::receiveMsg(const Message &message) {
+void PerftSplitter::receiveMsg(const Message &message) {
     info("PerftServer:: receive msg from host: ", message.getHost(), message.getSerializedString());
 
     if (message.getTot() != 0xffffffffffffffff)info("PerftServer::tot:", message.getTot());
@@ -127,7 +127,7 @@ void PerftDistributed::receiveMsg(const Message &message) {
     }
 }
 
-void PerftDistributed::callRemoteNode() {
+void PerftSplitter::callRemoteNode() {
     debug("callRemoteNode");
     WrapperCinnamon wrapperCinnamon;
     assert(nodesSet.size());

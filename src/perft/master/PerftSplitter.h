@@ -36,8 +36,8 @@
 #include "../../network/Client.h"
 
 
-class PerftDistributed : public Thread, public ThreadPool<RemoteNode>, public Singleton<PerftDistributed> {
-    friend class Singleton<PerftDistributed>;
+class PerftSplitter : public Thread, public ThreadPool<RemoteNode>, public Singleton<PerftSplitter> {
+    friend class Singleton<PerftSplitter>;
 
 public:
 
@@ -46,7 +46,7 @@ public:
 
     void setServer(int port1);
 
-    ~PerftDistributed();
+    ~PerftSplitter();
 
     virtual void run();
 
@@ -59,7 +59,7 @@ private:
 
     std::vector<tuple<string, int, int, string>> nodesSet;
 
-    PerftDistributed() : ThreadPool(1) { };
+    PerftSplitter() : ThreadPool(1) { };
 
     std::vector<tuple<string, int, int, string>> getRemoteNodes(const string &distributedFile);
 

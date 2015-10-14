@@ -22,7 +22,7 @@
 void PerftResultCallback::setTot(const u64 tot) {
     info("send result to server");
     Message m("-", -1, -1, -1, "-", -1, -1, -1, tot);
-    PerftDistributed::getInstance().getServer()->sendMsg(m.getSerializedString());
+    PerftSplitter::getInstance().getServer()->sendMsg(m.getSerializedString());
 
 
 }

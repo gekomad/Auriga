@@ -36,10 +36,10 @@ int main(int argc, const char *argv[]) {
 //    e.put("quit");
 //    e.join();
 
-    PerftDistributed *  perftDistributed = &PerftDistributed::getInstance();
-    perftDistributed->setServer(5002);
-    perftDistributed->start();
-    perftDistributed->join();
+    PerftSplitter *  perftSplitter = &PerftSplitter::getInstance();
+    perftSplitter->setServer(5002);
+    perftSplitter->start();
+    perftSplitter->join();
     cout << "FINE AURIGA" << endl;
     return 0;
 }
