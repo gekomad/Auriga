@@ -1,5 +1,5 @@
 /*
-    Cinnamon UCI chess engine
+    https://github.com/gekomad/Auriga
     Copyright (C) Giuseppe Cannella
 
     This program is free software: you can redistribute it and/or modify
