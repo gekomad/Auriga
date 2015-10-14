@@ -67,7 +67,7 @@ private:
 //            //"/home/geko/workspace/workspace_my/cinnamon/src/perft_distributed_nodes.ini"
 //            new Uci(fen, perftDepth, iniFile);//perft distributed
 //        } else {
-            new Uci(fen, perftDepth, nCpu, perftHashSize, dumpFile);//perft locale
+        new Uci(fen, perftDepth, nCpu, perftHashSize, dumpFile);//perft locale
 //        }
     }
 
@@ -200,7 +200,7 @@ public:
                         return;
                     }
                 } else if (opt == 'b') {
-                    unique_ptr<IterativeDeeping> it(new IterativeDeeping());
+                    unique_ptr <IterativeDeeping> it(new IterativeDeeping());
                     it->setUseBook(false);
                     SearchManager &searchManager = Singleton<SearchManager>::getInstance();
                     searchManager.setMaxTimeMillsec(10000);

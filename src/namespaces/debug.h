@@ -23,6 +23,7 @@
 #include <cxxabi.h>
 #include <stdio.h>
 #include <string.h>
+
 #if !defined DLOG_LEVEL
 #if defined DEBUG_MODE
 #define DLOG_LEVEL TRACE
@@ -61,8 +62,8 @@ namespace _debug {
     template<LOG_LEVEL type, typename T, typename... Args>
     void debug(T t, Args... args) {
         if (type >= DLOG_LEVEL) {
-            lock_guard <mutex> lock1(_CoutSyncMutex);
-            cout << "info string " << " " << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
+            lock_guard<mutex> lock1(_CoutSyncMutex);
+            cout << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
             __debug(t, args...);
             cout << endl;
         }

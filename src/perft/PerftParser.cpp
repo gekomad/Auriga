@@ -19,7 +19,7 @@
 #include "PerftParser.h"
 
 void PerftParser::parser(const string &msg) {
-    info( "receive");
+    info("receive");
     Message message(msg);
 #ifdef DEBUG_MODE
     message.print();

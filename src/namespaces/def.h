@@ -60,7 +60,7 @@ namespace _def {
 #define ADD(a, b) (a+=(b))
 #else
 
-    #define ASSERT(a)
+#define ASSERT(a)
 #define ASSERT_RANGE(value, from, to)
 #define INC(a)
 #define ADD(a, b)
