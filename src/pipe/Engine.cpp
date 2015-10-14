@@ -32,8 +32,8 @@ Engine::Engine(const string &fileName1, PROTOCOL_TYPE type1) {
         assert (dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
 
         execl(programName.c_str(), programName.c_str(), (char *) 0);
-        // cerr << "Failed to execute " << programName << endl;
-        // exit(1);
+         cerr << "Failed to execute " << programName << endl;
+         exit(1);
     }
     close(fd_p2c[0]);
     close(fd_c2p[1]);
@@ -55,14 +55,15 @@ void Engine::run() {
         readbuffer[bytes_read] = '\0';
         receive_output += readbuffer;
         String receive(receive_output);
-        receive = receive.replace("\n", "");
-//        debug( "Reading from engine: |" + receive + "|") ;
-        cout << receive << endl;
+        //receive = receive.replace("\n", "");
+        debug( "Reading from engine: |" + receive + "|") ;
+        cout << receive;
         receive_output.clear();
     }
 }
 
 void Engine::endRun() {
+    debug("endRun");
     close(fd_c2p[0]);
     close(fd_p2c[1]);
 }
