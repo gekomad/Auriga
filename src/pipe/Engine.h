@@ -16,22 +16,29 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma once
+
+#include "../blockingThreadPool/Thread.h"
+#include <unistd.h>
+#include <string>
 #include <iostream>
 
-using namespace std;
+class Engine : public Thread {
+public :
 
-#include "pipe/Engine.h"
+    Engine(const string &fileName1, const string &type1) {
+        programName = fileName1;
+        type = type1;
+    }
 
-int main(int argc, const char *argv[]) {
+    void put(string);
+    virtual void run();
 
-//    Engine e("/home/geko/chess/engines/cinnamon11c", "uci");
-    Engine e("/home/geko/chess/engines/stockfish-6-linux/Linux/stockfish_6_x64", "uci");
-    e.start();
-    sleep(1);
-    e.put("uci");
-    e.put("position fen r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
+    virtual void endRun();
 
-    e.put("perft 3");
-    cout << "FINE AURIGA" << endl;
-    return 0;
-}
+private:
+    string programName;
+    string type;
+    int fd_p2c[2], fd_c2p[2];
+};
+
