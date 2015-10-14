@@ -7,12 +7,12 @@ set(SOURCE_FILES
 
         network/Server.cpp
         network/Client.cpp
-        perft/remote/PerftParser.cpp
 
-        perft/remote/RemoteNode.cpp
-        perft/remote/PerftDistributed.cpp
-        perft/remote/Message.cpp
-        perft/remote/PerftResultCallback.cpp
+        perft/PerftParser.cpp
+        perft/RemoteNode.cpp
+        perft/PerftDistributed.cpp
+        perft/Message.cpp
+        perft/PerftResultCallback.cpp
 )
 
 add_executable(Auriga ${SOURCE_FILES})

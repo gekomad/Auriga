@@ -1,5 +1,5 @@
 /*
-    https://github.com/gekomad/Auriga
+    Cinnamon UCI chess engine
     Copyright (C) Giuseppe Cannella
 
     This program is free software: you can redistribute it and/or modify
@@ -16,20 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <iostream>
+#pragma once
 
-using namespace std;
+class WrapperCinnamon {
 
-#include "lib/WrapperCinnamon.h"
-
-int main(int argc, const char *argv[]) {
-
-//    Message* message = new Message("wwwwwwwwwwww", 1, 1,1, "ssssssssss", 0, 1, -1, -1);
-//    message->print();
-    //Perft &perft = Perft::getInstance();
-    //perft.status();
-    WrapperCinnamon a;
-    a.getTotMoves1();
-    cout << "FINE AURIGA" << endl;
-    return 0;
-}
+public:
+    void getTotMoves1(void);
+};

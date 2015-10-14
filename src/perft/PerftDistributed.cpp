@@ -129,22 +129,6 @@ void PerftDistributed::receiveMsg(const Message &message) {
     }
 }
 
-int PerftDistributed::getTotMoves(const string &fen1) {
-    PerftThread p;
-
-    p.loadFen(fen1);
-
-    p.setPerft(true);
-    int side = p.getSide() ? 1 : 0;
-
-    p.incListId();
-    u64 friends = side ? p.getBitBoard<WHITE>() : p.getBitBoard<BLACK>();
-    u64 enemies = side ? p.getBitBoard<BLACK>() : p.getBitBoard<WHITE>();
-    p.generateCaptures(side, enemies, friends);
-    p.generateMoves(side, friends | enemies);
-    return p.getListSize();
-
-}
 
 void PerftDistributed::callRemoteNode() {
     debug( "callRemoteNode");

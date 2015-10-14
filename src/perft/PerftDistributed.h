@@ -70,8 +70,6 @@ private:
 
     void callRemoteNode();
 
-    int getTotMoves(const string &fen);
-
     bool serverMode = false;
     Server *server = nullptr;
 public:
