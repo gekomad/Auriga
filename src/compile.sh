@@ -1,0 +1,2 @@
+rm auriga
+g++ -std=c++11 -g -DDLOG_LEVEL=TRACE -DDEBUG_MODE -I./ -L./lib/Linux/64 -msse4a -march=athlon64 -mtune=athlon64  -DHAS_POPCNT -mpopcnt -msse3 -DHAS_BSF  -m64 -pthread -static main.cpp -lCinnamon -o auriga
