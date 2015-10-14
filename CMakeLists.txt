@@ -4,6 +4,15 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -Wno-reorder -DDL
 
 set(SOURCE_FILES
     src/main.cpp
+
+        network/Server.cpp
+        network/Client.cpp
+        perft/remote/PerftParser.cpp
+
+        perft/remote/RemoteNode.cpp
+        perft/remote/PerftDistributed.cpp
+        perft/remote/Message.cpp
+        perft/remote/PerftResultCallback.cpp
 )
 
 add_executable(Auriga ${SOURCE_FILES})
