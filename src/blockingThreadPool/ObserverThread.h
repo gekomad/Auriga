@@ -1,5 +1,5 @@
 /*
-    https://github.com/gekomad/Auriga
+    https://github.com/gekomad/BlockingThreadPool
     Copyright (C) Giuseppe Cannella
 
     This program is free software: you can redistribute it and/or modify
@@ -18,28 +18,9 @@
 
 #pragma once
 
+using namespace std;
 
-#include <iomanip>
-#include <atomic>
-#include <fstream>
-#include <unistd.h>
-#include "../util/Timer.h"
-#include <mutex>
-
-#include <signal.h>
-#include <set>
-#include "Message.h"
-
-#include "../network/Server.h"
-#include "../blockingThreadPool/ThreadPool.h"
-#include "RemoteNode.h"
-#include "PerftClient.h"
-#include "PerftResultCallback.h"
-
-class PerftParser : public Iparser {
-public :
-
-    void parser(const string &msg);
-
+class ObserverThread {
+public:
+    virtual void observerEndThread(int threadID) = 0;
 };
-

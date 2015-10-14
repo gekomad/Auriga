@@ -26,11 +26,12 @@
 #include <netinet/in.h>
 #include "../blockingThreadPool/Thread.h"
 #include "Iparser.h"
-#include "../perft/remote/Message.h"
+#include "../perft/Message.h"
 
 class Server : public Thread {
 
 public:
+    static const string OK;
     static const int MAX_MSG_SIZE = 2048;
 
     Server(int port, Iparser *parser);

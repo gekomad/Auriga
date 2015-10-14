@@ -17,7 +17,6 @@
 */
 
 #include "PerftParser.h"
-#include "../locale/Perft.h"
 
 void PerftParser::parser(const string &msg) {
     info( "receive");
@@ -28,9 +27,9 @@ void PerftParser::parser(const string &msg) {
 
     if (message.getTot() == 0xffffffffffffffff) {//TODO sistemare
 
-        Perft &perft = Perft::getInstance();
-        perft.setParam(message.getFen(), message.getDepth(), message.getNcpu(), message.getHashsize(), message.getDumpFile(), message.getFrom(), message.getTo(), false);
-        perft.setCallbackResult(new PerftResultCallback());
-        perft.start();
+//        Perft &perft = Perft::getInstance();
+//        perft.setParam(message.getFen(), message.getDepth(), message.getNcpu(), message.getHashsize(), message.getDumpFile(), message.getFrom(), message.getTo(), false);
+//        perft.setCallbackResult(new PerftResultCallback());
+//        perft.start();
     }
 }

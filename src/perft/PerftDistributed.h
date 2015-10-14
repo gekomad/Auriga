@@ -18,7 +18,6 @@
 
 #pragma once
 
-#include "../../Search.h"
 #include <iomanip>
 #include <atomic>
 #include <fstream>
@@ -26,15 +25,15 @@
 
 #include <mutex>
 
-#include "../../blockingThreadPool/ThreadPool.h"
+#include "../blockingThreadPool/ThreadPool.h"
 
 #include <set>
-
-#include "../remote/RemoteNode.h"
-#include "../../util/IniFile.h"
+#include "../lib/WrapperCinnamon.h"
+#include "RemoteNode.h"
+#include "../util/IniFile.h"
 #include "PerftParser.h"
 #include "PerftDistributed.h"
-#include "../../network/Client.h"
+#include "../network/Client.h"
 
 
 class PerftDistributed : public Thread, public ThreadPool<RemoteNode>, public Singleton<PerftDistributed> {

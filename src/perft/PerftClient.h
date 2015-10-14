@@ -19,7 +19,7 @@
 #pragma once
 
 #include "Message.h"
-#include "../../network/Client.h"
+#include "../network/Client.h"
 
 class PerftClient : public Client {
 public :

@@ -18,7 +18,7 @@
 
 
 #include "Message.h"
-#include "../../network/util/Network.h"
+#include "../network/util/Network.h"
 
 Message::Message(const Message &b) {
     debug("create message from message");

@@ -41,9 +41,9 @@ void Client::sendMsg(const string &host, int portno, const string &msg) {
 
     assert (send(sock, msg.c_str(), strlen(msg.c_str()) + 1, 0) >= 0);
 
-    assert(recv(sock, server_reply, _def::OK.size() + 1, 0) >= 0);
+    assert(recv(sock, server_reply, Server::OK.size() + 1, 0) >= 0);
     cout << "Client::reply from servers: " << server_reply << "\n";
-    assert(server_reply == _def::OK);
+    assert(server_reply == Server::OK);
     while (!closeSocket) {
         recv(sock, server_reply, Server::MAX_MSG_SIZE, 0);
         cout << "Client::reply from servers: " << server_reply << "\n";

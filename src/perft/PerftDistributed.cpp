@@ -18,7 +18,6 @@
 
 
 #include "PerftDistributed.h"
-#include "../locale/PerftThread.h"
 
 PerftDistributed::~PerftDistributed() {
     debug( "~PerftDistributed()");
@@ -83,11 +82,9 @@ void PerftDistributed::setServer(int port1) {
 void PerftDistributed::setParam(const string &fen1, int depth1, const string &distributedFile, int port1) {
     debug( "setParam");
     serverMode = false;
-    if (fen1.empty()) {
-        fen = STARTPOS;
-    } else {
-        fen = fen1;
-    }
+    fen = fen1;
+    assert (fen.empty());
+
     depth = depth1;
     if (depth <= 0)depth = 1;
 
@@ -129,11 +126,11 @@ void PerftDistributed::receiveMsg(const Message &message) {
     }
 }
 
-
 void PerftDistributed::callRemoteNode() {
     debug( "callRemoteNode");
+    WrapperCinnamon wrapperCinnamon;
     assert(nodesSet.size());
-    int totMoves = getTotMoves(fen);
+    int totMoves = wrapperCinnamon.getTotMoves(fen);
 
     unsigned totMachine = 0;
     int c = 0;

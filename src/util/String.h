@@ -1,5 +1,5 @@
 /*
-    https://github.com/gekomad/Auriga
+    Cinnamon UCI chess engine
     Copyright (C) Giuseppe Cannella
 
     This program is free software: you can redistribute it and/or modify
@@ -18,28 +18,38 @@
 
 #pragma once
 
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <sstream>
 
-#include <iomanip>
-#include <atomic>
-#include <fstream>
-#include <unistd.h>
-#include "../util/Timer.h"
-#include <mutex>
+using namespace std;
 
-#include <signal.h>
-#include <set>
-#include "Message.h"
+class String : public string {
+public:
+    String();
 
-#include "../network/Server.h"
-#include "../blockingThreadPool/ThreadPool.h"
-#include "RemoteNode.h"
-#include "PerftClient.h"
-#include "PerftResultCallback.h"
+    String(const string &s) : string(s) { };
 
-class PerftParser : public Iparser {
-public :
+    String(const char *s) : string(s) { };
 
-    void parser(const string &msg);
+    String(int);
 
+    String(unsigned long long);
+
+    virtual ~ String();
+
+    String &trim();
+
+    String &trimLeft();
+
+    String &trimRight();
+
+    String &replace(const string &s1, const string &s2);
+
+    String &replace(char c1, char c2);
+
+    String &toUpper();
+
+    String &toLower();
 };
-

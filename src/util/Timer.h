@@ -1,5 +1,5 @@
 /*
-    https://github.com/gekomad/Auriga
+    Cinnamon UCI chess engine
     Copyright (C) Giuseppe Cannella
 
     This program is free software: you can redistribute it and/or modify
@@ -19,42 +19,46 @@
 #pragma once
 
 #include "../blockingThreadPool/Thread.h"
-#include "../network/Client.h"
-#include "Message.h"
-#include "PerftClient.h"
 
-
-class RemoteNode : public Thread {
-
+class Timer : public Thread {
 public:
 
-    virtual ~RemoteNode() {
-        debug( "~RemoteNode()");
-        if (message)delete message;
-        message = nullptr;
+    Timer(int seconds1) {
+        seconds = seconds1;
     }
 
-    void setRemoteNode(const int port, const string &fen, const int depth, const int from, const int to, const tuple<string, int, int, string> node);
+    void endRun() { }
 
-    virtual void run();
+    void run() {
+        unique_lock<mutex> lck(mtx);
+        while (seconds) {
+            cv.wait_for(lck, chrono::seconds(seconds));
+            if (seconds) {
+                notifyObservers();
+            }
+        }
+    }
 
-    virtual void endRun();
+    void registerObservers(function<void(void)> f) {
+        observers.push_back(f);
+    }
 
-    void endWork() {
-        end = 1;
+    void notifyObservers(void) {
+        for (auto i = observers.begin(); i != observers.end(); ++i) {
+            (*i)();
+        }
+    }
+
+    virtual ~Timer() {
+        seconds = 0;
         cv.notify_all();
-    }
-
-    const string &getHost() const {
-        return host;
+        join();
     }
 
 private:
-    string host;
-    PerftClient c;
-    Message *message = nullptr;
-    int port;
+    int seconds;
     condition_variable cv;
-    int end = 0;
+    mutex mtx;
+    vector<function<void(void)>> observers;
 };
 

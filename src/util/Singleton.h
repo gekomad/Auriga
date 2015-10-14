@@ -1,5 +1,5 @@
 /*
-    https://github.com/gekomad/Auriga
+    Cinnamon UCI chess engine
     Copyright (C) Giuseppe Cannella
 
     This program is free software: you can redistribute it and/or modify
@@ -18,28 +18,22 @@
 
 #pragma once
 
-
-#include <iomanip>
-#include <atomic>
-#include <fstream>
-#include <unistd.h>
-#include "../util/Timer.h"
 #include <mutex>
 
-#include <signal.h>
-#include <set>
-#include "Message.h"
+using namespace std;
 
-#include "../network/Server.h"
-#include "../blockingThreadPool/ThreadPool.h"
-#include "RemoteNode.h"
-#include "PerftClient.h"
-#include "PerftResultCallback.h"
+template<typename T>
+class Singleton {
+public:
 
-class PerftParser : public Iparser {
-public :
+    static T &getInstance() {
+        static lock_guard<mutex> lock(singletonMutex);
+        static T i;
+        return i;
+    }
 
-    void parser(const string &msg);
-
+private:
+    static mutex singletonMutex;
 };
 
+template<typename T> mutex Singleton<T>::singletonMutex;
