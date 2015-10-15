@@ -1,6 +1,6 @@
 project(auriga)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -Wno-reorder -DDLOG_LEVEL=OFF -DDEBUG_MODE")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -Wno-reorder -DDLOG_LEVEL=DEBUG -DDEBUG_MODE")
 
 set(SOURCE_FILES
         src/pipe/Engine.cpp
