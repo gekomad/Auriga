@@ -42,12 +42,16 @@ public :
     void init();
 
 private:
+    string receiveOutput;
+
     string programName;
     PROTOCOL_TYPE type;
     int fd_p2c[2], fd_c2p[2];
     volatile bool initialize = false;
     mutex putMutex;
-    const string sendInitString[2] = {"uci", "ping 1"};
-    const string receiveInitString[2] = {"uciok", "pong 1"};
+    const string SEND_INIT_STRING[2] = {"uci", "ping 1"};
+    const string RECEIVE_INIT_STRING[2] = {"uciok", "pong 1"};
+    const string POSITION_FEN[2] = {"position fen ", "setboard "};
 };
+
 

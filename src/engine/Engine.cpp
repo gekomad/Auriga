@@ -28,6 +28,9 @@ Engine::Engine(const string &fileName1, PROTOCOL_TYPE type1) {
 
     assert (childpid >= 0);
     if (childpid == 0) {
+//        assert (dup2(fd_p2c[0], 0) == 0 && close(fd_p2c[0]) == 0 && close(fd_p2c[1]) == 0);
+//        assert (dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
+
         assert (dup2(fd_p2c[0], 0) == 0 && close(fd_p2c[0]) == 0 && close(fd_p2c[1]) == 0);
         assert (dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
 
@@ -42,13 +45,9 @@ Engine::Engine(const string &fileName1, PROTOCOL_TYPE type1) {
 
 void Engine::run() {
     int bytes_read;
-
-    string receiveOutput = "";
     char readbuffer[4096];
-
     while (1) {
         bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
-
         if (bytes_read <= 0)
             break;
 
@@ -57,9 +56,12 @@ void Engine::run() {
 
         debug("Reading from engine: |" + receiveOutput + "|");
         cout << receiveOutput;
+        //debug (receiveStdin);
+      //  cout <<"aaaaaaaaaaaaaaaaaaa"<<receiveStderr<<"ccccccccc"<<endl;
+       // debug (receiveStderr);
+        if (receiveOutput.find(RECEIVE_INIT_STRING[type]))initialize = true;
+        
 
-        if (receiveOutput.find(receiveInitString[type]))initialize = true;
-        receiveOutput.clear();
     }
 }
 
@@ -71,6 +73,8 @@ void Engine::endRun() {
 
 void Engine::put(string command) {
     lock_guard<mutex> lock(putMutex);
+    receiveOutput.clear();
+    
     debug("Writing to engine: |" + command + "\\n|");
     command.append("\n");
     int nbytes = command.length();
@@ -79,18 +83,14 @@ void Engine::put(string command) {
 }
 
 void Engine::setPosition(const string &fen) {
-    if (type == PROTOCOL_TYPE::UCI) {
-        put("position fen " + fen);
-    } else {
-        string x = "setboard " + fen;
-        put(x);
-    }
+    put(POSITION_FEN[type] + fen);
 }
 
 void Engine::init() {
     start();
     sleep(1);
-    put(sendInitString[type]);
-    assert(initialize);
+    put(SEND_INIT_STRING[type]);
+    sleep(1);
+ //   assert(initialize);
 
 }
