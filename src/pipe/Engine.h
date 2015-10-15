@@ -26,7 +26,7 @@
 class Engine : public Thread {
 public :
     static enum PROTOCOL_TYPE {
-        UCI, XBOARD
+        UCI = 0, XBOARD = 1
     } _PROTOCOL_TYPE;
 
     Engine(const string &fileName, PROTOCOL_TYPE type);
@@ -39,9 +39,15 @@ public :
 
     void setPosition(const string &fen);
 
+    void init();
+
 private:
     string programName;
     PROTOCOL_TYPE type;
     int fd_p2c[2], fd_c2p[2];
+    volatile bool initialize = false;
+    mutex putMutex;
+    const string sendInitString[2] = {"uci", "ping 1"};
+    const string receiveInitString[2] = {"uciok", "pong 1"};
 };
 

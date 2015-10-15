@@ -26,7 +26,7 @@ void PerftParser::parser(const string &msg) {
 #endif
 
     if (message.getTot() == 0xffffffffffffffff) {//TODO sistemare
-sleep(4);
+        sleep(4);
 //        Perft &perft = Perft::getInstance();
 //        perft.setParam(message.getFen(), message.getDepth(), message.getNcpu(), message.getHashsize(), message.getDumpFile(), message.getFrom(), message.getTo(), false);
 //        perft.setCallbackResult(new PerftResultCallback());

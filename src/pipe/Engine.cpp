@@ -32,8 +32,8 @@ Engine::Engine(const string &fileName1, PROTOCOL_TYPE type1) {
         assert (dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
 
         execl(programName.c_str(), programName.c_str(), (char *) 0);
-         cerr << "Failed to execute " << programName << endl;
-         exit(1);
+        cerr << "Failed to execute " << programName << endl;
+        exit(1);
     }
     close(fd_p2c[0]);
     close(fd_c2p[1]);
@@ -43,8 +43,8 @@ Engine::Engine(const string &fileName1, PROTOCOL_TYPE type1) {
 void Engine::run() {
     int bytes_read;
 
-    string receive_output = "";
-    char readbuffer[1024];
+    string receiveOutput = "";
+    char readbuffer[4096];
 
     while (1) {
         bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
@@ -53,12 +53,13 @@ void Engine::run() {
             break;
 
         readbuffer[bytes_read] = '\0';
-        receive_output += readbuffer;
-        String receive(receive_output);
-        //receive = receive.replace("\n", "");
-        debug( "Reading from engine: |" + receive + "|") ;
-        cout << receive;
-        receive_output.clear();
+        receiveOutput += readbuffer;
+
+        debug("Reading from engine: |" + receiveOutput + "|");
+        cout << receiveOutput;
+
+        if (receiveOutput.find(receiveInitString[type]))initialize = true;
+        receiveOutput.clear();
     }
 }
 
@@ -69,6 +70,7 @@ void Engine::endRun() {
 }
 
 void Engine::put(string command) {
+    lock_guard<mutex> lock(putMutex);
     debug("Writing to engine: |" + command + "\\n|");
     command.append("\n");
     int nbytes = command.length();
@@ -83,4 +85,12 @@ void Engine::setPosition(const string &fen) {
         string x = "setboard " + fen;
         put(x);
     }
+}
+
+void Engine::init() {
+    start();
+    sleep(1);
+    put(sendInitString[type]);
+    assert(initialize);
+
 }
