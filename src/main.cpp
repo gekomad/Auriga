@@ -18,10 +18,10 @@
 
 #include <iostream>
 #include "util/GetOpt.h"
-//#include "pipe/Engine.h"
+//#include "engine/Engine.h"
 //#include "perft/master/PerftSplitter.h"
 #include "perft/shared/PerftTreeDao.h"
-#include "pipe/Engine.h"
+#include "engine/Engine.h"
 
 using namespace std;
 

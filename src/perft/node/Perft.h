@@ -1,5 +1,5 @@
 /*
-    Cinnamon UCI chess engine
+    https://github.com/gekomad/Auriga
     Copyright (C) Giuseppe Cannella
 
     This program is free software: you can redistribute it and/or modify
@@ -18,29 +18,25 @@
 
 #pragma once
 
-#include "../perft/node/Perft.h"
-#include "../namespaces/def.h"
-#include "../perft/shared/PerftTreeDao.h"
-using namespace _def;
+#include "../shared/Message.h"
+#include "../shared/NodeEntity.h"
+#include "../../engine/Engine.h"
 
-class GetOptNode {
-public:
 
-    static void parse(int argc, char **argv) {
-        vector<string> params;
-        for (int i = 1; i < argc; i++) {
-            params.push_back(argv[i]);
+class Perft {
+public :
+    u64 calculate(const NodeEntity &nodeEntity) {
+        Engine e("/home/geko/stockfish", Engine::PROTOCOL_TYPE::UCI);//TODO .auriga
+
+        e.init();
+        for (string fen:nodeEntity.getFen()) {
+            e.setPosition(fen);
+            e.put("perft " + String(nodeEntity.getDepth()));
         }
-        assert(params[0] == "--node");
-        // ./auriga --node -start NODE_ID
-        if (params.size() == 3 && params[1] == "-start") {
-            string nodeUUID=params[2];
-            PerftTreeDao perftTreeDao("/home/geko/master.ini");//TODO
-            Perft perft;
-            perft.calculate(*perftTreeDao.getNodeEntity(nodeUUID));
-        }
+
+        e.put("quit");
+        e.join();
     }
+
 };
-
-
 
