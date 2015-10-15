@@ -32,9 +32,8 @@ public:
         }
         assert(params[0] == "--node");
         //auriga --node -start NODE_ID
-        if (params.size() == 2 && params[1] == "-start") {
+        if (params.size() == 3 && params[1] == "-start") {
             string nodeId=params[2];
-            //assert(nodeId is uudid);
         }
     }
 };
