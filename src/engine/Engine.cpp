@@ -36,6 +36,9 @@ Engine::Engine(const string &confFileName) {
             uci_option_perft_hash_name == parameters->second;
         } else if (parameters->first == "uci_option_perft_hash_value") {
             uci_option_perft_hash_value = stoi(parameters->second);
+        } else if (parameters->first == "regex_perft_moves") {
+            regex_perft_moves = parameters->second;
+            rgx.assign(regex_perft_moves);
         }
     }
 
@@ -75,7 +78,22 @@ void Engine::run() {
         debug("Reading from engine stdout: |" + receiveOutput + "|");
         debug("Reading from engine stderr: |" + receiveStdErr + "|");
 
-        if (receiveOutput.find("Nodes searched  :") != string::npos || receiveStdErr.find("Nodes searched  :") != string::npos)while (1)cout << "trovato" << endl;
+
+//        cout << receiveStdErr << endl;
+//        std::regex rgx(regex_perft_moves);//assign
+
+        std::smatch match;
+
+        if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgx)) {
+            cout << "match: |" << match[1] <<"|"<<endl;
+        }
+
+        std::smatch match1;
+        if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match1, rgx)) {
+            cout <<receiveStdErr<<endl;
+            cout << "match1: |" << match1[1] <<"|"<<endl;
+        }
+
         if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos)initialize = true;
     }
 }

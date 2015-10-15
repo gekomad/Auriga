@@ -23,7 +23,8 @@
 #include <unistd.h>
 #include <string>
 #include <iostream>
-
+#include <regex>
+using namespace std;
 class Engine : public Thread {
 public :
     static enum PROTOCOL_TYPE {
@@ -46,10 +47,12 @@ private:
     int uci_option_perft_thread_value=0;
     int uci_option_perft_hash_value=0;
     string uci_option_perft_thread_name;
+    string regex_perft_moves;
     string uci_option_perft_hash_name;
     string receiveOutput;
     string receiveStdErr;
     string programPath;
+
     PROTOCOL_TYPE protocol;
     int fd_p2c[2], fd_c2p[2],stdErr[2];
     volatile bool initialize = false;
@@ -57,6 +60,7 @@ private:
     const string SEND_INIT_STRING[2] = {"uci", "ping 1"};
     const string RECEIVE_INIT_STRING[2] = {"uciok", "pong 1"};
     const string POSITION_FEN[2] = {"position fen ", "setboard "};
+    std::regex rgx;
 };
 
 

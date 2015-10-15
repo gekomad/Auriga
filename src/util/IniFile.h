@@ -20,18 +20,61 @@
 
 #include <fstream>
 #include <algorithm>
+#include <regex>
 
 using namespace std;
 
 class IniFile {
 public:
-    IniFile(const string &fileName);
 
-    pair<string, string> *get();
+    IniFile(const string &fileName) {
+        endFile = true;
+        inData.open(fileName);
+        if (inData.is_open()) {
+            endFile = false;
+        }
+        rgxLine.assign("^(\\w*)=(.*)$");
+        rgxTag.assign("^\\[.+]$");
+    }
 
-    virtual ~IniFile();
+    ~IniFile() {
+        if (endFile) {
+            inData.close();
+        }
+    }
+
+    pair<string, string> *get() {
+
+        std::smatch match;
+        string line;
+
+        while (!endFile) {
+            if (inData.eof()) {
+                endFile = true;
+                return nullptr;
+            }
+            getline(inData, line);
+            if (!line.size())continue;
+            if (line.at(0) == '#')continue;
+
+            const string line2 = line;
+            if (std::regex_search(line2.begin(), line2.end(), match, rgxTag)) {
+                params.first =line;
+                params.second = "";
+            }else
+            if (std::regex_search(line2.begin(), line2.end(), match, rgxLine)) {
+                params.first = match[1];
+                params.second = match[2];
+            }
+            return &params;
+        }
+
+        return nullptr;
+    };
 
 private:
+    std::regex rgxLine;
+    std::regex rgxTag;
     bool endFile = true;
     ifstream inData;
     pair<string, string> params;
