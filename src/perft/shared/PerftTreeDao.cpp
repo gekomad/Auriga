@@ -16,18 +16,23 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
-
 #include "PerftTreeDao.h"
 
-void PerftTreeDao::readNode() {
+PerftTreeDao::PerftTreeDao(const string &iniFile1) {
+    iniFileName = iniFile1;
+    readPerft();
+    readNode();
+}
 
+void PerftTreeDao::readNode() {
+    IniFile iniFile(iniFileName);
     NodeEntity *node = nullptr;
     while (true) {
         pair<string, string> *parameters = iniFile.get();
         if (!parameters)break;
-        if (parameters->first == "[node]" || parameters->first == "[perft]") {
-            if (node)perftTree.addNodeEntity(node);
+        if (parameters->first == "[node]") {
+            if (node)
+                perftTree.addNodeEntity(*node);
             node = new NodeEntity();
         }
 
@@ -49,18 +54,18 @@ void PerftTreeDao::readNode() {
             }
         }
     }
-    if (node)perftTree.addNodeEntity(node);
+    if (node)perftTree.addNodeEntity(*node);
 }
 
 void PerftTreeDao::readPerft() {
-
+    IniFile iniFile(iniFileName);
     PerftEntity *node = nullptr;
     while (true) {
         pair<string, string> *parameters = iniFile.get();
         if (!parameters)break;
         if (parameters->first == "[perft]" || parameters->first == "[node]") {
-            if (node){
-                perftTree.setPerftEntity(node);
+            if (node) {
+                perftTree.setPerftEntity(*node);
                 break;
             }
             node = new PerftEntity();
@@ -70,7 +75,7 @@ void PerftTreeDao::readPerft() {
             if (parameters->first == "masterHost") {
                 node->setMasterHost(parameters->second);
             } else if (parameters->first == "masterPort") {
-                node->setMasterPort(parameters->second);
+                node->setMasterPort(stoi(parameters->second));
             } else if (parameters->first == "uuid") {
                 node->setUuid(parameters->second);
             } else if (parameters->first == "email") {
@@ -82,35 +87,8 @@ void PerftTreeDao::readPerft() {
             }
         }
     }
-    if (node)perftTree.setPerftEntity(node);
+    if (node)perftTree.setPerftEntity(*node);
 }
 
-
-void PerftTreeDao::readFile() {
-    readPerft();
-    readNode();
-////std::vector<tuple<string, int, int, string>> PerftSplitter::getRemoteNodes(const string &distributedFile) {
-//
-//
-//    string nodeIp;
-//    int nodeNcores;
-//    int nodeHash;
-//    string nodeDumpfile;
-//
-//
-//    while (true) {
-//        pair<string, string> *parameters = iniFile.get();
-//        if (!parameters) {
-//            break;
-//        }
-//        if (parameters->first == "[node]") {
-//            readNode();
-//
-//
-//            info(nodesSet.size(), "nodes");
-//            perftTree = nodesSet;
-//        }
-//    }
-}
 
 

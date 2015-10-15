@@ -39,7 +39,7 @@ void PerftSplitter::setParam(const string &fen1, int depth1, const string &distr
     if (depth <= 0)depth = 1;
 
     port = port1;
-    nodesSet = getRemoteNodes(distributedFile);
+//    nodesSet = getRemoteNodes(distributedFile);
 }
 
 void PerftSplitter::run() {

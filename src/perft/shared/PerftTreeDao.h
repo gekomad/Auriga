@@ -21,28 +21,26 @@
 #include "../../namespaces/def.h"
 #include "../../network/Server.h"
 #include "PerftTree.h"
+#include "../../util/IniFile.h"
 
 using namespace _debug;
 using namespace _def;
 
 class PerftTreeDao {
 public:
-    PerftTreeDao(const string &iniFile1) {
-        iniFile = iniFile1;
-        iniFile = new IniFile(iniFile1);
-        readFile();
-    }
+    PerftTreeDao(const string &iniFile1);
 
-    ~PerftTreeDao() {
-        if (iniFile) delete iniFile;
-        iniFile = nullptr;
+    const PerftTree &getPerftTree() const {
+        return perftTree;
     }
 
 private:
-    void readFile();
+
     void readNode();
+
+    void readPerft();
+
     PerftTree perftTree;
-    const string &iniFile;
-    IniFile *iniFile = nullptr;
+    string iniFileName;
 };
 

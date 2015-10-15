@@ -27,18 +27,24 @@ using namespace _debug;
 using namespace _def;
 
 class PerftTree {
-private:
-    vector<NodeEntity> nodesEntity;
-    PerftEntity perftEntity;
 public:
 
+    const vector<NodeEntity> &getNodesEntity() const {
+        return nodesEntity;
+    }
 
-    void addNodeEntity(NodeEntity);
+    const PerftEntity &getPerftEntity() const {
+        return perftEntity;
+    }
+
+    void addNodeEntity(NodeEntity &);
 
     void setPerftEntity(const PerftEntity &perftEntity1) {
         perftEntity = perftEntity1;
     }
 
-    PerftTree(const string &iniFile);
+private:
+    vector<NodeEntity> nodesEntity;
+    PerftEntity perftEntity;
 };
 

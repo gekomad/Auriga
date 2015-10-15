@@ -16,13 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
 
 #include "PerftTree.h"
 
-PerftTree::PerftTree(const string &iniFile){
-    PerftTreeDao perftTree(iniFile);
-}
-void addNodeEntity(NodeEntity) {
+//PerftTree::PerftTree(const string &iniFile){
+//    PerftTreeDao perftTree(iniFile);
+//}
+void PerftTree::addNodeEntity(NodeEntity& node) {
     nodesEntity.push_back(node);
 }
