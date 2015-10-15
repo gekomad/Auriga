@@ -81,16 +81,16 @@ void Engine::run() {
         std::smatch match;
 
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgx)) {
-            cout << "match: |" << match[1] <<"|"<<endl;
+            cout << "match: |" << match[1] << "|" << endl;
         }
 
         std::smatch match1;
         if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match1, rgx)) {
-            cout <<receiveStdErr<<endl;
-            cout << "match1: |" << match1[1] <<"|"<<endl;
+            cout << receiveStdErr << endl;
+            cout << "match1: |" << match1[1] << "|" << endl;
         }
 
-        if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos)initialize = true;
+
     }
 }
 
@@ -116,10 +116,21 @@ void Engine::setPosition(const string &fen) {
 }
 
 void Engine::init() {
-    start();
-    sleep(1);
+    char readbuffer[100];
     put(SEND_INIT_STRING[protocol]);
-    sleep(1);
-//    assert(initialize);TODO
-
+    receiveOutput.clear();
+    initialize = false;
+    int count=0;
+    while ((count++) < 1000) {
+        int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
+        if (bytes_read <= 0)break;
+        cout << readbuffer;
+        receiveOutput.append(readbuffer);
+        if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
+            initialize = true;
+            break;
+        }
+    }
+    assert(initialize);
+    start();
 }

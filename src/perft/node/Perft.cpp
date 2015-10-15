@@ -35,6 +35,7 @@ u64 Perft::calculate(const string &nodeUUID) {
 //        Engine e("/home/geko/workspace/Auriga/src/crafty.auriga.ini");
 //        Engine e("/home/geko/workspace/Auriga/src/cinnamon.auriga.ini");
     e.init();
+
     for (string fen:nodeEntity->getFen()) {
         e.setPosition(fen);
         e.put("perft " + String(nodeEntity->getDepth()));

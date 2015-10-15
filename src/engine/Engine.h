@@ -55,7 +55,7 @@ private:
 
     PROTOCOL_TYPE protocol;
     int fd_p2c[2], fd_c2p[2],stdErr[2];
-    volatile bool initialize = false;
+    bool initialize;
     mutex putMutex;
     const string SEND_INIT_STRING[2] = {"uci", "ping 1"};
     const string RECEIVE_INIT_STRING[2] = {"uciok", "pong 1"};
