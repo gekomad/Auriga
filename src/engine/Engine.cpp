@@ -22,46 +22,43 @@ Engine::Engine(const string &fileName1, PROTOCOL_TYPE type1) {
     programName = fileName1;
     type = type1;
     pid_t childpid;
-    assert (!pipe(fd_p2c) && !pipe(fd_c2p));
+    assert (!pipe(fd_p2c) && !pipe(fd_c2p) && !pipe(stdErr));
 
     childpid = fork();
 
     assert (childpid >= 0);
     if (childpid == 0) {
-//        assert (dup2(fd_p2c[0], 0) == 0 && close(fd_p2c[0]) == 0 && close(fd_p2c[1]) == 0);
-//        assert (dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
-
         assert (dup2(fd_p2c[0], 0) == 0 && close(fd_p2c[0]) == 0 && close(fd_p2c[1]) == 0);
         assert (dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
-
+        assert (dup2(stdErr[1], 2) >= 0);
         execl(programName.c_str(), programName.c_str(), (char *) 0);
         cerr << "Failed to execute " << programName << endl;
         exit(1);
     }
     close(fd_p2c[0]);
     close(fd_c2p[1]);
-
+    close(stdErr[1]);
 }
 
 void Engine::run() {
     int bytes_read;
-    char readbuffer[4096];
+    char readbuffer[1024];
+    char readStderrBuffer[1024];
     while (1) {
         bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
+        bytes_read += read(stdErr[0], readStderrBuffer, sizeof(readStderrBuffer) - 1);
+
         if (bytes_read <= 0)
             break;
 
         readbuffer[bytes_read] = '\0';
         receiveOutput += readbuffer;
+        receiveStdErr+=readStderrBuffer;
+        debug("Reading from engine stdout: |" + receiveOutput + "|");
+        debug("Reading from engine stderr: |" + receiveStdErr + "|");
 
-        debug("Reading from engine: |" + receiveOutput + "|");
-        cout << receiveOutput;
-        //debug (receiveStdin);
-      //  cout <<"aaaaaaaaaaaaaaaaaaa"<<receiveStderr<<"ccccccccc"<<endl;
-       // debug (receiveStderr);
-        if (receiveOutput.find(RECEIVE_INIT_STRING[type]))initialize = true;
-        
-
+        if (receiveOutput.find("Nodes searched  :")!=string::npos||receiveStdErr.find("Nodes searched  :")!=string::npos)while(1)cout <<"trovato"<<endl;
+        if (receiveOutput.find(RECEIVE_INIT_STRING[type])!=string::npos)initialize = true;
     }
 }
 
@@ -74,7 +71,7 @@ void Engine::endRun() {
 void Engine::put(string command) {
     lock_guard<mutex> lock(putMutex);
     receiveOutput.clear();
-    
+    receiveStdErr.clear();
     debug("Writing to engine: |" + command + "\\n|");
     command.append("\n");
     int nbytes = command.length();
@@ -91,6 +88,6 @@ void Engine::init() {
     sleep(1);
     put(SEND_INIT_STRING[type]);
     sleep(1);
- //   assert(initialize);
+//    assert(initialize);TODO
 
 }

@@ -43,10 +43,10 @@ public :
 
 private:
     string receiveOutput;
-
+    string receiveStdErr;
     string programName;
     PROTOCOL_TYPE type;
-    int fd_p2c[2], fd_c2p[2];
+    int fd_p2c[2], fd_c2p[2],stdErr[2];
     volatile bool initialize = false;
     mutex putMutex;
     const string SEND_INIT_STRING[2] = {"uci", "ping 1"};
