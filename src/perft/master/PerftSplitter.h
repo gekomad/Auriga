@@ -61,7 +61,6 @@ private:
 
     PerftSplitter() : ThreadPool(1) { };
 
-    std::vector<tuple<string, int, int, string>> getRemoteNodes(const string &distributedFile);
 
     int depth;
     string fen;

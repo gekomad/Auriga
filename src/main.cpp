@@ -18,13 +18,13 @@
 
 #include <iostream>
 #include "util/GetOpt.h"
-#include "pipe/Engine.h"
-#include "perft/master/PerftSplitter.h"
+//#include "pipe/Engine.h"
+//#include "perft/master/PerftSplitter.h"
 using namespace std;
 
 
 //TODO usare u128
-//TODO usare tru catch
+//TODO usare try catch
 
 
 
@@ -41,10 +41,10 @@ int main(int argc, char *argv[]) {
 //    e.put("quit");
 //    e.join();
 
-    PerftSplitter *  perftSplitter = &PerftSplitter::getInstance();
-    perftSplitter->setServer(5002);
-    perftSplitter->start();
-    perftSplitter->join();
+//    PerftSplitter *  perftSplitter = &PerftSplitter::getInstance();
+//    perftSplitter->setServer(5002);
+//    perftSplitter->start();
+//    perftSplitter->join();
     GetOpt::parse(argc, argv);
     cout << "FINE AURIGA" << endl;
     return 0;

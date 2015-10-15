@@ -23,56 +23,6 @@ PerftSplitter::~PerftSplitter() {
     debug("~PerftSplitter()");
 }
 
-std::vector<tuple<string, int, int, string>> PerftSplitter::getRemoteNodes(const string &distributedFile) {
-
-    IniFile iniFile(distributedFile);
-    string nodeIp;
-    int nodeNcores;
-    int nodeHash;
-    string nodeDumpfile;
-
-    bool newNode = false;
-    while (true) {
-        pair<string, string> *parameters = iniFile.get();
-        if (!parameters) {
-            break;
-        }
-        if (parameters->first == "[node]") {
-            if (newNode) {
-                assert(nodeIp != "" && nodeNcores != -1 && nodeHash != -1 && nodeDumpfile != "*");
-                nodesSet.push_back(make_tuple(nodeIp, nodeNcores, nodeHash, nodeDumpfile));
-                nodeIp = "";
-                nodeNcores = -1;
-                nodeHash = -1;
-                nodeDumpfile = "*";
-            }
-            newNode = true;
-        } else if (parameters->first == "ip") {
-            nodeIp = parameters->second;
-            assert(nodeIp.size() > 0);
-        } else if (parameters->first == "core") {
-            nodeNcores = stoi(parameters->second);
-            assert(nodeNcores > 0);
-        } else if (parameters->first == "hash") {
-            nodeHash = 0;
-            if (parameters->second.size()) {
-                nodeHash = stoi(parameters->second);
-            }
-        } else if (parameters->first == "dump_file") {
-            nodeDumpfile = parameters->second;
-
-        }
-
-    }
-    if (newNode) {
-        assert(nodeIp != "" && nodeNcores != -1 && nodeHash != -1 && nodeDumpfile != "*");
-        nodesSet.push_back(make_tuple(nodeIp, nodeNcores, nodeHash, nodeDumpfile));
-    }
-
-    info(nodesSet.size(), "nodes");
-    return nodesSet;
-}
-
 void PerftSplitter::setServer(int port1) {
     debug("SERVER MODE on port", port1);
     serverMode = true;
