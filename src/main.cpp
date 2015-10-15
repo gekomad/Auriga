@@ -32,6 +32,9 @@ using namespace std;
 
 
 int main(int argc, char *argv[]) {
+//    IniFile a("/home/geko/workspace/Auriga/src/master.ini");
+//    pair<string, string> *d = a.get();
+
 //    PerftTreeDao* a=new PerftTreeDao("/home/geko/workspace/Auriga/src/master.ini");
 //    PerftTree perftTree=a->getPerftTree();
 //    vector<NodeEntity> nodes = perftTree.getNodesEntity();
