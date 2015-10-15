@@ -37,7 +37,7 @@ public :
 
     u64 calculate(const string &nodeUUID) {
         const NodeEntity* nodeEntity = perftTreeDao->getNodeEntity(nodeUUID);
-        Engine e("/home/geko/stockfish", Engine::PROTOCOL_TYPE::UCI);//TODO .auriga
+        Engine e("/home/geko/workspace/Auriga/src/stockfish.auriga.ini");//TODO .auriga
 
         e.init();
         for (string fen:nodeEntity->getFen()) {

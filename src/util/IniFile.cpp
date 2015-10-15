@@ -51,7 +51,8 @@ pair<string, string> *IniFile::get() {
         stringstream ss(line);
         ss >> param;
         ss >> svalue;
-        params.first = param;
+        String p1(param);
+        params.first = p1.toLower();
         params.second = svalue;
         return &params;
     }
