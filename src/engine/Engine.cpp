@@ -78,10 +78,6 @@ void Engine::run() {
         debug("Reading from engine stdout: |" + receiveOutput + "|");
         debug("Reading from engine stderr: |" + receiveStdErr + "|");
 
-
-//        cout << receiveStdErr << endl;
-//        std::regex rgx(regex_perft_moves);//assign
-
         std::smatch match;
 
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgx)) {

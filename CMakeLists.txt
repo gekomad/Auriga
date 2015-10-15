@@ -22,7 +22,7 @@ set(SOURCE_FILES
     src/perft/master/RemoteNode.cpp
     src/perft/master/RemoteNode.h
     src/perft/node/IResultCallback.h
-    src/perft/node/Perft.h
+    src/perft/node/Perft.cpp
     src/perft/node/PerftClient.h
     src/perft/node/PerftParser.cpp
     src/perft/node/PerftParser.h

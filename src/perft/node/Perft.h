@@ -26,28 +26,11 @@
 
 class Perft {
 public :
-    Perft() {
-        perftTreeDao = new PerftTreeDao("/home/geko/workspace/Auriga/src/master.ini");//TODO
-    }
+    Perft();
 
-    ~Perft() {
-        if (perftTreeDao)delete perftTreeDao;
-        perftTreeDao = nullptr;
-    }
+    ~Perft();
 
-    u64 calculate(const string &nodeUUID) {
-        const NodeEntity* nodeEntity = perftTreeDao->getNodeEntity(nodeUUID);
-        Engine e("/home/geko/workspace/Auriga/src/stockfish.auriga.ini");//TODO .auriga
-
-        e.init();
-        for (string fen:nodeEntity->getFen()) {
-            e.setPosition(fen);
-            e.put("perft " + String(nodeEntity->getDepth()));
-        }
-
-        e.put("quit");
-        e.join();
-    }
+    u64 calculate(const string &nodeUUID) ;
 
 private:
     PerftTreeDao *perftTreeDao = nullptr;
