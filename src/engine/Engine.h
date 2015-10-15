@@ -19,6 +19,7 @@
 #pragma once
 
 #include "../blockingThreadPool/Thread.h"
+#include "../util/IniFile.h"
 #include <unistd.h>
 #include <string>
 #include <iostream>
@@ -29,7 +30,7 @@ public :
         UCI = 0, XBOARD = 1
     } _PROTOCOL_TYPE;
 
-    Engine(const string &fileName, PROTOCOL_TYPE type);
+    Engine(const string &confFileName);
 
     void put(string);
 
@@ -42,10 +43,14 @@ public :
     void init();
 
 private:
+    int uci_option_perft_thread_value=0;
+    int uci_option_perft_hash_value=0;
+    string uci_option_perft_thread_name;
+    string uci_option_perft_hash_name;
     string receiveOutput;
     string receiveStdErr;
-    string programName;
-    PROTOCOL_TYPE type;
+    string programPath;
+    PROTOCOL_TYPE protocol;
     int fd_p2c[2], fd_c2p[2],stdErr[2];
     volatile bool initialize = false;
     mutex putMutex;

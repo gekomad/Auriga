@@ -18,9 +18,27 @@
 
 #include "Engine.h"
 
-Engine::Engine(const string &fileName1, PROTOCOL_TYPE type1) {
-    programName = fileName1;
-    type = type1;
+Engine::Engine(const string &confFileName) {
+    IniFile iniFile(confFileName);
+
+    while (true) {
+        pair<string, string> *parameters = iniFile.get();
+        if (!parameters)break;
+        if (parameters->first == "path") {
+            programPath = parameters->second;
+        } else if (parameters->first == "protocol") {
+            protocol = String(parameters->second).toLower() == "uci" ? PROTOCOL_TYPE::UCI : PROTOCOL_TYPE::XBOARD;
+        } else if (parameters->first == "uci_option_perft_thread_name") {
+            uci_option_perft_thread_name == parameters->second;
+        } else if (parameters->first == "uci_option_perft_thread_value") {
+            uci_option_perft_thread_value = stoi(parameters->second);
+        } else if (parameters->first == "uci_option_perft_hash_name") {
+            uci_option_perft_hash_name == parameters->second;
+        } else if (parameters->first == "uci_option_perft_hash_value") {
+            uci_option_perft_hash_value = stoi(parameters->second);
+        }
+    }
+
     pid_t childpid;
     assert (!pipe(fd_p2c) && !pipe(fd_c2p) && !pipe(stdErr));
 
@@ -31,8 +49,8 @@ Engine::Engine(const string &fileName1, PROTOCOL_TYPE type1) {
         assert (dup2(fd_p2c[0], 0) == 0 && close(fd_p2c[0]) == 0 && close(fd_p2c[1]) == 0);
         assert (dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
         assert (dup2(stdErr[1], 2) >= 0);
-        execl(programName.c_str(), programName.c_str(), (char *) 0);
-        cerr << "Failed to execute " << programName << endl;
+        execl(programPath.c_str(), programPath.c_str(), (char *) 0);
+        cerr << "Failed to execute " << programPath << endl;
         exit(1);
     }
     close(fd_p2c[0]);
@@ -53,12 +71,12 @@ void Engine::run() {
 
         readbuffer[bytes_read] = '\0';
         receiveOutput += readbuffer;
-        receiveStdErr+=readStderrBuffer;
+        receiveStdErr += readStderrBuffer;
         debug("Reading from engine stdout: |" + receiveOutput + "|");
         debug("Reading from engine stderr: |" + receiveStdErr + "|");
 
-        if (receiveOutput.find("Nodes searched  :")!=string::npos||receiveStdErr.find("Nodes searched  :")!=string::npos)while(1)cout <<"trovato"<<endl;
-        if (receiveOutput.find(RECEIVE_INIT_STRING[type])!=string::npos)initialize = true;
+        if (receiveOutput.find("Nodes searched  :") != string::npos || receiveStdErr.find("Nodes searched  :") != string::npos)while (1)cout << "trovato" << endl;
+        if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos)initialize = true;
     }
 }
 
@@ -80,13 +98,13 @@ void Engine::put(string command) {
 }
 
 void Engine::setPosition(const string &fen) {
-    put(POSITION_FEN[type] + fen);
+    put(POSITION_FEN[protocol] + fen);
 }
 
 void Engine::init() {
     start();
     sleep(1);
-    put(SEND_INIT_STRING[type]);
+    put(SEND_INIT_STRING[protocol]);
     sleep(1);
 //    assert(initialize);TODO
 
