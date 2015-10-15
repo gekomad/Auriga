@@ -24,5 +24,5 @@
 class WrapperCinnamon {
 
 public:
-    int getTotMoves(string);
+    int getTotMoves(string fen);
 };
