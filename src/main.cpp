@@ -17,30 +17,31 @@
 */
 
 #include <iostream>
-
-using namespace std;
-
+#include "util/GetOpt.h"
 #include "pipe/Engine.h"
 #include "perft/master/PerftSplitter.h"
+using namespace std;
+
+
 //TODO usare u128
 
-int main(int argc, const char *argv[]) {
+int main(int argc, char *argv[]) {
 //    Engine e("/home/geko/crafty", Engine::PROTOCOL_TYPE::XBOARD);
 //    Engine e("/home/geko/stockfish", Engine::PROTOCOL_TYPE::UCI);
-    Engine e("/home/geko/cinnamon", Engine::PROTOCOL_TYPE::UCI);
+//    Engine e("/home/geko/cinnamon", Engine::PROTOCOL_TYPE::UCI);
 ////    Engine e("/home/geko/cheng", Engine::PROTOCOL_TYPE::UCI);
 
-    e.init();
+//    e.init();
+//    e.setPosition("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
+//    e.put("perft 3");
+//    e.put("quit");
+//    e.join();
 
-    e.setPosition("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
-    e.put("perft 3");
-    e.put("quit");
-    e.join();
-
-//    PerftSplitter *  perftSplitter = &PerftSplitter::getInstance();
-//    perftSplitter->setServer(5002);
-//    perftSplitter->start();
-//    perftSplitter->join();
+    PerftSplitter *  perftSplitter = &PerftSplitter::getInstance();
+    perftSplitter->setServer(5002);
+    perftSplitter->start();
+    perftSplitter->join();
+    GetOpt::parse(argc, argv);
     cout << "FINE AURIGA" << endl;
     return 0;
 }

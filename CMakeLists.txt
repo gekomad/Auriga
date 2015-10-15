@@ -1,4 +1,4 @@
-project(Auriga)
+project(auriga)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -Wno-reorder -DDLOG_LEVEL=OFF -DDEBUG_MODE")
 
@@ -24,5 +24,6 @@ set(SOURCE_FILES
         src/perft/master/RemoteNode.h
         src/main.cpp)
 
-add_executable(Auriga ${SOURCE_FILES})
-target_link_libraries(Auriga ${CMAKE_SOURCE_DIR}/src/lib/Linux/64/libCinnamon.a)
+set(CMAKE_CXX_COMPILER "g++")
+add_executable(auriga ${SOURCE_FILES})
+target_link_libraries(auriga ${CMAKE_SOURCE_DIR}/src/lib/Linux/64/libCinnamon.a)
