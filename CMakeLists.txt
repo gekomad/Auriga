@@ -12,6 +12,8 @@ set(SOURCE_FILES
         src/network/Server.cpp
         src/network/Server.h
         src/perft/shared/Message.cpp
+        src/perft/shared/PerftTree.cpp
+        src/perft/shared/PerftTreeDao.cpp
         src/perft/shared/Message.h
         src/perft/node/PerftClient.h
         src/perft/master/PerftSplitter.cpp
