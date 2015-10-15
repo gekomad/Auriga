@@ -21,22 +21,35 @@
 #include "../shared/Message.h"
 #include "../shared/NodeEntity.h"
 #include "../../engine/Engine.h"
+#include "../shared/PerftTreeDao.h"
 
 
 class Perft {
 public :
-    u64 calculate(const NodeEntity &nodeEntity) {
+    Perft() {
+        perftTreeDao = new PerftTreeDao("/home/geko/workspace/Auriga/src/master.ini");//TODO
+    }
+
+    ~Perft() {
+        if (perftTreeDao)delete perftTreeDao;
+        perftTreeDao = nullptr;
+    }
+
+    u64 calculate(const string &nodeUUID) {
+        const NodeEntity* nodeEntity = perftTreeDao->getNodeEntity(nodeUUID);
         Engine e("/home/geko/stockfish", Engine::PROTOCOL_TYPE::UCI);//TODO .auriga
 
         e.init();
-        for (string fen:nodeEntity.getFen()) {
+        for (string fen:nodeEntity->getFen()) {
             e.setPosition(fen);
-            e.put("perft " + String(nodeEntity.getDepth()));
+            e.put("perft " + String(nodeEntity->getDepth()));
         }
 
         e.put("quit");
         e.join();
     }
 
+private:
+    PerftTreeDao *perftTreeDao = nullptr;
 };
 

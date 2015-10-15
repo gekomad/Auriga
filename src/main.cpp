@@ -32,7 +32,7 @@ using namespace std;
 
 
 int main(int argc, char *argv[]) {
-//    PerftTreeDao* a=new PerftTreeDao("/home/geko/workspace/workspace_my/Auriga/src/master.ini");
+//    PerftTreeDao* a=new PerftTreeDao("/home/geko/workspace/Auriga/src/master.ini");
 //    PerftTree perftTree=a->getPerftTree();
 //    vector<NodeEntity> nodes = perftTree.getNodesEntity();
 //    PerftEntity p = perftTree.getPerftEntity();
