@@ -30,16 +30,34 @@ private:
     string host;
     int port;
     int cpu;
+    //TODO int instance;
     string email;
     vector<string> fen;
     int depth;
 public:
+
     NodeEntity() {
         nodeUUID = UUID::getUUID();
     }
 
+    string toString() const{
+        string a;
+        a.append("------- NodeEntity -------\n");
+        a.append("nodeUUID: " + nodeUUID);
+        a.append("\nhost: " + host);
+        a.append("\nport: " + String(port));
+        a.append("\ncpu: " + String(cpu));
+        a.append("\nemail: " + email);
+        a.append("\ndepth: " + String(depth));
+        for (string f:fen) {
+            a.append("\nfen: " + f);
+        }
+        a.append("\n--------------------------");
+        return a;
+    }
+
     void setNodeUUID(const string &nodeUUID) {
-        assert(nodeUUID.size()==36);
+        assert(nodeUUID.size() == 36);
         NodeEntity::nodeUUID = nodeUUID;
     }
 
@@ -52,7 +70,7 @@ public:
     }
 
     void addFen(const string &fen1) {
-        assert(fen1.size()>5);
+        assert(fen1.size() > 5);
         fen.push_back(fen1);
     }
 

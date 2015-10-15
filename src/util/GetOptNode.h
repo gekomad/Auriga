@@ -19,7 +19,7 @@
 #pragma once
 
 #include "../namespaces/def.h"
-
+#include "../perft/shared/PerftTreeDao.h"
 using namespace _def;
 
 class GetOptNode {
@@ -31,9 +31,12 @@ public:
             params.push_back(argv[i]);
         }
         assert(params[0] == "--node");
-        //auriga --node -start NODE_ID
+        // ./auriga --node -start NODE_ID
         if (params.size() == 3 && params[1] == "-start") {
-            string nodeId=params[2];
+            string nodeUUID=params[2];
+            PerftTreeDao perftTreeDao("/home/geko/master.ini");//TODO
+
+
         }
     }
 };

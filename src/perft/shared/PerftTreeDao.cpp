@@ -22,6 +22,7 @@ PerftTreeDao::PerftTreeDao(const string &iniFile1) {
     iniFileName = iniFile1;
     readPerft();
     readNode();
+    debug(toString());
 }
 
 void PerftTreeDao::readNode() {
@@ -91,4 +92,15 @@ void PerftTreeDao::readPerft() {
 }
 
 
-
+const NodeEntity *PerftTreeDao::getNodeEntity(const string &nodeUUID) {
+    for (int i = 0; i < perftTree.getNodesEntity().size(); i++) {
+//    for (NodeEntity p: perftTree.getNodesEntity()) {
+//        if (!p.getNodeUUID().compare(nodeUUID)) {
+//            return &p;
+//        }
+        if (!perftTree.getNodesEntity()[i].getNodeUUID().compare(nodeUUID)) {
+            return &perftTree.getNodesEntity()[i];
+        }
+    }
+    return nullptr;
+}

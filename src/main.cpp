@@ -21,6 +21,7 @@
 //#include "pipe/Engine.h"
 //#include "perft/master/PerftSplitter.h"
 #include "perft/shared/PerftTreeDao.h"
+#include "pipe/Engine.h"
 
 using namespace std;
 
@@ -43,8 +44,11 @@ int main(int argc, char *argv[]) {
 ////    Engine e("/home/geko/cheng", Engine::PROTOCOL_TYPE::UCI);
 
 //    e.init();
-//    e.setPosition("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -");
-//    e.put("perft 3");
+//    for(string fen:nodes[0].getFen()){
+//        e.setPosition(fen);
+//        e.put("perft "+String(nodes[0].getDepth()));
+//    }
+
 //    e.put("quit");
 //    e.join();
 
@@ -53,6 +57,6 @@ int main(int argc, char *argv[]) {
 //    perftSplitter->start();
 //    perftSplitter->join();
     GetOpt::parse(argc, argv);
-    cout << "FINE AURIGA" << endl;
+    debug ("END AURIGA");
     return 0;
 }

@@ -34,10 +34,23 @@ private:
     string masterHost;
 public:
 
+
     PerftEntity() {
         uuid = UUID::getUUID();
     }
 
+    string toString() const{
+        string a;
+        a.append("------- PerftEntity -------\n");
+        a.append("uuid: " + uuid);
+        a.append("\nfen: " + fen);
+        a.append("\ndepth: " + String(depth));
+        a.append("\nemail: " + email);
+        a.append("\nmasterPort: " + String(masterPort));
+        a.append("\nmasterHost: " + masterHost);
+        a.append("\n--------------------------");
+        return a;
+    }
 
     const string &getUuid() const {
         return uuid;

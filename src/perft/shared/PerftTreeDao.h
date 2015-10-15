@@ -34,6 +34,17 @@ public:
         return perftTree;
     }
 
+    const NodeEntity *getNodeEntity(const string &nodeUUID);
+
+    string toString() const {
+        string a;
+        a = perftTree.getPerftEntity().toString();
+        for (NodeEntity n:perftTree.getNodesEntity()) {
+            a.append(n.toString());
+        }
+        return a;
+    }
+
 private:
 
     void readNode();
