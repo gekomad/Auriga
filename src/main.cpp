@@ -18,14 +18,24 @@
 
 #include <iostream>
 #include "util/GetOpt.h"
+#include "util/UUID.h"
 #include "pipe/Engine.h"
 #include "perft/master/PerftSplitter.h"
 using namespace std;
 
 
 //TODO usare u128
+//TODO usare tru catch
+
+
 
 int main(int argc, char *argv[]) {
+
+    cout <<UUID::getUUID()<<endl;
+    cout <<UUID::getUUID()<<endl;
+    cout <<UUID::getUUID()<<endl;
+    cout <<UUID::getUUID()<<endl;
+    cout <<UUID::getUUID()<<endl;
 //    Engine e("/home/geko/crafty", Engine::PROTOCOL_TYPE::XBOARD);
 //    Engine e("/home/geko/stockfish", Engine::PROTOCOL_TYPE::UCI);
 //    Engine e("/home/geko/cinnamon", Engine::PROTOCOL_TYPE::UCI);

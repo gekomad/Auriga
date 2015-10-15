@@ -18,26 +18,15 @@
 
 #pragma once
 
-#include "../namespaces/def.h"
+class Random {
 
-using namespace _def;
-
-class GetOptNode {
 public:
-
-    static void parse(int argc, char **argv) {
-        vector<string> params;
-        for (int i = 1; i < argc; i++) {
-            params.push_back(argv[i]);
-        }
-        assert(params[0] == "--node");
-        //auriga --node -start NODE_ID
-        if (params.size() == 2 && params[1] == "-start") {
-            string nodeId=params[2];
-            //assert(nodeId is uudid);
-        }
+    template<typename T>
+    static T getRandom(T from, T to) {
+        std::random_device rd;
+        std::mt19937 mt(rd());
+        std::uniform_real_distribution <double> dist(from, to);
+        return dist(mt);
     }
 };
-
-
 

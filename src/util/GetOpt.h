@@ -36,7 +36,7 @@ private:
         string exe = FileUtil::getFileName(argv[0]);
         cout << "Run perft on single node:\t\t\t\t\t" << exe << " --node -start [NODE_ID]\n";
     }
-    
+
 public:
 
     static void parse(int argc, char **argv) {
