@@ -22,7 +22,7 @@ PerftTreeDao::PerftTreeDao(const string &iniFile1) {
     iniFileName = iniFile1;
     readPerft();
     readNode();
-    debug(toString());
+    trace(toString());
 }
 
 void PerftTreeDao::readNode() {

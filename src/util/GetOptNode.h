@@ -35,7 +35,7 @@ public:
         // ./auriga --node -start NODE_ID
         if (params.size() == 3 && params[1] == "-start") {
             string nodeUUID=params[2];
-            PerftTreeDao perftTreeDao("/home/geko/master.ini");//TODO
+            PerftTreeDao perftTreeDao("/home/geko/workspace/workspace_my/Auriga/src/master.ini");//TODO
             Perft perft;
             perft.calculate(*perftTreeDao.getNodeEntity(nodeUUID));
         }
