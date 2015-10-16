@@ -21,6 +21,7 @@
 #include "../blockingThreadPool/Thread.h"
 #include "../util/IniFile.h"
 #include "../namespaces/def.h"
+#include "ObserverEngine.h"
 #include <unistd.h>
 #include <string>
 #include <iostream>
@@ -50,6 +51,9 @@ public :
 
     void init(const string &confFileName);
 
+    void registerObserverEngine(ObserverEngine *obs) {
+        observer = obs;
+    }
 private:
     int uci_option_perft_thread_value = 0;
     int uci_option_perft_hash_value = 0;
@@ -69,6 +73,16 @@ private:
     const string POSITION_FEN[2] = {"position fen ", "setboard "};
     std::regex rgx;
     u64 result;
+
+    void notifyEndEngine(u64 i) {
+        if (observer != nullptr) {
+            observer->observerEndEngine(i);
+        }
+    }
+
+
+
+    ObserverEngine *observer = nullptr;
 
 };
 

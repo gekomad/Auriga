@@ -31,8 +31,6 @@ void Engine::run() {
         if (bytes_read + bytes_read_err <= 0) {
             break;
         }
-
-        readbuffer[bytes_read] = '\0';
         receiveOutput += readbuffer;
         receiveStdErr += readStderrBuffer;
         debug("Reading from engine stdout: |" + receiveOutput + "|");
@@ -51,13 +49,16 @@ void Engine::run() {
     }
 }
 
+
 void Engine::endRun() {
     cout << "perft result: " << result << endl;
     //put("quit");
+    notifyEndEngine(result);
     debug("endRun");
 }
 
 Engine::~Engine() {
+    put("quit");
     close(fd_c2p[0]);
     close(fd_p2c[1]);
 }

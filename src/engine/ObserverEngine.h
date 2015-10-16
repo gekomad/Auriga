@@ -1,5 +1,5 @@
 /*
-    https://github.com/gekomad/Auriga
+    https://github.com/gekomad/BlockingThreadPool
     Copyright (C) Giuseppe Cannella
 
     This program is free software: you can redistribute it and/or modify
@@ -18,29 +18,11 @@
 
 #pragma once
 
-#include "../shared/Message.h"
-#include "../shared/NodeEntity.h"
-#include "../../engine/Engine.h"
-#include "../shared/PerftTreeDao.h"
-#include "../../blockingThreadPool/ThreadPool.h"
-#include "../../engine/ObserverEngine.h"
+#include "../namespaces/def.h"
 
+using namespace std;
 
-class Perft : public ObserverEngine {
-public :
-    Perft();
-
-    ~Perft();
-
-    u64 calculate(const string &nodeUUID);
-
-private:
-    PerftTreeDao *perftTreeDao = nullptr;
-    u64 TOT = 0;
-
-    void observerEndEngine(u64 result) {
-        TOT += result;
-    }
-
+class ObserverEngine {
+public:
+    virtual void observerEndEngine(_def::u64 result) = 0;
 };
-

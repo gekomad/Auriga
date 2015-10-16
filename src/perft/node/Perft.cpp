@@ -35,6 +35,7 @@ u64 Perft::calculate(const string &nodeUUID) {
     threadPool.setNthread(nodeEntity->getCpu());
     for (Engine *e :threadPool.threadPool) {
         e->init("/home/geko/workspace/workspace_my/Auriga/src/stockfish.auriga.ini");
+        e->registerObserverEngine(this);
     }
     int pippo=0;
     for (string fen:nodeEntity->getFen()) {
@@ -51,11 +52,8 @@ u64 Perft::calculate(const string &nodeUUID) {
 
     }
     threadPool.joinAll();
-    u64 tot = 0;
-    for (Engine *e :threadPool.threadPool) {
-        tot += e->getResult();
-    }
-    cout << "TOT: " << tot << endl;
+
+    cout << "TOT: " << TOT << endl;
 //    Engine e("/home/geko/workspace/workspace_my/Auriga/src/stockfish.auriga.ini");//TODO
 //        Engine e("/home/geko/workspace/Auriga/src/cheng.auriga.ini");
 //        Engine e("/home/geko/workspace/Auriga/src/crafty.auriga.ini");
