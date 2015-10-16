@@ -41,11 +41,12 @@ public:
         return a;
     }
 
+    vector<NodeEntity> nodesEntity;//TODO implementare iterator
 private:
 
     void readNode();
 
-    vector<NodeEntity> nodesEntity;
+
     string iniFileName;
 };
 

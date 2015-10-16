@@ -31,7 +31,7 @@ public:
         }
         assert(params[0] == "--master");
         // ./auriga --master -generate_master_ini nodes.ini "fen" depth email port
-        //--master -generate_master_ini /home/geko/workspace/workspace_my/Auriga/src/nodes.txt "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -" 7 ggg@sdf.com 5002
+        //--master -generate_master_ini /home/geko/workspace/workspace_my/Auriga/src/nodes.ini "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -" 7 ggg@sdf.com 5002
         if (params.size() == 7 && params[1] == "-generate_master_ini") {
             string nodesFile = params[2];
             string fen = params[3];

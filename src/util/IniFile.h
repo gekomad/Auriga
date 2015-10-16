@@ -32,6 +32,9 @@ public:
         inData.open(fileName);
         if (inData.is_open()) {
             endFile = false;
+        }else{
+            error("file not found: ",fileName);
+            assert(0);
         }
         rgxLine.assign("^(\\w*)=(.*)$");
         rgxTag.assign("^\\[.+]$");

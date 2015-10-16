@@ -20,6 +20,7 @@
 #include "PerftSplitter.h"
 #include "../../util/UUID.h"
 #include "../../network/util/Network.h"
+#include "../shared/NodeEntityDao.h"
 
 PerftSplitter::~PerftSplitter() {
     debug("~PerftSplitter()");
@@ -121,6 +122,15 @@ void PerftSplitter::generateMasterINI(const string &nodesFile, const string &fen
     res.append("masterHost=").append(Network::getIp()).append("\n\n");
 
 
-    IniFile iniFile(nodesFile);
+    NodeEntityDao nodeEntityDao(nodesFile);
+    int cpu=0;
+    for(NodeEntity n:nodeEntityDao.nodesEntity){
+        cpu+=n.getCpu();
+    }
+    WrapperCinnamon wrapperCinnamon;
+    int totMoves = wrapperCinnamon.getTotMoves(fen);
+
+    cout <<"tot cpu: "<<cpu<<endl;
+    cout <<"totMoves: "<<totMoves<<endl;
     cout << nodesFile << endl;
 }
