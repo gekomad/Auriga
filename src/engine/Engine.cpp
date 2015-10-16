@@ -40,8 +40,8 @@ void Engine::run() {
         }
         receiveOutput.append(readbuffer);
         receiveStdErr.append(readStderrBuffer);
-        warn("id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
-        error("id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
+        debug("id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
+        debug("id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
         std::smatch match;
         result = -1;
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgx)) {
@@ -60,14 +60,13 @@ void Engine::endRun() {
     initialized = false;
     receiveOutput.clear();
     receiveStdErr.clear();
-    info("endRun id", getId(), " result: ", result);
+    info("endRun id ", getId(), " result: ", result);
     notifyEndEngine(result);
     put("quit");
-//    sleep(1);
 }
 
 Engine::~Engine() {
-   debug("~Engine");
+    debug("~Engine");
     close(fd_c2p[0]);
     close(fd_p2c[1]);
 }
@@ -79,14 +78,8 @@ void Engine::put(string command) {
     info("Writing to engine id ", getId(), " |" + command + "\\n|");
     command.append("\n");
     int nbytes = command.length();
-    int y = write(fd_p2c[1], command.c_str(), nbytes);
-    if (y != nbytes) {
-        error("id: ", getId(), " ERROR bytes to write: ", nbytes, " bytes written: ", y, " command: ", command, "  xxxxxxxxxxxxxxxxx error xxxxxxxxxxxxxxxxx");
-        y = write(fd_p2c[1], command.c_str(), nbytes);
-        if (y != nbytes) {
-            error("id: ", getId(), " ABORT bytes to write: ", nbytes, " bytes written: ", y, " command: ", command, "  xxxxxxxxxxxxxxxxx error xxxxxxxxxxxxxxxxx");
-        }
-    }
+    assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
+
 }
 
 void Engine::setPosition(const string &fen) {
