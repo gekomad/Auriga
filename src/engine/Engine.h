@@ -54,6 +54,7 @@ public :
     void registerObserverEngine(ObserverEngine *obs) {
         observer = obs;
     }
+
 private:
     int uci_option_perft_thread_value = 0;
     int uci_option_perft_hash_value = 0;
@@ -66,7 +67,7 @@ private:
 
     PROTOCOL_TYPE protocol;
     int fd_p2c[2], fd_c2p[2], stdErr[2];
-    bool initialize;
+    bool initialized = false;
     mutex putMutex;
     const string SEND_INIT_STRING[2] = {"uci", "ping 1"};
     const string RECEIVE_INIT_STRING[2] = {"uciok", "pong 1"};
@@ -79,7 +80,6 @@ private:
             observer->observerEndEngine(i);
         }
     }
-
 
 
     ObserverEngine *observer = nullptr;

@@ -23,16 +23,16 @@ void Engine::run() {
     int bytes_read_err;
     char readbuffer[1024];
     char readStderrBuffer[1024];
-    while (1) {
+    while (initialized) {
         bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
         readbuffer[bytes_read] = 0;
         bytes_read_err = read(stdErr[0], readStderrBuffer, sizeof(readStderrBuffer) - 1);
         readbuffer[bytes_read_err] = 0;
-        if (bytes_read + bytes_read_err <= 0) {
+        if (!initialized || bytes_read + bytes_read_err <= 0) {
             break;
         }
-        receiveOutput += readbuffer;
-        receiveStdErr += readStderrBuffer;
+        receiveOutput.append(readbuffer);
+        receiveStdErr.append(readStderrBuffer);
         debug("Reading from engine stdout: |" + receiveOutput + "|");
         debug("Reading from engine stderr: |" + receiveStdErr + "|");
         std::smatch match;
@@ -43,7 +43,6 @@ void Engine::run() {
             result = stoull(match[1].str());
         }
         if (result != -1) {
-            cout << "sssssssssss result: " << result << endl;
             break;
         }
     }
@@ -51,14 +50,16 @@ void Engine::run() {
 
 
 void Engine::endRun() {
-    cout << "perft result: " << result << endl;
-    //put("quit");
+    initialized = false;
+    receiveOutput.clear();
+    receiveStdErr.clear();
+    info("endRun id", getId(), " result: ", result);
     notifyEndEngine(result);
-    debug("endRun");
+    put("quit");
+    sleep(1);
 }
 
 Engine::~Engine() {
-    put("quit");
     close(fd_c2p[0]);
     close(fd_p2c[1]);
 }
@@ -67,10 +68,11 @@ void Engine::put(string command) {
     lock_guard<mutex> lock(putMutex);
     receiveOutput.clear();
     receiveStdErr.clear();
-    debug("Writing to engine: |" + command + "\\n|");
+    info("Writing to engine: |" + command + "\\n|");
     command.append("\n");
     int nbytes = command.length();
-    assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
+    int y=write(fd_p2c[1], command.c_str(), nbytes);
+    if(y!=nbytes)cout <<"xxxxxxxxxxxxxxxxx error xxxxxxxxxxxxxxxxx"<<endl;
 }
 
 void Engine::setPosition(const string &fen) {
@@ -122,19 +124,19 @@ void Engine::init(const string &confFileName) {
     char readbuffer[2048];
     put(SEND_INIT_STRING[protocol]);
     receiveOutput.clear();
-    initialize = false;
+    initialized = false;
     int count = 0;
-    while ((count++) < 1000) {
+    while ((count++) < 100) {
         int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
         if (bytes_read <= 0)break;
         readbuffer[bytes_read] = 0;
         receiveOutput.append(readbuffer);
         if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
-            initialize = true;
+            initialized = true;
             break;
         }
     }
     debug(receiveOutput);
-    assert(initialize);
+    assert(initialized);
 
 }

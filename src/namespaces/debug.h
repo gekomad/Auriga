@@ -63,7 +63,7 @@ namespace _debug {
     void debug(T t, Args... args) {
         if (type >= DLOG_LEVEL) {
             lock_guard<mutex> lock1(_CoutSyncMutex);
-            cout << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
+            cout << ">>"<<Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
             __debug(t, args...);
             cout << endl;
         }

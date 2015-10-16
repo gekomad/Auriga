@@ -37,7 +37,7 @@ u64 Perft::calculate(const string &nodeUUID) {
         e->init("/home/geko/workspace/workspace_my/Auriga/src/stockfish.auriga.ini");
         e->registerObserverEngine(this);
     }
-    int pippo=0;
+
     for (string fen:nodeEntity->getFen()) {
         Engine &e = threadPool.getNextThread();
         e.start();
@@ -46,25 +46,9 @@ u64 Perft::calculate(const string &nodeUUID) {
         sleep(1);
         e.put("perft " + String(nodeEntity->getDepth()));
         sleep(1);
-        cout <<"aaaaaaaaaaaaaaaa"<<pippo<<endl;
-        pippo++;
-        // e.put("quit");
-
     }
     threadPool.joinAll();
 
     cout << "TOT: " << TOT << endl;
-//    Engine e("/home/geko/workspace/workspace_my/Auriga/src/stockfish.auriga.ini");//TODO
-//        Engine e("/home/geko/workspace/Auriga/src/cheng.auriga.ini");
-//        Engine e("/home/geko/workspace/Auriga/src/crafty.auriga.ini");
-//        Engine e("/home/geko/workspace/Auriga/src/cinnamon.auriga.ini");
-//    e.init();
-//
-//    for (string fen:nodeEntity->getFen()) {
-//        e.setPosition(fen);
-//        e.put("perft " + String(nodeEntity->getDepth()));
-//    }
-//
-//    e.put("quit");
-//    e.join();
+
 }
