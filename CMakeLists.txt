@@ -1,6 +1,6 @@
 project(auriga)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -DDLOG_LEVEL=INFO -DDEBUG_MODEx")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -DDLOG_LEVEL=INFO -DDEBUG_MODE")
 
 set(SOURCE_FILES
     src/blockingThreadPool/ObserverThread.h
