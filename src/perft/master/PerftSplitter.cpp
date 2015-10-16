@@ -113,7 +113,7 @@ void PerftSplitter::callRemoteNode() {
 }
 
 void PerftSplitter::generateMasterINI(const string &nodesFile, const string &fen, const int depth, const string &email, const int port) {
-    string res = "#auriga ini file - AUTO-GENERATED FILE - DO NOT EDIT\n[perft]\n\n";
+    string res = "#auriga ini file - AUTO-GENERATED FILE - DO NOT EDIT\n[perft]\n";
     res.append("uuid=").append(UUID::getUUID()).append("\n");
     res.append("fen=").append(fen).append("\n");
     res.append("depth=").append(String(depth)).append("\n");
@@ -123,18 +123,63 @@ void PerftSplitter::generateMasterINI(const string &nodesFile, const string &fen
 
 
     NodeEntityDao nodeEntityDao(nodesFile);
-    int cpu=0;
-    for(NodeEntity n:nodeEntityDao.nodesEntity){
-        cpu+=n.getCpu();
+    int cpu = 0;
+    for (NodeEntity n:nodeEntityDao.nodesEntity) {
+        cpu += n.getCpu();
     }
     WrapperCinnamon wrapperCinnamon;
     vector<string> successorsFen;
-    int c=0;
-    while(true) {
+    int c = 0;
+    while (true) {
         successorsFen = wrapperCinnamon.getSuccessorsFen(fen, ++c);
-        if(successorsFen.size()>=cpu)break;
+        if (successorsFen.size() >= cpu)break;
     }
-    cout <<"tot cpu: "<<cpu<<endl;
-    cout <<"tot Fen: "<<successorsFen.size()<<endl;
-    cout << nodesFile << endl;
+
+
+    int block =  successorsFen.size() / nodeEntityDao.nodesEntity.size();
+    int lastBlock = successorsFen.size() % nodeEntityDao.nodesEntity.size();
+    cout << "tot cpu: " << cpu << endl;
+    cout << "tot Fen: " << successorsFen.size() << endl;
+    cout << "block: " << block << endl;
+    cout << "lastBlock: " << lastBlock << endl;
+    int k=0;
+    for (NodeEntity node:nodeEntityDao.nodesEntity) {
+        res.append("[node]").append("\n");
+        res.append("nodeUUID=").append(UUID::getUUID()).append("\n");
+        res.append("host=").append(node.getHost()).append("\n");
+        res.append("port=").append(String(node.getPort())).append("\n");
+        res.append("cpu=").append(String(node.getCpu())).append("\n");
+        res.append("email=").append(node.getEmail()).append("\n");
+        res.append("depth=").append(String(depth-c)).append("\n");
+        for (int i=0;i<block;i++){
+            if(i>=successorsFen.size())break;
+            res.append("fen=").append(successorsFen[k++]).append("\n");
+        }
+    }
+    cout <<"--------------------\n"<<res<<"\n-------------------"<<endl;
+    cout <<"";
 }
+
+/*
+
+ [node]
+nodeUUID=bbb05d54-75b4-431b-adb2-eb6b9e546014
+host=10.0.0.1
+port=5002
+cpu=2
+email=pippo@gmail.com
+[node]
+nodeUUID=ccc05d54-75b4-431b-adb2-eb6b9e546014
+host=10.0.0.2
+port=5002
+cpu=3
+email=gio@gmail.com
+[node]
+nodeUUID=ddd05d54-75b4-431b-adb2-eb6b9e546014
+host=10.0.0.3
+port=5002
+cpu=4
+email=gg@gmail.com
+
+ *
+ * */
