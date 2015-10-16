@@ -33,21 +33,18 @@ u64 Perft::calculate(const string &nodeUUID) {
 
     ThreadPool <Engine> threadPool;
     threadPool.setNthread(nodeEntity->getCpu());
-//    for (Engine *e :threadPool.threadPool) {
-//        e->init("/home/geko/workspace/workspace_my/Auriga/src/stockfish.auriga.ini");
-//        e->registerObserverEngine(this);
-//    }
+
 
     for (string fen:nodeEntity->getFen()) {
         Engine &e = threadPool.getNextThread();
         e.init("/home/geko/workspace/workspace_my/Auriga/src/stockfish.auriga.ini");
         e.registerObserverEngine(this);
         e.start();
-        sleep(1);
+//        sleep(1);
         e.setPosition(fen);
-        sleep(1);
+//        sleep(1);
         e.put("perft " + String(nodeEntity->getDepth()));
-        sleep(1);
+//        sleep(1);
     }
     threadPool.joinAll();
 

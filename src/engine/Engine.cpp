@@ -1,6 +1,6 @@
 /*
     https://github.com/gekomad/Auriga
-    Copyright (C) GiuSEPARATORpe Cannella
+    Copyright (C) Giuseppe Cannella
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,22 +19,29 @@
 #include "Engine.h"
 
 void Engine::run() {
+//    sleep(2);initialized = false;result=1;return;
     int bytes_read;
     int bytes_read_err;
     char readbuffer[1024];
     char readStderrBuffer[1024];
     while (initialized) {
+        usleep(1000);
         bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
+
         readbuffer[bytes_read] = 0;
+        usleep(1000);
         bytes_read_err = read(stdErr[0], readStderrBuffer, sizeof(readStderrBuffer) - 1);
+
         readbuffer[bytes_read_err] = 0;
         if (!initialized || bytes_read + bytes_read_err <= 0) {
+            error("exit");
+            assert(0);
             break;
         }
         receiveOutput.append(readbuffer);
         receiveStdErr.append(readStderrBuffer);
-        debug("id: ",getId(),"Reading from engine stdout: |" + receiveOutput + "|");
-        debug("id: ",getId(),"Reading from engine stderr: |" + receiveStdErr + "|");
+        warn("id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
+        error("id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
         std::smatch match;
         result = -1;
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgx)) {
@@ -55,11 +62,12 @@ void Engine::endRun() {
     receiveStdErr.clear();
     info("endRun id", getId(), " result: ", result);
     notifyEndEngine(result);
-//    put("quit");
-    sleep(1);
+    put("quit");
+//    sleep(1);
 }
 
 Engine::~Engine() {
+   debug("~Engine");
     close(fd_c2p[0]);
     close(fd_p2c[1]);
 }
@@ -68,15 +76,15 @@ void Engine::put(string command) {
     lock_guard<mutex> lock(putMutex);
     receiveOutput.clear();
     receiveStdErr.clear();
-    info("Writing to engine id ",getId()," |" + command + "\\n|");
+    info("Writing to engine id ", getId(), " |" + command + "\\n|");
     command.append("\n");
     int nbytes = command.length();
     int y = write(fd_p2c[1], command.c_str(), nbytes);
     if (y != nbytes) {
-        error("id: ",getId()," ERROR bytes to write: ", nbytes, " bytes written: ", y, " command: ", command, "  xxxxxxxxxxxxxxxxx error xxxxxxxxxxxxxxxxx");
+        error("id: ", getId(), " ERROR bytes to write: ", nbytes, " bytes written: ", y, " command: ", command, "  xxxxxxxxxxxxxxxxx error xxxxxxxxxxxxxxxxx");
         y = write(fd_p2c[1], command.c_str(), nbytes);
         if (y != nbytes) {
-            error("id: ",getId()," ABORT bytes to write: ", nbytes, " bytes written: ", y, " command: ", command, "  xxxxxxxxxxxxxxxxx error xxxxxxxxxxxxxxxxx");
+            error("id: ", getId(), " ABORT bytes to write: ", nbytes, " bytes written: ", y, " command: ", command, "  xxxxxxxxxxxxxxxxx error xxxxxxxxxxxxxxxxx");
         }
     }
 }
@@ -86,6 +94,7 @@ void Engine::setPosition(const string &fen) {
 }
 
 void Engine::init(const string &confFileName) {
+
     IniFile iniFile(confFileName);
 
     while (true) {
@@ -142,7 +151,7 @@ void Engine::init(const string &confFileName) {
             break;
         }
     }
-    debug("id: ",getId(),receiveOutput);
+    debug("id: ", getId(), receiveOutput);
     assert(initialized);
 
 }
