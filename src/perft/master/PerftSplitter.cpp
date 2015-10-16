@@ -128,7 +128,7 @@ void PerftSplitter::generateMasterINI(const string &nodesFile, const string &fen
         cpu+=n.getCpu();
     }
     WrapperCinnamon wrapperCinnamon;
-    int totMoves = wrapperCinnamon.getTotMoves(fen);
+    vector<string> totMoves = wrapperCinnamon.getTotMoves(fen);
 
     cout <<"tot cpu: "<<cpu<<endl;
     cout <<"totMoves: "<<totMoves<<endl;
