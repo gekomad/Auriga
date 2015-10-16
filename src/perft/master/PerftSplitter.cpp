@@ -18,6 +18,8 @@
 
 
 #include "PerftSplitter.h"
+#include "../../util/UUID.h"
+#include "../../network/util/Network.h"
 
 PerftSplitter::~PerftSplitter() {
     debug("~PerftSplitter()");
@@ -109,6 +111,16 @@ void PerftSplitter::callRemoteNode() {
     joinAll();
 }
 
-void PerftSplitter::generateINI(string nodesFile) {
+void PerftSplitter::generateMasterINI(const string &nodesFile, const string &fen, const int depth, const string &email, const int port) {
+    string res="#auriga ini file - AUTO-GENERATED FILE - DO NOT EDIT\n[perft]\n\n";
+    res.append("uuid=").append(UUID::getUUID()).append("\n");
+    res.append("fen=").append(fen).append("\n");
+    res.append("depth=").append(String(depth)).append("\n");
+    res.append("email=").append(email).append("\n");
+    res.append("masterPort=").append(String(port)).append("\n");
+    res.append("masterHost=").append(Network::getIp()).append("\n\n");
+
+
+    IniFile iniFile(nodesFile);
     cout << nodesFile << endl;
 }

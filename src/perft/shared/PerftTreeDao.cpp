@@ -20,87 +20,11 @@
 
 PerftTreeDao::PerftTreeDao(const string &iniFile1) {
     iniFileName = iniFile1;
-    readPerft();
-    readNode();
+    perftEntityDao = new PerftEntityDao(iniFile1);;
+    nodeEntityDao = new NodeEntityDao(iniFile1);
+
     trace(toString());
 }
 
-void PerftTreeDao::readNode() {
-    IniFile iniFile(iniFileName);
-    NodeEntity *node = nullptr;
-    while (true) {
-        pair<string, string> *parameters = iniFile.get();
-        if (!parameters)break;
-        if (parameters->first == "[node]") {
-            if (node)
-                perftTree.addNodeEntity(*node);
-            node = new NodeEntity();
-        }
-
-        if (node) {
-            if (parameters->first == "host") {
-                node->setHost(parameters->second);
-            } else if (parameters->first == "cpu") {
-                node->setCpu(stoi(parameters->second));
-            } else if (parameters->first == "nodeUUID") {
-                node->setNodeUUID(parameters->second);
-            } else if (parameters->first == "port") {
-                node->setPort(stoi(parameters->second));
-            } else if (parameters->first == "email") {
-                node->setEmail(parameters->second);
-            } else if (parameters->first == "depth") {
-                node->setDepth(stoi(parameters->second));
-            } else if (parameters->first == "fen") {
-                node->addFen(parameters->second);
-            }
-        }
-    }
-    if (node)perftTree.addNodeEntity(*node);
-}
-
-void PerftTreeDao::readPerft() {
-    IniFile iniFile(iniFileName);
-    PerftEntity *node = nullptr;
-    while (true) {
-        pair<string, string> *parameters = iniFile.get();
-        if (!parameters)break;
-        if (parameters->first == "[perft]" || parameters->first == "[node]") {
-            if (node) {
-                perftTree.setPerftEntity(*node);
-                break;
-            }
-            node = new PerftEntity();
-        }
-
-        if (node) {
-            if (parameters->first == "masterHost") {
-                node->setMasterHost(parameters->second);
-            } else if (parameters->first == "masterPort") {
-                node->setMasterPort(stoi(parameters->second));
-            } else if (parameters->first == "uuid") {
-                node->setUuid(parameters->second);
-            } else if (parameters->first == "email") {
-                node->setEmail(parameters->second);
-            } else if (parameters->first == "depth") {
-                node->setDepth(stoi(parameters->second));
-            } else if (parameters->first == "fen") {
-                node->setFen(parameters->second);
-            }
-        }
-    }
-    if (node)perftTree.setPerftEntity(*node);
-}
 
 
-const NodeEntity *PerftTreeDao::getNodeEntity(const string &nodeUUID) {
-    for (int i = 0; i < perftTree.getNodesEntity().size(); i++) {
-//    for (NodeEntity p: perftTree.getNodesEntity()) {
-//        if (!p.getNodeUUID().compare(nodeUUID)) {
-//            return &p;
-//        }
-        if (!perftTree.getNodesEntity()[i].getNodeUUID().compare(nodeUUID)) {
-            return &perftTree.getNodesEntity()[i];
-        }
-    }
-    return nullptr;
-}

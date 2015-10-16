@@ -31,15 +31,13 @@ using namespace std;
 
 class GetOpt {
 
-private:
+public:
     static void help(char **argv) {
         string exe = FileUtil::getFileName(argv[0]);
 
-        cout << "Generate master.ini:\t\t" << exe << " --master -generate_ini nodes.ini\n";
+        cout << "Generate master.ini:\t\t" << exe << " --master -generate_master_ini nodes.ini \"fen\" depth email port port\n";
         cout << "Run perft on single node:\t" << exe << " --node -start [NODE_ID]\n";
     }
-
-public:
 
     static void parse(int argc, char **argv) {
         if (argc == 1 || argc == 2 && (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h"))) {

@@ -21,41 +21,29 @@
 #include "../../namespaces/def.h"
 #include "../../network/Server.h"
 #include "PerftTree.h"
-#include "PerftEntityDao.h"
-#include "NodeEntityDao.h"
 #include "../../util/IniFile.h"
 
 using namespace _debug;
 using namespace _def;
 
-class PerftTreeDao {
+class PerftEntityDao {
 public:
-    PerftTreeDao(const string &iniFile1);
+    PerftEntityDao(const string &iniFile1);
 
-//    const PerftTree &getPerftTree() const {
-//        return perftTree;
-//    }
-
-    const NodeEntity *getNodeEntity(const string &nodeUUID){
-        return nodeEntityDao->getNodeEntity(nodeUUID);
+    const PerftEntity *getPerftEntity() const {
+        return perftEntity;
     }
+
 
     string toString() const {
-        string a = perftEntityDao->toString();
-        a.append(nodeEntityDao->toString());
-        return a;
-    }
-
-    ~PerftTreeDao() {
-        if (perftEntityDao)delete perftEntityDao;
-        if (nodeEntityDao)delete nodeEntityDao;
+        return  perftEntity->toString();
     }
 
 private:
 
-    PerftEntityDao *perftEntityDao = nullptr;
-    NodeEntityDao *nodeEntityDao = nullptr;
+    void readPerft();
 
+    PerftEntity* perftEntity= nullptr;
     string iniFileName;
 };
 

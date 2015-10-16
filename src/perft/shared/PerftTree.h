@@ -23,28 +23,28 @@
 #include "NodeEntity.h"
 #include "PerftEntity.h"
 
-using namespace _debug;
-using namespace _def;
-
-class PerftTree {
-public:
-
-    const vector<NodeEntity> &getNodesEntity() const {
-        return nodesEntity;
-    }
-
-    const PerftEntity &getPerftEntity() const {
-        return perftEntity;
-    }
-
-    void addNodeEntity(NodeEntity &);
-
-    void setPerftEntity(const PerftEntity &perftEntity1) {
-        perftEntity = perftEntity1;
-    }
-
-private:
-    vector<NodeEntity> nodesEntity;
-    PerftEntity perftEntity;
-};
+//using namespace _debug;
+//using namespace _def;
+//
+//class PerftTree {
+//public:
+//
+//    const vector<NodeEntity> &getNodesEntity() const {
+//        return nodesEntity;
+//    }
+//
+//    const PerftEntity &getPerftEntity() const {
+//        return perftEntity;
+//    }
+//
+//    void addNodeEntity(NodeEntity &);
+//
+//    void setPerftEntity(const PerftEntity &perftEntity1) {
+//        perftEntity = perftEntity1;
+//    }
+//
+//private:
+//
+//    PerftEntity perftEntity;
+//};
 

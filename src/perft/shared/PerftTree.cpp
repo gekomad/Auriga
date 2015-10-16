@@ -22,6 +22,6 @@
 //PerftTree::PerftTree(const string &iniFile){
 //    PerftTreeDao perftTree(iniFile);
 //}
-void PerftTree::addNodeEntity(NodeEntity& node) {
-    nodesEntity.push_back(node);
-}
+//void PerftTree::addNodeEntity(NodeEntity& node) {
+//    nodesEntity.push_back(node);
+//}

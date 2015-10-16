@@ -31,11 +31,18 @@ public:
             params.push_back(argv[i]);
         }
         assert(params[0] == "--master");
-        // ./auriga --master -generate_ini file.txt
-        if (params.size() == 3 && params[1] == "-generate_ini") {
+        // ./auriga --master -generate_master_ini nodes.ini "fen" depth email port
+        //--master -generate_master_ini /home/geko/workspace/workspace_my/Auriga/src/nodes.txt "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -" 7 ggg@sdf.com 5002
+        if (params.size() == 7 && params[1] == "-generate_master_ini") {
             string nodesFile = params[2];
+            string fen = params[3];
+            int depth = stoi(params[4]);
+            string email = params[5];
+            int port = stoi(params[6]);
 
-            PerftSplitter::generateINI(nodesFile);
+            PerftSplitter::generateMasterINI(nodesFile,fen,depth,email,port);
+        }else{
+            cout <<"err"<<endl;
         }
     }
 };

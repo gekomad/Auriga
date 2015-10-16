@@ -21,6 +21,7 @@
 #include "../perft/node/Perft.h"
 #include "../namespaces/def.h"
 #include "../perft/shared/PerftTreeDao.h"
+
 using namespace _def;
 
 class GetOptNode {
@@ -33,11 +34,13 @@ public:
         }
         assert(params[0] == "--node");
         // ./auriga --node -start NODE_ID
+        //--node -start bbb05d54-75b4-431b-adb2-eb6b9e546014
         if (params.size() == 3 && params[1] == "-start") {
             string nodeUUID=params[2];
-
             Perft perft;
             perft.calculate(nodeUUID);
+        }else{
+           cout <<"err"<<endl;
         }
     }
 };
