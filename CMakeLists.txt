@@ -1,6 +1,6 @@
 project(auriga)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -DDLOG_LEVEL=INFO -DDEBUG_MODEx")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -DDLOG_LEVEL=INFO -DDEBUG_MODE")
 
 set(SOURCE_FILES
     src/blockingThreadPool/ObserverThread.h
@@ -28,14 +28,13 @@ set(SOURCE_FILES
     src/perft/node/PerftParser.h
     src/perft/node/PerftResultCallback.cpp
     src/perft/node/PerftResultCallback.h
+
     src/perft/shared/Message.cpp
-    src/perft/shared/Message.h
-    src/perft/shared/NodeEntity.h
-    src/perft/shared/PerftEntity.h
-    src/perft/shared/PerftTree.cpp
-    src/perft/shared/PerftTree.h
+
     src/perft/shared/PerftTreeDao.cpp
-    src/perft/shared/PerftTreeDao.h
+    src/perft/shared/NodeEntityDao.cpp
+    src/perft/shared/PerftEntityDao.cpp
+
     src/util/Bits.h
     src/util/FileUtil.h
     src/util/GetOpt.h
