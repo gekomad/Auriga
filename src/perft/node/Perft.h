@@ -22,6 +22,7 @@
 #include "../shared/NodeEntity.h"
 #include "../../engine/Engine.h"
 #include "../shared/PerftTreeDao.h"
+#include "../../blockingThreadPool/ThreadPool.h"
 
 
 class Perft {

@@ -25,15 +25,20 @@
 #include <string>
 #include <iostream>
 #include <regex>
+
 using namespace std;
 using namespace _def;
+
 class Engine : public Thread {
 public :
     static enum PROTOCOL_TYPE {
         UCI = 0, XBOARD = 1
     } _PROTOCOL_TYPE;
 
-    Engine(const string &confFileName);
+
+    Engine() { };
+
+    ~Engine();
 
     void put(string);
 
@@ -43,11 +48,11 @@ public :
 
     void setPosition(const string &fen);
 
-    void init();
+    void init(const string &confFileName);
 
 private:
-    int uci_option_perft_thread_value=0;
-    int uci_option_perft_hash_value=0;
+    int uci_option_perft_thread_value = 0;
+    int uci_option_perft_hash_value = 0;
     string uci_option_perft_thread_name;
     string regex_perft_moves;
     string uci_option_perft_hash_name;
@@ -56,13 +61,14 @@ private:
     string programPath;
 
     PROTOCOL_TYPE protocol;
-    int fd_p2c[2], fd_c2p[2],stdErr[2];
+    int fd_p2c[2], fd_c2p[2], stdErr[2];
     bool initialize;
     mutex putMutex;
     const string SEND_INIT_STRING[2] = {"uci", "ping 1"};
     const string RECEIVE_INIT_STRING[2] = {"uciok", "pong 1"};
     const string POSITION_FEN[2] = {"position fen ", "setboard "};
     std::regex rgx;
+    u64 result;
 };
 
 

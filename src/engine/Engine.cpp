@@ -18,11 +18,71 @@
 
 #include "Engine.h"
 
-Engine::Engine(const string &confFileName) {
+void Engine::run() {
+    int bytes_read;
+    int bytes_read_err;
+    char readbuffer[1024];
+    char readStderrBuffer[1024];
+    while (1) {
+        bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
+        readbuffer[bytes_read] = 0;
+        bytes_read_err = read(stdErr[0], readStderrBuffer, sizeof(readStderrBuffer) - 1);
+        readbuffer[bytes_read_err] = 0;
+        if (bytes_read + bytes_read_err <= 0) {
+            break;
+        }
+
+        readbuffer[bytes_read] = '\0';
+        receiveOutput += readbuffer;
+        receiveStdErr += readStderrBuffer;
+        debug("Reading from engine stdout: |" + receiveOutput + "|");
+        debug("Reading from engine stderr: |" + receiveStdErr + "|");
+        std::smatch match;
+        result = -1;
+        if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgx)) {
+            result = stoull(match[1].str());
+        } else if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgx)) {
+            result = stoull(match[1].str());
+        }
+        if (result != -1) {
+            cout << "sssssssssss result: " << result << endl;
+            break;
+        }
+    }
+}
+
+void Engine::endRun() {
+    cout << "perft result: " << result << endl;
+    //put("quit");
+    debug("endRun");
+}
+
+Engine::~Engine() {
+    close(fd_c2p[0]);
+    close(fd_p2c[1]);
+}
+
+
+void Engine::put(string command) {
+    lock_guard<mutex> lock(putMutex);
+    receiveOutput.clear();
+    receiveStdErr.clear();
+    debug("Writing to engine: |" + command + "\\n|");
+    command.append("\n");
+    int nbytes = command.length();
+    assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
+
+}
+
+void Engine::setPosition(const string &fen) {
+    put(POSITION_FEN[protocol] + fen);
+}
+
+void Engine::init(const string &confFileName) {
     IniFile iniFile(confFileName);
 
     while (true) {
-        pair <string, string> *parameters = iniFile.get();
+        pair<string, string> *parameters = iniFile.get();
         if (!parameters)break;
         if (parameters->first == "path") {
             programPath = parameters->second;
@@ -59,60 +119,8 @@ Engine::Engine(const string &confFileName) {
     close(fd_p2c[0]);
     close(fd_c2p[1]);
     close(stdErr[1]);
-}
-
-void Engine::run() {
-    int bytes_read;
-    char readbuffer[1024];
-    char readStderrBuffer[1024];
-    while (1) {
-        bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
-        bytes_read += read(stdErr[0], readStderrBuffer, sizeof(readStderrBuffer) - 1);
-
-        if (bytes_read <= 0)
-            break;
-
-        readbuffer[bytes_read] = '\0';
-        receiveOutput += readbuffer;
-        receiveStdErr += readStderrBuffer;
-        debug("Reading from engine stdout: |" + receiveOutput + "|");
-        debug("Reading from engine stderr: |" + receiveStdErr + "|");
-
-        std::smatch match;
-        u64 result = -1;
-        if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgx)) {
-            result = stoull(match[1].str());
-        } else if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgx)) {
-            result = stoull(match[1].str());
-        }
-        if(result!=-1) cout <<"perft result: "<<result<<endl;
-
-    }
-}
-
-void Engine::endRun() {
-    debug("endRun");
-    close(fd_c2p[0]);
-    close(fd_p2c[1]);
-}
-
-void Engine::put(string command) {
-    lock_guard <mutex> lock(putMutex);
-    receiveOutput.clear();
-    receiveStdErr.clear();
-    debug("Writing to engine: |" + command + "\\n|");
-    command.append("\n");
-    int nbytes = command.length();
-    assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
-
-}
-
-void Engine::setPosition(const string &fen) {
-    put(POSITION_FEN[protocol] + fen);
-}
-
-void Engine::init() {
-    char readbuffer[100];
+    /////////
+    char readbuffer[2048];
     put(SEND_INIT_STRING[protocol]);
     receiveOutput.clear();
     initialize = false;
@@ -120,6 +128,7 @@ void Engine::init() {
     while ((count++) < 1000) {
         int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
         if (bytes_read <= 0)break;
+        readbuffer[bytes_read] = 0;
         receiveOutput.append(readbuffer);
         if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
             initialize = true;
@@ -128,5 +137,5 @@ void Engine::init() {
     }
     debug(receiveOutput);
     assert(initialize);
-    start();
+
 }
