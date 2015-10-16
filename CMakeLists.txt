@@ -1,6 +1,6 @@
 project(auriga)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -DDLOG_LEVEL=INFO -DDEBUG_MODE")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -DDLOG_LEVEL=INFO -DDEBUG_MODEx")
 
 set(SOURCE_FILES
     src/blockingThreadPool/ObserverThread.h
@@ -52,4 +52,4 @@ set(SOURCE_FILES
 
 set(CMAKE_CXX_COMPILER "g++")
 add_executable(auriga ${SOURCE_FILES})
-target_link_libraries(auriga ${CMAKE_SOURCE_DIR}/src/lib/${CMAKE_SYSTEM_NAME}/64/libCinnamon.a)
+target_link_libraries(auriga ${CMAKE_SOURCE_DIR}/src/lib/${CMAKE_SYSTEM_NAME}/${CMAKE_SYSTEM_PROCESSOR}/libCinnamon.a)
