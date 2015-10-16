@@ -20,7 +20,7 @@
 #include "Perft.h"
 
 Perft::Perft() {
-    perftTreeDao = new PerftTreeDao("/home/geko/workspace/workspace_my/Auriga/src/master.ini");//TODO
+    perftTreeDao = new PerftTreeDao("/home/geko/workspace/workspace_my/Auriga/src/master_generated.ini");//TODO
 }
 
 Perft::~Perft() {
