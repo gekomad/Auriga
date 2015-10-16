@@ -16,9 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "PerftTreeDao.h"
+#include "PerftTree.h"
 
-PerftTreeDao::PerftTreeDao(const string &iniFile1) {
+PerftTree::PerftTree(const string &iniFile1) {
     iniFileName = iniFile1;
     perftEntityDao = new PerftEntityDao(iniFile1);;
     nodeEntityDao = new NodeEntityDao(iniFile1);

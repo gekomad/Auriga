@@ -20,7 +20,6 @@
 
 #include "../perft/master/PerftSplitter.h"
 #include "../namespaces/def.h"
-#include "../perft/shared/PerftTreeDao.h"
 
 class GetOptMaster {
 public:
@@ -40,9 +39,9 @@ public:
             string email = params[5];
             int port = stoi(params[6]);
 
-            PerftSplitter::generateMasterINI(nodesFile,fen,depth,email,port);
-        }else{
-            cout <<"err"<<endl;
+            PerftSplitter::generateMasterINI(nodesFile, fen, depth, email, port);
+        } else {
+            cout << "err" << endl;
         }
     }
 };

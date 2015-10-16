@@ -59,10 +59,9 @@ public:
 
             const string line2 = line;
             if (std::regex_search(line2.begin(), line2.end(), match, rgxTag)) {
-                params.first =line;
+                params.first = line;
                 params.second = "";
-            }else
-            if (std::regex_search(line2.begin(), line2.end(), match, rgxLine)) {
+            } else if (std::regex_search(line2.begin(), line2.end(), match, rgxLine)) {
                 params.first = match[1];
                 params.second = match[2];
             }

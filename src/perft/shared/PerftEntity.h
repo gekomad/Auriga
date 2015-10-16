@@ -39,7 +39,7 @@ public:
         uuid = UUID::getUUID();
     }
 
-    string toString() const{
+    string toString() const {
         string a;
         a.append("------- PerftEntity -------\n");
         a.append("uuid: " + uuid);
@@ -57,7 +57,7 @@ public:
     }
 
     void setUuid(const string &uuid) {
-        assert(uuid.size()==36);
+        assert(uuid.size() == 36);
         PerftEntity::uuid = uuid;
     }
 
@@ -66,7 +66,7 @@ public:
     }
 
     void setFen(const string &fen1) {
-        assert(fen1.size()>5);
+        assert(fen1.size() > 5);
         PerftEntity::fen = fen1;
     }
 

@@ -36,14 +36,14 @@ public:
 
 
     string toString() const {
-        return  perftEntity->toString();
+        return perftEntity->toString();
     }
 
 private:
 
     void readPerft();
 
-    PerftEntity* perftEntity= nullptr;
+    PerftEntity *perftEntity = nullptr;
     string iniFileName;
 };
 

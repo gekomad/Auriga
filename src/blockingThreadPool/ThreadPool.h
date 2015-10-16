@@ -104,7 +104,8 @@ public:
         removeAllThread();
     }
 
-public://TODO implementare itarator pattern e metterlo protected
+public:
+    //TODO implementare itarator pattern e metterlo protected
     vector<T *> threadPool;
 private:
 

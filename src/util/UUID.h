@@ -19,32 +19,33 @@
 #pragma once
 
 #include "Random.h"
+
 class UUID {
 
 public:
 
     static string getUUID() {
         char uuid1[37];
-        char* uuid=uuid1;
+        char *uuid = uuid1;
 
         for (int i = 0; i < 8; i++, uuid++)
-            ((*uuid = (Random::getRandom<int>(0,16))) < 10) ? *uuid += 48 : *uuid += 55;
+            ((*uuid = (Random::getRandom<int>(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
 
         *uuid++ = '-';
         for (int i = 0; i < 4; i++, uuid++)
-            ((*uuid = (Random::getRandom<int>(0,16))) < 10) ? *uuid += 48 : *uuid += 55;
+            ((*uuid = (Random::getRandom<int>(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
 
         *uuid++ = '-';
         for (int i = 0; i < 4; i++, uuid++)
-            ((*uuid = (Random::getRandom<int>(0,16))) < 10) ? *uuid += 48 : *uuid += 55;
+            ((*uuid = (Random::getRandom<int>(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
 
         *uuid++ = '-';
         for (int i = 0; i < 4; i++, uuid++)
-            ((*uuid = (Random::getRandom<int>(0,16))) < 10) ? *uuid += 48 : *uuid += 55;
+            ((*uuid = (Random::getRandom<int>(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
 
         *uuid++ = '-';
         for (int i = 0; i < 12; i++, uuid++)
-            ((*uuid = (Random::getRandom<int>(0,16))) < 10) ? *uuid += 48 : *uuid += 55;
+            ((*uuid = (Random::getRandom<int>(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
 
         *uuid = 0;
         return string(uuid1);

@@ -20,7 +20,7 @@
 #include "Perft.h"
 
 Perft::Perft() {
-    perftTreeDao = new PerftTreeDao("/home/geko/workspace/workspace_my/Auriga/src/master_generated.ini");//TODO
+    perftTreeDao = new PerftTree("/home/geko/workspace/workspace_my/Auriga/src/master_generated.ini");//TODO
 }
 
 Perft::~Perft() {
@@ -31,7 +31,7 @@ Perft::~Perft() {
 u64 Perft::calculate(const string &nodeUUID) {
     const NodeEntity *nodeEntity = perftTreeDao->getNodeEntity(nodeUUID);
 
-    ThreadPool <Engine> threadPool;
+    ThreadPool<Engine> threadPool;
     threadPool.setNthread(nodeEntity->getCpu());
 
 

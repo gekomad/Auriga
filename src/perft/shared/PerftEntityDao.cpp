@@ -33,7 +33,7 @@ void PerftEntityDao::readPerft() {
         if (!parameters)break;
         if (parameters->first == "[perft]" || parameters->first == "[node]") {
             if (node) {
-                perftEntity=node;
+                perftEntity = node;
                 break;
             }
             node = new PerftEntity();
@@ -55,7 +55,7 @@ void PerftEntityDao::readPerft() {
             }
         }
     }
-    if (node)perftEntity=node;
+    if (node)perftEntity = node;
 }
 
 

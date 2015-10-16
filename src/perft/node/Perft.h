@@ -21,7 +21,7 @@
 #include "../shared/Message.h"
 #include "../shared/NodeEntity.h"
 #include "../../engine/Engine.h"
-#include "../shared/PerftTreeDao.h"
+#include "../shared/PerftTree.h"
 #include "../../blockingThreadPool/ThreadPool.h"
 #include "../../engine/ObserverEngine.h"
 
@@ -35,12 +35,12 @@ public :
     u64 calculate(const string &nodeUUID);
 
 private:
-    PerftTreeDao *perftTreeDao = nullptr;
+    PerftTree *perftTreeDao = nullptr;
     u64 TOT = 0;
 
     void observerEndEngine(u64 result) {
         TOT += result;
-        info("partial TOT: ",TOT);
+        info("partial TOT: ", TOT);
     }
 
 };

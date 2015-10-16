@@ -28,15 +28,11 @@
 using namespace _debug;
 using namespace _def;
 
-class PerftTreeDao {
+class PerftTree {
 public:
-    PerftTreeDao(const string &iniFile1);
+    PerftTree(const string &iniFile1);
 
-//    const PerftTree &getPerftTree() const {
-//        return perftTree;
-//    }
-
-    const NodeEntity *getNodeEntity(const string &nodeUUID){
+    const NodeEntity *getNodeEntity(const string &nodeUUID) {
         return nodeEntityDao->getNodeEntity(nodeUUID);
     }
 
@@ -46,7 +42,7 @@ public:
         return a;
     }
 
-    ~PerftTreeDao() {
+    ~PerftTree() {
         if (perftEntityDao)delete perftEntityDao;
         if (nodeEntityDao)delete nodeEntityDao;
     }

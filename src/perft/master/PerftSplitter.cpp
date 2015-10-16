@@ -112,7 +112,7 @@ void PerftSplitter::callRemoteNode() {
 }
 
 void PerftSplitter::generateMasterINI(const string &nodesFile, const string &fen, const int depth, const string &email, const int port) {
-    string res="#auriga ini file - AUTO-GENERATED FILE - DO NOT EDIT\n[perft]\n\n";
+    string res = "#auriga ini file - AUTO-GENERATED FILE - DO NOT EDIT\n[perft]\n\n";
     res.append("uuid=").append(UUID::getUUID()).append("\n");
     res.append("fen=").append(fen).append("\n");
     res.append("depth=").append(String(depth)).append("\n");

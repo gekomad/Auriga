@@ -25,7 +25,7 @@ public:
     static T getRandom(T from, T to) {
         std::random_device rd;
         std::mt19937 mt(rd());
-        std::uniform_real_distribution <double> dist(from, to);
+        std::uniform_real_distribution<double> dist(from, to);
         return dist(mt);
     }
 };

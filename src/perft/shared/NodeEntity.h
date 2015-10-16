@@ -40,7 +40,7 @@ public:
         nodeUUID = UUID::getUUID();
     }
 
-    string toString() const{
+    string toString() const {
         string a;
         a.append("------- NodeEntity -------\n");
         a.append("nodeUUID: " + nodeUUID);
