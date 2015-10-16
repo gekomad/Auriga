@@ -20,12 +20,7 @@
 #include "Perft.h"
 
 Perft::Perft() {
-    perftTreeDao = new PerftTree("/home/geko/workspace/workspace_my/Auriga/src/master_generated.ini");//TODO
-}
-
-Perft::~Perft() {
-    if (perftTreeDao)delete perftTreeDao;
-    perftTreeDao = nullptr;
+    perftTreeDao = new PerftTree("/home/geko/workspace/Auriga/src/master_generated.ini");//TODO
 }
 
 u64 Perft::calculate(const string &nodeUUID) {
@@ -37,7 +32,7 @@ u64 Perft::calculate(const string &nodeUUID) {
 
     for (string fen:nodeEntity->getFen()) {
         Engine &e = threadPool.getNextThread();
-        e.init("/home/geko/workspace/workspace_my/Auriga/src/stockfish.auriga.ini");
+        e.init("/home/geko/workspace/Auriga/src/stockfish.auriga.ini");
         e.registerObserverEngine(this);
         e.start();
 //        sleep(1);

@@ -24,5 +24,5 @@
 class WrapperCinnamon {
 
 public:
-    vector<string> getTotMoves(string fen);
+    vector<string> getSuccessorsFen(const string &fen, const int depth);
 };

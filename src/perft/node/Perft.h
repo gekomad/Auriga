@@ -30,7 +30,10 @@ class Perft : public ObserverEngine {
 public :
     Perft();
 
-    ~Perft();
+    ~Perft() {
+        if (perftTreeDao)delete perftTreeDao;
+        perftTreeDao = nullptr;
+    }
 
     u64 calculate(const string &nodeUUID);
 

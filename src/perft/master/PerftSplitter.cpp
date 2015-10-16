@@ -81,35 +81,35 @@ void PerftSplitter::receiveMsg(const Message &message) {
 }
 
 void PerftSplitter::callRemoteNode() {
-    debug("callRemoteNode");
-    WrapperCinnamon wrapperCinnamon;
-    assert(nodesSet.size());
-    int totMoves = wrapperCinnamon.getTotMoves(fen);
-
-    unsigned totMachine = 0;
-    int c = 0;
-
-    for (totMachine = 0; totMachine < nodesSet.size(); totMachine++) {
-        c += std::get<1>(nodesSet[totMachine]);
-        if (c >= totMoves)break;
-    }
-
-    int from = 0;
-    int to = 0;
-    setNthread(totMachine);
-    int block = totMoves / totMachine;
-    int lastBlock = totMoves % totMachine;
-    for (unsigned i = 0; i < totMachine; i++) {
-        RemoteNode &remoteNode = getNextThread();
-        to += block;
-        if (i == totMachine - 1)to += lastBlock;
-        debug(from + " " + to);
-        cout << from << " " << to << endl;
-        remoteNode.setRemoteNode(port, fen, depth, from, to - 1, nodesSet[i]);
-        from = to;
-    }
-    startAll();
-    joinAll();
+//    debug("callRemoteNode");
+//    WrapperCinnamon wrapperCinnamon;
+//    assert(nodesSet.size());
+//    int totMoves = wrapperCinnamon.getSuccessorsFen(fen,0);
+//
+//    unsigned totMachine = 0;
+//    int c = 0;
+//
+//    for (totMachine = 0; totMachine < nodesSet.size(); totMachine++) {
+//        c += std::get<1>(nodesSet[totMachine]);
+//        if (c >= totMoves)break;
+//    }
+//
+//    int from = 0;
+//    int to = 0;
+//    setNthread(totMachine);
+//    int block = totMoves / totMachine;
+//    int lastBlock = totMoves % totMachine;
+//    for (unsigned i = 0; i < totMachine; i++) {
+//        RemoteNode &remoteNode = getNextThread();
+//        to += block;
+//        if (i == totMachine - 1)to += lastBlock;
+//        debug(from + " " + to);
+//        cout << from << " " << to << endl;
+//        remoteNode.setRemoteNode(port, fen, depth, from, to - 1, nodesSet[i]);
+//        from = to;
+//    }
+//    startAll();
+//    joinAll();
 }
 
 void PerftSplitter::generateMasterINI(const string &nodesFile, const string &fen, const int depth, const string &email, const int port) {
@@ -128,9 +128,13 @@ void PerftSplitter::generateMasterINI(const string &nodesFile, const string &fen
         cpu+=n.getCpu();
     }
     WrapperCinnamon wrapperCinnamon;
-    vector<string> totMoves = wrapperCinnamon.getTotMoves(fen);
-
+    vector<string> successorsFen;
+    int c=0;
+    while(true) {
+        successorsFen = wrapperCinnamon.getSuccessorsFen(fen, ++c);
+        if(successorsFen.size()>=cpu)break;
+    }
     cout <<"tot cpu: "<<cpu<<endl;
-    cout <<"totMoves: "<<totMoves<<endl;
+    cout <<"tot Fen: "<<successorsFen.size()<<endl;
     cout << nodesFile << endl;
 }
