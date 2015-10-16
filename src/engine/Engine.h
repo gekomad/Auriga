@@ -69,6 +69,7 @@ private:
     const string POSITION_FEN[2] = {"position fen ", "setboard "};
     std::regex rgx;
     u64 result;
+
 };
 
 

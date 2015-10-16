@@ -31,21 +31,31 @@ Perft::~Perft() {
 u64 Perft::calculate(const string &nodeUUID) {
     const NodeEntity *nodeEntity = perftTreeDao->getNodeEntity(nodeUUID);
 
-    ThreadPool<Engine> threadPool;
+    ThreadPool <Engine> threadPool;
     threadPool.setNthread(nodeEntity->getCpu());
     for (Engine *e :threadPool.threadPool) {
         e->init("/home/geko/workspace/workspace_my/Auriga/src/stockfish.auriga.ini");
     }
+    int pippo=0;
     for (string fen:nodeEntity->getFen()) {
-        Engine& e=threadPool.getNextThread();
-        e.setPosition(fen);
-        e.put("perft " + String(nodeEntity->getDepth()));
-       // e.put("quit");
+        Engine &e = threadPool.getNextThread();
         e.start();
+        sleep(1);
+        e.setPosition(fen);
+        sleep(1);
+        e.put("perft " + String(nodeEntity->getDepth()));
+        sleep(1);
+        cout <<"aaaaaaaaaaaaaaaa"<<pippo<<endl;
+        pippo++;
+        // e.put("quit");
+
     }
     threadPool.joinAll();
-
-    cout <<"axxxxxxxxxxxxxxxxxxxxxxx";
+    u64 tot = 0;
+    for (Engine *e :threadPool.threadPool) {
+        tot += e->getResult();
+    }
+    cout << "TOT: " << tot << endl;
 //    Engine e("/home/geko/workspace/workspace_my/Auriga/src/stockfish.auriga.ini");//TODO
 //        Engine e("/home/geko/workspace/Auriga/src/cheng.auriga.ini");
 //        Engine e("/home/geko/workspace/Auriga/src/crafty.auriga.ini");

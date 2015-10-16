@@ -62,7 +62,6 @@ Engine::~Engine() {
     close(fd_p2c[1]);
 }
 
-
 void Engine::put(string command) {
     lock_guard<mutex> lock(putMutex);
     receiveOutput.clear();
@@ -71,7 +70,6 @@ void Engine::put(string command) {
     command.append("\n");
     int nbytes = command.length();
     assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
-
 }
 
 void Engine::setPosition(const string &fen) {
