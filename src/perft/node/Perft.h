@@ -40,6 +40,7 @@ private:
 
     void observerEndEngine(u64 result) {
         TOT += result;
+        info("partial TOT: ",TOT);
     }
 
 };

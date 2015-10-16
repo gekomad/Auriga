@@ -33,8 +33,8 @@ void Engine::run() {
         }
         receiveOutput.append(readbuffer);
         receiveStdErr.append(readStderrBuffer);
-        debug("Reading from engine stdout: |" + receiveOutput + "|");
-        debug("Reading from engine stderr: |" + receiveStdErr + "|");
+        debug("id: ",getId(),"Reading from engine stdout: |" + receiveOutput + "|");
+        debug("id: ",getId(),"Reading from engine stderr: |" + receiveStdErr + "|");
         std::smatch match;
         result = -1;
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgx)) {
@@ -43,7 +43,7 @@ void Engine::run() {
             result = stoull(match[1].str());
         }
         if (result != -1) {
-            break;
+            initialized = false;
         }
     }
 }
@@ -55,7 +55,7 @@ void Engine::endRun() {
     receiveStdErr.clear();
     info("endRun id", getId(), " result: ", result);
     notifyEndEngine(result);
-    put("quit");
+//    put("quit");
     sleep(1);
 }
 
@@ -68,11 +68,17 @@ void Engine::put(string command) {
     lock_guard<mutex> lock(putMutex);
     receiveOutput.clear();
     receiveStdErr.clear();
-    info("Writing to engine: |" + command + "\\n|");
+    info("Writing to engine id ",getId()," |" + command + "\\n|");
     command.append("\n");
     int nbytes = command.length();
-    int y=write(fd_p2c[1], command.c_str(), nbytes);
-    if(y!=nbytes)cout <<"xxxxxxxxxxxxxxxxx error xxxxxxxxxxxxxxxxx"<<endl;
+    int y = write(fd_p2c[1], command.c_str(), nbytes);
+    if (y != nbytes) {
+        error("id: ",getId()," ERROR bytes to write: ", nbytes, " bytes written: ", y, " command: ", command, "  xxxxxxxxxxxxxxxxx error xxxxxxxxxxxxxxxxx");
+        y = write(fd_p2c[1], command.c_str(), nbytes);
+        if (y != nbytes) {
+            error("id: ",getId()," ABORT bytes to write: ", nbytes, " bytes written: ", y, " command: ", command, "  xxxxxxxxxxxxxxxxx error xxxxxxxxxxxxxxxxx");
+        }
+    }
 }
 
 void Engine::setPosition(const string &fen) {
@@ -136,7 +142,7 @@ void Engine::init(const string &confFileName) {
             break;
         }
     }
-    debug(receiveOutput);
+    debug("id: ",getId(),receiveOutput);
     assert(initialized);
 
 }
