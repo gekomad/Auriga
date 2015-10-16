@@ -108,3 +108,7 @@ void PerftSplitter::callRemoteNode() {
     startAll();
     joinAll();
 }
+
+void PerftSplitter::generateINI(string nodesFile) {
+    cout << nodesFile << endl;
+}

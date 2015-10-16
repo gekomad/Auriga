@@ -74,5 +74,7 @@ public:
     Server *getServer() const {
         return server;
     }
+
+    static void generateINI(string nodesFile);
 };
 

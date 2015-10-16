@@ -18,11 +18,26 @@
 
 #pragma once
 
+#include "../perft/master/PerftSplitter.h"
+#include "../namespaces/def.h"
+#include "../perft/shared/PerftTreeDao.h"
 
 class GetOptMaster {
 public:
 
-    static void parse(int argc, char **argv) {}
+    static void parse(int argc, char **argv) {
+        vector<string> params;
+        for (int i = 1; i < argc; i++) {
+            params.push_back(argv[i]);
+        }
+        assert(params[0] == "--master");
+        // ./auriga --master -generate_ini file.txt
+        if (params.size() == 3 && params[1] == "-generate_ini") {
+            string nodesFile = params[2];
+
+            PerftSplitter::generateINI(nodesFile);
+        }
+    }
 };
 
 

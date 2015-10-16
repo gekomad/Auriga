@@ -34,7 +34,9 @@ class GetOpt {
 private:
     static void help(char **argv) {
         string exe = FileUtil::getFileName(argv[0]);
-        cout << "Run perft on single node:\t\t\t\t\t" << exe << " --node -start [NODE_ID]\n";
+
+        cout << "Generate master.ini:\t\t" << exe << " --master -generate_ini nodes.ini\n";
+        cout << "Run perft on single node:\t" << exe << " --node -start [NODE_ID]\n";
     }
 
 public:
