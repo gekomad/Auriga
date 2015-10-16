@@ -20,11 +20,13 @@
 
 #include "../blockingThreadPool/Thread.h"
 #include "../util/IniFile.h"
+#include "../namespaces/def.h"
 #include <unistd.h>
 #include <string>
 #include <iostream>
 #include <regex>
 using namespace std;
+using namespace _def;
 class Engine : public Thread {
 public :
     static enum PROTOCOL_TYPE {

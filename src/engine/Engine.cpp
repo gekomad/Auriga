@@ -22,7 +22,7 @@ Engine::Engine(const string &confFileName) {
     IniFile iniFile(confFileName);
 
     while (true) {
-        pair<string, string> *parameters = iniFile.get();
+        pair <string, string> *parameters = iniFile.get();
         if (!parameters)break;
         if (parameters->first == "path") {
             programPath = parameters->second;
@@ -43,15 +43,15 @@ Engine::Engine(const string &confFileName) {
     }
 
     pid_t childpid;
-    assert (!pipe(fd_p2c) && !pipe(fd_c2p) && !pipe(stdErr));
+    assert(!pipe(fd_p2c) && !pipe(fd_c2p) && !pipe(stdErr));
 
     childpid = fork();
 
-    assert (childpid >= 0);
+    assert(childpid >= 0);
     if (childpid == 0) {
-        assert (dup2(fd_p2c[0], 0) == 0 && close(fd_p2c[0]) == 0 && close(fd_p2c[1]) == 0);
-        assert (dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
-        assert (dup2(stdErr[1], 2) >= 0);
+        assert(dup2(fd_p2c[0], 0) == 0 && close(fd_p2c[0]) == 0 && close(fd_p2c[1]) == 0);
+        assert(dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
+        assert(dup2(stdErr[1], 2) >= 0);
         execl(programPath.c_str(), programPath.c_str(), (char *) 0);
         cerr << "Failed to execute " << programPath << endl;
         exit(1);
@@ -79,17 +79,13 @@ void Engine::run() {
         debug("Reading from engine stderr: |" + receiveStdErr + "|");
 
         std::smatch match;
-
+        u64 result = -1;
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgx)) {
-            cout << "match: |" << match[1] << "|" << endl;
+            result = stoull(match[1].str());
+        } else if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgx)) {
+            result = stoull(match[1].str());
         }
-
-        std::smatch match1;
-        if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match1, rgx)) {
-            cout << receiveStdErr << endl;
-            cout << "match1: |" << match1[1] << "|" << endl;
-        }
-
+        if(result!=-1) cout <<"perft result: "<<result<<endl;
 
     }
 }
@@ -101,13 +97,13 @@ void Engine::endRun() {
 }
 
 void Engine::put(string command) {
-    lock_guard<mutex> lock(putMutex);
+    lock_guard <mutex> lock(putMutex);
     receiveOutput.clear();
     receiveStdErr.clear();
     debug("Writing to engine: |" + command + "\\n|");
     command.append("\n");
     int nbytes = command.length();
-    assert (write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
+    assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
 
 }
 
@@ -120,17 +116,17 @@ void Engine::init() {
     put(SEND_INIT_STRING[protocol]);
     receiveOutput.clear();
     initialize = false;
-    int count=0;
+    int count = 0;
     while ((count++) < 1000) {
         int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
         if (bytes_read <= 0)break;
-        cout << readbuffer;
         receiveOutput.append(readbuffer);
         if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
             initialize = true;
             break;
         }
     }
+    debug(receiveOutput);
     assert(initialize);
     start();
 }

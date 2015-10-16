@@ -20,7 +20,7 @@
 #include "Perft.h"
 
 Perft::Perft() {
-    perftTreeDao = new PerftTreeDao("/home/geko/workspace/Auriga/src/master.ini");//TODO
+    perftTreeDao = new PerftTreeDao("/home/geko/workspace/workspace_my/Auriga/src/master.ini");//TODO
 }
 
 Perft::~Perft() {
@@ -30,7 +30,7 @@ Perft::~Perft() {
 
 u64 Perft::calculate(const string &nodeUUID) {
     const NodeEntity* nodeEntity = perftTreeDao->getNodeEntity(nodeUUID);
-    Engine e("/home/geko/workspace/Auriga/src/stockfish.auriga.ini");//TODO
+    Engine e("/home/geko/workspace/workspace_my/Auriga/src/stockfish.auriga.ini");//TODO
 //        Engine e("/home/geko/workspace/Auriga/src/cheng.auriga.ini");
 //        Engine e("/home/geko/workspace/Auriga/src/crafty.auriga.ini");
 //        Engine e("/home/geko/workspace/Auriga/src/cinnamon.auriga.ini");
