@@ -135,7 +135,7 @@ void PerftSplitter::generateMasterINI(const string &nodesFile, const string &fen
         if (successorsFen.size() >= cpu)break;
     }
 
-
+int pippo=1;
     int block =  successorsFen.size() / nodeEntityDao.nodesEntity.size();
     int lastBlock = successorsFen.size() % nodeEntityDao.nodesEntity.size();
     cout << "tot cpu: " << cpu << endl;
@@ -144,7 +144,7 @@ void PerftSplitter::generateMasterINI(const string &nodesFile, const string &fen
     cout << "lastBlock: " << lastBlock << endl;
     int k=0;
     for (NodeEntity node:nodeEntityDao.nodesEntity) {
-        res.append("[node]").append("\n");
+        res.append("\n[node]").append("\n");
         res.append("nodeUUID=").append(UUID::getUUID()).append("\n");
         res.append("host=").append(node.getHost()).append("\n");
         res.append("port=").append(String(node.getPort())).append("\n");
@@ -152,8 +152,9 @@ void PerftSplitter::generateMasterINI(const string &nodesFile, const string &fen
         res.append("email=").append(node.getEmail()).append("\n");
         res.append("depth=").append(String(depth-c)).append("\n");
         for (int i=0;i<block;i++){
-            if(i>=successorsFen.size())break;
-            res.append("fen=").append(successorsFen[k++]).append("\n");
+ripartire in base a cpu
+            res.append(String(pippo)+"fen=").append(successorsFen[k++]).append("\n");
+            pippo++;
         }
     }
     cout <<"--------------------\n"<<res<<"\n-------------------"<<endl;
