@@ -20,8 +20,8 @@
 
 #include "../../namespaces/def.h"
 #include "../../network/Server.h"
-#include "PerftTree.h"
 #include "../../util/IniFile.h"
+#include "PerftEntity.h"
 
 using namespace _debug;
 using namespace _def;
