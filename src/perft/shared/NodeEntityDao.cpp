@@ -19,6 +19,7 @@
 #include "NodeEntityDao.h"
 
 NodeEntityDao::NodeEntityDao(const string &iniFile1) {
+
     iniFileName = iniFile1;
 
     readNode();
@@ -26,6 +27,10 @@ NodeEntityDao::NodeEntityDao(const string &iniFile1) {
 }
 
 void NodeEntityDao::readNode() {
+    if (!FileUtil::fileExists(iniFileName)) {
+        warn("file ", iniFileName, " not found");
+        return;
+    }
     IniFile iniFile(iniFileName);
     NodeEntity *node = nullptr;
     while (true) {

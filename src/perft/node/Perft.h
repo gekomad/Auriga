@@ -28,7 +28,7 @@
 
 class Perft : public ObserverEngine {
 public :
-    Perft();
+    Perft(const string& masterFile,const string& engineConfFile);
 
     ~Perft() {
         if (perftTreeDao)delete perftTreeDao;
@@ -46,5 +46,6 @@ private:
         info("partial TOT: ", TOT);
     }
 
+    string engineConf;
 };
 
