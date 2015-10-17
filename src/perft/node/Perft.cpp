@@ -18,7 +18,7 @@
 
 
 #include "Perft.h"
-
+using namespace _perft;
 Perft::Perft(const string& masterFile,const string& engineConfFile) {
     assert(FileUtil::fileExists(masterFile));
     assert(FileUtil::fileExists(engineConfFile));

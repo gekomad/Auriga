@@ -25,27 +25,28 @@
 #include "../../blockingThreadPool/ThreadPool.h"
 #include "../../engine/ObserverEngine.h"
 
+namespace _perft {
+    class Perft : public ObserverEngine {
+    public :
+        Perft(const string &masterFile, const string &engineConfFile);
 
-class Perft : public ObserverEngine {
-public :
-    Perft(const string& masterFile,const string& engineConfFile);
+        ~Perft() {
+            if (perftTreeDao)delete perftTreeDao;
+            perftTreeDao = nullptr;
+        }
 
-    ~Perft() {
-        if (perftTreeDao)delete perftTreeDao;
-        perftTreeDao = nullptr;
-    }
+        u64 calculate(const string &nodeUUID);
 
-    u64 calculate(const string &nodeUUID);
+    private:
+        PerftTree *perftTreeDao = nullptr;
+        u64 TOT = 0;
 
-private:
-    PerftTree *perftTreeDao = nullptr;
-    u64 TOT = 0;
+        void observerEndEngine(u64 result) {
+            TOT += result;
+            info("partial TOT: ", TOT);
+        }
 
-    void observerEndEngine(u64 result) {
-        TOT += result;
-        info("partial TOT: ", TOT);
-    }
+        string engineConf;
+    };
 
-    string engineConf;
-};
-
+}

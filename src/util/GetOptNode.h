@@ -37,7 +37,7 @@ public:
             string master = params[2];
             string engine = params[3];
             string nodeUUID = params[4];
-            Perft perft(master,engine);
+            _perft::Perft perft(master,engine);
             perft.calculate(nodeUUID);
 
             cout <<"a";

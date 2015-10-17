@@ -1,6 +1,6 @@
 project(auriga)
 
-set(DR_MEMORY "YES")
+set(DR_MEMORY "NO")
 
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -DDLOG_LEVEL=INFO -DDEBUG_MODE")
