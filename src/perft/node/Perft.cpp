@@ -27,6 +27,7 @@ Perft::Perft(const string& masterFile,const string& engineConfFile) {
 }
 
 u64 Perft::calculate(const string &nodeUUID) {
+    auto start1 = std::chrono::high_resolution_clock::now();
     const NodeEntity *nodeEntity = perftTreeDao->getNodeEntity(nodeUUID);
 
     ThreadPool<Engine> threadPool;
@@ -42,7 +43,10 @@ u64 Perft::calculate(const string &nodeUUID) {
         e.put("perft " + String(nodeEntity->getDepth()));
     }
     threadPool.joinAll();
+    auto stop1 = std::chrono::high_resolution_clock::now();
 
-    cout << "TOT: " << TOT << endl;
+    string timetot=Time::diffTimeToString(start1,stop1);
+
+    cout << "Perft tot moves: " << TOT << " in "<<timetot<<endl;
 
 }
