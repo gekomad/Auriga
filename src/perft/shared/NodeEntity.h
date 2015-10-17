@@ -36,23 +36,32 @@ private:
     int depth;
 public:
 
+    NodeEntity(const string &host, int port, int cpu, const string &email, const vector<string> &fen, int depth) : NodeEntity() {
+        setHost(host);
+        setPort(port);
+        setCpu(cpu);
+        setEmail(email);
+        setFen(fen);
+        setDepth(depth);
+    }
+
+
     NodeEntity() {
         nodeUUID = UUID::getUUID();
     }
 
-    string toString() const {
+    string toINIformat() const {
         string a;
-        a.append("------- NodeEntity -------\n");
-        a.append("nodeUUID: " + nodeUUID);
-        a.append("\nhost: " + host);
-        a.append("\nport: " + String(port));
-        a.append("\ncpu: " + String(cpu));
-        a.append("\nemail: " + email);
-        a.append("\ndepth: " + String(depth));
+        a.append("[node]");
+        a.append("\nnodeUUID=" + nodeUUID);
+        a.append("\nhost=" + host);
+        a.append("\nport=" + String(port));
+        a.append("\ncpu=" + String(cpu));
+        a.append("\nemail=" + email);
+        a.append("\ndepth=" + String(depth));
         for (string f:fen) {
-            a.append("\nfen: " + f);
+            a.append("\nfen=" + f);
         }
-        a.append("\n--------------------------");
         return a;
     }
 

@@ -33,7 +33,7 @@ public:
         if (inData.is_open()) {
             endFile = false;
         }else{
-            error("file not found: ",fileName);
+            warn("file not found: ",fileName);
         }
         rgxLine.assign("^(\\w*)=(.*)$");
         rgxTag.assign("^\\[.+]$");

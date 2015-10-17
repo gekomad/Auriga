@@ -21,6 +21,9 @@
 #include <iostream>
 #include <vector>
 #include "../../util/UUID.h"
+#include "../../util/String.h"
+#include "../../network/util/Network.h"
+#include "../../namespaces/def.h"
 
 using namespace std;
 
@@ -34,21 +37,28 @@ private:
     string masterHost;
 public:
 
+    PerftEntity(const string &fen, int depth, const string &email, int masterPort) : PerftEntity() {
+        setFen(fen);
+        setDepth(depth);
+        setEmail(email);
+        setMasterPort(masterPort);
+    }
 
     PerftEntity() {
         uuid = UUID::getUUID();
+        masterHost = Network::getIp();
     }
 
-    string toString() const {
+    string toINIformat() const {
         string a;
-        a.append("------- PerftEntity -------\n");
-        a.append("uuid: " + uuid);
-        a.append("\nfen: " + fen);
-        a.append("\ndepth: " + String(depth));
-        a.append("\nemail: " + email);
-        a.append("\nmasterPort: " + String(masterPort));
-        a.append("\nmasterHost: " + masterHost);
-        a.append("\n--------------------------");
+        a.append("[perft]");
+        a.append("\nuuid=" + uuid);
+        a.append("\nfen=" + fen);
+        a.append("\ndepth=" + String(depth));
+        a.append("\nemail=" + email);
+        a.append("\nmasterPort=" + String(masterPort));
+        a.append("\nmasterHost=" + masterHost);
+
         return a;
     }
 

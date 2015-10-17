@@ -36,7 +36,7 @@ public:
     string toString() const {
         string a;
         for (NodeEntity n:nodesEntity) {
-            a.append(n.toString());
+            a.append(n.toINIformat());
         }
         return a;
     }
