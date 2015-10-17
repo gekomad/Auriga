@@ -62,7 +62,8 @@ public:
 #endif
 
     bool setNthread(const int t) {
-        if (t < 1 || t > 64 || t == nThread) {
+        if (t < 1 || t > 64) {
+            warn("invalid value");
             return false;
         }
         joinAll();
@@ -104,8 +105,7 @@ public:
         removeAllThread();
     }
 
-public:
-    //TODO implementare itarator pattern e metterlo protected
+protected:
     vector<T *> threadPool;
 private:
 
