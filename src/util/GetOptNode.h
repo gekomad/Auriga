@@ -39,6 +39,8 @@ public:
             string nodeUUID = params[4];
             Perft perft(master,engine);
             perft.calculate(nodeUUID);
+
+            cout <<"a";
         } else {
             cout << "err" << endl;
         }

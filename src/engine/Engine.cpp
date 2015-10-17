@@ -18,41 +18,74 @@
 
 #include "Engine.h"
 
-void Engine::run() {
-//    sleep(2);initialized = false;result=1;return;
+
+void Engine::readStdin() {
     int bytes_read;
-    int bytes_read_err;
+
     char readbuffer[1024];
-    char readStderrBuffer[1024];
+
     while (initialized) {
-        usleep(1000);
+
+//         usleep(1000);
         bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
-
-        readbuffer[bytes_read] = 0;
-        usleep(1000);
-        bytes_read_err = read(stdErr[0], readStderrBuffer, sizeof(readStderrBuffer) - 1);
-
-        readbuffer[bytes_read_err] = 0;
-        if (!initialized || bytes_read + bytes_read_err <= 0) {
-            error("exit");
-            assert(0);
+        if (!initialized || bytes_read <= 0) {
             break;
         }
+        readbuffer[bytes_read] = 0;
+
         receiveOutput.append(readbuffer);
-        receiveStdErr.append(readStderrBuffer);
+
         debug("id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
-        debug("id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
+
         std::smatch match;
         result = -1;
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgx)) {
             result = stoull(match[1].str());
-        } else if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgx)) {
+        }
+        if (result != -1) {
+            initialized = false;
+            close(stdErr[0]);
+            cv.notify_all();
+        }
+    }
+}
+
+void Engine::readStderr() {
+    int bytes_read_err;
+    char readStderrBuffer[1024];
+    while (initialized) {
+//        usleep(1000);
+        bytes_read_err = read(stdErr[0], readStderrBuffer, sizeof(readStderrBuffer) - 1);
+
+        if (!initialized || bytes_read_err <= 0) {
+            break;
+        }
+        readStderrBuffer[bytes_read_err] = 0;
+        receiveStdErr.append(readStderrBuffer);
+
+        debug("id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
+        std::smatch match;
+        result = -1;
+        if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgx)) {
             result = stoull(match[1].str());
         }
         if (result != -1) {
             initialized = false;
+            close(fd_c2p[0]);
+            cv.notify_all();
         }
     }
+}
+
+void Engine::run() {
+    std::thread in (&Engine::readStdin, this);
+    std::thread err(&Engine::readStderr, this);
+    mutex mtx;
+    unique_lock<mutex> lck(mtx);
+    cv.wait(lck);
+    err.detach();
+    in.detach();
+
 }
 
 
@@ -75,7 +108,7 @@ void Engine::put(string command) {
     lock_guard<mutex> lock(putMutex);
     receiveOutput.clear();
     receiveStdErr.clear();
-    info("Writing to engine id ", getId(), " |" + command + "\\n|");
+    info("Send to engine id ", getId(), " |" + command + "\\n|");
     command.append("\n");
     int nbytes = command.length();
     assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);

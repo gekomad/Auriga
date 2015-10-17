@@ -80,9 +80,10 @@ private:
             observer->observerEndEngine(i);
         }
     }
-
-
+    void readStdin() ;
+    void readStderr() ;
     ObserverEngine *observer = nullptr;
+    condition_variable cv;
 
 };
 
