@@ -154,27 +154,3 @@ void PerftSplitter::generateMasterINI(const string &nodesFile, const string &fen
     myfile.close();
     cout <<"";
 }
-
-/*
-
- [node]
-nodeUUID=bbb05d54-75b4-431b-adb2-eb6b9e546014
-host=10.0.0.1
-port=5002
-cpu=2
-email=pippo@gmail.com
-[node]
-nodeUUID=ccc05d54-75b4-431b-adb2-eb6b9e546014
-host=10.0.0.2
-port=5002
-cpu=3
-email=gio@gmail.com
-[node]
-nodeUUID=ddd05d54-75b4-431b-adb2-eb6b9e546014
-host=10.0.0.3
-port=5002
-cpu=4
-email=gg@gmail.com
-
- *
- * */
