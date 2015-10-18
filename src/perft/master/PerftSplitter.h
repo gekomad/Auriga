@@ -75,6 +75,6 @@ public:
         return server;
     }
 
-    static void generateMasterINI(const string &nodesFile, const string &fen, const int depth, const string &email, const int port);
+    static void generateMasterINI(const string &nodesFile, const string &fen, const int depth, const string &email, const int port,const string& mastetnodesFile);
 };
 
