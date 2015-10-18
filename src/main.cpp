@@ -24,7 +24,7 @@
 
 
 int main(int argc, char *argv[]) {
-
+    cout << NAME << endl;
     GetOpt::parse(argc, argv);
     debug ("END AURIGA");
     return 0;
