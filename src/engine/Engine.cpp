@@ -78,7 +78,7 @@ void Engine::readStderr() {
 }
 
 void Engine::run() {
-    std::thread in (&Engine::readStdin, this);
+    std::thread in(&Engine::readStdin, this);
     std::thread err(&Engine::readStderr, this);
     mutex mtx;
     unique_lock<mutex> lck(mtx);
@@ -127,7 +127,7 @@ void Engine::init(const string &confFileName) {
         pair<string, string> *parameters = iniFile.get();
         if (!parameters)break;
         if (parameters->first == "path") {
-            programPath = parameters->second;
+            enginePath = parameters->second;
         } else if (parameters->first == "protocol") {
             protocol = String(parameters->second).toLower() == "uci" ? PROTOCOL_TYPE::UCI : PROTOCOL_TYPE::XBOARD;
         } else if (parameters->first == "uci_option_perft_thread_name") {
@@ -143,7 +143,7 @@ void Engine::init(const string &confFileName) {
             rgx.assign(regex_perft_moves);
         }
     }
-
+    info("load engine ", enginePath);
     pid_t childpid;
     assert(!pipe(fd_p2c) && !pipe(fd_c2p) && !pipe(stdErr));
 
@@ -154,8 +154,8 @@ void Engine::init(const string &confFileName) {
         assert(dup2(fd_p2c[0], 0) == 0 && close(fd_p2c[0]) == 0 && close(fd_p2c[1]) == 0);
         assert(dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
         assert(dup2(stdErr[1], 2) >= 0);
-        execl(programPath.c_str(), programPath.c_str(), (char *) 0);
-        cerr << "Failed to execute " << programPath << endl;
+        execl(enginePath.c_str(), enginePath.c_str(), (char *) 0);
+        error("Failed to execute ", enginePath );
         exit(1);
     }
     close(fd_p2c[0]);

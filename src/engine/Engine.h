@@ -63,7 +63,7 @@ private:
     string uci_option_perft_hash_name;
     string receiveOutput;
     string receiveStdErr;
-    string programPath;
+    string enginePath;
 
     PROTOCOL_TYPE protocol;
     int fd_p2c[2], fd_c2p[2], stdErr[2];

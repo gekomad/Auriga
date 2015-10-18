@@ -18,12 +18,14 @@
 
 
 #include "Perft.h"
+
 using namespace _perft;
-Perft::Perft(const string& masterFile,const string& engineConfFile) {
+
+Perft::Perft(const string &masterFile, const string &engineConfFile) {
     assert(FileUtil::fileExists(masterFile));
     assert(FileUtil::fileExists(engineConfFile));
     perftTreeDao = new PerftTree(masterFile);
-    engineConf=engineConfFile;
+    engineConf = engineConfFile;
 }
 
 u64 Perft::calculate(const string &nodeUUID) {
@@ -48,8 +50,8 @@ u64 Perft::calculate(const string &nodeUUID) {
     threadPool.joinAll();
     auto stop1 = std::chrono::high_resolution_clock::now();
 
-    string timetot=Time::diffTimeToString(start1,stop1);
+    string timetot = Time::diffTimeToString(start1, stop1);
 
-    cout << "NodeUUID  "<<nodeUUID<<" perft tot moves: " << TOT << " in "<<timetot<<endl;
+    cout << "Tot Perft moves for NodeUUID " << nodeUUID << " :" << TOT << " in " << timetot << endl;
 
 }
