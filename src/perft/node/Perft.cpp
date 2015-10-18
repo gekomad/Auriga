@@ -29,7 +29,10 @@ Perft::Perft(const string& masterFile,const string& engineConfFile) {
 u64 Perft::calculate(const string &nodeUUID) {
     auto start1 = std::chrono::high_resolution_clock::now();
     const NodeEntity *nodeEntity = perftTreeDao->getNodeEntity(nodeUUID);
-
+    if (!nodeEntity) {
+        error("nodeUUID not found ", nodeUUID);
+        return -1;
+    }
     ThreadPool<Engine> threadPool;
     threadPool.setNthread(nodeEntity->getCpu());
 
