@@ -40,7 +40,6 @@ public:
             _perft::Perft perft(master,engine);
             perft.calculate(nodeUUID);
 
-            cout <<"a";
         } else {
             cout << "err" << endl;
         }
