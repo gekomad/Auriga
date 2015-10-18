@@ -49,7 +49,7 @@ set(SOURCE_FILES
         src/util/GetOptNode.h
         src/util/Random.h
         src/util/Singleton.h
-        src/util/String.cpp
+
         src/util/String.h
         src/util/Time.h
         src/util/Timer.h
