@@ -128,6 +128,10 @@ void PerftSplitter::generateMasterINI(const string &nodesFile, const string &fen
     for (NodeEntity &n:nodeEntityDao.nodesEntity) {
         cpu += n.getCpu();
     }
+    if (!cpu) {
+        error("zero cpu found");
+        return;
+    }
     WrapperCinnamon wrapperCinnamon;
     vector<string> successorsFen;
     int c = 0;
