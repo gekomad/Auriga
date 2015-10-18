@@ -56,6 +56,7 @@ public:
                 return nullptr;
             }
             getline(inData, line);
+            trace(line);
             if (!line.size())continue;
             if (line.at(0) == '#')continue;
 
