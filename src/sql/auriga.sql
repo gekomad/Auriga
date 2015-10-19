@@ -26,6 +26,7 @@ CREATE TABLE `perft` (
   `uuid_perft` char(36) COLLATE utf8_bin NOT NULL,
   `fen` varchar(100) COLLATE utf8_bin NOT NULL,
   `depth` int(11) NOT NULL,
+  `nodes` int(11) NOT NULL,
   `creation_date` datetime NOT NULL,
   `tot` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   `author` varchar(30) COLLATE utf8_bin DEFAULT NULL,
@@ -80,4 +81,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-19 19:16:39
+-- Dump completed on 2015-10-19 20:07:58
