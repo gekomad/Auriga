@@ -40,6 +40,10 @@ public:
         assign(ss.str());
     }
 
+    static int stoi(const string &s) {
+        if(s.size()==0)return 0;
+    }
+
     String &trim();
 
     String &trimLeft();

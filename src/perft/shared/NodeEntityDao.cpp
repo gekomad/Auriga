@@ -19,11 +19,14 @@
 #include "NodeEntityDao.h"
 
 NodeEntityDao::NodeEntityDao(const string &iniFile1) {
-
     iniFileName = iniFile1;
-
     readNode();
-    trace(toString());
+    trace(toINIformat());
+}
+
+NodeEntityDao::NodeEntityDao(const vector<NodeEntity>& nodesEntity1) {
+    nodesEntity.clear();
+    for (NodeEntity n:nodesEntity1)nodesEntity.push_back(n);
 }
 
 void NodeEntityDao::readNode() {
@@ -43,17 +46,9 @@ void NodeEntityDao::readNode() {
         }
 
         if (node) {
-            if (parameters->first == "host") {
-                node->setHost(parameters->second);
-            } else if (parameters->first == "cpu") {
-                node->setCpu(stoi(parameters->second));
-            } else if (parameters->first == "nodeUUID") {
+            if (parameters->first == "nodeUUID") {
                 node->setNodeUUID(parameters->second);
-            } else if (parameters->first == "port") {
-                node->setPort(stoi(parameters->second));
-            } else if (parameters->first == "email") {
-                node->setEmail(parameters->second);
-            } else if (parameters->first == "depth") {
+            }  else if (parameters->first == "depth") {
                 node->setDepth(stoi(parameters->second));
             } else if (parameters->first == "fen") {
                 node->addFen(parameters->second);

@@ -32,21 +32,15 @@ private:
     string uuid;
     string fen;
     int depth;
-    string email;
-    int masterPort;
-    string masterHost;
 public:
 
-    PerftEntity(const string &fen, int depth, const string &email, int masterPort) : PerftEntity() {
+    PerftEntity(const string &fen, int depth) : PerftEntity() {
         setFen(fen);
         setDepth(depth);
-        setEmail(email);
-        setMasterPort(masterPort);
     }
 
     PerftEntity() {
         uuid = UUID::getUUID();
-        masterHost = Network::getIp();
     }
 
     string toINIformat() const {
@@ -55,9 +49,6 @@ public:
         a.append("\nuuid=" + uuid);
         a.append("\nfen=" + fen);
         a.append("\ndepth=" + String(depth));
-        a.append("\nemail=" + email);
-        a.append("\nmasterPort=" + String(masterPort));
-        a.append("\nmasterHost=" + masterHost);
 
         return a;
     }
@@ -87,29 +78,5 @@ public:
     void setDepth(int depth) {
         assert(depth > 0);
         PerftEntity::depth = depth;
-    }
-
-    const string &getEmail() const {
-        return email;
-    }
-
-    void setEmail(const string &email) {
-        PerftEntity::email = email;
-    }
-
-    int getMasterPort() const {
-        return masterPort;
-    }
-
-    void setMasterPort(int masterPort) {
-        PerftEntity::masterPort = masterPort;
-    }
-
-    const string &getMasterHost() const {
-        return masterHost;
-    }
-
-    void setMasterHost(const string &masterHost) {
-        PerftEntity::masterHost = masterHost;
     }
 };

@@ -20,6 +20,8 @@
 
 #include "IResultCallback.h"
 #include "../../namespaces/def.h"
+#include "../master/PerftSplitter.h"
+#include "../shared/Message.h"
 
 using namespace _def;
 

@@ -22,7 +22,7 @@ PerftEntityDao::PerftEntityDao(const string &iniFile1) {
     iniFileName = iniFile1;
     readPerft();
 
-    trace(toString());
+    trace(toINIformat());
 }
 
 void PerftEntityDao::readPerft() {
@@ -40,14 +40,8 @@ void PerftEntityDao::readPerft() {
         }
 
         if (node) {
-            if (parameters->first == "masterHost") {
-                node->setMasterHost(parameters->second);
-            } else if (parameters->first == "masterPort") {
-                node->setMasterPort(stoi(parameters->second));
-            } else if (parameters->first == "uuid") {
+           if (parameters->first == "uuid") {
                 node->setUuid(parameters->second);
-            } else if (parameters->first == "email") {
-                node->setEmail(parameters->second);
             } else if (parameters->first == "depth") {
                 node->setDepth(stoi(parameters->second));
             } else if (parameters->first == "fen") {

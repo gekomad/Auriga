@@ -35,7 +35,7 @@ public:
     }
 
 
-    string toString() const {
+    string toINIformat() const {
         return perftEntity->toINIformat();
     }
 

@@ -133,11 +133,11 @@ void Engine::init(const string &confFileName) {
         } else if (parameters->first == "uci_option_perft_thread_name") {
             uci_option_perft_thread_name == parameters->second;
         } else if (parameters->first == "uci_option_perft_thread_value") {
-            uci_option_perft_thread_value = stoi(parameters->second);
+            uci_option_perft_thread_value = String::stoi(parameters->second);
         } else if (parameters->first == "uci_option_perft_hash_name") {
             uci_option_perft_hash_name == parameters->second;
         } else if (parameters->first == "uci_option_perft_hash_value") {
-            uci_option_perft_hash_value = stoi(parameters->second);
+            uci_option_perft_hash_value = String::stoi(parameters->second);
         } else if (parameters->first == "regex_perft_moves") {
             regex_perft_moves = parameters->second;
             rgx.assign(regex_perft_moves);

@@ -30,22 +30,21 @@ class NodeEntityDao {
 public:
     NodeEntityDao(const string &iniFile1);
 
+    NodeEntityDao(const vector<NodeEntity> &nodesEntity);
 
     const NodeEntity *getNodeEntity(const string &nodeUUID);
 
-    string toString() const {
+    string toINIformat() const {
         string a;
         for (NodeEntity n:nodesEntity) {
-            a.append(n.toINIformat());
+            a.append("\n").append(n.toINIformat());
         }
         return a;
     }
 
-    vector<NodeEntity> nodesEntity;//TODO implementare iterator
 private:
-
+    vector<NodeEntity> nodesEntity;
     void readNode();
-
 
     string iniFileName;
 };

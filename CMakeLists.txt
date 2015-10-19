@@ -3,8 +3,8 @@ project(auriga)
 set(DR_MEMORY "NO")
 
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -DDLOG_LEVEL=INFO -DDEBUG_MODE")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -s -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -static -std=c++11 -DDLOG_LEVEL=INFO")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -DDLOG_LEVEL=INFO -DDEBUG_MODE")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -s -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -static -std=c++11 -DDLOG_LEVEL=INFO")
 
 if (DR_MEMORY STREQUAL "YES")
         set(CMAKE_CXX_FLAGS "-DDEBUG_MODE -DDLOG_LEVEL=INFO -pthread -std=c++11 -m32 -g -fno-inline -fno-omit-frame-pointer -Wno-reorder")
@@ -27,13 +27,11 @@ set(SOURCE_FILES
         src/network/Server.h
         src/perft/master/PerftSplitter.cpp
         src/perft/master/PerftSplitter.h
-        src/perft/master/RemoteNode.cpp
-        src/perft/master/RemoteNode.h
+
         src/perft/node/IResultCallback.h
         src/perft/node/Perft.cpp
         src/perft/node/PerftClient.h
-        src/perft/node/PerftParser.cpp
-        src/perft/node/PerftParser.h
+
         src/perft/node/PerftResultCallback.cpp
         src/perft/node/PerftResultCallback.h
 

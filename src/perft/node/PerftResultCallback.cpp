@@ -17,12 +17,11 @@
 */
 
 #include "PerftResultCallback.h"
-#include "../master/PerftSplitter.h"
 
 void PerftResultCallback::setTot(const u64 tot) {
-    info("send result to server");
-    Message m("-", -1, -1, -1, "-", -1, -1, -1, tot);
-    PerftSplitter::getInstance().getServer()->sendMsg(m.getSerializedString());
+//    info("send result to server");TODO eliminare file
+//    Message m("-", -1, -1, -1, "-", -1, -1, -1, tot);
+//    PerftSplitter::getInstance().getServer()->sendMsg(m.getSerializedString());
 
 
 }

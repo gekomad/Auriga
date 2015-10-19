@@ -18,7 +18,6 @@
 
 #pragma once
 
-#include "../shared/Message.h"
 #include "../../network/Client.h"
 
 class PerftClient : public Client {

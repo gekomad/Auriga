@@ -18,7 +18,6 @@
 
 #pragma once
 
-#include "../shared/Message.h"
 #include "../shared/NodeEntity.h"
 #include "../../engine/Engine.h"
 #include "../shared/PerftTree.h"

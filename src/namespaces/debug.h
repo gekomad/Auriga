@@ -23,7 +23,7 @@
 #include <cxxabi.h>
 #include <stdio.h>
 #include <string.h>
-
+#include "../util/Time.h"
 #if !defined DLOG_LEVEL
 #if defined DEBUG_MODE
 #define DLOG_LEVEL TRACE

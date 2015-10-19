@@ -26,7 +26,6 @@
 #include <netinet/in.h>
 #include "../blockingThreadPool/Thread.h"
 #include "Iparser.h"
-#include "../perft/shared/Message.h"
 
 class Server : public Thread {
 

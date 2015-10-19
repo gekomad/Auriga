@@ -22,59 +22,16 @@
 #include <atomic>
 #include <fstream>
 #include <unistd.h>
-
-#include <mutex>
-
-#include "../../blockingThreadPool/ThreadPool.h"
-
 #include <set>
 #include "../../lib/WrapperCinnamon.h"
-#include "RemoteNode.h"
 #include "../../util/IniFile.h"
-#include "../node/PerftParser.h"
-#include "PerftSplitter.h"
-#include "../../network/Client.h"
-
-
-class PerftSplitter : public Thread, public ThreadPool<RemoteNode>, public Singleton<PerftSplitter> {
-    friend class Singleton<PerftSplitter>;
+#include "../../util/FileUtil.h"
+#include "../shared/PerftEntity.h"
+#include "../shared/NodeEntityDao.h"
+class PerftSplitter {
 
 public:
 
-
-    void setParam(const string &fen1, int depth1, const string &distributedFile, int port);
-
-    void setServer(int port1);
-
-    ~PerftSplitter();
-
-    virtual void run();
-
-    virtual void endRun();
-
-
-private:
-
-    void receiveMsg(const Message &message);
-
-    std::vector<tuple<string, int, int, string>> nodesSet;
-
-    PerftSplitter() : ThreadPool(1) { };
-
-
-    int depth;
-    string fen;
-    int port;
-
-    void callRemoteNode();
-
-    bool serverMode = false;
-    Server *server = nullptr;
-public:
-    Server *getServer() const {
-        return server;
-    }
-
-    static void generateMasterINI(const string &nodesFile, const string &fen, const int depth, const string &email, const int port,const string& mastetnodesFile);
+    static void generateMasterINI( const string &fen,const int Ntask, const int depth, const string& mastetnodesFile);
 };
 

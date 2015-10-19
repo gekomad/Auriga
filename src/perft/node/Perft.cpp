@@ -36,7 +36,10 @@ u64 Perft::calculate(const string &nodeUUID) {
         return -1;
     }
     ThreadPool<Engine> threadPool;
-    threadPool.setNthread(nodeEntity->getCpu());
+    IniFile iniFile(engineConf);
+    int ins = String::stoi(iniFile.getValue("n_instances"));
+    if (ins == 0)ins = 1;
+    threadPool.setNthread(ins);
 
 
     for (string fen:nodeEntity->getFen()) {

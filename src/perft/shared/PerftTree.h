@@ -36,9 +36,9 @@ public:
         return nodeEntityDao->getNodeEntity(nodeUUID);
     }
 
-    string toString() const {
-        string a = perftEntityDao->toString();
-        a.append(nodeEntityDao->toString());
+    string toINIformat() const {
+        string a = perftEntityDao->toINIformat();
+        a.append(nodeEntityDao->toINIformat());
         return a;
     }
 

@@ -23,7 +23,7 @@ PerftTree::PerftTree(const string &iniFile1) {
     perftEntityDao = new PerftEntityDao(iniFile1);;
     nodeEntityDao = new NodeEntityDao(iniFile1);
 
-    trace(toString());
+    trace(toINIformat());
 }
 
 

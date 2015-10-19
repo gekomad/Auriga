@@ -21,26 +21,22 @@
 #include <iostream>
 #include <vector>
 #include "../../util/UUID.h"
+#include "../../util/String.h"
+#include "../../namespaces/debug.h"
+#include "../../namespaces/def.h"
 
 using namespace std;
+using namespace _debug;
+using namespace _def;
 
 class NodeEntity {
 private:
     string nodeUUID;
-    string host;
-    int port;
-    int cpu;
-    //TODO int instance;
-    string email;
     vector<string> fen;
     int depth;
 public:
 
-    NodeEntity(const string &host, int port, int cpu, const string &email, const vector<string> &fen, int depth) : NodeEntity() {
-        setHost(host);
-        setPort(port);
-        setCpu(cpu);
-        setEmail(email);
+    NodeEntity(const vector<string> &fen, int depth) : NodeEntity() {
         setFen(fen);
         setDepth(depth);
     }
@@ -54,10 +50,6 @@ public:
         string a;
         a.append("[node]");
         a.append("\nnodeUUID=" + nodeUUID);
-        a.append("\nhost=" + host);
-        a.append("\nport=" + String(port));
-        a.append("\ncpu=" + String(cpu));
-        a.append("\nemail=" + email);
         a.append("\ndepth=" + String(depth));
         for (string f:fen) {
             a.append("\nfen=" + f);
@@ -74,43 +66,9 @@ public:
         return nodeUUID;
     }
 
-    const string &getHost() const {
-        return host;
-    }
-
     void addFen(const string &fen1) {
         assert(fen1.size() > 5);
         fen.push_back(fen1);
-    }
-
-    void setHost(const string &host) {
-        assert(host.size() > 1);
-        NodeEntity::host = host;
-    }
-
-    int getPort() const {
-        return port;
-    }
-
-    void setPort(int port) {
-        NodeEntity::port = port;
-    }
-
-    int getCpu() const {
-        return cpu;
-    }
-
-    void setCpu(int cpu) {
-        assert(cpu > 0);
-        NodeEntity::cpu = cpu;
-    }
-
-    const string &getEmail() const {
-        return email;
-    }
-
-    void setEmail(const string &email) {
-        NodeEntity::email = email;
     }
 
     const vector<string> &getFen() const {
