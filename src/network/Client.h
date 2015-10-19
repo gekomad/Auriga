@@ -69,7 +69,7 @@ public:
         char dataType2[] = "&b=";
         char dataType3[] = "&c=";
 
-        char FormAction[] = "index.php";
+        char FormAction[] = "prova_post.php";
 
         // get: length of the actual content
         auto ContentLength = user.size() + user.size() + user.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3);
@@ -84,13 +84,9 @@ public:
         formBuffer << dataType1 << user;
         formBuffer << dataType2 << user;
         formBuffer << dataType3 << user;
-
         const auto str = formBuffer.str();
-
         std::cout << str << std::endl;
-
-        assert(send(sock, str.data(), str.size(), 0) == (int)str.size());
-
+        assert(send(sock, str.data(), str.size(), 0) == (int) str.size());
     }
 
 protected:

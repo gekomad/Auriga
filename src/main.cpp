@@ -26,21 +26,10 @@
 
 
 int main(int argc, char *argv[]) {
-    u64 r = 0xffffffffffffffff;
-    __int128_t aa = r;
-    aa = aa + r;
-
-    __int128_t bb = r;
-    bb = bb + r + 1;
-
-    if (aa != bb)cout << "diversi" << endl; else cout << "uguali" << endl;
-    cout << String::toString(aa)<< endl;
-    cout << String::toString(bb)<< endl;
-    return 0;
     Client::post();
-    assert(0);
-    cout << NAME << endl;
-    GetOpt::parse(argc, argv);
+//    assert(0);
+//    cout << NAME << endl;
+//    GetOpt::parse(argc, argv);
     debug ("END AURIGA");
     return 0;
 }

@@ -38,7 +38,7 @@ Perft::Perft(const string &nodeUUID1, const string &masterFile1, const string &e
     nodeUUID = nodeUUID1;
 }
 
-u64 Perft::calculate() {
+__int128_t Perft::calculate() {
     auto start1 = std::chrono::high_resolution_clock::now();
 
     ThreadPool<Engine> threadPool;
@@ -71,6 +71,6 @@ u64 Perft::calculate() {
 
     string timetot = Time::diffTimeToString(start1, stop1);
 
-    cout << "Tot Perft moves for NodeUUID " << nodeUUID << " :" << TOT << " in " << timetot << endl;
+    cout << "Tot Perft moves for NodeUUID " << nodeUUID << " :" << String::toString(TOT) << " in " << timetot << endl;
     return TOT;
 }

@@ -29,17 +29,17 @@ namespace _perft {
     public :
         Perft(const string &nodeUUID, const string &masterFile, const string &engineConfFile);
 
-        u64 calculate();
+        __int128_t calculate();
 
     private:
         string nodeUUID;
         string masterFile;
-        u64 TOT = 0;
+        __int128_t TOT = 0;
         string engineConf;
 
         void observerTotResult(const u64 result) {
             TOT += result;
-            info("TOT: ", TOT);
+            info("TOT: ", String::toString(TOT));
         }
 
         void observerPartialResult(const u64 result) {
