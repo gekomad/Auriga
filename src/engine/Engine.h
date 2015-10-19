@@ -64,7 +64,7 @@ private:
     string receiveOutput;
     string receiveStdErr;
     string enginePath;
-
+    const u64 NO_RESULT =0xffffffffffffffff;
     PROTOCOL_TYPE protocol = PROTOCOL_TYPE::UCI;
     int fd_p2c[2], fd_c2p[2], stdErr[2];
     bool initialized = false;

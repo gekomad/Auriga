@@ -83,6 +83,7 @@ Server::Server(int portno, Iparser *parser1) {
 }
 
 void Server::sendMsg(const string &msg) {
+    cout <<msg;
     assert(0);
 //    debug("sendmsgaaaa");
 //    Message m(msg);

@@ -48,7 +48,7 @@ set(SOURCE_FILES
         src/util/UUID.h
         src/main.cpp)
 
-set(CMAKE_CXX_COMPILER "g++")
+set(CMAKE_CXX_COMPILER "clang++")
 add_executable(auriga ${SOURCE_FILES})
 if (DR_MEMORY STREQUAL "YES")
         target_link_libraries(auriga ${CMAKE_SOURCE_DIR}/src/lib/Linux/32/libCinnamon.a)

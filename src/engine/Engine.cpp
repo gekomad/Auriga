@@ -35,11 +35,11 @@ void Engine::readStdin() {
             notifyPartialResult(stoull(match[1].str()));
         }
 
-        result = -1;
+        result = NO_RESULT;
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
             result = stoull(match[1].str());
         }
-        if (result != -1) {
+        if (result != NO_RESULT) {
             initialized = false;
             close(stdErr[0]);
             cv.notify_all();
@@ -66,11 +66,11 @@ void Engine::readStderr() {
             notifyPartialResult(stoull(match[1].str()));
         }
 
-        result = -1;
+        result = NO_RESULT;
         if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxTot)) {
             result = stoull(match[1].str());
         }
-        if (result != -1) {
+        if (result != NO_RESULT) {
             initialized = false;
             close(fd_c2p[0]);
             cv.notify_all();

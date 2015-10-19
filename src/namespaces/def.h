@@ -24,6 +24,7 @@
 #include "debug.h"
 
 using namespace _debug;
+
 namespace _def {
     using namespace std;
 
@@ -36,6 +37,7 @@ namespace _def {
 
     static const u64 NOTPOW2[64] = {0xfffffffffffffffeULL, 0xfffffffffffffffdULL, 0xfffffffffffffffbULL, 0xfffffffffffffff7ULL, 0xffffffffffffffefULL, 0xffffffffffffffdfULL, 0xffffffffffffffbfULL, 0xffffffffffffff7fULL, 0xfffffffffffffeffULL, 0xfffffffffffffdffULL, 0xfffffffffffffbffULL, 0xfffffffffffff7ffULL, 0xffffffffffffefffULL, 0xffffffffffffdfffULL, 0xffffffffffffbfffULL, 0xffffffffffff7fffULL, 0xfffffffffffeffffULL, 0xfffffffffffdffffULL, 0xfffffffffffbffffULL, 0xfffffffffff7ffffULL, 0xffffffffffefffffULL, 0xffffffffffdfffffULL, 0xffffffffffbfffffULL, 0xffffffffff7fffffULL, 0xfffffffffeffffffULL, 0xfffffffffdffffffULL, 0xfffffffffbffffffULL, 0xfffffffff7ffffffULL, 0xffffffffefffffffULL, 0xffffffffdfffffffULL, 0xffffffffbfffffffULL, 0xffffffff7fffffffULL, 0xfffffffeffffffffULL, 0xfffffffdffffffffULL, 0xfffffffbffffffffULL, 0xfffffff7ffffffffULL, 0xffffffefffffffffULL, 0xffffffdfffffffffULL, 0xffffffbfffffffffULL, 0xffffff7fffffffffULL, 0xfffffeffffffffffULL, 0xfffffdffffffffffULL, 0xfffffbffffffffffULL, 0xfffff7ffffffffffULL, 0xffffefffffffffffULL, 0xffffdfffffffffffULL, 0xffffbfffffffffffULL,
                                     0xffff7fffffffffffULL, 0xfffeffffffffffffULL, 0xfffdffffffffffffULL, 0xfffbffffffffffffULL, 0xfff7ffffffffffffULL, 0xffefffffffffffffULL, 0xffdfffffffffffffULL, 0xffbfffffffffffffULL, 0xff7fffffffffffffULL, 0xfeffffffffffffffULL, 0xfdffffffffffffffULL, 0xfbffffffffffffffULL, 0xf7ffffffffffffffULL, 0xefffffffffffffffULL, 0xdfffffffffffffffULL, 0xbfffffffffffffffULL, 0x7fffffffffffffffULL};
+
 
 
 #if defined(CLOP) || defined(DEBUG_MODE)

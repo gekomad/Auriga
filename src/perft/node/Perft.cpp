@@ -72,5 +72,5 @@ u64 Perft::calculate() {
     string timetot = Time::diffTimeToString(start1, stop1);
 
     cout << "Tot Perft moves for NodeUUID " << nodeUUID << " :" << TOT << " in " << timetot << endl;
-
+    return TOT;
 }
