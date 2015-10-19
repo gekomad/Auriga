@@ -83,18 +83,19 @@ Server::Server(int portno, Iparser *parser1) {
 }
 
 void Server::sendMsg(const string &msg) {
-    debug("sendmsgaaaa");
-    Message m(msg);
-
-    string s = m.getSerializedString();
-
-    assert(client_sock != -98691);
-    assert(client_sock);
-
-    debug("write to server ", s, " , socket: ", client_sock);
-    write(client_sock, s.c_str(), strlen(s.c_str()) + 1);
-
-    assert(client_sock != -98691);
-    assert(client_sock);
-    debug("ok, socket: ", client_sock);
+    assert(0);
+//    debug("sendmsgaaaa");
+//    Message m(msg);
+//
+//    string s = m.getSerializedString();
+//
+//    assert(client_sock != -98691);
+//    assert(client_sock);
+//
+//    debug("write to server ", s, " , socket: ", client_sock);
+//    write(client_sock, s.c_str(), strlen(s.c_str()) + 1);
+//
+//    assert(client_sock != -98691);
+//    assert(client_sock);
+//    debug("ok, socket: ", client_sock);
 }

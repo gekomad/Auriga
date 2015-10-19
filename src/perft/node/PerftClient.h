@@ -26,9 +26,9 @@ public :
 
     PerftClient() { N_CLIENT++; }
 
-    void sendMsg(const string &host, int portno, const Message &msg) {
-        Client::sendMsg(host, portno, msg.getSerializedString());
-    }
+//    void sendMsg(const string &host, int portno, const Message &msg) {
+//        Client::sendMsg(host, portno, msg.getSerializedString());
+//    }
 
 };
 

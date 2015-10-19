@@ -16,25 +16,31 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #include "Perft.h"
 
 using namespace _perft;
 
-Perft::Perft(const string &masterFile, const string &engineConfFile) {
-    assert(FileUtil::fileExists(masterFile));
-    assert(FileUtil::fileExists(engineConfFile));
-    perftTreeDao = new PerftTree(masterFile);
+Perft::Perft(const string &nodeUUID1, const string &masterFile1, const string &engineConfFile) {
+    if (!FileUtil::fileExists(masterFile1)) {
+        error("File not found ", masterFile1);
+        exit(1);
+    }
+    if (!FileUtil::fileExists(engineConfFile)) {
+        error("File not found ", engineConfFile);
+        exit(1);
+    }
+    if (nodeUUID1.size() != 36) {
+        error("nodeUUID malformed ", nodeUUID1);
+        exit(1);
+    }
     engineConf = engineConfFile;
+    masterFile = masterFile1;
+    nodeUUID = nodeUUID1;
 }
 
-u64 Perft::calculate(const string &nodeUUID) {
+u64 Perft::calculate() {
     auto start1 = std::chrono::high_resolution_clock::now();
-    const NodeEntity *nodeEntity = perftTreeDao->getNodeEntity(nodeUUID);
-    if (!nodeEntity) {
-        error("nodeUUID not found ", nodeUUID);
-        return -1;
-    }
+
     ThreadPool<Engine> threadPool;
     IniFile iniFile(engineConf);
     int threads = String::stoi(iniFile.getValue("uci_option_perft_thread_value"));
@@ -43,6 +49,13 @@ u64 Perft::calculate(const string &nodeUUID) {
         threadPool.setNthread(ins == 0 ? 1 : ins);
     } else {
         threadPool.setNthread(1);
+    }
+
+    PerftTree perftTreeDao(masterFile);
+    const NodeEntity *nodeEntity = perftTreeDao.getNodeEntity(nodeUUID);
+    if (!nodeEntity) {
+        error("nodeUUID ", nodeUUID, " not found");
+        exit(1);
     }
 
     for (string fen:nodeEntity->getFen()) {

@@ -45,11 +45,11 @@ public:
                 exit(0);
             }
             string nodeUUID = params[4];
-            _perft::Perft perft(master, engine);
-            perft.calculate(nodeUUID);
+            _perft::Perft perft(nodeUUID,master, engine);
+            perft.calculate();
 
         } else {
-            cout << "err" << endl;
+            cout << "err" << endl;//TODO
         }
     }
 };

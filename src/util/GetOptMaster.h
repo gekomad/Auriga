@@ -39,7 +39,7 @@ public:
             string mastetnodesFile = params[5];
             PerftSplitter::generateMasterINI( fen,Ntask, depth,mastetnodesFile);
         } else {
-            cout << "err" << endl;
+            cout << "err" << endl;//TODO
         }
     }
 };
