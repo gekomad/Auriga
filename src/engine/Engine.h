@@ -65,7 +65,7 @@ private:
     string receiveStdErr;
     string enginePath;
 
-    PROTOCOL_TYPE protocol;
+    PROTOCOL_TYPE protocol = PROTOCOL_TYPE::UCI;
     int fd_p2c[2], fd_c2p[2], stdErr[2];
     bool initialized = false;
     mutex putMutex;
@@ -80,8 +80,11 @@ private:
             observer->observerEndEngine(i);
         }
     }
-    void readStdin() ;
-    void readStderr() ;
+
+    void readStdin();
+
+    void readStderr();
+
     ObserverEngine *observer = nullptr;
     condition_variable cv;
 
