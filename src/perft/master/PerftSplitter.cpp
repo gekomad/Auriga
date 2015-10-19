@@ -20,7 +20,7 @@
 #include "PerftSplitter.h"
 
 
-void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, const int depth, const string &mastetnodesFile) {
+void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, const int depth, const string &mastetnodesDir) {
     assert(depth > 1);
     string res = "#auriga ini file - AUTO-GENERATED FILE - DO NOT EDIT\n\n";
 
@@ -38,8 +38,8 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
     while (true) {
         successorsFen = wrapperCinnamon.getSuccessorsFen(fen, ++succDepth);
         if (successorsFen.size() >= Ntask)break;
-        if (succDepth > depth-2) {
-            effectiveNtask = std::min((unsigned)successorsFen.size(),Ntask);
+        if (succDepth > depth - 2) {
+            effectiveNtask = std::min((unsigned) successorsFen.size(), Ntask);
             break;
         }
     }
@@ -62,10 +62,13 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
 
     NodeEntityDao nodeEntityDao(nodesEntity);
     res.append(nodeEntityDao.toINIformat());
-    info("\nwrite file", mastetnodesFile, "\n-------------\n", res, "\n-------------------");
+    string filename = mastetnodesDir;
+    filename.append(perftEntity.getUuid());
+    trace("\nwrite file", filename, "\n-------------\n", res, "\n-------------------");
     ofstream myfile;
-    myfile.open(mastetnodesFile);
+    myfile.open(filename);
     myfile << res;
     myfile.close();
+
 
 }
