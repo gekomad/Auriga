@@ -28,14 +28,15 @@ void Engine::readStdin() {
             break;
         }
         readbuffer[bytes_read] = 0;
-
         receiveOutput.append(readbuffer);
-
         debug("id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
-
         std::smatch match;
+        if (regex_heartbeat.size() && regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxPartial)) {
+            notifyPartialResult(stoull(match[1].str()));
+        }
+
         result = -1;
-        if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgx)) {
+        if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
             result = stoull(match[1].str());
         }
         if (result != -1) {
@@ -60,8 +61,13 @@ void Engine::readStderr() {
 
         debug("id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
         std::smatch match;
+
+        if (regex_heartbeat.size() && regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxPartial)) {
+            notifyPartialResult(stoull(match[1].str()));
+        }
+
         result = -1;
-        if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgx)) {
+        if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxTot)) {
             result = stoull(match[1].str());
         }
         if (result != -1) {
@@ -87,7 +93,7 @@ void Engine::endRun() {
     receiveOutput.clear();
     receiveStdErr.clear();
     info("endRun id ", getId(), " result: ", result);
-    notifyEndEngine(result);
+    notifyTotResult(result);
     put("quit");
 }
 
@@ -118,6 +124,10 @@ void Engine::init(const string &confFileName) {
         if (!parameters)break;
         if (parameters->first == "path") {
             enginePath = parameters->second;
+            if (!FileUtil::fileExists(enginePath)) {
+                error("engine not found", enginePath);
+                exit(1);
+            }
         } else if (parameters->first == "protocol") {
             string prtcl = String(parameters->second).toLower();
             if (prtcl == "uci")protocol = PROTOCOL_TYPE::UCI; else if (prtcl == "xboard")protocol = PROTOCOL_TYPE::XBOARD; else {
@@ -132,6 +142,9 @@ void Engine::init(const string &confFileName) {
             uci_option_perft_hash_name = parameters->second;
         } else if (parameters->first == "uci_option_perft_hash_value") {
             uci_option_perft_hash_value = String::stoi(parameters->second);
+        } else if (parameters->first == "regex_heartbeat") {
+            regex_heartbeat = parameters->second;
+            rgxPartial.assign(regex_heartbeat);
         } else if (parameters->first == "regex_perft_moves") {
             regex_perft_moves = parameters->second;
             if (!regex_perft_moves.size()) {
@@ -142,7 +155,7 @@ void Engine::init(const string &confFileName) {
                 error("regex_perft_moves in ", confFileName, " is malformed");
                 exit(1);
             }
-            rgx.assign(regex_perft_moves);
+            rgxTot.assign(regex_perft_moves);
         }
     }
     info("load engine ", enginePath);

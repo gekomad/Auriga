@@ -36,7 +36,6 @@ public :
         UCI = 0, XBOARD = 1
     } _PROTOCOL_TYPE;
 
-
     Engine() { };
 
     ~Engine();
@@ -60,6 +59,7 @@ private:
     int uci_option_perft_hash_value = 0;
     string uci_option_perft_thread_name;
     string regex_perft_moves;
+    string regex_heartbeat;
     string uci_option_perft_hash_name;
     string receiveOutput;
     string receiveStdErr;
@@ -72,12 +72,19 @@ private:
     const string SEND_INIT_STRING[2] = {"uci", "ping 1"};
     const string RECEIVE_INIT_STRING[2] = {"uciok", "pong 1"};
     const string POSITION_FEN[2] = {"position fen ", "setboard "};
-    std::regex rgx;
+    std::regex rgxTot;
+    std::regex rgxPartial;
     u64 result;
 
-    void notifyEndEngine(u64 i) {
+    void notifyTotResult(const u64 i) {
         if (observer != nullptr) {
-            observer->observerEndEngine(i);
+            observer->observerTotResult(i);
+        }
+    }
+
+    void notifyPartialResult(const u64 i) {
+        if (observer != nullptr) {
+            observer->observerPartialResult(i);
         }
     }
 

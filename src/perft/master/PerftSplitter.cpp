@@ -39,7 +39,7 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
         successorsFen = wrapperCinnamon.getSuccessorsFen(fen, ++succDepth);
         if (successorsFen.size() >= Ntask)break;
         if (succDepth > depth-2) {
-            effectiveNtask = std::min((int)successorsFen.size(),Ntask);
+            effectiveNtask = std::min((unsigned)successorsFen.size(),Ntask);
             break;
         }
     }

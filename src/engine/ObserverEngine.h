@@ -21,8 +21,11 @@
 #include "../namespaces/def.h"
 
 using namespace std;
+using namespace _def;
 
 class ObserverEngine {
 public:
-    virtual void observerEndEngine(_def::u64 result) = 0;
+    virtual void observerTotResult(const u64 result) = 0;
+    virtual void observerPartialResult(const u64 result) = 0;
+
 };

@@ -37,12 +37,16 @@ namespace _perft {
         u64 calculate(const string &nodeUUID);
 
     private:
+
         PerftTree *perftTreeDao = nullptr;
         u64 TOT = 0;
 
-        void observerEndEngine(u64 result) {
+        void observerTotResult(const u64 result) {
             TOT += result;
-            info("partial TOT: ", TOT);
+            info("TOT: ", TOT);
+        }
+        void observerPartialResult(const u64 result) {
+            info("partial result: ", result);
         }
 
         string engineConf;
