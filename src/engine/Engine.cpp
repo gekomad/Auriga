@@ -21,12 +21,8 @@
 
 void Engine::readStdin() {
     int bytes_read;
-
     char readbuffer[1024];
-
     while (initialized) {
-
-//         usleep(1000);
         bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
         if (!initialized || bytes_read <= 0) {
             break;
@@ -54,7 +50,6 @@ void Engine::readStderr() {
     int bytes_read_err;
     char readStderrBuffer[1024];
     while (initialized) {
-//        usleep(1000);
         bytes_read_err = read(stdErr[0], readStderrBuffer, sizeof(readStderrBuffer) - 1);
 
         if (!initialized || bytes_read_err <= 0) {
@@ -85,9 +80,7 @@ void Engine::run() {
     cv.wait(lck);
     err.detach();
     in.detach();
-
 }
-
 
 void Engine::endRun() {
     initialized = false;
@@ -112,7 +105,6 @@ void Engine::put(string command) {
     command.append("\n");
     int nbytes = command.length();
     assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
-
 }
 
 void Engine::setPosition(const string &fen) {
@@ -120,9 +112,7 @@ void Engine::setPosition(const string &fen) {
 }
 
 void Engine::init(const string &confFileName) {
-
     IniFile iniFile(confFileName);
-
     while (true) {
         pair<string, string> *parameters = iniFile.get();
         if (!parameters)break;
@@ -134,13 +124,12 @@ void Engine::init(const string &confFileName) {
                 error("error protocol ", prtcl, " unknow");
                 exit(1);
             }
-
         } else if (parameters->first == "uci_option_perft_thread_name") {
-            uci_option_perft_thread_name == parameters->second;
+            uci_option_perft_thread_name = parameters->second;
         } else if (parameters->first == "uci_option_perft_thread_value") {
             uci_option_perft_thread_value = String::stoi(parameters->second);
         } else if (parameters->first == "uci_option_perft_hash_name") {
-            uci_option_perft_hash_name == parameters->second;
+            uci_option_perft_hash_name = parameters->second;
         } else if (parameters->first == "uci_option_perft_hash_value") {
             uci_option_perft_hash_value = String::stoi(parameters->second);
         } else if (parameters->first == "regex_perft_moves") {
@@ -186,6 +175,13 @@ void Engine::init(const string &confFileName) {
         readbuffer[bytes_read] = 0;
         receiveOutput.append(readbuffer);
         if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
+
+            if (uci_option_perft_thread_value) {
+                put("setoption name " + uci_option_perft_thread_name + string(" value ") + String(uci_option_perft_thread_value));
+            }
+            if (uci_option_perft_hash_value) {
+                put("setoption name " + uci_option_perft_hash_name + " value " + String(uci_option_perft_hash_value));
+            }
             initialized = true;
             break;
         }

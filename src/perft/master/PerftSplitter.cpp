@@ -20,7 +20,7 @@
 #include "PerftSplitter.h"
 
 
-void PerftSplitter::generateMasterINI(const string &fen, const int Ntask, const int depth, const string &mastetnodesFile) {
+void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, const int depth, const string &mastetnodesFile) {
     assert(depth > 1);
     string res = "#auriga ini file - AUTO-GENERATED FILE - DO NOT EDIT\n\n";
 
@@ -56,7 +56,7 @@ void PerftSplitter::generateMasterINI(const string &fen, const int Ntask, const 
         nodesEntity.push_back(node);
     }
     int c = 0;
-    for (int i = 0; i < successorsFen.size(); i++) {
+    for (unsigned i = 0; i < successorsFen.size(); i++) {
         nodesEntity.at((c++) % effectiveNtask).addFen(successorsFen[i]);
     }
 

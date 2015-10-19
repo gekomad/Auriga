@@ -37,10 +37,13 @@ u64 Perft::calculate(const string &nodeUUID) {
     }
     ThreadPool<Engine> threadPool;
     IniFile iniFile(engineConf);
-    int ins = String::stoi(iniFile.getValue("n_instances"));
-    if (ins == 0)ins = 1;
-    threadPool.setNthread(ins);
-
+    int threads = String::stoi(iniFile.getValue("uci_option_perft_thread_value"));
+    if (!threads) {
+        int ins = String::stoi(iniFile.getValue("n_instances"));
+        threadPool.setNthread(ins == 0 ? 1 : ins);
+    } else {
+        threadPool.setNthread(1);
+    }
 
     for (string fen:nodeEntity->getFen()) {
         Engine &e = threadPool.getNextThread();
