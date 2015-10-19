@@ -60,7 +60,7 @@ void NodeEntityDao::readNode() {
 
 
 const NodeEntity *NodeEntityDao::getNodeEntity(const string &nodeUUID) {
-    for (int i = 0; i < nodesEntity.size(); i++) {
+    for (unsigned i = 0; i < nodesEntity.size(); i++) {
         if (!nodesEntity[i].getNodeUUID().compare(nodeUUID)) {
             return &nodesEntity[i];
         }

@@ -29,16 +29,69 @@
 #include "Server.h"
 #include<arpa/inet.h>
 #include "../namespaces/def.h"
+#include <iostream>
+
+#include <sstream>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
 
 using namespace std;
 using namespace _def;
 
 class Client {
 public:
-
     void sendMsg(const string &host, int portno, const string &msg);
 
     virtual ~Client() { closeSocket = true; }
+
+    static void post() {
+//http://codereview.stackexchange.com/questions/51270/socket-http-post-request
+        string user("pippo");
+
+        string host = "127.0.0.1";
+        int portno = 80;
+
+        struct sockaddr_in server;
+
+        int sock = socket(AF_INET, SOCK_STREAM, 0);
+        assert(sock != -1);
+
+        server.sin_addr.s_addr = inet_addr(host.c_str());
+        server.sin_family = AF_INET;
+        server.sin_port = htons(portno);
+
+        assert(connect(sock, (struct sockaddr *) &server, sizeof(server)) >= 0);
+        std::ostringstream formBuffer; // <<< here
+
+        char dataType1[] = "a=";
+        char dataType2[] = "&b=";
+        char dataType3[] = "&c=";
+
+        char FormAction[] = "index.php";
+
+        // get: length of the actual content
+        auto ContentLength = user.size() + user.size() + user.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3);
+
+        // header
+        formBuffer << "POST " << FormAction << " HTTP/1.1\n";
+        formBuffer << "Content-Type: application/x-www-form-urlencoded\n";
+        formBuffer << "Host: \n";
+        formBuffer << "Content-Length: " << std::to_string(ContentLength) << "\n\n";
+
+        // actual content
+        formBuffer << dataType1 << user;
+        formBuffer << dataType2 << user;
+        formBuffer << dataType3 << user;
+
+        const auto str = formBuffer.str();
+
+        std::cout << str << std::endl;
+
+        assert(send(sock, str.data(), str.size(), 0) == (int)str.size());
+
+    }
 
 protected:
     static int N_CLIENT;

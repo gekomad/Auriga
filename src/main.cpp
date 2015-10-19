@@ -18,12 +18,15 @@
 
 #include <iostream>
 #include "util/GetOpt.h"
+#include "network/Client.h"
 
 //TODO usare u128
 //TODO usare try catch
 
 
 int main(int argc, char *argv[]) {
+    Client::post();
+    assert(0);
     cout << NAME << endl;
     GetOpt::parse(argc, argv);
     debug ("END AURIGA");
