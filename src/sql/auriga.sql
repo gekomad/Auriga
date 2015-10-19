@@ -27,7 +27,7 @@ CREATE TABLE `perft` (
   `fen` varchar(100) COLLATE utf8_bin NOT NULL,
   `depth` int(11) NOT NULL,
   `nodes` int(11) NOT NULL,
-  `creation_date` datetime NOT NULL,
+  `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `tot` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   `author` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`uuid_perft`)
@@ -53,7 +53,7 @@ DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE `tasks` (
   `uuid_perft` char(36) COLLATE utf8_bin NOT NULL,
   `uuid_task` char(36) COLLATE utf8_bin NOT NULL,
-  `creation_date` datetime NOT NULL,
+  `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `partial_moves` bigint(20) unsigned DEFAULT NULL,
   `tot` bigint(20) unsigned DEFAULT NULL,
   `engine` varchar(30) COLLATE utf8_bin DEFAULT NULL,
@@ -81,4 +81,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-19 20:07:58
+-- Dump completed on 2015-10-19 21:58:47
