@@ -26,10 +26,9 @@
 
 
 int main(int argc, char *argv[]) {
-    Client::post();
+//    Client::post();
 //    assert(0);
 //    cout << NAME << endl;
-//    GetOpt::parse(argc, argv);
-    debug ("END AURIGA");
+    GetOpt::parse(argc, argv);
     return 0;
 }
