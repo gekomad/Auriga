@@ -31,14 +31,14 @@ set(SOURCE_FILES
         src/perft/node/PerftClient.h
 
         src/perft/shared/PerftTree.cpp
-        src/perft/shared/NodeEntityDao.cpp
+        src/perft/shared/TaskEntityDao.cpp
         src/perft/shared/PerftEntityDao.cpp
 
         src/util/Bits.h
         src/util/FileUtil.h
         src/util/GetOpt.h
         src/util/GetOptMaster.h
-        src/util/GetOptNode.h
+        src/util/GetOptTask.h
         src/util/Random.h
         src/util/Singleton.h
 
