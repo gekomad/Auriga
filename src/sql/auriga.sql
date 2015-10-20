@@ -26,7 +26,7 @@ CREATE TABLE `perft` (
   `uuid_perft` char(36) COLLATE utf8_bin NOT NULL,
   `fen` varchar(100) COLLATE utf8_bin NOT NULL,
   `depth` int(11) NOT NULL,
-  `nodes` int(11) NOT NULL,
+  `tasks` int(11) NOT NULL,
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `tot` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`uuid_perft`)
