@@ -48,12 +48,12 @@ namespace _debug {
 
     template<typename T>
     void __log(T a) {
-        cout << a << " ";
+        cout << (a);
     }
 
     template<typename T, typename... Args>
     void __log(T t, Args... args) {
-        cout << t << " ";
+        cout << t;
         __log(args...);
     }
 
