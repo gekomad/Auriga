@@ -43,6 +43,9 @@ __int128_t Perft::calculate() {
 
     ThreadPool<Engine> threadPool;
     IniFile iniFile(engineConf);
+    engineName=iniFile.getValue("engine");
+    author=iniFile.getValue("author");
+
     int threads = String::stoi(iniFile.getValue("uci_option_perft_thread_value"));
     if (!threads) {
         int ins = String::stoi(iniFile.getValue("n_instances"));
@@ -52,6 +55,7 @@ __int128_t Perft::calculate() {
     }
 
     PerftTree perftTreeDao(masterFile);
+    perftUUID=perftTreeDao.getPerftEntity()->getUuid();
     const NodeEntity *nodeEntity = perftTreeDao.getNodeEntity(nodeUUID);
     if (!nodeEntity) {
         error("nodeUUID ", nodeUUID, " not found");

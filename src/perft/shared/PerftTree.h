@@ -47,6 +47,11 @@ public:
         if (nodeEntityDao)delete nodeEntityDao;
     }
 
+
+    const PerftEntity *getPerftEntity() const {
+        return perftEntityDao->getPerftEntity();
+    }
+
 private:
 
     PerftEntityDao *perftEntityDao = nullptr;

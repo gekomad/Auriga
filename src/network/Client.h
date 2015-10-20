@@ -36,71 +36,17 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
+#include "../util/Singleton.h"
 
 using namespace std;
 using namespace _def;
 
-class Client {
+class Client : public Singleton<Client> {
+    friend class Singleton<Client>;
+
 public:
-    void sendMsg(const string &host, int portno, const string &msg);
 
-    virtual ~Client() { closeSocket = true; }
+    void post(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author);
 
-    static void post(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string & author) {
 
-        string host = "127.0.0.1";
-        int portno = 80;
-
-        struct sockaddr_in server;
-
-        int sock = socket(AF_INET, SOCK_STREAM, 0);
-        assert(sock != -1);
-
-        server.sin_addr.s_addr = inet_addr(host.c_str());
-        server.sin_family = AF_INET;
-        server.sin_port = htons(portno);
-
-        assert(connect(sock, (struct sockaddr *) &server, sizeof(server)) >= 0);
-        std::ostringstream formBuffer; // <<< here
-
-        char dataType1[] = "uuid_perft=";
-        char dataType2[] = "&uuid_task=";
-        char dataType3[] = "&partial_moves=";
-
-        char dataType4[] = "&tot=";
-        char dataType5[] = "&engine=";
-        char dataType6[] = "&author=";
-
-        char FormAction[] = "http://localhost/insert_task.php";
-
-        // get: length of the actual content
-        auto ContentLength = uuid_perft.size() + uuid_task.size() + partial_moves.size() +tot.size() + engine.size() + author.size()
-                             + strlen(dataType1) + strlen(dataType2) + strlen(dataType3)  + strlen(dataType4) + strlen(dataType5) + strlen(dataType6);
-
-        // header
-        formBuffer << "POST " << FormAction << " HTTP/1.1\n";
-        formBuffer << "Content-Type: application/x-www-form-urlencoded\n";
-        formBuffer << "Host: \n";
-        formBuffer << "Content-Length: " << std::to_string(ContentLength) << "\n\n";
-
-        // actual content
-        formBuffer << dataType1 << uuid_perft;
-        formBuffer << dataType2 << uuid_task;
-        formBuffer << dataType3 << partial_moves;
-        formBuffer << dataType4 << tot;
-        formBuffer << dataType5 << engine;
-        formBuffer << dataType6 << author;
-        const auto str = formBuffer.str();
-        std::cout << str << std::endl;
-        assert(send(sock, str.data(), str.size(), 0) == (int) str.size());
-    }
-
-protected:
-    static int N_CLIENT;
-private:
-    mutex clientMutex;
-    bool closeSocket = false;
-    static u64 TOT;
-
-    static int endClient;
 };

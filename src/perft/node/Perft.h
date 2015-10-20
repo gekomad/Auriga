@@ -23,6 +23,7 @@
 #include "../shared/PerftTree.h"
 #include "../../blockingThreadPool/ThreadPool.h"
 #include "../../engine/ObserverEngine.h"
+#include "../../network/Client.h"
 
 namespace _perft {
     class Perft : public ObserverEngine {
@@ -40,12 +41,18 @@ namespace _perft {
         void observerTotResult(const u64 result) {
             TOT += result;
             info("TOT: ", String::toString(TOT));
+
+            Client::getInstance().post(perftUUID, nodeUUID, "0", String::toString(TOT), engineName, author);
         }
 
         void observerPartialResult(const u64 result) {
             info("partial result: ", result);
+            Client::getInstance().post(perftUUID, nodeUUID, to_string(result), "0", engineName, author);
         }
 
+        string perftUUID;
+        string engineName;
+        string author;
     };
 
 }
