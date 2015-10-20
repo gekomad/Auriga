@@ -16,9 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #include "PerftSplitter.h"
-
 
 void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, const int depth, const string &mastetnodesDir) {
     assert(depth > 1);
@@ -27,7 +25,7 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
     PerftEntity perftEntity(fen, depth);
     res.append(perftEntity.toINIformat());
 
-    vector<NodeEntity> nodesEntity;
+    vector<TaskEntity> taskEntity;
 
     WrapperCinnamon wrapperCinnamon;
 
@@ -48,20 +46,20 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
     info("tot Ntask: ", Ntask);
     info("tot effectiveNtask: ", effectiveNtask);
     info("tot Fen: ", successorsFen.size());
-    nodesEntity.reserve(effectiveNtask);
+    taskEntity.reserve(effectiveNtask);
     for (int i = 0; i < effectiveNtask; i++) {
 
-        NodeEntity node;
+        TaskEntity node;
         node.setDepth(depth - succDepth);
-        nodesEntity.push_back(node);
+        taskEntity.push_back(node);
     }
     int c = 0;
     for (unsigned i = 0; i < successorsFen.size(); i++) {
-        nodesEntity.at((c++) % effectiveNtask).addFen(successorsFen[i]);
+        taskEntity.at((c++) % effectiveNtask).addFen(successorsFen[i]);
     }
 
-    NodeEntityDao nodeEntityDao(nodesEntity);
-    res.append(nodeEntityDao.toINIformat());
+    TaskEntityDao taskEntityDao(taskEntity);
+    res.append(taskEntityDao.toINIformat());
     string filename = mastetnodesDir;
     filename.append(perftEntity.getUuid());
     trace("\nwrite file", filename, "\n-------------\n", res, "\n-------------------");

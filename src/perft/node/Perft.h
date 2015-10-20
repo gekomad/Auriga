@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "../shared/NodeEntity.h"
+#include "../shared/TaskEntity.h"
 #include "../../engine/Engine.h"
 #include "../shared/PerftTree.h"
 #include "../../blockingThreadPool/ThreadPool.h"
@@ -28,12 +28,12 @@
 namespace _perft {
     class Perft : public ObserverEngine {
     public :
-        Perft(const string &nodeUUID, const string &masterFile, const string &engineConfFile);
+        Perft(const string &taskUUID, const string &masterFile, const string &engineConfFile);
 
         __int128_t calculate();
 
     private:
-        string nodeUUID;
+        string taskUUID;
         string masterFile;
         __int128_t TOT = 0;
         string engineConf;
@@ -42,12 +42,12 @@ namespace _perft {
             TOT += result;
             info("TOT: ", String::toString(TOT));
 
-            Client::getInstance().post(perftUUID, nodeUUID, "0", String::toString(TOT), engineName, author);
+            Client::getInstance().post(perftUUID, taskUUID, "0", String::toString(TOT), engineName, author);
         }
 
         void observerPartialResult(const u64 result) {
             info("partial result: ", result);
-            Client::getInstance().post(perftUUID, nodeUUID, to_string(result), "0", engineName, author);
+            Client::getInstance().post(perftUUID, taskUUID, to_string(result), "0", engineName, author);
         }
 
         string perftUUID;

@@ -16,15 +16,35 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "PerftTree.h"
+#pragma once
 
-PerftTree::PerftTree(const string &iniFile1) {
-    iniFileName = iniFile1;
-    perftEntityDao = new PerftEntityDao(iniFile1);;
-    taskEntityDao = new TaskEntityDao(iniFile1);
+#include "../../namespaces/def.h"
+#include "../../util/IniFile.h"
+#include "TaskEntity.h"
 
-    trace(toINIformat());
-}
+using namespace _debug;
+using namespace _def;
 
+class TaskEntityDao {
+public:
+    TaskEntityDao(const string &iniFile1);
 
+    TaskEntityDao(const vector<TaskEntity> &taskEntity);
+
+    const TaskEntity *getTaskEntity(const string &taskUUID);
+
+    string toINIformat() const {
+        string a;
+        for (TaskEntity n:taskEntity) {
+            a.append("\n").append(n.toINIformat());
+        }
+        return a;
+    }
+
+private:
+    vector<TaskEntity> taskEntity;
+    void readTask();
+
+    string iniFileName;
+};
 

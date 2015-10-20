@@ -20,7 +20,7 @@
 
 #include "../../namespaces/def.h"
 #include "PerftEntityDao.h"
-#include "NodeEntityDao.h"
+#include "TaskEntityDao.h"
 #include "../../util/IniFile.h"
 
 using namespace _debug;
@@ -30,19 +30,19 @@ class PerftTree {
 public:
     PerftTree(const string &iniFile1);
 
-    const NodeEntity *getNodeEntity(const string &nodeUUID) {
-        return nodeEntityDao->getNodeEntity(nodeUUID);
+    const TaskEntity *getTaskEntity(const string &taskUUID) {
+        return taskEntityDao->getTaskEntity(taskUUID);
     }
 
     string toINIformat() const {
         string a = perftEntityDao->toINIformat();
-        a.append(nodeEntityDao->toINIformat());
+        a.append(taskEntityDao->toINIformat());
         return a;
     }
 
     ~PerftTree() {
         if (perftEntityDao)delete perftEntityDao;
-        if (nodeEntityDao)delete nodeEntityDao;
+        if (taskEntityDao)delete taskEntityDao;
     }
 
 
@@ -53,7 +53,7 @@ public:
 private:
 
     PerftEntityDao *perftEntityDao = nullptr;
-    NodeEntityDao *nodeEntityDao = nullptr;
+    TaskEntityDao *taskEntityDao = nullptr;
 
     string iniFileName;
 };

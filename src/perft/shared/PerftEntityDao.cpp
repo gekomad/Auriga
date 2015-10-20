@@ -27,29 +27,29 @@ PerftEntityDao::PerftEntityDao(const string &iniFile1) {
 
 void PerftEntityDao::readPerft() {
     IniFile iniFile(iniFileName);
-    PerftEntity *node = nullptr;
+    PerftEntity *task = nullptr;
     while (true) {
         pair<string, string> *parameters = iniFile.get();
         if (!parameters)break;
-        if (parameters->first == "[perft]" || parameters->first == "[node]") {
-            if (node) {
-                perftEntity = node;
+        if (parameters->first == "[perft]" || parameters->first == "[task]") {
+            if (task) {
+                perftEntity = task;
                 break;
             }
-            node = new PerftEntity();
+            task = new PerftEntity();
         }
 
-        if (node) {
+        if (task) {
            if (parameters->first == "uuid") {
-                node->setUuid(parameters->second);
+               task->setUuid(parameters->second);
             } else if (parameters->first == "depth") {
-                node->setDepth(stoi(parameters->second));
+               task->setDepth(stoi(parameters->second));
             } else if (parameters->first == "fen") {
-                node->setFen(parameters->second);
+               task->setFen(parameters->second);
             }
         }
     }
-    if (node)perftEntity = node;
+    if (task)perftEntity = task;
 }
 
 

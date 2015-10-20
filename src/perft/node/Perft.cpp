@@ -20,7 +20,7 @@
 
 using namespace _perft;
 
-Perft::Perft(const string &nodeUUID1, const string &masterFile1, const string &engineConfFile) {
+Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &engineConfFile) {
     if (!FileUtil::fileExists(masterFile1)) {
         error("File not found ", masterFile1);
         exit(1);
@@ -29,13 +29,13 @@ Perft::Perft(const string &nodeUUID1, const string &masterFile1, const string &e
         error("File not found ", engineConfFile);
         exit(1);
     }
-    if (nodeUUID1.size() != 36) {
-        error("nodeUUID malformed ", nodeUUID1);
+    if (taskUUID1.size() != 36) {
+        error("taskUUID malformed ", taskUUID1);
         exit(1);
     }
     engineConf = engineConfFile;
     masterFile = masterFile1;
-    nodeUUID = nodeUUID1;
+    taskUUID = taskUUID1;
 }
 
 __int128_t Perft::calculate() {
@@ -56,25 +56,25 @@ __int128_t Perft::calculate() {
 
     PerftTree perftTreeDao(masterFile);
     perftUUID=perftTreeDao.getPerftEntity()->getUuid();
-    const NodeEntity *nodeEntity = perftTreeDao.getNodeEntity(nodeUUID);
-    if (!nodeEntity) {
-        error("nodeUUID ", nodeUUID, " not found");
+    const TaskEntity *taskEntity = perftTreeDao.getTaskEntity(taskUUID);
+    if (!taskEntity) {
+        error("taskUUID ", taskUUID, " not found");
         exit(1);
     }
 
-    for (string fen:nodeEntity->getFen()) {
+    for (string fen:taskEntity->getFen()) {
         Engine &e = threadPool.getNextThread();
         e.init(engineConf);
         e.registerObserverEngine(this);
         e.start();
         e.setPosition(fen);
-        e.put("perft " + String(nodeEntity->getDepth()));
+        e.put("perft " + String(taskEntity->getDepth()));
     }
     threadPool.joinAll();
     auto stop1 = std::chrono::high_resolution_clock::now();
 
     string timetot = Time::diffTimeToString(start1, stop1);
 
-    cout << "Tot Perft moves for NodeUUID " << nodeUUID << " :" << String::toString(TOT) << " in " << timetot << endl;
+    cout << "Tot Perft moves for TaskUUID " << taskUUID << " :" << String::toString(TOT) << " in " << timetot << endl;
     return TOT;
 }
