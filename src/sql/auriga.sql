@@ -30,7 +30,7 @@ CREATE TABLE `perft` (
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `tot` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`uuid_perft`),
-  unique KEY (fen,depth,tasks)
+  UNIQUE KEY `fen` (`fen`,`depth`,`tasks`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -53,6 +53,7 @@ DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE `tasks` (
   `uuid_perft` char(36) COLLATE utf8_bin NOT NULL,
   `uuid_task` char(36) COLLATE utf8_bin NOT NULL,
+  `fen` char(100) COLLATE utf8_bin NOT NULL,
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `partial_moves` bigint(20) unsigned DEFAULT NULL,
   `tot` bigint(20) unsigned DEFAULT NULL,
@@ -81,4 +82,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-19 22:19:59
+-- Dump completed on 2015-10-20 22:24:58
