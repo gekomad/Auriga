@@ -19,7 +19,6 @@
 #pragma once
 
 #include "../../namespaces/def.h"
-#include "../../network/Server.h"
 #include "../../util/IniFile.h"
 #include "NodeEntity.h"
 
