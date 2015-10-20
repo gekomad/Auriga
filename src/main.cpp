@@ -26,8 +26,15 @@
 
 
 int main(int argc, char *argv[]) {
-//    Client::post("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -","2","100");
-//    return 0;
+    const string uuid_perft = "DCA3EE5C-72B0-C793-FC11-57987B00A327";
+    const string uuid_task = "aaaaaaaaaaaaaaaaaa";
+    const string partial_moves = "2";
+    const string tot = "0";
+    const string engine = "cinnamon";
+    const string author = "pippo";
+
+    Client::post(uuid_perft,uuid_task,partial_moves,tot,engine,author);
+    return 0;
 
     cout << NAME << endl;
     GetOpt::parse(argc, argv);

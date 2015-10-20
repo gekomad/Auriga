@@ -46,9 +46,7 @@ public:
 
     virtual ~Client() { closeSocket = true; }
 
-    static void post(const string &fen, const string &depth, const string &tasks) {
-//http://codereview.stackexchange.com/questions/51270/socket-http-post-request
-        // string user("pippo");
+    static void post(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string & author) {
 
         string host = "127.0.0.1";
         int portno = 80;
@@ -65,14 +63,19 @@ public:
         assert(connect(sock, (struct sockaddr *) &server, sizeof(server)) >= 0);
         std::ostringstream formBuffer; // <<< here
 
-        char dataType1[] = "fen=";
-        char dataType2[] = "&depth=";
-        char dataType3[] = "&tasks=";
+        char dataType1[] = "uuid_perft=";
+        char dataType2[] = "&uuid_task=";
+        char dataType3[] = "&partial_moves=";
 
-        char FormAction[] = "http://localhost/generate_master_ini.php";
+        char dataType4[] = "&tot=";
+        char dataType5[] = "&engine=";
+        char dataType6[] = "&author=";
+
+        char FormAction[] = "http://localhost/insert_task.php";
 
         // get: length of the actual content
-        auto ContentLength = fen.size() + depth.size() + tasks.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3);
+        auto ContentLength = uuid_perft.size() + uuid_task.size() + partial_moves.size() +tot.size() + engine.size() + author.size()
+                             + strlen(dataType1) + strlen(dataType2) + strlen(dataType3)  + strlen(dataType4) + strlen(dataType5) + strlen(dataType6);
 
         // header
         formBuffer << "POST " << FormAction << " HTTP/1.1\n";
@@ -81,9 +84,12 @@ public:
         formBuffer << "Content-Length: " << std::to_string(ContentLength) << "\n\n";
 
         // actual content
-        formBuffer << dataType1 << fen;
-        formBuffer << dataType2 << depth;
-        formBuffer << dataType3 << tasks;
+        formBuffer << dataType1 << uuid_perft;
+        formBuffer << dataType2 << uuid_task;
+        formBuffer << dataType3 << partial_moves;
+        formBuffer << dataType4 << tot;
+        formBuffer << dataType5 << engine;
+        formBuffer << dataType6 << author;
         const auto str = formBuffer.str();
         std::cout << str << std::endl;
         assert(send(sock, str.data(), str.size(), 0) == (int) str.size());
