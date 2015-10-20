@@ -49,9 +49,9 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
     taskEntity.reserve(effectiveNtask);
     for (int i = 0; i < effectiveNtask; i++) {
 
-        TaskEntity node;
-        node.setDepth(depth - succDepth);
-        taskEntity.push_back(node);
+        TaskEntity task;
+        task.setDepth(depth - succDepth);
+        taskEntity.push_back(task);
     }
     int c = 0;
     for (unsigned i = 0; i < successorsFen.size(); i++) {

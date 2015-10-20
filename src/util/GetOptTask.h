@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "../perft/node/Perft.h"
+#include "../perft/task/Perft.h"
 #include "../namespaces/def.h"
 
 using namespace _def;

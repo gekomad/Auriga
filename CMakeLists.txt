@@ -27,8 +27,8 @@ set(SOURCE_FILES
         src/perft/master/PerftSplitter.cpp
         src/perft/master/PerftSplitter.h
 
-        src/perft/node/Perft.cpp
-        src/perft/node/PerftClient.h
+        src/perft/task/Perft.cpp
+
 
         src/perft/shared/PerftTree.cpp
         src/perft/shared/TaskEntityDao.cpp
