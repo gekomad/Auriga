@@ -29,7 +29,8 @@ CREATE TABLE `perft` (
   `tasks` int(11) NOT NULL,
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `tot` varchar(40) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`uuid_perft`)
+  PRIMARY KEY (`uuid_perft`),
+  unique KEY (fen,depth,tasks)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

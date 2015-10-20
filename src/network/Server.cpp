@@ -38,7 +38,7 @@ void Server::run() {
 
         while ((read_size = recv(client_sock, client_message, Server::MAX_MSG_SIZE, 0)) > 0) {
             debug("Server::read", client_message);
-            write(client_sock, Server::OK.c_str(), strlen(Server::OK.c_str()) + 1);
+            cout<<write(client_sock, Server::OK.c_str(), strlen(Server::OK.c_str()) + 1);
             assert(client_sock != -98691);
             assert(client_sock);
             parser->parser(client_message);

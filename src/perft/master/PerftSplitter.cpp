@@ -69,6 +69,9 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
     myfile.open(filename);
     myfile << res;
     myfile.close();
-
+    //for table perft
+    myfile.open(mastetnodesDir+"/perft_table.tmp");
+    myfile << perftEntity.getUuid()+"|"+fen+"|"+to_string(depth)+"|"+to_string(Ntask)+"\n";
+    myfile.close();
 
 }

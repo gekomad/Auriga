@@ -46,9 +46,9 @@ public:
 
     virtual ~Client() { closeSocket = true; }
 
-    static void post() {
+    static void post(const string &fen, const string &depth, const string &tasks) {
 //http://codereview.stackexchange.com/questions/51270/socket-http-post-request
-        string user("pippo");
+        // string user("pippo");
 
         string host = "127.0.0.1";
         int portno = 80;
@@ -65,14 +65,14 @@ public:
         assert(connect(sock, (struct sockaddr *) &server, sizeof(server)) >= 0);
         std::ostringstream formBuffer; // <<< here
 
-        char dataType1[] = "a=";
-        char dataType2[] = "&b=";
-        char dataType3[] = "&c=";
+        char dataType1[] = "fen=";
+        char dataType2[] = "&depth=";
+        char dataType3[] = "&tasks=";
 
-        char FormAction[] = "prova_post.php";
+        char FormAction[] = "http://localhost/generate_master_ini.php";
 
         // get: length of the actual content
-        auto ContentLength = user.size() + user.size() + user.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3);
+        auto ContentLength = fen.size() + depth.size() + tasks.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3);
 
         // header
         formBuffer << "POST " << FormAction << " HTTP/1.1\n";
@@ -81,9 +81,9 @@ public:
         formBuffer << "Content-Length: " << std::to_string(ContentLength) << "\n\n";
 
         // actual content
-        formBuffer << dataType1 << user;
-        formBuffer << dataType2 << user;
-        formBuffer << dataType3 << user;
+        formBuffer << dataType1 << fen;
+        formBuffer << dataType2 << depth;
+        formBuffer << dataType3 << tasks;
         const auto str = formBuffer.str();
         std::cout << str << std::endl;
         assert(send(sock, str.data(), str.size(), 0) == (int) str.size());

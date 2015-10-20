@@ -31,7 +31,7 @@ public:
         }
         assert(params[0] == "--master");
 
-        //--master -generate_master_ini 6 "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -" 6 /tmp/
+        //--master -generate_master_ini 100 "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -" 8 /tmp/
         if (params.size() == 6 && params[1] == "-generate_master_ini") {
             int Ntask = stoi(params[2]);
             string fen = params[3];
