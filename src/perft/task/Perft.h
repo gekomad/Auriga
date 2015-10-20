@@ -42,12 +42,12 @@ namespace _perft {
             TOT += result;
             info("TOT: ", String::toString(TOT));
 
-            Client::getInstance().post(perftUUID, taskUUID, "0", String::toString(TOT), engineName, author);
+            Client::getInstance().post(perftUUID, taskUUID, "0", String::toString(TOT), engineName, author,"fen567");
         }
 
         void observerPartialResult(const u64 result) {
             info("partial result: ", result);
-            Client::getInstance().post(perftUUID, taskUUID, to_string(result), "0", engineName, author);
+            Client::getInstance().post(perftUUID, taskUUID, to_string(result), "0", engineName, author,"fen123");
         }
 
         string perftUUID;

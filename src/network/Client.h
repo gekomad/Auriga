@@ -45,7 +45,7 @@ class Client : public Singleton<Client> {
 
 public:
 
-    void post(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author);
+    void post(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen);
 
 
 };

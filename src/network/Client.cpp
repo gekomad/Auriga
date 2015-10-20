@@ -18,8 +18,8 @@
 
 #include "Client.h"
 
-void Client::post(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author) {
-    info("send data ", uuid_perft, " ", uuid_task, " ", partial_moves, " ", tot, " ", engine, " ", author);
+void Client::post(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen) {
+    info("send data ", uuid_perft, " ", uuid_task, " ", partial_moves, " ", tot, " ", engine, " ", author, " ", fen);
     string host = "127.0.0.1";
     int portno = 80;
 
@@ -42,11 +42,13 @@ void Client::post(const string &uuid_perft, const string &uuid_task, const strin
     char dataType4[] = "&tot=";
     char dataType5[] = "&engine=";
     char dataType6[] = "&author=";
+    char dataType7[] = "&fen=";
 
     char FormAction[] = "http://localhost/insert_task.php";
 
     // get: length of the actual content
-    auto ContentLength = uuid_perft.size() + uuid_task.size() + partial_moves.size() + tot.size() + engine.size() + author.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3) + strlen(dataType4) + strlen(dataType5) + strlen(dataType6);
+    auto ContentLength = uuid_perft.size() + uuid_task.size() + partial_moves.size() + tot.size() + engine.size() + author.size() + fen.size() +
+                         strlen(dataType1) + strlen(dataType2) + strlen(dataType3) + strlen(dataType4) + strlen(dataType5) + strlen(dataType6) + strlen(dataType7);
 
     // header
     formBuffer << "POST " << FormAction << " HTTP/1.1\n";
@@ -61,6 +63,7 @@ void Client::post(const string &uuid_perft, const string &uuid_task, const strin
     formBuffer << dataType4 << tot;
     formBuffer << dataType5 << engine;
     formBuffer << dataType6 << author;
+    formBuffer << dataType7 << fen;
     const auto str = formBuffer.str();
     std::cout << str << std::endl;
     assert(send(sock, str.data(), str.size(), 0) == (int) str.size());
