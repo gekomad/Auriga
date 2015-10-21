@@ -18,8 +18,13 @@
 
 #include <iostream>
 #include "util/GetOpt.h"
+#include <iostream>
+#include <cstring>
 #include "network/Client.h"
 #include "namespaces/def.h"
+#include<iostream>
+
+using namespace std;
 //TODO usare u128 al posto di u64
 //TODO usare try catch
 
@@ -35,6 +40,16 @@ int main(int argc, char *argv[]) {
 //
 //    Client::getInstance().post(uuid_perft,uuid_task,partial_moves,tot,engine,author);
 //    return 0;
+
+//    IniFile iniFile("/home/geko/aa");
+//    while (true) {
+//        pair<string, string> *parameters = iniFile.get();
+//        if (!parameters)break;
+//        cout << parameters->first << endl;
+//        cout << parameters->second << endl;
+//
+//    }
+
 
     cout << NAME << endl;
     GetOpt::parse(argc, argv);
