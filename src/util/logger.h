@@ -49,7 +49,31 @@ using namespace _def;
 #endif
 
 
-namespace _logger  {
+namespace _logger {
+    class Logger : public Singleton<Logger> {
+        friend class Singleton<Logger>;
+
+    public:
+        ofstream &getLogger() {
+            return *logStream;
+        };
+
+        void setLogfile(const string &f) {
+            logStream = new std::ofstream(f, std::ofstream::out);
+        }
+
+    private:
+        ~Logger() {
+            if (logStream) {
+                logStream->close();
+                delete (logStream);
+            }
+        }
+
+        std::ofstream *logStream = nullptr;
+    };
+
+    static mutex _CoutSyncMutex;
 
     static enum LOG_LEVEL {
         TRACE = 0, DEBUG = 1, INFO = 2, WARN = 3, ERROR = 4, FATAL = 5, OFF = 6, ALWAYS = 7
@@ -65,24 +89,26 @@ namespace _logger  {
 #define LINE_INFO __FILENAME__,":",__LINE__," "
 
     template<typename T>
-    void __log(T a) {
-        cout << (a);
+    void __log(T t) {
+        cout << (t);
+        Logger::getInstance().getLogger() << (t);
     }
 
     template<typename T, typename... Args>
     void __log(T t, Args... args) {
-        cout << t;
+        cout << (t);
+        Logger::getInstance().getLogger() << (t);
         __log(args...);
     }
 
-    static mutex _CoutSyncMutex;
-
     template<LOG_LEVEL type, typename T, typename... Args>
     void _log(T t, Args... args) {
-        lock_guard <mutex> lock1(_CoutSyncMutex);
+        lock_guard<mutex> lock1(_CoutSyncMutex);
         cout << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
+        Logger::getInstance().getLogger() << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
         __log(t, args...);
         cout << endl;
+        Logger::getInstance().getLogger() << endl;
     }
 
 #define log(...)                            {_log<LOG_LEVEL::ALWAYS>(LINE_INFO,__VA_ARGS__);}
