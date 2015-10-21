@@ -36,12 +36,12 @@ public:
         if (params.size() == 5 && params[1] == "-start") {
             string master = params[2];
             if (!FileUtil::fileExists(master)) {
-                error("file not found ", master);
+                fatal("file not found ", master);
                 exit(0);
             }
             string engine = params[3];
             if (!FileUtil::fileExists(engine)) {
-                error("file not found ", engine);
+                fatal("file not found ", engine);
                 exit(0);
             }
             string taskUUID = params[4];

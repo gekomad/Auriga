@@ -22,15 +22,15 @@ using namespace _perft;
 
 Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &engineConfFile) {
     if (!FileUtil::fileExists(masterFile1)) {
-        error("File not found ", masterFile1);
+        fatal("File not found ", masterFile1);
         exit(1);
     }
     if (!FileUtil::fileExists(engineConfFile)) {
-        error("File not found ", engineConfFile);
+        fatal("File not found ", engineConfFile);
         exit(1);
     }
     if (taskUUID1.size() != 36) {
-        error("taskUUID malformed ", taskUUID1);
+        fatal("taskUUID malformed ", taskUUID1);
         exit(1);
     }
     engineConf = engineConfFile;
@@ -70,7 +70,7 @@ __int128_t Perft::calculate() {
     perftUUID = perftTreeDao.getPerftEntity()->getUuid();
     const TaskEntity *taskEntity = perftTreeDao.getTaskEntity(taskUUID);
     if (!taskEntity) {
-        error("taskUUID ", taskUUID, " not found");
+        fatal("taskUUID ", taskUUID, " not found");
         exit(1);
     }
 

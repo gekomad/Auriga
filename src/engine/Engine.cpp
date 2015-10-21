@@ -142,13 +142,13 @@ void Engine::init(const string &confFileName) {
         if (parameters->first == "path") {
             enginePath = parameters->second;
             if (!FileUtil::fileExists(enginePath)) {
-                error("engine not found", enginePath);
+                fatal("engine not found", enginePath);
                 exit(1);
             }
         } else if (parameters->first == "protocol") {
             string prtcl = String(parameters->second).toLower();
             if (prtcl == "uci")protocol = PROTOCOL_TYPE::UCI; else if (prtcl == "xboard")protocol = PROTOCOL_TYPE::XBOARD; else {
-                error("error protocol ", prtcl, " unknow");
+                fatal("error protocol ", prtcl, " unknow");
                 exit(1);
             }
         } else if (parameters->first == "uci_option_perft_thread_name") {
@@ -165,11 +165,11 @@ void Engine::init(const string &confFileName) {
         } else if (parameters->first == "regex_perft_moves") {
             regex_perft_moves = parameters->second;
             if (!regex_perft_moves.size()) {
-                error("regex_perft_moves in ", confFileName, " is mandatory");
+                fatal("regex_perft_moves in ", confFileName, " is mandatory");
                 exit(1);
             }
             if (regex_perft_moves.find("(\\d+)") == string::npos) {
-                error("regex_perft_moves in ", confFileName, " is malformed");
+                fatal("regex_perft_moves in ", confFileName, " is malformed");
                 exit(1);
             }
             rgxTot.assign(regex_perft_moves);
@@ -187,7 +187,7 @@ void Engine::init(const string &confFileName) {
         assert(dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
         assert(dup2(stdErr[1], 2) >= 0);
         execl(enginePath.c_str(), enginePath.c_str(), (char *) 0);
-        error("Failed to execute ", enginePath);
+        fatal("Failed to execute ", enginePath);
         exit(1);
     }
     close(fd_p2c[0]);
