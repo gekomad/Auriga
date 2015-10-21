@@ -47,8 +47,7 @@ void Client::post(const string &uuid_perft, const string &uuid_task, const strin
     char FormAction[] = "http://localhost/insert_task.php";
 
     // get: length of the actual content
-    auto ContentLength = uuid_perft.size() + uuid_task.size() + partial_moves.size() + tot.size() + engine.size() + author.size() + fen.size() +
-                         strlen(dataType1) + strlen(dataType2) + strlen(dataType3) + strlen(dataType4) + strlen(dataType5) + strlen(dataType6) + strlen(dataType7);
+    auto ContentLength = uuid_perft.size() + uuid_task.size() + partial_moves.size() + tot.size() + engine.size() + author.size() + fen.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3) + strlen(dataType4) + strlen(dataType5) + strlen(dataType6) + strlen(dataType7);
 
     // header
     formBuffer << "POST " << FormAction << " HTTP/1.1\n";
@@ -65,7 +64,7 @@ void Client::post(const string &uuid_perft, const string &uuid_task, const strin
     formBuffer << dataType6 << author;
     formBuffer << dataType7 << fen;
     const auto str = formBuffer.str();
-    std::cout << str << std::endl;
+    debug(str);
     assert(send(sock, str.data(), str.size(), 0) == (int) str.size());
 }
 

@@ -46,7 +46,7 @@ void TaskEntityDao::readTask() {
         }
 
         if (task) {
-            if (parameters->first == "taskUUID") {
+            if (parameters->first == "task_uuid") {
                 task->setTaskUUID(parameters->second);
             }  else if (parameters->first == "depth") {
                 task->setDepth(stoi(parameters->second));

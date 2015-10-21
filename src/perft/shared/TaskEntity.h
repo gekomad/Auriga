@@ -49,7 +49,7 @@ public:
     string toINIformat() const {
         string a;
         a.append("[task]");
-        a.append("\ntaskUUID=" + taskUUID);
+        a.append("\ntask_uuid=" + taskUUID);
         a.append("\ndepth=" + String(depth));
         for (string f:fen) {
             a.append("\nfen=" + f);

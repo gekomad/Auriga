@@ -40,7 +40,7 @@ void PerftEntityDao::readPerft() {
         }
 
         if (task) {
-           if (parameters->first == "uuid") {
+           if (parameters->first == "perft_uuid") {
                task->setUuid(parameters->second);
             } else if (parameters->first == "depth") {
                task->setDepth(stoi(parameters->second));

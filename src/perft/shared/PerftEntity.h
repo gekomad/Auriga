@@ -46,7 +46,7 @@ public:
     string toINIformat() const {
         string a;
         a.append("[perft]");
-        a.append("\nuuid=" + uuid);
+        a.append("\nperft_uuid=" + uuid);
         a.append("\nfen=" + fen);
         a.append("\ndepth=" + String(depth));
 

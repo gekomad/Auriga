@@ -32,11 +32,13 @@ void Engine::readStdin() {
         debug("id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
         std::smatch match;
         if (regex_heartbeat.size() && regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxPartial)) {
+            debug("match[1].str(): ",match[1].str());
             notifyPartialResult(stoull(match[1].str()), fen);
         }
 
         result = NO_RESULT;
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
+            debug("match[1].str(): ",match[1].str());
             result = stoull(match[1].str());
         }
         if (result != NO_RESULT) {
@@ -75,11 +77,13 @@ void Engine::readStderr() {
         std::smatch match;
 
         if (regex_heartbeat.size() && regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxPartial)) {
+            debug("match[1].str(): ",match[1].str());
             notifyPartialResult(stoull(match[1].str()), fen);
         }
 
         result = NO_RESULT;
         if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxTot)) {
+            debug("match[1].str(): ",match[1].str());
             result = stoull(match[1].str());
         }
         if (result != NO_RESULT) {
