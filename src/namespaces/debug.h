@@ -34,9 +34,9 @@
 namespace _debug {
 
     static enum LOG_LEVEL {
-        TRACE = 0, DEBUG = 1, INFO = 2, WARN = 3, ERROR = 4, FATAL = 5, OFF = 6
+        TRACE = 0, DEBUG = 1, INFO = 2, WARN = 3, ERROR = 4, FATAL = 5, OFF = 6, ALWAYS = 7
     } _LOG_LEVEL;
-    static const string LOG_LEVEL_STRING[7] = {"TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF"};
+    static const string LOG_LEVEL_STRING[] = {"TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF", "LOG"};
 
 #if defined(_WIN32)
 #define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
@@ -67,6 +67,7 @@ namespace _debug {
         cout << endl;
     }
 
+#define log(...)                            {_log<LOG_LEVEL::ALWAYS>(LINE_INFO,__VA_ARGS__);}
 #define trace(...) if (TRACE >= DLOG_LEVEL) {_log<LOG_LEVEL::TRACE>( LINE_INFO,__VA_ARGS__);}
 #define debug(...) if (DEBUG >= DLOG_LEVEL) {_log<LOG_LEVEL::DEBUG>( LINE_INFO,__VA_ARGS__);}
 #define info(...)  if (INFO  >= DLOG_LEVEL) {_log<LOG_LEVEL::INFO> ( LINE_INFO,__VA_ARGS__);}

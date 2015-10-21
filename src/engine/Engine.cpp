@@ -29,7 +29,7 @@ void Engine::readStdin() {
         }
         readbuffer[bytes_read] = 0;
         receiveOutput.append(readbuffer);
-        debug("id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
+        log("id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
         std::smatch match;
         if (regex_heartbeat.size() && regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxPartial)) {
             debug("match[1].str(): ",match[1].str());
@@ -73,7 +73,7 @@ void Engine::readStderr() {
         readStderrBuffer[bytes_read_err] = 0;
         receiveStdErr.append(readStderrBuffer);
 
-        debug("id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
+        log("id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
         std::smatch match;
 
         if (regex_heartbeat.size() && regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxPartial)) {
@@ -204,6 +204,7 @@ void Engine::init(const string &confFileName) {
         if (bytes_read <= 0)break;
         readbuffer[bytes_read] = 0;
         receiveOutput.append(readbuffer);
+        log(receiveOutput);
         if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
 
             if (uci_option_perft_thread_value) {
