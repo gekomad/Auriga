@@ -43,6 +43,7 @@ public:
 
 private:
     vector<TaskEntity> taskEntity;
+
     void readTask();
 
     string iniFileName;

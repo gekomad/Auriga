@@ -28,10 +28,11 @@
 #include "../../util/FileUtil.h"
 #include "../shared/PerftEntity.h"
 #include "../shared/TaskEntityDao.h"
+
 class PerftSplitter {
 
 public:
 
-    static void generateMasterINI( const string &fen,const unsigned Ntask, const int depth, const string& mastetnodesDir);
+    static void generateMasterINI(const string &fen, const unsigned Ntask, const int depth, const string &mastetnodesDir);
 };
 

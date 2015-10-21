@@ -39,7 +39,6 @@ namespace _def {
                                     0xffff7fffffffffffULL, 0xfffeffffffffffffULL, 0xfffdffffffffffffULL, 0xfffbffffffffffffULL, 0xfff7ffffffffffffULL, 0xffefffffffffffffULL, 0xffdfffffffffffffULL, 0xffbfffffffffffffULL, 0xff7fffffffffffffULL, 0xfeffffffffffffffULL, 0xfdffffffffffffffULL, 0xfbffffffffffffffULL, 0xf7ffffffffffffffULL, 0xefffffffffffffffULL, 0xdfffffffffffffffULL, 0xbfffffffffffffffULL, 0x7fffffffffffffffULL};
 
 
-
 #if defined(CLOP) || defined(DEBUG_MODE)
 #define STATIC_CONST
 #else

@@ -24,7 +24,7 @@ TaskEntityDao::TaskEntityDao(const string &iniFile1) {
     trace(toINIformat());
 }
 
-TaskEntityDao::TaskEntityDao(const vector<TaskEntity>& taskEntity1) {
+TaskEntityDao::TaskEntityDao(const vector<TaskEntity> &taskEntity1) {
     taskEntity.clear();
     for (TaskEntity n:taskEntity1)taskEntity.push_back(n);
 }
@@ -48,7 +48,7 @@ void TaskEntityDao::readTask() {
         if (task) {
             if (parameters->first == "task_uuid") {
                 task->setTaskUUID(parameters->second);
-            }  else if (parameters->first == "depth") {
+            } else if (parameters->first == "depth") {
                 task->setDepth(stoi(parameters->second));
             } else if (parameters->first == "fen") {
                 task->addFen(parameters->second);

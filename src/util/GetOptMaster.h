@@ -37,7 +37,7 @@ public:
             string fen = params[3];
             int depth = stoi(params[4]);
             string mastetnodesFile = params[5];
-            PerftSplitter::generateMasterINI( fen,Ntask, depth,mastetnodesFile);
+            PerftSplitter::generateMasterINI(fen, Ntask, depth, mastetnodesFile);
         } else {
             cout << "err" << endl;//TODO
         }
