@@ -81,12 +81,6 @@ namespace _logger  {
     void _log(T t, Args... args) {
         lock_guard <mutex> lock1(_CoutSyncMutex);
         cout << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
-        ////        if (LOG_FILE_NAME.size()) {
-//            ofstream logfile;
-//            logfile.open("/home/geko/aa", std::ofstream::out | std::ofstream::app);
-//            logfile << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
-//            logfile.close();
-////        }
         __log(t, args...);
         cout << endl;
     }
@@ -98,61 +92,5 @@ namespace _logger  {
 #define warn(...)  if (WARN  >= DLOG_LEVEL) {_log<LOG_LEVEL::WARN> ( LINE_INFO,__VA_ARGS__);}
 #define error(...) if (ERROR >= DLOG_LEVEL) {_log<LOG_LEVEL::ERROR>( LINE_INFO,__VA_ARGS__);}
 #define fatal(...) if (FATAL >= DLOG_LEVEL) {_log<LOG_LEVEL::FATAL>( LINE_INFO,__VA_ARGS__);}
-
-//        const static string LOG_LEVEL_STRING[8] = {"TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF", "LOG"};
-//
-//    static void setLogFile(const string &fileName) {
-////        LOG_FILE_NAME = fileName;
-//    }
-//
-//#define log(...)                            {_log<LOG_LEVEL::ALWAYS>(LINE_INFO,__VA_ARGS__);}
-//#define trace(...) if (TRACE >= DLOG_LEVEL) {_log<LOG_LEVEL::TRACE>( LINE_INFO,__VA_ARGS__);}
-//#define debug(...) if (DEBUG >= DLOG_LEVEL) {_log<LOG_LEVEL::DEBUG>( LINE_INFO,__VA_ARGS__);}
-//#define info(...)  if (INFO  >= DLOG_LEVEL) {_log<LOG_LEVEL::INFO> ( LINE_INFO,__VA_ARGS__);}
-//#define warn(...)  if (WARN  >= DLOG_LEVEL) {_log<LOG_LEVEL::WARN> ( LINE_INFO,__VA_ARGS__);}
-//#define error(...) if (ERROR >= DLOG_LEVEL) {_log<LOG_LEVEL::ERROR>( LINE_INFO,__VA_ARGS__);}
-//#define fatal(...) if (FATAL >= DLOG_LEVEL) {_log<LOG_LEVEL::FATAL>( LINE_INFO,__VA_ARGS__);}
-//
-////    static string LOG_FILE_NAME;
-//    static enum LOG_LEVEL {
-//        TRACE = 0, DEBUG = 1, INFO = 2, WARN = 3, ERROR = 4, FATAL = 5, OFF = 6, ALWAYS = 7
-//    } _LOG_LEVEL;
-//
-//
-//#if defined(_WIN32)
-//#define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
-//#else
-//#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
-//#endif
-//
-//#define LINE_INFO __FILENAME__,":",__LINE__," "
-//
-//    template<typename T>
-//    static void __log(T a) {
-//        cout << (a);
-//    }
-//
-//    template<typename T, typename... Args>
-//    static  void __log(T t, Args... args) {
-//        cout << t;
-//        __log(args...);
-//    }
-//
-//    static mutex _CoutSyncMutex;
-//
-//    template<LOG_LEVEL type, typename T, typename... Args>
-//    static void _log(T t, Args... args) {
-//        lock_guard<mutex> lock1(_CoutSyncMutex);
-//        cout << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
-////        if (LOG_FILE_NAME.size()) {
-////            ofstream logfile;
-////            logfile.open(LOG_FILE_NAME);
-////            logfile << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
-////            logfile.close();
-////        }
-//        __log(t, args...);
-//        cout << endl;
-//    }
-
 
 }
