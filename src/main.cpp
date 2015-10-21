@@ -17,7 +17,7 @@
 */
 
 #include <iostream>
-#include "util/GetOpt.h"
+#include "GetOpt.h"
 #include <iostream>
 #include <cstring>
 #include "network/Client.h"

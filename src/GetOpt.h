@@ -19,7 +19,7 @@
 #pragma once
 
 #include <iostream>
-#include "FileUtil.h"
+#include "util/FileUtil.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>

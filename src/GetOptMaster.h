@@ -18,8 +18,8 @@
 
 #pragma once
 
-#include "../perft/master/PerftSplitter.h"
-#include "../namespaces/def.h"
+#include "perft/master/PerftSplitter.h"
+#include "namespaces/def.h"
 
 class GetOptMaster {
 public:

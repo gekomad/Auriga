@@ -21,27 +21,16 @@ set(SOURCE_FILES
         src/network/util/Network.h
         src/network/Client.cpp
         src/network/Client.h
-
-
-
         src/perft/master/PerftSplitter.cpp
         src/perft/master/PerftSplitter.h
-
         src/perft/task/Perft.cpp
-
-
         src/perft/shared/PerftTree.cpp
         src/perft/shared/TaskEntityDao.cpp
         src/perft/shared/PerftEntityDao.cpp
-
         src/util/Bits.h
         src/util/FileUtil.h
-        src/util/GetOpt.h
-        src/util/GetOptMaster.h
-        src/util/GetOptTask.h
         src/util/Random.h
         src/util/Singleton.h
-
         src/util/String.h
         src/util/Time.h
         src/util/Timer.h

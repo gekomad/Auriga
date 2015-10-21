@@ -18,8 +18,8 @@
 
 #pragma once
 
-#include "../perft/task/Perft.h"
-#include "../namespaces/def.h"
+#include "perft/task/Perft.h"
+#include "namespaces/def.h"
 
 using namespace _def;
 
