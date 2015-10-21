@@ -38,16 +38,16 @@ Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &e
     taskUUID = taskUUID1;
 }
 
-void Perft::observerTotResult(const u64 result) {
+void Perft::observerTotResult(const u64 result, const string &fen) {
     TOT += result;
     info("TOT: ", String::toString(TOT));
 
-    Client::getInstance().post(perftUUID, taskUUID, "0", String::toString(TOT), engineName, author,"fen567");
+    Client::getInstance().post(perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen);
 }
 
-void Perft::observerPartialResult(const u64 result) {
+void Perft::observerPartialResult(const u64 result, const string &fen) {
     info("partial result: ", result);
-    Client::getInstance().post(perftUUID, taskUUID, to_string(result), "0", engineName, author,"fen123");
+    Client::getInstance().post(perftUUID, taskUUID, to_string(result), "0", engineName, author, fen);
 }
 
 __int128_t Perft::calculate() {
@@ -55,8 +55,8 @@ __int128_t Perft::calculate() {
 
     ThreadPool<Engine> threadPool;
     IniFile iniFile(engineConf);
-    engineName=iniFile.getValue("engine");
-    author=iniFile.getValue("author");
+    engineName = iniFile.getValue("engine");
+    author = iniFile.getValue("author");
 
     int threads = String::stoi(iniFile.getValue("uci_option_perft_thread_value"));
     if (!threads) {
@@ -67,7 +67,7 @@ __int128_t Perft::calculate() {
     }
 
     PerftTree perftTreeDao(masterFile);
-    perftUUID=perftTreeDao.getPerftEntity()->getUuid();
+    perftUUID = perftTreeDao.getPerftEntity()->getUuid();
     const TaskEntity *taskEntity = perftTreeDao.getTaskEntity(taskUUID);
     if (!taskEntity) {
         error("taskUUID ", taskUUID, " not found");

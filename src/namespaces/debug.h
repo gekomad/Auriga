@@ -62,7 +62,7 @@ namespace _debug {
     template<LOG_LEVEL type, typename T, typename... Args>
     void _log(T t, Args... args) {
         lock_guard <mutex> lock1(_CoutSyncMutex);
-        cout << "info string " << " " << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
+        cout << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
         __log(t, args...);
         cout << endl;
     }

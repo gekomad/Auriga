@@ -32,7 +32,7 @@ void Engine::readStdin() {
         debug("id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
         std::smatch match;
         if (regex_heartbeat.size() && regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxPartial)) {
-            notifyPartialResult(stoull(match[1].str()));
+            notifyPartialResult(stoull(match[1].str()), fen);
         }
 
         result = NO_RESULT;
@@ -44,6 +44,18 @@ void Engine::readStdin() {
             close(stdErr[0]);
             cv.notify_all();
         }
+    }
+}
+
+void Engine::notifyTotResult(const u64 i, const string &fen) {
+    if (observer != nullptr) {
+        observer->observerTotResult(i, fen);
+    }
+}
+
+void Engine::notifyPartialResult(const u64 i, const string &fen) {
+    if (observer != nullptr) {
+        observer->observerPartialResult(i, fen);
     }
 }
 
@@ -63,7 +75,7 @@ void Engine::readStderr() {
         std::smatch match;
 
         if (regex_heartbeat.size() && regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxPartial)) {
-            notifyPartialResult(stoull(match[1].str()));
+            notifyPartialResult(stoull(match[1].str()), fen);
         }
 
         result = NO_RESULT;
@@ -93,7 +105,7 @@ void Engine::endRun() {
     receiveOutput.clear();
     receiveStdErr.clear();
     info("endRun id ", getId(), " result: ", result);
-    notifyTotResult(result);
+    notifyTotResult(result, fen);
     put("quit");
 }
 
@@ -113,8 +125,9 @@ void Engine::put(string command) {
     assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
 }
 
-void Engine::setPosition(const string &fen) {
-    put(POSITION_FEN[protocol] + fen);
+void Engine::setPosition(const string &fen1) {
+    put(POSITION_FEN[protocol] + fen1);
+    fen = fen1;
 }
 
 void Engine::init(const string &confFileName) {

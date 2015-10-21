@@ -6,7 +6,12 @@
 *.exe
 *.o
 *.so
- 
+CMakeCache.txt
+CMakeFiles
+auriga
+cmake_install.cmake
+Makefile
+
 # Packages #
 ############
 # it's better to unpack these files and commit the raw source

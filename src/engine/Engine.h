@@ -64,7 +64,7 @@ private:
     string receiveOutput;
     string receiveStdErr;
     string enginePath;
-    const u64 NO_RESULT =0xffffffffffffffff;
+    const u64 NO_RESULT = 0xffffffffffffffff;
     PROTOCOL_TYPE protocol = PROTOCOL_TYPE::UCI;
     int fd_p2c[2], fd_c2p[2], stdErr[2];
     bool initialized = false;
@@ -76,17 +76,9 @@ private:
     std::regex rgxPartial;
     u64 result;
 
-    void notifyTotResult(const u64 i) {
-        if (observer != nullptr) {
-            observer->observerTotResult(i);
-        }
-    }
+    void notifyTotResult(const u64 i, const string &fen);
 
-    void notifyPartialResult(const u64 i) {
-        if (observer != nullptr) {
-            observer->observerPartialResult(i);
-        }
-    }
+    void notifyPartialResult(const u64 i, const string &fen);
 
     void readStdin();
 
@@ -95,6 +87,7 @@ private:
     ObserverEngine *observer = nullptr;
     condition_variable cv;
 
+    string fen;
 };
 
 
