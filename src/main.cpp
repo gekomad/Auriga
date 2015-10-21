@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
 //        cout << parameters->second << endl;
 //
 //    }
-
+//    _debug::setLogFile("/home/geko/aa");
 
     cout << NAME << endl;
     GetOpt::parse(argc, argv);

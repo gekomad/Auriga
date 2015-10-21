@@ -23,57 +23,12 @@
 #include <cxxabi.h>
 #include <stdio.h>
 #include <string.h>
+#include <iostream>
+#include <fstream>
+using namespace std;
 #include "../util/Time.h"
-#if !defined DLOG_LEVEL
-#if defined DEBUG_MODE
-#define DLOG_LEVEL TRACE
-#else
-#define DLOG_LEVEL OFF
-#endif
-#endif
 namespace _debug {
 
-    static enum LOG_LEVEL {
-        TRACE = 0, DEBUG = 1, INFO = 2, WARN = 3, ERROR = 4, FATAL = 5, OFF = 6, ALWAYS = 7
-    } _LOG_LEVEL;
-    static const string LOG_LEVEL_STRING[] = {"TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF", "LOG"};
-
-#if defined(_WIN32)
-#define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
-#else
-#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
-#endif
-
-#define LINE_INFO __FILENAME__,":",__LINE__," "
-
-    template<typename T>
-    void __log(T a) {
-        cout << (a);
-    }
-
-    template<typename T, typename... Args>
-    void __log(T t, Args... args) {
-        cout << t;
-        __log(args...);
-    }
-
-    static mutex _CoutSyncMutex;
-
-    template<LOG_LEVEL type, typename T, typename... Args>
-    void _log(T t, Args... args) {
-        lock_guard <mutex> lock1(_CoutSyncMutex);
-        cout << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
-        __log(t, args...);
-        cout << endl;
-    }
-
-#define log(...)                            {_log<LOG_LEVEL::ALWAYS>(LINE_INFO,__VA_ARGS__);}
-#define trace(...) if (TRACE >= DLOG_LEVEL) {_log<LOG_LEVEL::TRACE>( LINE_INFO,__VA_ARGS__);}
-#define debug(...) if (DEBUG >= DLOG_LEVEL) {_log<LOG_LEVEL::DEBUG>( LINE_INFO,__VA_ARGS__);}
-#define info(...)  if (INFO  >= DLOG_LEVEL) {_log<LOG_LEVEL::INFO> ( LINE_INFO,__VA_ARGS__);}
-#define warn(...)  if (WARN  >= DLOG_LEVEL) {_log<LOG_LEVEL::WARN> ( LINE_INFO,__VA_ARGS__);}
-#define error(...) if (ERROR >= DLOG_LEVEL) {_log<LOG_LEVEL::ERROR>( LINE_INFO,__VA_ARGS__);}
-#define fatal(...) if (FATAL >= DLOG_LEVEL) {_log<LOG_LEVEL::FATAL>( LINE_INFO,__VA_ARGS__);}
 
 #if defined(_WIN32) || !defined(DEBUG_MODE)
     static inline void print_stacktrace() { }

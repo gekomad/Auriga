@@ -36,9 +36,11 @@
 #include <arpa/inet.h>
 #include <string.h>
 #include "../util/Singleton.h"
+#include "../util/logger.h"
 
 using namespace std;
 using namespace _def;
+using namespace _logger;
 
 class Client : public Singleton<Client> {
     friend class Singleton<Client>;
