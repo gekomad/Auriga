@@ -20,7 +20,7 @@
 #include "util/GetOpt.h"
 #include "network/Client.h"
 #include "namespaces/def.h"
-//TODO usare u128
+//TODO usare u128 al posto di u64
 //TODO usare try catch
 
 

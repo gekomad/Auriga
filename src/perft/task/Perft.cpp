@@ -38,6 +38,18 @@ Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &e
     taskUUID = taskUUID1;
 }
 
+void Perft::observerTotResult(const u64 result) {
+    TOT += result;
+    info("TOT: ", String::toString(TOT));
+
+    Client::getInstance().post(perftUUID, taskUUID, "0", String::toString(TOT), engineName, author,"fen567");
+}
+
+void Perft::observerPartialResult(const u64 result) {
+    info("partial result: ", result);
+    Client::getInstance().post(perftUUID, taskUUID, to_string(result), "0", engineName, author,"fen123");
+}
+
 __int128_t Perft::calculate() {
     auto start1 = std::chrono::high_resolution_clock::now();
 

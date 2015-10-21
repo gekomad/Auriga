@@ -37,22 +37,13 @@ namespace _perft {
         string masterFile;
         __int128_t TOT = 0;
         string engineConf;
-
-        void observerTotResult(const u64 result) {
-            TOT += result;
-            info("TOT: ", String::toString(TOT));
-
-            Client::getInstance().post(perftUUID, taskUUID, "0", String::toString(TOT), engineName, author,"fen567");
-        }
-
-        void observerPartialResult(const u64 result) {
-            info("partial result: ", result);
-            Client::getInstance().post(perftUUID, taskUUID, to_string(result), "0", engineName, author,"fen123");
-        }
-
         string perftUUID;
         string engineName;
         string author;
+
+        void observerTotResult(const u64 result);
+
+        void observerPartialResult(const u64 result);
     };
 
 }
