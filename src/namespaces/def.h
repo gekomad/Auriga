@@ -28,7 +28,7 @@ using namespace _debug;
 namespace _def {
     using namespace std;
 
-    static const string NAME = "Auriga 0.1.x";
+    static const string NAME = "Auriga 0.3";
     typedef unsigned char uchar;
     typedef long long unsigned u64;
     typedef u64 _Tchessboard[16];
