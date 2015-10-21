@@ -65,6 +65,7 @@ namespace _logger {
         }
     };
 
+    static Logger &logger = Logger::getInstance();
     static mutex _CoutSyncMutex;
 
     static enum LOG_LEVEL {
@@ -83,13 +84,13 @@ namespace _logger {
     template<typename T>
     void __log(T t) {
         cout << (t);
-        Logger::getInstance() << (t);
+        logger << (t);
     }
 
     template<typename T, typename... Args>
     void __log(T t, Args... args) {
         cout << (t);
-        Logger::getInstance() << (t);
+        logger << (t);
         __log(args...);
     }
 
@@ -97,10 +98,10 @@ namespace _logger {
     void _log(T t, Args... args) {
         lock_guard<mutex> lock1(_CoutSyncMutex);
         cout << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
-        Logger::getInstance() << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
+        logger << Time::getLocalTime() << " " << LOG_LEVEL_STRING[type] << " ";
         __log(t, args...);
         cout << endl;
-        Logger::getInstance() << endl;
+        logger << endl;
     }
 
 #define log(...)                            {_log<LOG_LEVEL::ALWAYS>(LINE_INFO,__VA_ARGS__);}

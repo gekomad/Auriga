@@ -51,9 +51,6 @@ int main(int argc, char *argv[]) {
 //    }
 //    _debug::setLogFile("/home/geko/aa");
 
-    Logger::getInstance().setLogfile("/home/geko/aa");
-//    info("ciao", "pippo");
-//    error("abc", "123");
     cout << NAME << endl;
     GetOpt::parse(argc, argv);
     return 0;
