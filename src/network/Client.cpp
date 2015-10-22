@@ -19,6 +19,7 @@
 #include "Client.h"
 
 void Client::post(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen) {
+    return;
     info("send data ", uuid_perft, " ", uuid_task, " ", partial_moves, " ", tot, " ", engine, " ", author, " ", fen);
     string host = "127.0.0.1";
     int portno = 80;

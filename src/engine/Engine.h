@@ -26,6 +26,7 @@
 #include <string>
 #include <iostream>
 #include <regex>
+#include <atomic>
 
 using namespace std;
 using namespace _def;
@@ -87,7 +88,7 @@ private:
     void readStdin();
 
     void readStderr();
-
+    atomic<bool> reading;
     ObserverEngine *observer = nullptr;
     condition_variable cv;
     string name = "Unknown";

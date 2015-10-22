@@ -22,11 +22,10 @@
 void Engine::readStdin() {
     int bytes_read;
     char readbuffer[1024];
-    bool reading = true;
-    result = NO_RESULT;
     while (reading) {
         bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
         if (!reading || bytes_read <= 0) {
+            reading = false;
             break;
         }
         readbuffer[bytes_read] = 0;
@@ -38,14 +37,14 @@ void Engine::readStdin() {
             notifyPartialResult(stoull(match[1].str()), fen);
         }
 
-
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
+            reading = false;
             debug(name, " stdin match tot: ", match[1].str());
             result = stoull(match[1].str());
+            ASSERT(result != NO_RESULT);
         }
         if (result != NO_RESULT) {
             log(name, " id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
-            reading = false;
             cv.notify_all();
         }
     }
@@ -53,6 +52,7 @@ void Engine::readStdin() {
 
 void Engine::notifyTotResult(const u64 i, const string &fen) {
     if (observer != nullptr) {
+        assert(i != NO_RESULT);
         observer->observerTotResult(i, fen);
     }
 }
@@ -66,12 +66,11 @@ void Engine::notifyPartialResult(const u64 i, const string &fen) {
 void Engine::readStderr() {
     int bytes_read_err;
     char readStderrBuffer[1024];
-    bool reading = true;
-    result = NO_RESULT;
     while (reading) {
         bytes_read_err = read(stdErr[0], readStderrBuffer, sizeof(readStderrBuffer) - 1);
 
         if (!reading || bytes_read_err <= 0) {
+            reading = false;
             break;
         }
         readStderrBuffer[bytes_read_err] = 0;
@@ -87,18 +86,21 @@ void Engine::readStderr() {
 
 
         if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxTot)) {
-//            debug(name, " err match tot: ", match[1].str());
+            reading = false;
             result = stoull(match[1].str());
+            ASSERT(result != NO_RESULT);
+            debug(name, " err match tot: ", match[1].str(), "=", result, " id:", getId());
         }
         if (result != NO_RESULT) {
             log(name, " id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
-            reading = false;
             cv.notify_all();
         }
     }
 }
 
 void Engine::run() {
+    reading = true;
+    result = NO_RESULT;
     std::thread in(&Engine::readStdin, this);
     std::thread err(&Engine::readStderr, this);
     mutex mtx;
@@ -111,7 +113,8 @@ void Engine::run() {
 void Engine::endRun() {
     receiveOutput.clear();
     receiveStdErr.clear();
-    info(name, " endRun id ", getId(), " result: ", result);
+    info(name, " endRun id ", getId(), " result: ", result, " reading: ", (bool) reading);
+    assert(result != NO_RESULT);
     notifyTotResult(result, fen);
 }
 
