@@ -30,16 +30,16 @@ void Engine::readStdin() {
         }
         readbuffer[bytes_read] = 0;
         receiveOutput.append(readbuffer);
-        log("id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
+        log(name," id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
         std::smatch match;
         if (regex_heartbeat.size() && regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxPartial)) {
-            debug("match[1].str(): ", match[1].str());
+            debug(name, " match[1].str(): ", match[1].str());
             notifyPartialResult(stoull(match[1].str()), fen);
         }
 
         result = NO_RESULT;
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
-            debug("match[1].str(): ", match[1].str());
+            debug(name, " match[1].str(): ", match[1].str());
             result = stoull(match[1].str());
         }
         if (result != NO_RESULT) {
@@ -74,17 +74,17 @@ void Engine::readStderr() {
         readStderrBuffer[bytes_read_err] = 0;
         receiveStdErr.append(readStderrBuffer);
 
-        log("id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
+        log(name," id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
         std::smatch match;
 
         if (regex_heartbeat.size() && regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxPartial)) {
-            debug("match[1].str(): ", match[1].str());
+            debug(name, " match[1].str(): ", match[1].str());
             notifyPartialResult(stoull(match[1].str()), fen);
         }
 
         result = NO_RESULT;
         if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxTot)) {
-            debug("match[1].str(): ", match[1].str());
+            debug(name, " match[1].str(): ", match[1].str());
             result = stoull(match[1].str());
         }
         if (result != NO_RESULT) {
@@ -108,13 +108,13 @@ void Engine::endRun() {
     //if (!initialized)return;
     receiveOutput.clear();
     receiveStdErr.clear();
-    info("endRun id ", getId(), " result: ", result);
+    info(name, " endRun id ", getId(), " result: ", result);
     notifyTotResult(result, fen);
 //    put("quit");
 }
 
 Engine::~Engine() {
-    debug("~Engine");
+    debug(name, " ~Engine");
     if (!initialized)return;
     put("quit");
     initialized = false;
@@ -126,7 +126,7 @@ void Engine::put(string command) {
     lock_guard<mutex> lock(putMutex);
     receiveOutput.clear();
     receiveStdErr.clear();
-    info("Send to engine id ", getId(), " |" + command + "\\n|");
+    info(name, " Send to engine id ", getId(), " |" + command + "\\n|");
     command.append("\n");
     int nbytes = command.length();
     assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
@@ -184,7 +184,7 @@ void Engine::init(const string &confFileName) {
             rgxTot.assign(regex_perft_moves);
         }
     }
-    info("load engine ", enginePath);
+    info(name, " load engine ", enginePath);
     pid_t childpid;
     assert(!pipe(fd_p2c) && !pipe(fd_c2p) && !pipe(stdErr));
 
@@ -196,7 +196,7 @@ void Engine::init(const string &confFileName) {
         assert(dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
         assert(dup2(stdErr[1], 2) >= 0);
         execl(enginePath.c_str(), enginePath.c_str(), (char *) 0);
-        fatal("Failed to execute ", enginePath);
+        fatal(name," Failed to execute ", enginePath);
         exit(1);
     }
     close(fd_p2c[0]);
@@ -214,7 +214,7 @@ void Engine::init(const string &confFileName) {
             if (bytes_read <= 0)break;
             readbuffer[bytes_read] = 0;
             receiveOutput.append(readbuffer);
-            log(receiveOutput);
+            log(name," " ,receiveOutput);
             std::smatch match;
 
             if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
@@ -238,7 +238,7 @@ void Engine::init(const string &confFileName) {
             if (bytes_read <= 0)break;
             readbuffer[bytes_read] = 0;
             receiveOutput.append(readbuffer);
-            log(receiveOutput);
+            log(name," " ,receiveOutput);
             std::smatch match;
 
             if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
@@ -252,7 +252,7 @@ void Engine::init(const string &confFileName) {
             }
         }
     }
-    debug("id: ", getId(), receiveOutput);
+    debug(name, " id: ", getId(), receiveOutput);
     assert(initialized);
 
 }
