@@ -36,7 +36,7 @@ public :
         UCI = 0, XBOARD = 1
     } _PROTOCOL_TYPE;
 
-    Engine() { };
+    Engine();
 
     ~Engine();
 
@@ -55,6 +55,7 @@ public :
     }
 
 private:
+
     int uci_option_perft_thread_value = 0;
     int uci_option_perft_hash_value = 0;
     string uci_option_perft_thread_name;
@@ -91,6 +92,7 @@ private:
     condition_variable cv;
     string name = "Unknown";
     string fen;
+    bool forceRestart;
 };
 
 

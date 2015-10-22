@@ -23,6 +23,7 @@ void Engine::readStdin() {
     int bytes_read;
     char readbuffer[1024];
     bool reading = true;
+    result = NO_RESULT;
     while (reading) {
         bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
         if (!reading || bytes_read <= 0) {
@@ -30,19 +31,20 @@ void Engine::readStdin() {
         }
         readbuffer[bytes_read] = 0;
         receiveOutput.append(readbuffer);
-        log(name," id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
+//        log(name, " id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
         std::smatch match;
         if (regex_heartbeat.size() && regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxPartial)) {
-            debug(name, " match[1].str(): ", match[1].str());
+            debug(name, " stdin match partial: ", match[1].str());
             notifyPartialResult(stoull(match[1].str()), fen);
         }
 
-        result = NO_RESULT;
+
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
-            debug(name, " match[1].str(): ", match[1].str());
+            debug(name, " stdin match tot: ", match[1].str());
             result = stoull(match[1].str());
         }
         if (result != NO_RESULT) {
+            log(name, " id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
             reading = false;
             cv.notify_all();
         }
@@ -65,6 +67,7 @@ void Engine::readStderr() {
     int bytes_read_err;
     char readStderrBuffer[1024];
     bool reading = true;
+    result = NO_RESULT;
     while (reading) {
         bytes_read_err = read(stdErr[0], readStderrBuffer, sizeof(readStderrBuffer) - 1);
 
@@ -74,20 +77,21 @@ void Engine::readStderr() {
         readStderrBuffer[bytes_read_err] = 0;
         receiveStdErr.append(readStderrBuffer);
 
-        log(name," id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
+//        log(name, " id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
         std::smatch match;
 
         if (regex_heartbeat.size() && regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxPartial)) {
-            debug(name, " match[1].str(): ", match[1].str());
+            debug(name, " stderr match partial: ", match[1].str());
             notifyPartialResult(stoull(match[1].str()), fen);
         }
 
-        result = NO_RESULT;
+
         if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxTot)) {
-            debug(name, " match[1].str(): ", match[1].str());
+//            debug(name, " err match tot: ", match[1].str());
             result = stoull(match[1].str());
         }
         if (result != NO_RESULT) {
+            log(name, " id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
             reading = false;
             cv.notify_all();
         }
@@ -105,12 +109,10 @@ void Engine::run() {
 }
 
 void Engine::endRun() {
-    //if (!initialized)return;
     receiveOutput.clear();
     receiveStdErr.clear();
     info(name, " endRun id ", getId(), " result: ", result);
     notifyTotResult(result, fen);
-//    put("quit");
 }
 
 Engine::~Engine() {
@@ -138,12 +140,16 @@ void Engine::setPosition(const string &fen1) {
     fen = fen1;
 }
 
-void Engine::init(const string &confFileName) {
-    result = 0;
-
-    IniFile iniFile(confFileName);
+Engine::Engine() {
     GET_NAME_REGEX[0].assign("id name (.+)");
     GET_NAME_REGEX[1].assign("feature myname=\"(.+)\".*");
+}
+
+void Engine::init(const string &confFileName) {
+    result = 0;
+    if (!forceRestart && initialized)return;
+    IniFile iniFile(confFileName);
+    forceRestart = iniFile.getValue("force_restart") == "true";
 
     while (true) {
         pair<string, string> *parameters = iniFile.get();
@@ -196,7 +202,7 @@ void Engine::init(const string &confFileName) {
         assert(dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
         assert(dup2(stdErr[1], 2) >= 0);
         execl(enginePath.c_str(), enginePath.c_str(), (char *) 0);
-        fatal(name," Failed to execute ", enginePath);
+        fatal(name, " Failed to execute ", enginePath);
         exit(1);
     }
     close(fd_p2c[0]);
@@ -214,7 +220,7 @@ void Engine::init(const string &confFileName) {
             if (bytes_read <= 0)break;
             readbuffer[bytes_read] = 0;
             receiveOutput.append(readbuffer);
-            log(name," " ,receiveOutput);
+            log(name, " ", receiveOutput);
             std::smatch match;
 
             if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
@@ -238,7 +244,7 @@ void Engine::init(const string &confFileName) {
             if (bytes_read <= 0)break;
             readbuffer[bytes_read] = 0;
             receiveOutput.append(readbuffer);
-            log(name," " ,receiveOutput);
+            log(name, " ", receiveOutput);
             std::smatch match;
 
             if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {

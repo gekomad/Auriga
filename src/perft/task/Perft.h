@@ -44,6 +44,8 @@ namespace _perft {
         void observerTotResult(const u64 result, const string &fen);
 
         void observerPartialResult(const u64 result, const string &fen);
+
+        mutex getResultMutex;
     };
 
 }
