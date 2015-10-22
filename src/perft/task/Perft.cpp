@@ -42,20 +42,19 @@ void Perft::observerTotResult(const u64 result, const string &fen) {
     TOT += result;
     info("TOT: ", String::toString(TOT));
 
-    Client::getInstance().post(perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen);
+    Client::getInstance().post(perftUUID, taskUUID, "0", String::toString(TOT), "engineName123", author, fen);
 }
 
 void Perft::observerPartialResult(const u64 result, const string &fen) {
     info("partial result: ", result);
-    Client::getInstance().post(perftUUID, taskUUID, to_string(result), "0", engineName, author, fen);
+    Client::getInstance().post(perftUUID, taskUUID, to_string(result), "0", "engineName123", author, fen);
 }
 
-__int128_t Perft::calculate() {
+i128 Perft::calculate() {
     auto start1 = std::chrono::high_resolution_clock::now();
 
     ThreadPool<Engine> threadPool;
     IniFile iniFile(engineConf);
-    engineName = iniFile.getValue("engine");
     author = iniFile.getValue("author");
 
     int threads = String::stoi(iniFile.getValue("uci_option_perft_thread_value"));
@@ -87,6 +86,6 @@ __int128_t Perft::calculate() {
 
     string timetot = Time::diffTimeToString(start1, stop1);
 
-    cout << "Tot Perft moves for TaskUUID " << taskUUID << " :" << String::toString(TOT) << " in " << timetot << endl;
+    cout << "Tot Perft moves for TaskUUID " << taskUUID << ": " << String::toString(TOT) << " in " << timetot << endl;
     return TOT;
 }

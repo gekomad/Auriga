@@ -70,10 +70,13 @@ private:
     bool initialized = false;
     mutex putMutex;
     const string SEND_INIT_STRING[2] = {"uci", "ping 1"};
+    const string XBOARD_REQUEST_NAME_STRING = "protover 2";
     const string RECEIVE_INIT_STRING[2] = {"uciok", "pong 1"};
+
     const string POSITION_FEN[2] = {"position fen ", "setboard "};
     std::regex rgxTot;
     std::regex rgxPartial;
+    std::regex GET_NAME_REGEX[2];
     u64 result;
 
     void notifyTotResult(const u64 i, const string &fen);
@@ -86,7 +89,7 @@ private:
 
     ObserverEngine *observer = nullptr;
     condition_variable cv;
-
+    string name = "Unknown";
     string fen;
 };
 

@@ -30,15 +30,15 @@ namespace _perft {
     public :
         Perft(const string &taskUUID, const string &masterFile, const string &engineConfFile);
 
-        __int128_t calculate();
+        i128 calculate();
 
     private:
         string taskUUID;
         string masterFile;
-        __int128_t TOT = 0;
+        i128 TOT = 0;
         string engineConf;
         string perftUUID;
-        string engineName;
+//        string engineName;
         string author;
 
         void observerTotResult(const u64 result, const string &fen);

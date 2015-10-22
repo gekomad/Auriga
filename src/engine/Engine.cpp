@@ -22,9 +22,10 @@
 void Engine::readStdin() {
     int bytes_read;
     char readbuffer[1024];
-    while (initialized) {
+    bool reading = true;
+    while (reading) {
         bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
-        if (!initialized || bytes_read <= 0) {
+        if (!reading || bytes_read <= 0) {
             break;
         }
         readbuffer[bytes_read] = 0;
@@ -42,8 +43,7 @@ void Engine::readStdin() {
             result = stoull(match[1].str());
         }
         if (result != NO_RESULT) {
-            initialized = false;
-            close(stdErr[0]);
+            reading = false;
             cv.notify_all();
         }
     }
@@ -64,10 +64,11 @@ void Engine::notifyPartialResult(const u64 i, const string &fen) {
 void Engine::readStderr() {
     int bytes_read_err;
     char readStderrBuffer[1024];
-    while (initialized) {
+    bool reading = true;
+    while (reading) {
         bytes_read_err = read(stdErr[0], readStderrBuffer, sizeof(readStderrBuffer) - 1);
 
-        if (!initialized || bytes_read_err <= 0) {
+        if (!reading || bytes_read_err <= 0) {
             break;
         }
         readStderrBuffer[bytes_read_err] = 0;
@@ -87,8 +88,7 @@ void Engine::readStderr() {
             result = stoull(match[1].str());
         }
         if (result != NO_RESULT) {
-            initialized = false;
-            close(fd_c2p[0]);
+            reading = false;
             cv.notify_all();
         }
     }
@@ -105,16 +105,19 @@ void Engine::run() {
 }
 
 void Engine::endRun() {
-    initialized = false;
+    //if (!initialized)return;
     receiveOutput.clear();
     receiveStdErr.clear();
     info("endRun id ", getId(), " result: ", result);
     notifyTotResult(result, fen);
-    put("quit");
+//    put("quit");
 }
 
 Engine::~Engine() {
     debug("~Engine");
+    if (!initialized)return;
+    put("quit");
+    initialized = false;
     close(fd_c2p[0]);
     close(fd_p2c[1]);
 }
@@ -127,6 +130,7 @@ void Engine::put(string command) {
     command.append("\n");
     int nbytes = command.length();
     assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
+
 }
 
 void Engine::setPosition(const string &fen1) {
@@ -135,7 +139,12 @@ void Engine::setPosition(const string &fen1) {
 }
 
 void Engine::init(const string &confFileName) {
+    result = 0;
+
     IniFile iniFile(confFileName);
+    GET_NAME_REGEX[0].assign("id name (.+)");
+    GET_NAME_REGEX[1].assign("feature myname=\"(.+)\".*");
+
     while (true) {
         pair<string, string> *parameters = iniFile.get();
         if (!parameters)break;
@@ -199,22 +208,48 @@ void Engine::init(const string &confFileName) {
     receiveOutput.clear();
     initialized = false;
     int count = 0;
-    while ((count++) < 100) {
-        int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
-        if (bytes_read <= 0)break;
-        readbuffer[bytes_read] = 0;
-        receiveOutput.append(readbuffer);
-        log(receiveOutput);
-        if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
+    if (protocol == UCI) {
+        while ((count++) < 100) {
+            int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
+            if (bytes_read <= 0)break;
+            readbuffer[bytes_read] = 0;
+            receiveOutput.append(readbuffer);
+            log(receiveOutput);
+            std::smatch match;
 
-            if (uci_option_perft_thread_value) {
-                put("setoption name " + uci_option_perft_thread_name + string(" value ") + String(uci_option_perft_thread_value));
+            if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
+                name = match[1].str();
             }
-            if (uci_option_perft_hash_value) {
-                put("setoption name " + uci_option_perft_hash_name + " value " + String(uci_option_perft_hash_value));
+
+            if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
+                if (uci_option_perft_thread_value) {
+                    put("setoption name " + uci_option_perft_thread_name + string(" value ") + String(uci_option_perft_thread_value));
+                }
+                if (uci_option_perft_hash_value) {
+                    put("setoption name " + uci_option_perft_hash_name + " value " + String(uci_option_perft_hash_value));
+                }
+                initialized = true;
+                break;
             }
-            initialized = true;
-            break;
+        }
+    } else {
+        while ((count++) < 100) {
+            int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
+            if (bytes_read <= 0)break;
+            readbuffer[bytes_read] = 0;
+            receiveOutput.append(readbuffer);
+            log(receiveOutput);
+            std::smatch match;
+
+            if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
+                name = match[1].str();
+            }
+            if (initialized)break;
+            if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
+                put(XBOARD_REQUEST_NAME_STRING);
+                usleep(100000);
+                initialized = true;
+            }
         }
     }
     debug("id: ", getId(), receiveOutput);
