@@ -21,7 +21,7 @@
 
 void Engine::readStdin() {
     int bytes_read;
-    char readbuffer[1024];
+    char readbuffer[2];
     while (reading) {
         bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
         if (!reading || bytes_read <= 0) {
@@ -65,7 +65,7 @@ void Engine::notifyPartialResult(const u64 i, const string &fen) {
 
 void Engine::readStderr() {
     int bytes_read_err;
-    char readStderrBuffer[1024];
+    char readStderrBuffer[2];
     while (reading) {
         bytes_read_err = read(stdErr[0], readStderrBuffer, sizeof(readStderrBuffer) - 1);
 
