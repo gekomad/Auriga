@@ -32,6 +32,7 @@ class IniFile {
 public:
 
     IniFile(const string &fileName) {
+        if (FileUtil::fileSize(fileName) <= 0)return;
         endFile = true;
         inData.open(fileName);
         if (inData.is_open()) {
