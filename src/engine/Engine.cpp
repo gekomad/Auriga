@@ -135,7 +135,7 @@ void Engine::put(string command) {
     command.append("\n");
     int nbytes = command.length();
     assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
-
+    
 }
 
 void Engine::setPosition(const string &fen1) {
@@ -163,14 +163,7 @@ void Engine::init(const string &confFileName) {
                 fatal("engine not found", enginePath);
                 exit(1);
             }
-        } else if (parameters->first == "protocol") {
-            string prtcl = String(parameters->second).toLower();
-            if (prtcl == "uci")protocol = PROTOCOL_TYPE::UCI; else if (prtcl == "xboard")protocol = PROTOCOL_TYPE::XBOARD; else {
-                fatal("error protocol ", prtcl, " unknow");
-                exit(1);
-            }
         }
-
         else if (parameters->first == "regex_heartbeat") {
             regex_heartbeat = parameters->second;
             rgxPartial.assign(regex_heartbeat);
@@ -187,7 +180,7 @@ void Engine::init(const string &confFileName) {
             rgxTot.assign(regex_perft_moves);
         }
     }
-    info(name, " load engine ", enginePath);
+    info(" load engine ", enginePath);
     pid_t childpid;
     assert(!pipe(fd_p2c) && !pipe(fd_c2p) && !pipe(stdErr));
 
@@ -199,25 +192,50 @@ void Engine::init(const string &confFileName) {
         assert(dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
         assert(dup2(stdErr[1], 2) >= 0);
         execl(enginePath.c_str(), enginePath.c_str(), (char *) 0);
-        fatal(name, " Failed to execute ", enginePath);
+        fatal(" Failed to execute ", enginePath);
         exit(1);
     }
     close(fd_p2c[0]);
     close(fd_c2p[1]);
     close(stdErr[1]);
-    /////////
+
     char readbuffer[2048];
-    put(SEND_INIT_STRING[protocol]);
+    bool detected = false;
+    for (unsigned i = 0; i < SEND_INIT_STRING->size(); i++) {
+        put(SEND_INIT_STRING[i]);
+        usleep(500000);
+
+        int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
+        if (bytes_read <= 0) {
+            fatal("engine not responding");
+            exit(1);
+        };
+        readbuffer[bytes_read] = 0;
+        receiveOutput = readbuffer;
+        debug("read from engine: ", receiveOutput);
+        std::smatch match;
+        if (receiveOutput.find(RECEIVE_INIT_STRING[i]) != string::npos) {
+            protocol = static_cast<PROTOCOL_TYPE>(i);
+            detected = true;
+            break;
+        }
+    }
+    if (!detected) {
+        fatal("protocol not detected");
+        exit(1);
+    };
+    ///////
     receiveOutput.clear();
     initialized = false;
     int count = 0;
+    put(SEND_INIT_STRING[protocol]);
     if (protocol == UCI) {
         while ((count++) < 100) {
             int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
             if (bytes_read <= 0)break;
             readbuffer[bytes_read] = 0;
             receiveOutput.append(readbuffer);
-            log(name, " ", receiveOutput);
+            log(receiveOutput);
             std::smatch match;
 
             if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
@@ -237,25 +255,16 @@ void Engine::init(const string &confFileName) {
                 break;
             }
         }
-    }
-    else {
+    } else {
         while ((count++) < 100) {
             int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
             if (bytes_read <= 0)break;
             readbuffer[bytes_read] = 0;
             receiveOutput.append(readbuffer);
-            log(name, " ", receiveOutput);
+            log(receiveOutput);
             std::smatch match;
 
-            if (regex_search(((const string) receiveOutput).
-
-                    begin(), ((
-
-                    const string) receiveOutput).
-
-                    end(), match, GET_NAME_REGEX[protocol]
-
-            )) {
+            if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
                 name = match[1].str();
             }
             if (initialized)break;
@@ -272,20 +281,19 @@ void Engine::init(const string &confFileName) {
 }
 
 vector<pair<string, string>> Engine::getOptions(const string &confFileName) {
-    bool opt=false;
+    bool opt = false;
     IniFile iniFile(confFileName);
     vector<pair<string, string>> options;
     pair<string, string> *parameters;
     while (true) {
         parameters = iniFile.get();
         if (!parameters)break;
-        if(opt){
+        if (opt) {
             if (String(parameters->first).trimRight().endsWith("]"))break;
             pair<string, string> a(parameters->first, parameters->second);
             options.push_back(a);
-        }else
-        if (parameters->first == "[setoption_name_value]") {
-            opt=true;
+        } else if (parameters->first == "[setoption_name_value]") {
+            opt = true;
         }
     }
     return options;
