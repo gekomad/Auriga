@@ -34,7 +34,7 @@ void Engine::readStdin() {
         std::smatch match;
         if (regex_heartbeat.size() && regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxPartial)) {
             debug(engineName, " stdin match partial: ", match[1].str());
-            notifyPartialResult(stoull(match[1].str()), fen);
+            notifyPartialResult(stoull(match[1].str()), fen, engineName);
         }
 
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
@@ -50,16 +50,16 @@ void Engine::readStdin() {
     }
 }
 
-void Engine::notifyTotResult(const u64 i, const string &fen) {
+void Engine::notifyTotResult(const u64 i, const string &fen, const string &engineName1) {
     if (observer != nullptr) {
         assert(i != NO_RESULT);
-        observer->observerTotResult(i, fen);
+        observer->observerTotResult(i, fen, engineName1);
     }
 }
 
-void Engine::notifyPartialResult(const u64 i, const string &fen) {
+void Engine::notifyPartialResult(const u64 i, const string &fen, const string &engineName1) {
     if (observer != nullptr) {
-        observer->observerPartialResult(i, fen);
+        observer->observerPartialResult(i, fen, engineName1);
     }
 }
 
@@ -81,7 +81,7 @@ void Engine::readStderr() {
 
         if (regex_heartbeat.size() && regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxPartial)) {
             debug(engineName, " stderr match partial: ", match[1].str());
-            notifyPartialResult(stoull(match[1].str()), fen);
+            notifyPartialResult(stoull(match[1].str()), fen, engineName);
         }
 
 
@@ -115,7 +115,7 @@ void Engine::endRun() {
     receiveStdErr.clear();
     info(engineName, " endRun id ", getId(), " result: ", result, " reading: ", (bool) reading);
     assert(result != NO_RESULT);
-    notifyTotResult(result, fen);
+    notifyTotResult(result, fen, engineName);
 }
 
 Engine::~Engine() {

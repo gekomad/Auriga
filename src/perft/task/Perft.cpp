@@ -38,17 +38,17 @@ Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &e
     taskUUID = taskUUID1;
 }
 
-void Perft::observerTotResult(const u64 result, const string &fen) {
+void Perft::observerTotResult(const u64 result, const string &fen, const string &engineName) {
     getResultMutex.lock();
     TOT += result;
     getResultMutex.unlock();
     info("TOT: ", String::toString(TOT));
-    Client::getInstance().post(perftUUID, taskUUID, "0", String::toString(TOT), "engineName123", author, fen);//TODO in thread
+    Client::getInstance().post(perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen);
 }
 
-void Perft::observerPartialResult(const u64 result, const string &fen) {
+void Perft::observerPartialResult(const u64 result, const string &fen, const string &engineName) {
     info("partial result: ", result);
-    Client::getInstance().post(perftUUID, taskUUID, to_string(result), "0", "engineName123", author, fen);//TODO in thread
+    Client::getInstance().post(perftUUID, taskUUID, to_string(result), "0", engineName, author, fen);
 }
 
 i128 Perft::calculate() {
@@ -87,7 +87,7 @@ i128 Perft::calculate() {
 
     string timetot = Time::diffTimeToString(start1, stop1);
 
-    cout << "Tot Perft moves for TaskUUID " << taskUUID << ": " <<TOT/* TODO String::toString(TOT)*/ << " in " << timetot << endl;
+    cout << "Tot Perft moves for TaskUUID " << taskUUID << ": " << TOT/* TODO String::toString(TOT)*/ << " in " << timetot << endl;
 //    assert(TOT==1957580);
     return TOT;
 }

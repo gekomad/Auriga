@@ -25,8 +25,8 @@ using namespace _def;
 
 class ObserverEngine {
 public:
-    virtual void observerTotResult(const u64 result, const string &fen) = 0;
+    virtual void observerTotResult(const u64 result, const string &fen, const string & engineName) = 0;
 
-    virtual void observerPartialResult(const u64 result, const string &fen) = 0;
+    virtual void observerPartialResult(const u64 result, const string &fen, const string & engineName) = 0;
 
 };

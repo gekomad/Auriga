@@ -41,9 +41,9 @@ namespace _perft {
 //        string engineName;
         string author;
 
-        void observerTotResult(const u64 result, const string &fen);
+        void observerTotResult(const u64 result, const string &fen, const string &engineName);
 
-        void observerPartialResult(const u64 result, const string &fen);
+        void observerPartialResult(const u64 result, const string &fen, const string & engineName);
 
         mutex getResultMutex;
     };
