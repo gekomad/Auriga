@@ -159,14 +159,6 @@ void Engine::init(const string &confFileName1) {
         exit(1);
     }
     rgxPartial.assign(workerEntityDao.getWorkerEntity().getRegex_heartbeat());
-//    if (!workerEntityDao.getWorkerEntity().getRegex_perft_moves().size()) {
-//        fatal("regex_perft_moves in ", confFileName1, " is mandatory");
-//        exit(1);
-//    }
-//    if (workerEntityDao.getWorkerEntity().getRegex_perft_moves().find("(\\d+)") == string::npos) {
-//        fatal("regex_perft_moves in ", confFileName1, " is malformed");
-//        exit(1);
-//    }
     rgxTot.assign(workerEntityDao.getWorkerEntity().getRegex_perft_moves());
     regex_heartbeat = workerEntityDao.getWorkerEntity().getRegex_heartbeat();
 
