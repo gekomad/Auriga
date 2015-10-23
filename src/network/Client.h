@@ -53,13 +53,6 @@ public:
 
     void init(const string &host1, const int port1);
 
-    static void postThread(const string &host, const int port, const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen) {
-        Client* httpClient = new Client();
-        httpClient->init(host, port);
-        httpClient->preparePost(uuid_perft, uuid_task, partial_moves, tot, engine, author, fen);
-        httpClient->start();
-        httpClient->detach();
-    }
 
 private:
     int sock;

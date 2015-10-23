@@ -49,12 +49,12 @@ void Perft::observerTotResult(const u64 result, const string &fen, const string 
     TOT += result;
     getResultMutex.unlock();
     info("TOT: ", String::toString(TOT));
-    Client::postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen);
+    HttpPost::postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen);
 }
 
 void Perft::observerPartialResult(const u64 result, const string &fen, const string &engineName) {
     info("partial result: ", result);
-    Client::postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen);
+    HttpPost::postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen);
 }
 
 i128 Perft::calculate() {

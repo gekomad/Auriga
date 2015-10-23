@@ -23,7 +23,7 @@
 #include "../shared/PerftTree.h"
 #include "../../threadPool/ThreadPool.h"
 #include "../../engine/ObserverEngine.h"
-#include "../../network/Client.h"
+#include "HttpPost.h"
 
 namespace _perft {
     class Perft : public ObserverEngine {
