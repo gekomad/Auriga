@@ -27,6 +27,7 @@
 #include <iostream>
 #include <regex>
 #include <atomic>
+#include "../perft/worker/WorkerEntityDao.h"
 
 using namespace std;
 using namespace _def;
@@ -57,13 +58,13 @@ public :
 
 private:
 
-    string regex_perft_moves;
+//    string regex_perft_moves;
     string regex_heartbeat;
     string receiveOutput;
     string receiveStdErr;
-    string enginePath;
+//    string enginePath;
     const u64 NO_RESULT = 0xffffffffffffffff;
-    PROTOCOL_TYPE protocol = PROTOCOL_TYPE::UCI;
+    PROTOCOL_TYPE protocol;
     int fd_p2c[2], fd_c2p[2], stdErr[2];
     bool initialized = false;
     mutex putMutex;
@@ -80,14 +81,14 @@ private:
     void notifyTotResult(const u64 i, const string &fen);
 
     void notifyPartialResult(const u64 i, const string &fen);
-    vector<pair<string,string>> getOptions(const string & confFileName);
+
     void readStdin();
 
     void readStderr();
     atomic<bool> reading;
     ObserverEngine *observer = nullptr;
     condition_variable cv;
-    string name = "Unknown";
+    string engineName = "unknown_engine";
     string fen;
     bool forceRestart;
 };

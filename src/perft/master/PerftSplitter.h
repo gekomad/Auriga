@@ -27,7 +27,7 @@
 #include "../../util/IniFile.h"
 #include "../../util/FileUtil.h"
 #include "../shared/PerftEntity.h"
-#include "../shared/TaskEntityDao.h"
+#include "../task/TaskEntityDao.h"
 
 class PerftSplitter {
 

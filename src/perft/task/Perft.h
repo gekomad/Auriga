@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "../shared/TaskEntity.h"
+#include "../task/TaskEntity.h"
 #include "../../engine/Engine.h"
 #include "../shared/PerftTree.h"
 #include "../../blockingThreadPool/ThreadPool.h"

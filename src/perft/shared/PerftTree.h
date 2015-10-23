@@ -20,7 +20,7 @@
 
 #include "../../namespaces/def.h"
 #include "PerftEntityDao.h"
-#include "TaskEntityDao.h"
+#include "../task/TaskEntityDao.h"
 #include "../../util/IniFile.h"
 
 using namespace _debug;

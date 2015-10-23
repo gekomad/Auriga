@@ -18,17 +18,30 @@
 
 #pragma once
 
-#include "../../network/Client.h"
+#include "../../util/IniFile.h"
+#include "WorkerEntity.h"
 
-class PerftClient : public Client {
-public :
-    ~PerftClient() { N_CLIENT--; }
+using namespace _debug;
 
-    PerftClient() { N_CLIENT++; }
 
-//    void sendMsg(const string &host, int portno, const Message &msg) {
-//        Client::sendMsg(host, portno, msg.getSerializedString());
-//    }
+class WorkerEntityDao {
+public:
+    WorkerEntityDao(const string &iniFile1);
 
+    string toINIformat() const {
+        return workerEntity.toINIformat();
+    }
+
+    WorkerEntity &getWorkerEntity() {
+        return workerEntity;
+    }
+
+private:
+    WorkerEntity workerEntity;
+
+    void readWorker();
+
+    string iniFileName;
+    vector<pair<string, string>> readOptions() ;
 };
 

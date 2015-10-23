@@ -10,31 +10,20 @@ if (DR_MEMORY STREQUAL "YES")
 endif ()
 
 set(SOURCE_FILES
-        src/blockingThreadPool/ObserverThread.h
-        src/blockingThreadPool/Thread.h
-        src/blockingThreadPool/ThreadPool.h
+
         src/engine/Engine.cpp
-        src/engine/Engine.h
-        src/lib/WrapperCinnamon.h
-        src/namespaces/debug.h
-        src/namespaces/def.h
-        src/network/util/Network.h
+
         src/network/Client.cpp
-        src/network/Client.h
+
         src/perft/master/PerftSplitter.cpp
-        src/perft/master/PerftSplitter.h
+
         src/perft/task/Perft.cpp
         src/perft/shared/PerftTree.cpp
-        src/perft/shared/TaskEntityDao.cpp
+        src/perft/task/TaskEntityDao.cpp
         src/perft/shared/PerftEntityDao.cpp
-        src/util/Bits.h
-        src/util/FileUtil.h
-        src/util/Random.h
-        src/util/Singleton.h
-        src/util/String.h
-        src/util/Time.h
-        src/util/Timer.h
-        src/util/UUID.h
+
+        src/perft/worker/WorkerEntityDao.cpp
+
         src/main.cpp)
 
 set(CMAKE_CXX_COMPILER "g++")
