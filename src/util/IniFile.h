@@ -24,6 +24,7 @@
 #include "../namespaces/debug.h"
 #include "logger.h"
 #include "FileUtil.h"
+
 using namespace std;
 using namespace _debug;
 using namespace _logger;
@@ -71,7 +72,7 @@ public:
                 return nullptr;
             }
             getline(inData, line);
-            trace(line);
+            trace("read fileName: ", line);
             if (!line.size())continue;
             if (line.at(0) == '#' || line.at(0) == ';')continue;
 

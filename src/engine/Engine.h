@@ -57,12 +57,12 @@ public :
 
 private:
 
-    int uci_option_perft_thread_value = 0;
-    int uci_option_perft_hash_value = 0;
-    string uci_option_perft_thread_name;
+//    int uci_option_perft_thread_value = 0;
+//    int uci_option_perft_hash_value = 0;
+//    string uci_option_perft_thread_name;
     string regex_perft_moves;
     string regex_heartbeat;
-    string uci_option_perft_hash_name;
+//    string uci_option_perft_hash_name;
     string receiveOutput;
     string receiveStdErr;
     string enginePath;
@@ -84,7 +84,7 @@ private:
     void notifyTotResult(const u64 i, const string &fen);
 
     void notifyPartialResult(const u64 i, const string &fen);
-
+    vector<pair<string,string>> getOptions(const string & confFileName);
     void readStdin();
 
     void readStderr();

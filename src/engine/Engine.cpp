@@ -169,15 +169,9 @@ void Engine::init(const string &confFileName) {
                 fatal("error protocol ", prtcl, " unknow");
                 exit(1);
             }
-        } else if (parameters->first == "uci_option_perft_thread_name") {
-            uci_option_perft_thread_name = parameters->second;
-        } else if (parameters->first == "uci_option_perft_thread_value") {
-            uci_option_perft_thread_value = String::stoi(parameters->second);
-        } else if (parameters->first == "uci_option_perft_hash_name") {
-            uci_option_perft_hash_name = parameters->second;
-        } else if (parameters->first == "uci_option_perft_hash_value") {
-            uci_option_perft_hash_value = String::stoi(parameters->second);
-        } else if (parameters->first == "regex_heartbeat") {
+        }
+
+        else if (parameters->first == "regex_heartbeat") {
             regex_heartbeat = parameters->second;
             rgxPartial.assign(regex_heartbeat);
         } else if (parameters->first == "regex_perft_moves") {
@@ -231,17 +225,20 @@ void Engine::init(const string &confFileName) {
             }
 
             if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
-                if (uci_option_perft_thread_value) {
-                    put("setoption name " + uci_option_perft_thread_name + string(" value ") + String(uci_option_perft_thread_value));
-                }
-                if (uci_option_perft_hash_value) {
-                    put("setoption name " + uci_option_perft_hash_name + " value " + String(uci_option_perft_hash_value));
-                }
                 initialized = true;
+
+                //setoption
+                vector<pair<string, string>> options = getOptions(confFileName);
+
+                for (pair<string, string> option:options) {
+                    put("setoption name " + option.first + string(" value ") + option.second);
+                    usleep(500000);
+                }
                 break;
             }
         }
-    } else {
+    }
+    else {
         while ((count++) < 100) {
             int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
             if (bytes_read <= 0)break;
@@ -250,7 +247,15 @@ void Engine::init(const string &confFileName) {
             log(name, " ", receiveOutput);
             std::smatch match;
 
-            if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
+            if (regex_search(((const string) receiveOutput).
+
+                    begin(), ((
+
+                    const string) receiveOutput).
+
+                    end(), match, GET_NAME_REGEX[protocol]
+
+            )) {
                 name = match[1].str();
             }
             if (initialized)break;
@@ -264,4 +269,24 @@ void Engine::init(const string &confFileName) {
     debug(name, " id: ", getId(), receiveOutput);
     assert(initialized);
 
+}
+
+vector<pair<string, string>> Engine::getOptions(const string &confFileName) {
+    bool opt=false;
+    IniFile iniFile(confFileName);
+    vector<pair<string, string>> options;
+    pair<string, string> *parameters;
+    while (true) {
+        parameters = iniFile.get();
+        if (!parameters)break;
+        if(opt){
+            if (String(parameters->first).trimRight().endsWith("]"))break;
+            pair<string, string> a(parameters->first, parameters->second);
+            options.push_back(a);
+        }else
+        if (parameters->first == "[setoption_name_value]") {
+            opt=true;
+        }
+    }
+    return options;
 }

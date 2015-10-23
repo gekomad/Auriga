@@ -52,6 +52,11 @@ public:
         return d;
     }
 
+    bool endsWith(const string &ending) {
+        if (ending.size() > this->size()) return false;
+        return std::equal(ending.rbegin(), ending.rend(), this->rbegin());
+    }
+
     String(const char *s) : string(s) { };
 
     template<class T>
