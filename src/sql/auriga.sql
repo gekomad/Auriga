@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.44, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.19, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: auriga
 -- ------------------------------------------------------
--- Server version	5.5.44-0ubuntu0.14.04.1
+-- Server version	5.6.19-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -40,6 +40,7 @@ CREATE TABLE `perft` (
 
 LOCK TABLES `perft` WRITE;
 /*!40000 ALTER TABLE `perft` DISABLE KEYS */;
+INSERT INTO `perft` VALUES ('0056E608-4767-012C-6109-CD0798550528','r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -',5,10,'2015-10-21 08:43:42',NULL);
 /*!40000 ALTER TABLE `perft` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,10 +56,11 @@ CREATE TABLE `tasks` (
   `uuid_task` char(36) COLLATE utf8_bin NOT NULL,
   `fen` char(100) COLLATE utf8_bin NOT NULL,
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `partial_moves` bigint(20) unsigned DEFAULT NULL,
-  `tot` bigint(20) unsigned DEFAULT NULL,
+  `partial_moves` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `tot` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `engine` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `author` varchar(30) COLLATE utf8_bin DEFAULT NULL,
+  `hours` int(11) DEFAULT NULL,
   KEY `uuid_perft` (`uuid_perft`),
   CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -82,4 +84,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-20 22:24:58
+-- Dump completed on 2015-10-23 15:48:34
