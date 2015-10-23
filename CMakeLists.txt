@@ -2,7 +2,7 @@ project(auriga)
 
 set(DR_MEMORY "NO")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -pedantic -W -DDLOG_LEVEL=INFO -DDEBUG_MODE")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -pedantic -W -DDLOG_LEVEL=DEBUG -DDEBUG_MODE")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -s -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -static -std=c++11 -DDLOG_LEVEL=INFO")
 
 if (DR_MEMORY STREQUAL "YES")
@@ -20,6 +20,7 @@ set(SOURCE_FILES
         src/perft/task/Perft.cpp
         src/perft/shared/PerftTree.cpp
         src/perft/task/TaskEntityDao.cpp
+        src/perft/task/HttpPost.cpp
         src/perft/shared/PerftEntityDao.cpp
 
         src/perft/worker/WorkerEntityDao.cpp
