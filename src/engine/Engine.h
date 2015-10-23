@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "../blockingThreadPool/Thread.h"
+#include "../threadPool/Thread.h"
 #include "../util/IniFile.h"
 #include "../namespaces/def.h"
 #include "ObserverEngine.h"

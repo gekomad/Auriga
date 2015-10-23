@@ -21,7 +21,7 @@
 #include "../task/TaskEntity.h"
 #include "../../engine/Engine.h"
 #include "../shared/PerftTree.h"
-#include "../../blockingThreadPool/ThreadPool.h"
+#include "../../threadPool/ThreadPool.h"
 #include "../../engine/ObserverEngine.h"
 #include "../../network/Client.h"
 
