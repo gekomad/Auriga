@@ -49,7 +49,7 @@ public:
             if (params.size() == 7)
                 Logger::getInstance().setLogfile(params[6]);
             else
-                Logger::getInstance().setLogfile("auriga.log");
+                Logger::getInstance().setLogfile("auriga.log");//TODO aggiungere dir = task_uuid
             _perft::Perft perft(taskUUID, master, engine);
             perft.calculate();
 

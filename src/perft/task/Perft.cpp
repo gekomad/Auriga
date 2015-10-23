@@ -33,6 +33,12 @@ Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &e
         fatal("taskUUID malformed ", taskUUID1);
         exit(1);
     }
+    IniFile ini(engineConfFile);
+    aurigaHost = ini.getValue("host");
+    if (aurigaHost.empty())aurigaHost = "127.0.0.1";
+    string ports = ini.getValue("port");
+    aurigaPort = ports.empty() ? 80 : stoi(ports);
+
     engineConf = engineConfFile;
     masterFile = masterFile1;
     taskUUID = taskUUID1;
@@ -43,12 +49,12 @@ void Perft::observerTotResult(const u64 result, const string &fen, const string 
     TOT += result;
     getResultMutex.unlock();
     info("TOT: ", String::toString(TOT));
-    Client::getInstance().post(perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen);
+    Client::postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen);
 }
 
 void Perft::observerPartialResult(const u64 result, const string &fen, const string &engineName) {
     info("partial result: ", result);
-    Client::getInstance().post(perftUUID, taskUUID, to_string(result), "0", engineName, author, fen);
+    Client::postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen);
 }
 
 i128 Perft::calculate() {

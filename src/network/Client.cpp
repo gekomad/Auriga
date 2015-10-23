@@ -18,22 +18,16 @@
 
 #include "Client.h"
 
-void Client::post(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen) {
-    return;
+void Client::init(const string &host1, const int port1) {
+    host = host1;
+    port = port1;
+}
+
+void Client::preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen) {
+
     info("send data ", uuid_perft, " ", uuid_task, " ", partial_moves, " ", tot, " ", engine, " ", author, " ", fen);
-    string host = "127.0.0.1";
-    int portno = 80;
 
-    struct sockaddr_in server;
 
-    int sock = socket(AF_INET, SOCK_STREAM, 0);
-    assert(sock != -1);
-
-    server.sin_addr.s_addr = inet_addr(host.c_str());
-    server.sin_family = AF_INET;
-    server.sin_port = htons(portno);
-
-    assert(connect(sock, (struct sockaddr *) &server, sizeof(server)) >= 0);
     std::ostringstream formBuffer; // <<< here
 
     char dataType1[] = "uuid_perft=";
@@ -45,9 +39,8 @@ void Client::post(const string &uuid_perft, const string &uuid_task, const strin
     char dataType6[] = "&author=";
     char dataType7[] = "&fen=";
 
-    char FormAction[] = "http://localhost/insert_task.php";
+    string FormAction = string("http://").append(host).append("/insert_task.php").c_str();
 
-    // get: length of the actual content
     auto ContentLength = uuid_perft.size() + uuid_task.size() + partial_moves.size() + tot.size() + engine.size() + author.size() + fen.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3) + strlen(dataType4) + strlen(dataType5) + strlen(dataType6) + strlen(dataType7);
 
     // header
@@ -64,8 +57,22 @@ void Client::post(const string &uuid_perft, const string &uuid_task, const strin
     formBuffer << dataType5 << engine;
     formBuffer << dataType6 << author;
     formBuffer << dataType7 << fen;
-    const auto str = formBuffer.str();
+    str = formBuffer.str();
+
+}
+
+void Client::run() {
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    assert(sock != -1);
+    struct sockaddr_in server;
+    server.sin_addr.s_addr = inet_addr(host.c_str());
+    server.sin_family = AF_INET;
+    server.sin_port = htons(port);
     debug(str);
+    assert(connect(sock, (struct sockaddr *) &server, sizeof(server)) >= 0);
     assert(send(sock, str.data(), str.size(), 0) == (int) str.size());
 }
 
+void Client::endRun() {
+    debug("Client::endRun")
+}

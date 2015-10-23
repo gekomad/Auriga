@@ -35,17 +35,20 @@ namespace _perft {
     private:
         string taskUUID;
         string masterFile;
+
         i128 TOT = 0;
         string engineConf;
         string perftUUID;
-//        string engineName;
+
         string author;
 
         void observerTotResult(const u64 result, const string &fen, const string &engineName);
 
-        void observerPartialResult(const u64 result, const string &fen, const string & engineName);
+        void observerPartialResult(const u64 result, const string &fen, const string &engineName);
 
         mutex getResultMutex;
+        string aurigaHost;
+        int aurigaPort;
     };
 
 }

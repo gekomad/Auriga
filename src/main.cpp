@@ -31,26 +31,6 @@ using namespace std;
 
 
 int main(int argc, char *argv[]) {
-//    const string uuid_perft = "DCA3EE5C-72B0-C793-FC11-57987B00A327";
-//    const string uuid_task = "aaaaaaaaaaaaaaaaaa";
-//    const string partial_moves = "2";
-//    const string tot = "0";
-//    const string engine = "cinnamon";
-//    const string author = "pippo";
-//
-//    Client::getInstance().post(uuid_perft,uuid_task,partial_moves,tot,engine,author);
-//    return 0;
-
-//    IniFile iniFile("/home/geko/aa");
-//    while (true) {
-//        pair<string, string> *parameters = iniFile.get();
-//        if (!parameters)break;
-//        cout << parameters->first << endl;
-//        cout << parameters->second << endl;
-//
-//    }
-//    _debug::setLogFile("/home/geko/aa");
-
     cout << NAME << endl;
     GetOpt::parse(argc, argv);
     return 0;
