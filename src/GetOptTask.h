@@ -46,10 +46,16 @@ public:
                 exit(0);
             }
             string taskUUID = params[4];
-            if (params.size() == 7)
-                Logger::getInstance().setLogfile(params[6]);
-            else
-                Logger::getInstance().setLogfile("auriga.log");//TODO aggiungere dir = task_uuid
+            IniFile ini(master);
+            string perftUUID = ini.getValue("perft_uuid");
+
+            string dirlog = perftUUID;//.append("/").append(taskUUID) + ".log";
+            if (params.size() == 7) {
+                dirlog = string(params[6]) + "/" + dirlog;
+            }
+            string logpath = dirlog + "/" + taskUUID + ".log";
+            Logger::getInstance().setLogfile(logpath);
+
             _perft::Perft perft(taskUUID, master, engine);
             perft.calculate();
 
