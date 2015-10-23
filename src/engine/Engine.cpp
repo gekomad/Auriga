@@ -135,7 +135,7 @@ void Engine::put(string command) {
     command.append("\n");
     int nbytes = command.length();
     assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
-    
+    usleep(500000);
 }
 
 void Engine::setPosition(const string &fen1) {
@@ -203,7 +203,7 @@ void Engine::init(const string &confFileName) {
     bool detected = false;
     for (unsigned i = 0; i < SEND_INIT_STRING->size(); i++) {
         put(SEND_INIT_STRING[i]);
-        usleep(500000);
+
 
         int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
         if (bytes_read <= 0) {
@@ -250,7 +250,7 @@ void Engine::init(const string &confFileName) {
 
                 for (pair<string, string> option:options) {
                     put("setoption name " + option.first + string(" value ") + option.second);
-                    usleep(500000);
+
                 }
                 break;
             }
