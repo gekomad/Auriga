@@ -22,7 +22,6 @@
 #include <vector>
 #include "../../util/UUID.h"
 #include "../../util/String.h"
-#include "../../network/util/Network.h"
 #include "../../namespaces/def.h"
 
 using namespace std;

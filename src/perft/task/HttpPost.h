@@ -30,7 +30,7 @@ class HttpPost : public Singleton<HttpPost> {
     friend class Singleton<HttpPost>;
 
 public:
-    void postThread(const string &host, const int port, const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen);
+    void postThread(const string &host, const int port, const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string& hours);
 
 private:
     high_resolution_clock::time_point lastPost = std::chrono::high_resolution_clock::now();

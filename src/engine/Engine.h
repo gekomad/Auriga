@@ -76,9 +76,9 @@ private:
     std::regex GET_NAME_REGEX[2];
     u64 result;
 
-    void notifyTotResult(const u64 i, const string &fen,const string& engineName);
+    void notifyTotResult(const u64 i, const string &fen,const string& engineName,const int hours);
 
-    void notifyPartialResult(const u64 i, const string &fen,const string& engineName);
+    void notifyPartialResult(const u64 i, const string &fen,const string& engineName,const int hours);
 
     void readStdin();
 

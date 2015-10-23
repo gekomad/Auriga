@@ -23,12 +23,11 @@ void Client::init(const string &host1, const int port1) {
     port = port1;
 }
 
-void Client::preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen) {
+void Client::preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen,const string & hours) {
 
     info("send data ", uuid_perft, " ", uuid_task, " ", partial_moves, " ", tot, " ", engine, " ", author, " ", fen);
 
-
-    std::ostringstream formBuffer; // <<< here
+    std::ostringstream formBuffer;
 
     char dataType1[] = "uuid_perft=";
     char dataType2[] = "&uuid_task=";
@@ -38,10 +37,11 @@ void Client::preparePost(const string &uuid_perft, const string &uuid_task, cons
     char dataType5[] = "&engine=";
     char dataType6[] = "&author=";
     char dataType7[] = "&fen=";
+    char dataType8[] = "&hours=";
 
     string FormAction = string("http://").append(host).append("/insert_task.php").c_str();
 
-    auto ContentLength = uuid_perft.size() + uuid_task.size() + partial_moves.size() + tot.size() + engine.size() + author.size() + fen.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3) + strlen(dataType4) + strlen(dataType5) + strlen(dataType6) + strlen(dataType7);
+    auto ContentLength = uuid_perft.size() + uuid_task.size() + partial_moves.size() + tot.size() + engine.size() + author.size() + fen.size()+ hours.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3) + strlen(dataType4) + strlen(dataType5) + strlen(dataType6) + strlen(dataType7)+ strlen(dataType8);
 
     // header
     formBuffer << "POST " << FormAction << " HTTP/1.1\n";
@@ -57,6 +57,7 @@ void Client::preparePost(const string &uuid_perft, const string &uuid_task, cons
     formBuffer << dataType5 << engine;
     formBuffer << dataType6 << author;
     formBuffer << dataType7 << fen;
+    formBuffer << dataType8 << hours;
     str = formBuffer.str();
 
 }

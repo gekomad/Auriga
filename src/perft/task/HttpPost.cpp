@@ -18,16 +18,16 @@
 
 #include "HttpPost.h"
 
-void HttpPost::postThread(const string &host, const int port, const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen) {
+void HttpPost::postThread(const string &host, const int port, const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours) {
     gc();
     if (!isDelayOK()) {
         info("don't send data to server, minimum time between 2 post is one hour");
-        return;
+        //return;
     }
     Client *httpClient = new Client();
     httpClients.insert(httpClient);
     httpClient->init(host, port);
-    httpClient->preparePost(uuid_perft, uuid_task, partial_moves, tot, engine, author, fen);
+    httpClient->preparePost(uuid_perft, uuid_task, partial_moves, tot, engine, author, fen, hours);
     httpClient->start();
     httpClient->detach();
 }

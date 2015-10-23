@@ -44,17 +44,17 @@ Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &e
     taskUUID = taskUUID1;
 }
 
-void Perft::observerTotResult(const u64 result, const string &fen, const string &engineName) {
+void Perft::observerTotResult(const u64 result, const string &fen, const string &engineName,const int hours) {
     getResultMutex.lock();
     TOT += result;
     getResultMutex.unlock();
     info("TOT: ", String::toString(TOT));
-    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen);
+    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen,String::toString(hours));
 }
 
-void Perft::observerPartialResult(const u64 result, const string &fen, const string &engineName) {
+void Perft::observerPartialResult(const u64 result, const string &fen, const string &engineName,const int hours) {
     info("partial result: ", result);
-    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen);
+    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen,String::toString(hours));
 }
 
 i128 Perft::calculate() {

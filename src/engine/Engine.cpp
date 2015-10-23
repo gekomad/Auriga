@@ -34,7 +34,7 @@ void Engine::readStdin() {
         std::smatch match;
         if (regex_heartbeat.size() && regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxPartial)) {
             debug(engineName, " stdin match partial: ", match[1].str());
-            notifyPartialResult(stoull(match[1].str()), fen, engineName);
+            notifyPartialResult(stoull(match[1].str()), fen, engineName,999);
         }
 
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
@@ -50,16 +50,16 @@ void Engine::readStdin() {
     }
 }
 
-void Engine::notifyTotResult(const u64 i, const string &fen, const string &engineName1) {
+void Engine::notifyTotResult(const u64 i, const string &fen, const string &engineName1,const int hours) {
     if (observer != nullptr) {
         assert(i != NO_RESULT);
-        observer->observerTotResult(i, fen, engineName1);
+        observer->observerTotResult(i, fen, engineName1,hours);
     }
 }
 
-void Engine::notifyPartialResult(const u64 i, const string &fen, const string &engineName1) {
+void Engine::notifyPartialResult(const u64 i, const string &fen, const string &engineName1,const int hours) {
     if (observer != nullptr) {
-        observer->observerPartialResult(i, fen, engineName1);
+        observer->observerPartialResult(i, fen, engineName1,hours);
     }
 }
 
@@ -81,7 +81,7 @@ void Engine::readStderr() {
 
         if (regex_heartbeat.size() && regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxPartial)) {
             debug(engineName, " stderr match partial: ", match[1].str());
-            notifyPartialResult(stoull(match[1].str()), fen, engineName);
+            notifyPartialResult(stoull(match[1].str()), fen, engineName,999);
         }
 
 
@@ -115,7 +115,7 @@ void Engine::endRun() {
     receiveStdErr.clear();
     info(engineName, " endRun id ", getId(), " result: ", result, " reading: ", (bool) reading);
     assert(result != NO_RESULT);
-    notifyTotResult(result, fen, engineName);
+    notifyTotResult(result, fen, engineName,999);
 }
 
 Engine::~Engine() {
