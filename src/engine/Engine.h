@@ -89,6 +89,8 @@ private:
     string engineName = "unknown_engine";
     string fen;
     bool forceRestart;
+    high_resolution_clock::time_point timeStart;
+
 };
 
 

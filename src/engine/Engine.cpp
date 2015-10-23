@@ -34,7 +34,11 @@ void Engine::readStdin() {
         std::smatch match;
         if (regex_heartbeat.size() && regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxPartial)) {
             debug(engineName, " stdin match partial: ", match[1].str());
-            notifyPartialResult(stoull(match[1].str()), fen, engineName,999);
+
+            high_resolution_clock::time_point timeEnd = std::chrono::high_resolution_clock::now();
+            int hours = Time::diffTime(timeEnd, timeStart) / 1000 / 60 / 60;
+
+            notifyPartialResult(stoull(match[1].str()), fen, engineName, hours);
         }
 
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
@@ -50,16 +54,16 @@ void Engine::readStdin() {
     }
 }
 
-void Engine::notifyTotResult(const u64 i, const string &fen, const string &engineName1,const int hours) {
+void Engine::notifyTotResult(const u64 i, const string &fen, const string &engineName1, const int hours) {
     if (observer != nullptr) {
         assert(i != NO_RESULT);
-        observer->observerTotResult(i, fen, engineName1,hours);
+        observer->observerTotResult(i, fen, engineName1, hours);
     }
 }
 
-void Engine::notifyPartialResult(const u64 i, const string &fen, const string &engineName1,const int hours) {
+void Engine::notifyPartialResult(const u64 i, const string &fen, const string &engineName1, const int hours) {
     if (observer != nullptr) {
-        observer->observerPartialResult(i, fen, engineName1,hours);
+        observer->observerPartialResult(i, fen, engineName1, hours);
     }
 }
 
@@ -81,7 +85,9 @@ void Engine::readStderr() {
 
         if (regex_heartbeat.size() && regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxPartial)) {
             debug(engineName, " stderr match partial: ", match[1].str());
-            notifyPartialResult(stoull(match[1].str()), fen, engineName,999);
+            high_resolution_clock::time_point timeEnd = std::chrono::high_resolution_clock::now();
+            int hours = Time::diffTime(timeEnd, timeStart) / 1000 / 60 / 60;
+            notifyPartialResult(stoull(match[1].str()), fen, engineName, hours);
         }
 
 
@@ -99,6 +105,7 @@ void Engine::readStderr() {
 }
 
 void Engine::run() {
+    timeStart = std::chrono::high_resolution_clock::now();
     reading = true;
     result = NO_RESULT;
     std::thread in(&Engine::readStdin, this);
@@ -111,11 +118,13 @@ void Engine::run() {
 }
 
 void Engine::endRun() {
+    high_resolution_clock::time_point timeEnd = std::chrono::high_resolution_clock::now();
     receiveOutput.clear();
     receiveStdErr.clear();
     info(engineName, " endRun id ", getId(), " result: ", result, " reading: ", (bool) reading);
     assert(result != NO_RESULT);
-    notifyTotResult(result, fen, engineName,999);
+    int hours = Time::diffTime(timeEnd, timeStart) / 1000 / 60 / 60;
+    notifyTotResult(result, fen, engineName, hours);
 }
 
 Engine::~Engine() {
