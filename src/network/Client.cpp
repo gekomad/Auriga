@@ -74,5 +74,6 @@ void Client::run() {
 }
 
 void Client::endRun() {
+    terminated=true;
     debug("Client::endRun")
 }

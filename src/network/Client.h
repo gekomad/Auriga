@@ -53,8 +53,10 @@ public:
 
     void init(const string &host1, const int port1);
 
+    bool isTerminated() { return terminated; }
 
 private:
+    bool terminated = false;
     int sock;
     string str;
     string host;

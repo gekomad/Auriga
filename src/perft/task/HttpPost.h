@@ -20,41 +20,23 @@
 
 #include "../../network/Client.h"
 #include "../../util/Time.h"
+#include <set>
 
 using namespace std;
 using namespace _def;
 using namespace _logger;
 
-class LastPost : public Singleton<LastPost> {
-    friend class Singleton<LastPost>;
+class HttpPost : public Singleton<HttpPost> {
+    friend class Singleton<HttpPost>;
 
 public:
-    bool isDelayOK() {
-        auto now = std::chrono::high_resolution_clock::now();
-        if (Time::diffTime(now,lastPost) < Time::HOUR_IN_SECONDS * 1000) {
-            return false;
-        }
-        lastPost = now;
-        return true;
-    }
+    void postThread(const string &host, const int port, const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen);
 
 private:
     high_resolution_clock::time_point lastPost = std::chrono::high_resolution_clock::now();
-};
+    std::set<Client *> httpClients;
 
-class HttpPost {
-public:
-    static void postThread(const string &host, const int port, const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen) {
+    bool isDelayOK();
 
-        if (!LastPost::getInstance().isDelayOK()) {
-            info("don't send data to server, minimum time between 2 post is one hour");
-            return;
-        }
-        Client *httpClient = new Client();//TODO delete?
-        httpClient->init(host, port);
-        httpClient->preparePost(uuid_perft, uuid_task, partial_moves, tot, engine, author, fen);
-        httpClient->start();
-        httpClient->detach();
-    }
-
+    void gc();
 };
