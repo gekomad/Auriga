@@ -24,7 +24,6 @@
 
 using namespace std;
 using namespace _def;
-using namespace _logger;
 
 class HttpPost : public Singleton<HttpPost> {
     friend class Singleton<HttpPost>;

@@ -40,7 +40,6 @@
 
 using namespace std;
 using namespace _def;
-using namespace _logger;
 
 class Client : public Thread {
 public:

@@ -27,7 +27,6 @@
 
 using namespace std;
 using namespace _debug;
-using namespace _logger;
 
 class IniFile {
 public:
