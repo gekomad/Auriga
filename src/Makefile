@@ -1,4 +1,4 @@
-#    Cinnamon UCI chess engine - Makefile for cross-compile
+#    Auriga - Makefile for cross-compile
 #    Copyright (C) Giuseppe Cannella
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -54,8 +54,7 @@ else
 	endif
 endif
 
-PARAM="-std=c++11 -O3 -w -pipe -DNDEBUG -fno-exceptions -fno-rtti -fomit-frame-pointer -Wfloat-equal -Wpedantic -Wunreachable-code -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wmain -Wundef -Winit-self -Wredundant-decls -Wcast-align -ffast-math -funroll-loops -Wno-long-long -Wcast-qual -Wextra -Wshadow "
-#PARAM="-std=c++11 -O2  -DDLOG_LEVEL=OFF -DDEBUG_MODEa "
+PARAM="-std=c++11 -O3 -w -pipe -DDLOG_LEVEL=INFO -DNDEBUG -fno-exceptions -fno-rtti -fomit-frame-pointer -Wfloat-equal -Wpedantic -Wunreachable-code -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wmain -Wundef -Winit-self -Wredundant-decls -Wcast-align -ffast-math -funroll-loops -Wno-long-long -Wcast-qual -Wextra -Wshadow "
 
 help:
 
