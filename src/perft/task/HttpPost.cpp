@@ -24,12 +24,14 @@ void HttpPost::postThread(const string &host, const int port, const string &uuid
         info("don't send data to server, minimum time between 2 post is one hour");
         return;
     }
+    info("Send data to server ",host," ",port );
     Client *httpClient = new Client();
     httpClients.insert(httpClient);
     httpClient->init(host, port);
     httpClient->preparePost(uuid_perft, uuid_task, partial_moves, tot, engine, author, fen, hours);
     httpClient->start();
-    httpClient->detach();
+    httpClient->join();
+//TODO    httpClient->detach();
 }
 
 

@@ -38,6 +38,7 @@
 #include "../util/Singleton.h"
 #include "../util/logger.h"
 
+
 using namespace std;
 using namespace _def;
 
@@ -60,4 +61,5 @@ private:
     string str;
     string host;
     int port;
+    string ip;
 };

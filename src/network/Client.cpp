@@ -17,13 +17,17 @@
 */
 
 #include "Client.h"
+#include "ResolveHost.h"
+
+// HttpPost::getInstance().postThread("auriga-cinnamon.rhcloud.com", 80, "92165e61-7afc-11e5-ab63-0ec7b1e84563", "taskUUID", "2", "3", "engineName", "author", "fen","1");
 
 void Client::init(const string &host1, const int port1) {
     host = host1;
     port = port1;
+    ip = ResolveHost::getIP(host);
 }
 
-void Client::preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen,const string & hours) {
+void Client::preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours) {
 
     info("send data ", uuid_perft, " ", uuid_task, " ", partial_moves, " ", tot, " ", engine, " ", author, " ", fen);
 
@@ -39,14 +43,15 @@ void Client::preparePost(const string &uuid_perft, const string &uuid_task, cons
     char dataType7[] = "&fen=";
     char dataType8[] = "&hours=";
 
-    string FormAction = string("http://").append(host).append("/insert_task.php").c_str();
+    string FormAction = string("https://").append(ip).append(to_string(port)).append("/insert_task.php");
+//    string FormAction = "http://127.0.0.1/auriga/insert_task.php";
+    auto ContentLength = uuid_perft.size() + uuid_task.size() + partial_moves.size() + tot.size() + engine.size() + author.size() + fen.size() + hours.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3) + strlen(dataType4) + strlen(dataType5) + strlen(dataType6) + strlen(dataType7) + strlen(dataType8);
 
-    auto ContentLength = uuid_perft.size() + uuid_task.size() + partial_moves.size() + tot.size() + engine.size() + author.size() + fen.size()+ hours.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3) + strlen(dataType4) + strlen(dataType5) + strlen(dataType6) + strlen(dataType7)+ strlen(dataType8);
 
     // header
-    formBuffer << "POST " << FormAction << " HTTP/1.1\n";
+    formBuffer << "POST " << FormAction.c_str() << " HTTP/1.1\n";
     formBuffer << "Content-Type: application/x-www-form-urlencoded\n";
-    formBuffer << "Host: \n";
+    formBuffer << "Host: " << host << "\n";
     formBuffer << "Content-Length: " << std::to_string(ContentLength) << "\n\n";
 
     // actual content
@@ -63,18 +68,20 @@ void Client::preparePost(const string &uuid_perft, const string &uuid_task, cons
 }
 
 void Client::run() {
+
     sock = socket(AF_INET, SOCK_STREAM, 0);
     assert(sock != -1);
     struct sockaddr_in server;
-    server.sin_addr.s_addr = inet_addr(host.c_str());
+    server.sin_addr.s_addr = inet_addr(ip.c_str());
     server.sin_family = AF_INET;
     server.sin_port = htons(port);
     debug(str);
     assert(connect(sock, (struct sockaddr *) &server, sizeof(server)) >= 0);
     assert(send(sock, str.data(), str.size(), 0) == (int) str.size());
+    cout << "sended" << endl;
 }
 
 void Client::endRun() {
-    terminated=true;
+    terminated = true;
     debug("Client::endRun")
 }
