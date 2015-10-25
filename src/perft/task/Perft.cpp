@@ -35,7 +35,7 @@ Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &e
     }
     IniFile ini(engineConfFile);
     aurigaHost = ini.getValue("host");
-    if (aurigaHost.empty())aurigaHost = "127.0.0.1";
+    if (aurigaHost.empty())aurigaHost = "auriga-cinnamon.rhcloud.com";//TODO
     string ports = ini.getValue("port");
     aurigaPort = ports.empty() ? 80 : stoi(ports);
 
@@ -44,17 +44,17 @@ Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &e
     taskUUID = taskUUID1;
 }
 
-void Perft::observerTotResult(const u64 result, const string &fen, const string &engineName,const int hours) {
+void Perft::observerTotResult(const u64 result, const string &fen, const string &engineName, const int hours) {
     getResultMutex.lock();
     TOT += result;
     getResultMutex.unlock();
     info("TOT: ", String::toString(TOT));
-    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen,String::toString(hours));
+    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen, String::toString(hours));
 }
 
-void Perft::observerPartialResult(const u64 result, const string &fen, const string &engineName,const int hours) {
+void Perft::observerPartialResult(const u64 result, const string &fen, const string &engineName, const int hours) {
     info("partial result: ", result);
-    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen,String::toString(hours));
+    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen, String::toString(hours));
 }
 
 i128 Perft::calculate() {
@@ -64,19 +64,15 @@ i128 Perft::calculate() {
     IniFile iniFile(engineConf);
     author = iniFile.getValue("author");
 
-    int threads = String::stoi(iniFile.getValue("uci_option_perft_thread_value"));
-    if (!threads) {
-        int ins = String::stoi(iniFile.getValue("n_instances"));
-        threadPool.setNthread(ins == 0 ? 1 : ins);
-    } else {
-        threadPool.setNthread(1);
-    }
+    int ins = String::stoi(iniFile.getValue("instances"));
+    threadPool.setNthread(ins == 0 ? 1 : ins);
+
 
     PerftTree perftTreeDao(masterFile);
     perftUUID = perftTreeDao.getPerftEntity()->getUuid();
     const TaskEntity *taskEntity = perftTreeDao.getTaskEntity(taskUUID);
     if (!taskEntity) {
-        fatal("taskUUID ", taskUUID, " not found");
+        fatal("task_uuid ", taskUUID, " not found");
         exit(1);
     }
 
