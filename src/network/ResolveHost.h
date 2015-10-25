@@ -19,10 +19,15 @@
 #pragma once
 
 #include <iostream>
-#include<sys/socket.h>
-#include<errno.h>
-#include<netdb.h>
+#include <errno.h>
+#ifdef __WIN32__
+# include <winsock2.h>
+#else
+# include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
 #include<arpa/inet.h>
+#endif
 #include "../util/logger.h"
 #include "Dns.h"
 

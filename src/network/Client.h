@@ -21,20 +21,18 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/types.h>
-#include <sys/socket.h>
+#ifdef __WIN32__
+# include <winsock2.h>
+#else
+# include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include<arpa/inet.h>
+#endif
 #include <iostream>
 #include "../threadPool/Thread.h"
-#include<arpa/inet.h>
 #include "../namespaces/def.h"
-#include <iostream>
-
 #include <sstream>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <string.h>
 #include "../util/Singleton.h"
 #include "../util/logger.h"
 
