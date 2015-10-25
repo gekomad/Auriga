@@ -87,7 +87,7 @@ i128 Perft::calculate() {
     threadPool.joinAll();
     auto stop1 = std::chrono::high_resolution_clock::now();
 
-    int timetot = Time::diffTime(start1, stop1) / 60 / 60;
+    string timetot = Time::diffTimeToString(start1, stop1);
 
     cout << "Tot Perft moves for TaskUUID " << taskUUID << ": " << String::toString(TOT) << " in " << timetot << endl;
 
