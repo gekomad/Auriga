@@ -19,12 +19,18 @@
 #include "Client.h"
 #include "ResolveHost.h"
 
-// HttpPost::getInstance().postThread("auriga-cinnamon.rhcloud.com", 80, "92165e61-7afc-11e5-ab63-0ec7b1e84563", "taskUUID", "2", "3", "engineName", "author", "fen","1");
+// HttpPost::getInstance().postThread("auriga-cinnamon.rhcloud.com", 80, "92165e61-7afc-11e5-ab63-0ec7b1e84563", "task_uuid", "2", "3", "engineName", "author", "fen","1");
 
 void Client::init(const string &host1, const int port1) {
     host = host1;
     port = port1;
+    debug("resolving host ", host);
     ip = ResolveHost::getIP(host);
+    if(!ip.size()){
+        fatal("unknow host");
+        exit(1);
+    }
+    debug("resolved host ", host,"->",ip);
 }
 
 void Client::preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours) {
@@ -78,7 +84,7 @@ void Client::run() {
     debug(str);
     assert(connect(sock, (struct sockaddr *) &server, sizeof(server)) >= 0);
     assert(send(sock, str.data(), str.size(), 0) == (int) str.size());
-    cout << "sended" << endl;
+    debug ("ok data sent");
 }
 
 void Client::endRun() {

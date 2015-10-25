@@ -18,42 +18,40 @@
 
 #pragma once
 
+#include <map>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
 #include <iostream>
-#include<sys/socket.h>
-#include<errno.h>
-#include<netdb.h>
+#include "../threadPool/Thread.h"
 #include<arpa/inet.h>
+#include "../namespaces/def.h"
+#include <iostream>
+
+#include <sstream>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
+#include "../util/Singleton.h"
 #include "../util/logger.h"
-#include "Dns.h"
+
 
 using namespace std;
+using namespace _def;
 
-class ResolveHost {
+class Dns : public Singleton<Dns> ,public map<string, string> {
+    friend class Singleton<Dns>;
+
 public:
-
-    static string getIP(const string &hostname) {
-        string ip = Dns::getInstance().getIp(hostname);
-        if (!ip.empty())
-            return ip;
-        struct hostent *he;
-        struct in_addr **addr_list;
-        int i;
-
-        if ((he = gethostbyname(hostname.c_str())) == NULL) {
-            warn(hostname, " unresolved");
-            return "";
-        }
-
-        addr_list = (struct in_addr **) he->h_addr_list;
-
-        for (i = 0; addr_list[i] != NULL; i++) {
-            Dns::getInstance()[hostname] = inet_ntoa(*addr_list[i]);
-            return inet_ntoa(*addr_list[i]);
-        }
-         warn(hostname, " unresolved");
+    string getIp(string host) {
+        auto search = find(host);
+        if(search != end())
+        return search->second;
         return "";
     }
-
-private:
 
 };
