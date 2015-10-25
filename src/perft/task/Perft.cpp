@@ -49,12 +49,12 @@ void Perft::observerTotResult(const u64 result, const string &fen, const string 
     TOT += result;
     getResultMutex.unlock();
     info("TOT: ", String::toString(TOT));
-    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen, String::toString(hours));
+    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(result), engineName, author, fen, String::toString(hours));
 }
 
 void Perft::observerPartialResult(const u64 result, const string &fen, const string &engineName, const int hours) {
     info("partial result: ", result);
-    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(TOT), engineName, author, fen, String::toString(hours));
+    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(result), engineName, author, fen, String::toString(hours));
 }
 
 i128 Perft::calculate() {
@@ -87,9 +87,10 @@ i128 Perft::calculate() {
     threadPool.joinAll();
     auto stop1 = std::chrono::high_resolution_clock::now();
 
-    string timetot = Time::diffTimeToString(start1, stop1);
+    int timetot = Time::diffTime(start1, stop1) / 60 / 60;
 
-    cout << "Tot Perft moves for TaskUUID " << taskUUID << ": " << TOT/* TODO String::toString(TOT)*/ << " in " << timetot << endl;
+    cout << "Tot Perft moves for TaskUUID " << taskUUID << ": " << String::toString(TOT) << " in " << timetot << endl;
+
 //    assert(TOT==1957580);
     return TOT;
 }

@@ -22,7 +22,7 @@ void HttpPost::postThread(const string &host, const int port, const string &uuid
     gc();
     if (!isDelayOK()) {
         info("don't send data to server, minimum time between 2 post is one hour");
-        return;
+        //TODO return;
     }
     info("Sending data to server ",host," ",port );
     Client *httpClient = new Client();
