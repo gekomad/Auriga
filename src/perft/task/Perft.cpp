@@ -35,9 +35,17 @@ Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &e
     }
     IniFile ini(engineConfFile);
     aurigaHost = ini.getValue("host");
-    if (aurigaHost.empty())aurigaHost = "auriga-cinnamon.rhcloud.com";//TODO
-    string ports = ini.getValue("port");
-    aurigaPort = ports.empty() ? 80 : stoi(ports);
+    if (aurigaHost.empty()) {
+        warn("auriga host not defined, the results will not be sent to server");
+    } else {
+        string port = ini.getValue("port");
+        if (port.empty()) {
+            warn("auriga server port not defined, the results will not be sent to server");
+            aurigaHost = "";
+        } else {
+            aurigaPort = stoi(port);
+        }
+    }
 
     engineConf = engineConfFile;
     masterFile = masterFile1;

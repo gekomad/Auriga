@@ -19,7 +19,7 @@
 #include "HttpPost.h"
 
 void HttpPost::postThread(const string &host, const int port, const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours) {
-    return;//TODO
+    if(host.empty()) return;//TODO
     gc();
     if (!isDelayOK()) {
         info("don't send data to server, minimum time between 2 post is one hour");
