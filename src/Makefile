@@ -54,18 +54,16 @@ else
 	endif
 endif
 
-PARAM="-std=c++11 -O3 -w -pipe -DDLOG_LEVEL=INFO -DNDEBUG -fno-exceptions -fno-rtti -fomit-frame-pointer -Wfloat-equal -Wpedantic -Wunreachable-code -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wmain -Wundef -Winit-self -Wredundant-decls -Wcast-align -ffast-math -funroll-loops -Wno-long-long -Wcast-qual -Wextra -Wshadow "
+PARAM="-std=c++11 -O3 -w -pipe -DDLOG_LEVEL=_INFO -DNDEBUG -fno-exceptions -fno-rtti -fomit-frame-pointer -Wfloat-equal -Wpedantic -Wunreachable-code -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wmain -Wundef -Winit-self -Wredundant-decls -Wcast-align -ffast-math -funroll-loops -Wno-long-long -Wcast-qual -Wextra -Wshadow "
 
 help:
 
 	@echo "Makefile for cross-compile Linux/Windows/OSX/ARM"
 	@echo ""
 	@echo "make auriga64-generic          > Unspecified 64-bit"
-
 	@echo "make auriga32-generic          > Unspecified 32-bit"
-
 	@echo "make auriga-ARM                > Optimized for arm cpu"
-	
+
 	@echo "g++ is the default compiler, add COMP=yourcompiler to use another compiler"
 	@echo " example: make auriga64-generic COMP=clang++"
 	@echo ""
