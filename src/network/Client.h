@@ -21,14 +21,19 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/types.h>
+
 #ifdef __WIN32__
 # include <winsock2.h>
+# include <windows.h>
 #else
+
 # include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include<arpa/inet.h>
+
 #endif
+
 #include <iostream>
 #include "../threadPool/Thread.h"
 #include "../namespaces/def.h"
@@ -47,7 +52,7 @@ public:
 
     void endRun();
 
-    void preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen,const string & hours);
+    void preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours);
 
     void init(const string &host1, const int port1);
 

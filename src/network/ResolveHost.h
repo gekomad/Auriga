@@ -20,14 +20,19 @@
 
 #include <iostream>
 #include <errno.h>
+
 #ifdef __WIN32__
 # include <winsock2.h>
+# include <windows.h>
 #else
+
 # include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include<arpa/inet.h>
+
 #endif
+
 #include "../util/logger.h"
 #include "Dns.h"
 
@@ -55,7 +60,7 @@ public:
             Dns::getInstance()[hostname] = inet_ntoa(*addr_list[i]);
             return inet_ntoa(*addr_list[i]);
         }
-         warn(hostname, " unresolved");
+        warn(hostname, " unresolved");
         return "";
     }
 

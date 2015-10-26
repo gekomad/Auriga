@@ -26,11 +26,11 @@ void Client::init(const string &host1, const int port1) {
     port = port1;
     debug("resolving host ", host);
     ip = ResolveHost::getIP(host);
-    if(!ip.size()){
+    if (!ip.size()) {
         fatal("unknow host");
         exit(1);
     }
-    debug("resolved host ", host,"->",ip);
+    debug("resolved host ", host, "->", ip);
 }
 
 void Client::preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours) {

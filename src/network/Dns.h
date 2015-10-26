@@ -22,15 +22,20 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/types.h>
+
 #ifdef __WIN32__
 # include <winsock2.h>
+# include <windows.h>
 #else
+
 # include <sys/socket.h>
 #include <netinet/in.h>
 
 #include <netdb.h>
 #include<arpa/inet.h>
+
 #endif
+
 #include <iostream>
 #include "../threadPool/Thread.h"
 #include "../namespaces/def.h"
@@ -43,14 +48,14 @@
 using namespace std;
 using namespace _def;
 
-class Dns : public Singleton<Dns> ,public map<string, string> {
+class Dns : public Singleton<Dns>, public map<string, string> {
     friend class Singleton<Dns>;
 
 public:
     string getIp(string host) {
         auto search = find(host);
-        if(search != end())
-        return search->second;
+        if (search != end())
+            return search->second;
         return "";
     }
 

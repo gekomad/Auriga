@@ -42,6 +42,7 @@ private:
     void readWorker();
 
     string iniFileName;
-    vector<pair<string, string>> readOptions() ;
+
+    vector<pair<string, string>> readOptions();
 };
 

@@ -131,7 +131,7 @@ public:
     }
 
     bool getForce_restart() {
-        return  force_restart;
+        return force_restart;
     }
 
     int getInstances() const {

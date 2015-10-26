@@ -24,6 +24,8 @@
 #include "../../threadPool/ThreadPool.h"
 #include "../../engine/ObserverEngine.h"
 #include "HttpPost.h"
+#include "../../pipe/PipePosix.h"
+#include "../../pipe/PipeWindows.h"
 
 namespace _perft {
     class Perft : public ObserverEngine {
@@ -42,9 +44,9 @@ namespace _perft {
 
         string author;
 
-        void observerTotResult(const u64 result, const string &fen, const string &engineName,const int hours);
+        void observerTotResult(const u64 result, const string &fen, const string &engineName, const int hours);
 
-        void observerPartialResult(const u64 result, const string &fen, const string &engineName,const int hours);
+        void observerPartialResult(const u64 result, const string &fen, const string &engineName, const int hours);
 
         mutex getResultMutex;
         string aurigaHost;

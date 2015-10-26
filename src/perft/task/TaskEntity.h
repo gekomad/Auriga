@@ -32,18 +32,18 @@ using namespace _def;
 class TaskEntity {
 private:
     string taskUUID;
-    vector<string> fen;
+    vector<string> fenList;
     int depth;
 public:
 
-    TaskEntity(const vector<string> &fen, int depth) : TaskEntity() {
-        setFen(fen);
+    TaskEntity(const vector<string> &fenList, int depth) : TaskEntity() {
+        setFenList(fenList);
         setDepth(depth);
     }
 
 
     TaskEntity() {
-        taskUUID = UUID::getUUID();
+        taskUUID = _uuid::UUID::getUUID();
     }
 
     string toINIformat() const {
@@ -51,7 +51,7 @@ public:
         a.append("[task]");
         a.append("\ntask_uuid=" + taskUUID);
         a.append("\ndepth=" + String(depth));
-        for (string f:fen) {
+        for (string f:fenList) {
             a.append("\nfen=" + f);
         }
         return a;
@@ -68,15 +68,15 @@ public:
 
     void addFen(const string &fen1) {
         assert(fen1.size() > 5);
-        fen.push_back(fen1);
+        fenList.push_back(fen1);
     }
 
-    const vector<string> &getFen() const {
-        return fen;
+    const vector<string> &getFenList() const {
+        return fenList;
     }
 
-    void setFen(const vector<string> &fen) {
-        TaskEntity::fen = fen;
+    void setFenList(const vector<string> &fenList) {
+        TaskEntity::fenList = fenList;
     }
 
     int getDepth() const {

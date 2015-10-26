@@ -48,7 +48,7 @@ public:
         mxRel.lock();
         unique_lock<mutex> lck(mtx);
         cv.wait(lck, [this] { return Bits::bitCount(threadsBits) != nThread; });
-        T& x=getThread();
+        T &x = getThread();
         mxRel.unlock();
         return x;
     }
@@ -109,7 +109,7 @@ public:
         removeAllThread();
     }
 
-protected:
+//protected:
     vector<T *> threadPool;
 private:
 
@@ -126,7 +126,7 @@ private:
         threadPool[i]->join();
         ASSERT(!(threadsBits & POW2[i]));
         threadsBits |= POW2[i];
-        T &x=*threadPool[i];
+        T &x = *threadPool[i];
         mxGet.unlock();
         return x;
     }
@@ -137,7 +137,7 @@ private:
         ASSERT(threadsBits & POW2[threadID]);
         threadsBits &= ~POW2[threadID];
         cv.notify_all();
-        debug( "ThreadPool::releaseThread #", threadID);
+        debug("ThreadPool::releaseThread #", threadID);
         mxGet.unlock();
     }
 

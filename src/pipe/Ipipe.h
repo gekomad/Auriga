@@ -1,5 +1,5 @@
 /*
-    Cinnamon UCI chess engine
+    https://github.com/gekomad/Auriga
     Copyright (C) Giuseppe Cannella
 
     This program is free software: you can redistribute it and/or modify
@@ -18,34 +18,19 @@
 
 #pragma once
 
+#include <iostream>
 
-#if defined(_WIN32)
-//mutex on windows are slow
-//https://msdn.microsoft.com/en-us/library/ms682530%28VS.85%29.aspx
+using namespace std;
 
-# include <winsock2.h>
-# include <windows.h>
+class Ipipe {
+public :
+    virtual int writeStdout(const string &msg) = 0;
 
-class Mutex {
-public:
-    Mutex() { InitializeCriticalSection(&cs); }
+    virtual const string readStderr() = 0;
 
-    ~Mutex() { DeleteCriticalSection(&cs); }
+    virtual const string readStdin() = 0;
 
-    void lock() { EnterCriticalSection(&cs); }
-
-    void unlock() { LeaveCriticalSection(&cs); }
-
-private:
-    CRITICAL_SECTION cs;
+    virtual bool init(const string &enginePath) = 0;
 };
 
-#else
 
-#include <mutex>
-
-class Mutex : public mutex {
-
-};
-
-#endif

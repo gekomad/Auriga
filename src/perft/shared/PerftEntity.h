@@ -39,7 +39,7 @@ public:
     }
 
     PerftEntity() {
-        uuid = UUID::getUUID();
+        uuid = _uuid::UUID::getUUID();
     }
 
     string toINIformat() const {

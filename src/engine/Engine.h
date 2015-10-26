@@ -22,12 +22,14 @@
 #include "../util/IniFile.h"
 #include "../namespaces/def.h"
 #include "ObserverEngine.h"
-#include <unistd.h>
+
 #include <string>
 #include <iostream>
 #include <regex>
 #include <atomic>
 #include "../perft/worker/WorkerEntityDao.h"
+#include "../pipe/Ipipe.h"
+
 
 using namespace std;
 using namespace _def;
@@ -38,7 +40,13 @@ public :
         UCI = 0, XBOARD = 1
     } _PROTOCOL_TYPE;
 
-    Engine();
+    Engine() { };
+
+    void setPipe(Ipipe *pipe1) {
+        GET_NAME_REGEX[0].assign("id name (.+)");
+        GET_NAME_REGEX[1].assign("feature myname=\"(.+)\".*");
+        pipe = pipe1;
+    };
 
     ~Engine();
 
@@ -63,7 +71,7 @@ private:
     string receiveStdErr;
     const u64 NO_RESULT = 0xffffffffffffffff;
     PROTOCOL_TYPE protocol;
-    int fd_p2c[2], fd_c2p[2], stdErr[2];
+//    int fd_p2c[2], fd_c2p[2], stdErr[2];
     bool initialized = false;
     mutex putMutex;
     const string SEND_INIT_STRING[2] = {"uci", "ping 1"};
@@ -76,13 +84,14 @@ private:
     std::regex GET_NAME_REGEX[2];
     u64 result;
 
-    void notifyTotResult(const u64 i, const string &fen,const string& engineName,const int hours);
+    void notifyTotResult(const u64 i, const string &fen, const string &engineName, const int hours);
 
-    void notifyPartialResult(const u64 i, const string &fen,const string& engineName,const int hours);
+    void notifyPartialResult(const u64 i, const string &fen, const string &engineName, const int hours);
 
     void readStdin();
 
     void readStderr();
+
     atomic<bool> reading;
     ObserverEngine *observer = nullptr;
     condition_variable cv;
@@ -91,6 +100,7 @@ private:
     bool forceRestart;
     high_resolution_clock::time_point timeStart;
 
+    Ipipe *pipe;
 };
 
 

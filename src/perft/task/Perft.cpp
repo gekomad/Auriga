@@ -67,6 +67,13 @@ i128 Perft::calculate() {
     int ins = String::stoi(iniFile.getValue("instances"));
     threadPool.setNthread(ins == 0 ? 1 : ins);
 
+    for (Engine *e :threadPool.threadPool) {
+#if defined(_WIN32)
+        e->setPipe(new PipeWindows());
+#else
+        e->setPipe(new PipePosix());
+#endif
+    }
 
     PerftTree perftTreeDao(masterFile);
     perftUUID = perftTreeDao.getPerftEntity()->getUuid();
@@ -76,7 +83,7 @@ i128 Perft::calculate() {
         exit(1);
     }
 
-    for (string fen:taskEntity->getFen()) {
+    for (string fen:taskEntity->getFenList()) {
         Engine &e = threadPool.getNextThread();
         e.init(engineConf);
         e.registerObserverEngine(this);

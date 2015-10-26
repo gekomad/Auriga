@@ -2,11 +2,11 @@ project(auriga)
 
 set(DR_MEMORY "NO")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -pedantic -W -DDLOG_LEVEL=DEBUG -DDEBUG_MODE")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -s -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -static -std=c++11 -DDLOG_LEVEL=INFO")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread  -DNDEBUG  -std=c++11 -pedantic -W -DDLOG_LEVEL=_DEBUG -DDEBUG_MODE")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -s -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -static -std=c++11 -DDLOG_LEVEL=_INFO")
 
 if (DR_MEMORY STREQUAL "YES")
-    set(CMAKE_CXX_FLAGS "-DDEBUG_MODE -DDLOG_LEVEL=INFO -pthread -std=c++11 -m32 -g -fno-inline -fno-omit-frame-pointer -Wno-reorder")
+    set(CMAKE_CXX_FLAGS "-DDEBUG_MODE -DDLOG_LEVEL=_INFO -pthread -std=c++11 -m32 -g -fno-inline -fno-omit-frame-pointer -Wno-reorder")
 endif ()
 
 set(SOURCE_FILES
@@ -22,10 +22,9 @@ set(SOURCE_FILES
         src/perft/task/TaskEntityDao.cpp
         src/perft/task/HttpPost.cpp
         src/perft/shared/PerftEntityDao.cpp
-
         src/perft/worker/WorkerEntityDao.cpp
-
-        src/main.cpp)
+        src/main.cpp
+        )
 
 set(CMAKE_CXX_COMPILER "g++")
 add_executable(auriga ${SOURCE_FILES})
