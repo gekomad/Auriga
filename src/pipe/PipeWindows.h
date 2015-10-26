@@ -50,7 +50,7 @@ public :
         CHAR chBuf[2048];
         bool bSuccess = false;
 
-        bSuccess = ReadFile(g_hChildStd_OUT_Rd, chBuf, BUFSIZE, &dwRead, NULL);
+        bSuccess = ReadFile(g_hChildStd_OUT_Rd, chBuf, 2048, &dwRead, NULL);
         if (!bSuccess || dwRead == 0) {
             return "";
         }
@@ -62,10 +62,10 @@ public :
     const string readStderr() {
         assert(initialized);
         DWORD dwRead;
-        CHAR chBuf[BUFSIZE];
+        CHAR chBuf[2048];
         bool bSuccess = false;
 
-        bSuccess = ReadFile(g_hChildStd_ERR_Rd, chBuf, BUFSIZE, &dwRead, NULL);
+        bSuccess = ReadFile(g_hChildStd_ERR_Rd, chBuf, 2048, &dwRead, NULL);
         if (!bSuccess || dwRead == 0) {
             return "";
         }
