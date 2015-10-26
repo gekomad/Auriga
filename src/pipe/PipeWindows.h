@@ -26,6 +26,7 @@ using namespace std;
 class PipeWindows : public Ipipe {
 public :
     int writeStdout(const string &msg) {
+        assert(initialized);
         DWORD dwWritten;
         if (!WriteFile(g_hChildStd_IN_Wr, msg.c_str(), msg.size(), &dwWritten, NULL)) {
             return -1;
@@ -44,6 +45,7 @@ public :
     }
 
     const string readStdin() {
+        assert(initialized);
         DWORD dwRead;
         CHAR chBuf[2048];
         bool bSuccess = false;
@@ -58,6 +60,7 @@ public :
     }
 
     const string readStderr() {
+        assert(initialized);
         DWORD dwRead;
         CHAR chBuf[BUFSIZE];
         bool bSuccess = false;
@@ -146,13 +149,14 @@ public :
     };
 private:
     bool initialized;
-    HANDLE g_hChildStd_IN_Rd = NULL;
+
     HANDLE g_hChildStd_IN_Wr = NULL;
     HANDLE g_hChildStd_OUT_Rd = NULL;
-    HANDLE g_hChildStd_OUT_Wr = NULL;
-
     HANDLE g_hChildStd_ERR_Rd = NULL;
-    HANDLE g_hChildStd_ERR_Wr = NULL;
+
+    HANDLE g_hChildStd_IN_Rd = NULL;//TODO provare a chiudere subito e lasciarlo locale
+    HANDLE g_hChildStd_OUT_Wr = NULL;//TODO provare a chiudere subito e lasciarlo locale
+    HANDLE g_hChildStd_ERR_Wr = NULL;//TODO provare a chiudere subito e lasciarlo locale
 };
 
 #endif
