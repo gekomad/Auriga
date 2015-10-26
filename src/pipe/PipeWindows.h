@@ -57,22 +57,71 @@ public :
         return string(chBuf);
     }
 
-    const string readStderr() { assert(0);return ""; }
+    const string readStderr() {
+        DWORD dwRead;
+        CHAR chBuf[BUFSIZE];
+        bool bSuccess = false;
+
+        bSuccess = ReadFile(g_hChildStd_ERR_Rd, chBuf, BUFSIZE, &dwRead, NULL);
+        if (!bSuccess || dwRead == 0) {
+            return "";
+        }
+        chBuf[dwRead] = 0;
+        cout << "READ from engine: |" << chBuf << "|" << endl;
+        return string(chBuf);
+    }
 
     bool init(const string &enginePath) {
+        initialized = false;
+
+        SECURITY_ATTRIBUTES saAttr;
+
+        saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
+        saAttr.bInheritHandle = true;
+        saAttr.lpSecurityDescriptor = NULL;
+
+        if (!CreatePipe(&g_hChildStd_OUT_Rd, &g_hChildStd_OUT_Wr, &saAttr, 0)) {
+            fatal("StdoutRd CreatePipe");
+            return initialized;
+        }
+
+        if (!SetHandleInformation(g_hChildStd_OUT_Rd, HANDLE_FLAG_INHERIT, 0)) {
+            fatal("Stdout SetHandleInformation");
+            return initialized;
+        }
+
+        if (!CreatePipe(&g_hChildStd_ERR_Rd, &g_hChildStd_ERR_Wr, &saAttr, 0)) {
+            fatal("StdoutRd err CreatePipe");
+            return initialized;
+        }
+
+        if (!SetHandleInformation(g_hChildStd_ERR_Rd, HANDLE_FLAG_INHERIT, 0)) {
+            fatal("Stderr SetHandleInformation");
+            return initialized;
+        }
+
+        if (!CreatePipe(&g_hChildStd_IN_Rd, &g_hChildStd_IN_Wr, &saAttr, 0)) {
+            fatal("Stdin CreatePipe");
+            return initialized;
+        }
+
+        if (!SetHandleInformation(g_hChildStd_IN_Wr, HANDLE_FLAG_INHERIT, 0)) {
+            fatal("Stdin SetHandleInformation");
+            return initialized;
+        }
+        ///////////
         TCHAR szCmdline[1024];
         strcpy(szCmdline, enginePath.c_str());
         PROCESS_INFORMATION piProcInfo;
         STARTUPINFO siStartInfo;
         bool bSuccess = false;
 
-
         ZeroMemory(&piProcInfo, sizeof(PROCESS_INFORMATION));
 
 
         ZeroMemory(&siStartInfo, sizeof(STARTUPINFO));
         siStartInfo.cb = sizeof(STARTUPINFO);
-        siStartInfo.hStdError = g_hChildStd_OUT_Wr;
+        siStartInfo.hStdError = g_hChildStd_ERR_Wr;
         siStartInfo.hStdOutput = g_hChildStd_OUT_Wr;
         siStartInfo.hStdInput = g_hChildStd_IN_Rd;
         siStartInfo.dwFlags |= STARTF_USESTDHANDLES;
@@ -87,10 +136,7 @@ public :
                                  &siStartInfo,  // STARTUPINFO pointer
                                  &piProcInfo);  // receives PROCESS_INFORMATION
 
-        if (!bSuccess) {
-            initialized = false;
-        } else {
-
+        if (bSuccess) {
             CloseHandle(piProcInfo.hProcess);
             CloseHandle(piProcInfo.hThread);
         }
@@ -100,10 +146,13 @@ public :
     };
 private:
     bool initialized;
-
     HANDLE g_hChildStd_IN_Rd = NULL;
     HANDLE g_hChildStd_IN_Wr = NULL;
     HANDLE g_hChildStd_OUT_Rd = NULL;
     HANDLE g_hChildStd_OUT_Wr = NULL;
+
+    HANDLE g_hChildStd_ERR_Rd = NULL;
+    HANDLE g_hChildStd_ERR_Wr = NULL;
 };
+
 #endif
