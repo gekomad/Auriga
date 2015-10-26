@@ -45,7 +45,7 @@ else
 	OS=Windows
 	RM=del
 	PA=""
-	LIBS=-static -static-libgcc -static-libstdc++
+	LIBS=-static -static-libgcc -static-libstdc++ -lws2_32
 	EXE="auriga.exe"
 	STRIP=strip.exe
 
