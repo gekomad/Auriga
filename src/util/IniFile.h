@@ -42,7 +42,7 @@ public:
             warn("file not found: ", fileName);
         }
         rgxLine.assign("^(.+?)=(.*)$");
-        rgxTag.assign("^\\[.+]$");
+        rgxTag.assign("^\\[.+\\]$");
     }
 
     ~IniFile() {
@@ -93,6 +93,7 @@ public:
     };
 
 private:
+
     std::regex rgxLine;
     std::regex rgxTag;
     bool endFile = true;

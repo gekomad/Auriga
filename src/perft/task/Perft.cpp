@@ -106,6 +106,5 @@ i128 Perft::calculate() {
 
     cout << "Tot Perft moves for TaskUUID " << taskUUID << ": " << String::toString(TOT) << " in " << timetot << endl;
 
-//    assert(TOT==1957580);
     return TOT;
 }

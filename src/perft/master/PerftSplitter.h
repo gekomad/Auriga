@@ -33,6 +33,6 @@ class PerftSplitter {
 
 public:
 
-    static void generateMasterINI(const string &fen, const unsigned Ntask, const int depth, const string &mastetnodesDir);
+    static void generateMasterINI(const string &fen, const unsigned Ntask, const int depth, const string &iniDir);
 };
 

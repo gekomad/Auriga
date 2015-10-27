@@ -21,6 +21,8 @@
 #include <fstream>
 #include <algorithm>
 #include <sstream>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 using namespace std;
 
@@ -34,6 +36,11 @@ public:
             return false;
         }
         inData.close();
+        return true;
+    }
+
+    static bool createDirectory(const string &filename) {
+        mkdir(filename.c_str(), 0777);
         return true;
     }
 

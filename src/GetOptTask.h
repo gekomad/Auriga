@@ -32,31 +32,59 @@ public:
             params.push_back(argv[i]);
         }
         assert(params[0] == "--task");
-        //--task -start /home/geko/workspace/Auriga/src/conf/worker/stockfish.auriga.ini /home/geko/02A85E37-CE45-A881-A98B-557671CDF051 37BE4F67-E060-001F-D578-794FC3681C07
-        if ((params.size() == 5 && params[1] == "-start") || (params.size() == 7 && params[5] == "-log")) {
+        /*
+        /root/
+            |
+             --perft_uuid/
+                        |
+                        --task_uuid/
+                        |          |
+                        |          --task_uuid.ini
+                        |          --log/
+                        |               |
+                        |               --task_uuid.log
+                        |
+                        --task_uuid/
+                                   |
+                                   --task_uuid.ini
+                                   --log/
+                                        |
+                                        --task_uuid.log
+            |
+             --perft_uuid/
+                        |
+                        --task_uuid/
+                                   |
+                                   --task_uuid.ini
+                                   --log/
+                                        |
+                                        --task_uuid.log
 
-            string engine = params[2];
-            if (!FileUtil::fileExists(engine)) {
-                fatal("file not found ", engine);
+        */
+        //--task -start /home/geko/workspace/workspace_my/Auriga/conf/worker/stockfish.auriga.ini /home/geko/auriga_perft 8E42A477-83F1-8863-E05C-D68E4EA23236 3EC4AEB6-D764-9FBF-0991-5791A38CB691
+        if ((params.size() == 6 && params[1] == "-start")) {
+
+            string workerIniFile = params[2];
+            if (!FileUtil::fileExists(workerIniFile)) {
+                fatal("file not found ", workerIniFile);
                 exit(0);
             }
-            string master = params[3];
-            if (!FileUtil::fileExists(master)) {
-                fatal("file not found ", master);
+            string dir = params[3];
+            string perftUUID = params[4];
+            string taskUUID = params[5];
+            string perftIniFile = dir + "/" + perftUUID + "/" + perftUUID + ".ini";
+            if (!FileUtil::fileExists(perftIniFile)) {
+                fatal("file not found ", perftIniFile);
                 exit(0);
             }
-            string taskUUID = params[4];
-            IniFile ini(master);
-            string perftUUID = ini.getValue("perft_uuid");
-
-            string dirlog = perftUUID;//.append("/").append(taskUUID) + ".log";
-            if (params.size() == 7) {
-                dirlog = string(params[6]) + "/" + dirlog;
-            }
-            string logpath = dirlog + "/" + taskUUID + ".log";
+            int count=0;
+            string logpath = dir + "/" + perftUUID + "/" + taskUUID + ".log";
+            while (FileUtil::fileExists(logpath)) {
+                logpath +=to_string(++count);
+            };
             Logger::getInstance().setLogfile(logpath);
 
-            _perft::Perft perft(taskUUID, master, engine);
+            _perft::Perft perft(taskUUID, perftIniFile, workerIniFile);
             perft.calculate();
 
         } else {

@@ -18,7 +18,7 @@
 
 #include "PerftSplitter.h"
 
-void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, const int depth, const string &mastetnodesDir) {
+void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, const int depth, const string &iniDir) {
     assert(depth > 1);
     string res = "#auriga ini file - AUTO-GENERATED FILE - DO NOT EDIT\n\n";
 
@@ -60,15 +60,17 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
 
     TaskEntityDao taskEntityDao(taskEntity);
     res.append(taskEntityDao.toINIformat());
-    string filename = mastetnodesDir;
-    filename.append(perftEntity.getUuid());
+    string perftUUID = perftEntity.getUuid();
+    FileUtil::createDirectory(iniDir + "/" + perftUUID);
+    string filename = iniDir + "/" + perftUUID + "/" + perftUUID + ".ini";
+
     trace("\nwrite file", filename, "\n-------------\n", res, "\n-------------------");
     ofstream myfile;
     myfile.open(filename);
     myfile << res;
     myfile.close();
     //CSV file for table perft
-    myfile.open(mastetnodesDir + "/perft_table.tmp");
+    myfile.open(perftUUID+"/perft_table.tmp");
     myfile << perftEntity.getUuid() + "|" + fen + "|" + to_string(depth) + "|" + to_string(Ntask) + "\n";
     myfile.close();
 
