@@ -31,8 +31,13 @@ namespace _def {
     static const string NAME = "Auriga 0.1.x";
     typedef unsigned char uchar;
     typedef long long unsigned u64;
-//    typedef __int128_t i128;
+#if UINTPTR_MAX == 0xffffffffffffffff
+    //64 bit
+    typedef __int128_t i128;
+#else
+    //32 bit
     typedef u64 i128;
+#endif
     //TODO
     typedef u64 _Tchessboard[16];
 
