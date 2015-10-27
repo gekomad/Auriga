@@ -14,7 +14,7 @@ set(SOURCE_FILES
         src/engine/Engine.cpp
 
         src/network/Client.cpp
-        src/util/String.cpp
+
         src/perft/master/PerftSplitter.cpp
 
         src/perft/task/Perft.cpp
@@ -26,8 +26,8 @@ set(SOURCE_FILES
         src/main.cpp
         )
 
-#set(CMAKE_CXX_COMPILER "g++")
-set(CMAKE_CXX_COMPILER "x86_64-w64-mingw32-g++")
+set(CMAKE_CXX_COMPILER "g++")
+#set(CMAKE_CXX_COMPILER "x86_64-w64-mingw32-g++")
 #set(CMAKE_CXX_COMPILER "i686-w64-mingw32-g++")
 
 add_executable(auriga ${SOURCE_FILES})
