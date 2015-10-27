@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include <errno.h>
+#include <regex>
 
 #ifdef __WIN32__
 # include <winsock2.h>
@@ -45,26 +46,45 @@ public:
         string ip = Dns::getInstance().getIp(hostname);
         if (!ip.empty())
             return ip;
-        if(hostname=="localhost")return "127.0.0.1";
+
         struct hostent *he;
-        struct in_addr **addr_list;
-        int i;
+
 
         if ((he = gethostbyname(hostname.c_str())) == NULL) {
-            warn(hostname, " unresolved");
-            return "";
+            return getResult(hostname);
         }
+        struct in_addr **addr_list = (struct in_addr **) he->h_addr_list;
 
-        addr_list = (struct in_addr **) he->h_addr_list;
-
-        for (i = 0; addr_list[i] != NULL; i++) {
-            Dns::getInstance()[hostname] = inet_ntoa(*addr_list[i]);
+        for (int i = 0; addr_list[i] != NULL; i++) {
+            updateDns(hostname, inet_ntoa(*addr_list[i]));
             return inet_ntoa(*addr_list[i]);
         }
-        warn(hostname, " unresolved");
-        return "";
+        return getResult(hostname);
     }
 
 private:
+    static void updateDns(const string &host, const string &ip) {
+        Dns::getInstance()[host] = ip;
+    }
+
+    static const string getResult(const string &host) {
+        if (host == "localhost") {
+            updateDns(host, "127.0.0.1");
+            return "127.0.0.1";
+        }
+        if (isIP(host)) {
+            updateDns(host, host);
+            return host;
+        }
+        warn(host, " unresolved");
+        return "";
+    }
+
+    static bool isIP(const string &host) {
+        static const std::regex regIp(R"(^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$)");
+        if (std::regex_match(host.begin(), host.end(), regIp))
+            return true;
+        return false;
+    }
 
 };
