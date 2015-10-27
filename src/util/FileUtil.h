@@ -40,7 +40,11 @@ public:
     }
 
     static bool createDirectory(const string &filename) {
+#if defined(_WIN32)
+        mkdir(filename.c_str());
+#else
         mkdir(filename.c_str(), 0777);
+#endif
         return true;
     }
 
