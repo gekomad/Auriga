@@ -70,8 +70,9 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
     myfile << res;
     myfile.close();
     //CSV file for table perft
-    myfile.open(perftUUID+"/perft_table.tmp");
+    myfile.open(iniDir + "/" + perftUUID + "/perft_table.tmp");
     myfile << perftEntity.getUuid() + "|" + fen + "|" + to_string(depth) + "|" + to_string(Ntask) + "\n";
     myfile.close();
 
+    info("Generated file " + filename);
 }
