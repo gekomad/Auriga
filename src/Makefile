@@ -77,8 +77,8 @@ auriga-ARM:
 auriga64-generic:
 	$(MAKE) LIBS="$(LIBS) lib/$(OS)/64/libCinnamon.a" ARC="-m64" build
 
-all:	Engine.o Client.o  PerftSplitter.o  Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o
-	$(COMP) ${CFLAGS} ${ARC} -o ${EXE}  Engine.o Client.o  PerftSplitter.o  Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o ${LIBS}
+all:	Engine.o Client.o  PerftSplitter.o PipePosix.o  PipeWindows.o Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o
+	$(COMP) ${CFLAGS} ${ARC} -o ${EXE}  Engine.o Client.o PipePosix.o PipeWindows.o  PerftSplitter.o  Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o ${LIBS}
 
 default:
 	help
@@ -112,6 +112,12 @@ PerftEntityDao.o: perft/shared/PerftEntityDao.cpp
 
 WorkerEntityDao.o: perft/worker/WorkerEntityDao.cpp
 	$(COMP) -c perft/worker/WorkerEntityDao.cpp ${CFLAGS} ${ARC}
+
+PipePosix.o: pipe/PipePosix.cpp
+	$(COMP) -c pipe/PipePosix.cpp ${CFLAGS} ${ARC}
+
+PipeWindows.o: pipe/PipeWindows.cpp
+	$(COMP) -c pipe/PipeWindows.cpp ${CFLAGS} ${ARC}
 
 clean:
 	$(RM) *.o $(EXE)

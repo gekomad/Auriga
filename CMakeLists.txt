@@ -14,7 +14,8 @@ set(SOURCE_FILES
         src/engine/Engine.cpp
 
         src/network/Client.cpp
-
+        src/pipe/PipePosix.cpp
+#        src/pipe/PipeWindows.cpp
         src/perft/master/PerftSplitter.cpp
 
         src/perft/task/Perft.cpp
