@@ -40,7 +40,6 @@ CREATE TABLE `perft` (
 
 LOCK TABLES `perft` WRITE;
 /*!40000 ALTER TABLE `perft` DISABLE KEYS */;
-INSERT INTO `perft` VALUES ('0056E608-4767-012C-6109-CD0798550528','r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -',5,10,'2015-10-21 08:43:42',NULL);
 /*!40000 ALTER TABLE `perft` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,6 +54,7 @@ CREATE TABLE `tasks` (
   `uuid_perft` char(36) COLLATE utf8_bin NOT NULL,
   `uuid_task` char(36) COLLATE utf8_bin NOT NULL,
   `fen` char(100) COLLATE utf8_bin NOT NULL,
+  `depth` int(11) DEFAULT NULL,
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `partial_moves` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `tot` varchar(50) COLLATE utf8_bin DEFAULT NULL,
@@ -84,4 +84,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-23 15:48:34
+-- Dump completed on 2015-10-27 15:54:09
