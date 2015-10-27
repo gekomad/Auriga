@@ -33,7 +33,7 @@ void Client::init(const string &host1, const int port1) {
     debug("resolved host ", host, "->", ip);
 }
 
-void Client::preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours) {
+void Client::preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours,const string & depth) {
 
     info("send data ", uuid_perft, " ", uuid_task, " ", partial_moves, " ", tot, " ", engine, " ", author, " ", fen);
 
@@ -48,10 +48,11 @@ void Client::preparePost(const string &uuid_perft, const string &uuid_task, cons
     char dataType6[] = "&author=";
     char dataType7[] = "&fen=";
     char dataType8[] = "&hours=";
+    char dataType9[] = "&depth=";
 
     string FormAction = string("https://").append(ip).append(to_string(port)).append("/insert_task.php");
 //    string FormAction = "http://127.0.0.1/auriga/insert_task.php";
-    auto ContentLength = uuid_perft.size() + uuid_task.size() + partial_moves.size() + tot.size() + engine.size() + author.size() + fen.size() + hours.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3) + strlen(dataType4) + strlen(dataType5) + strlen(dataType6) + strlen(dataType7) + strlen(dataType8);
+    auto ContentLength = uuid_perft.size() + uuid_task.size() + partial_moves.size() + tot.size() + engine.size() + author.size() + fen.size() + hours.size() + depth.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3) + strlen(dataType4) + strlen(dataType5) + strlen(dataType6) + strlen(dataType7) + strlen(dataType8) + strlen(dataType9);
 
 
     // header
@@ -69,6 +70,7 @@ void Client::preparePost(const string &uuid_perft, const string &uuid_task, cons
     formBuffer << dataType6 << author;
     formBuffer << dataType7 << fen;
     formBuffer << dataType8 << hours;
+    formBuffer << dataType9 << depth;
     str = formBuffer.str();
 
 }

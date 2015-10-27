@@ -47,7 +47,7 @@ void Engine::readStdin() {
             high_resolution_clock::time_point timeEnd = std::chrono::high_resolution_clock::now();
             int hours = Time::diffTime(timeEnd, timeStart) / 1000 / 60 / 60;
 
-            notifyPartialResult(stoull(match[1].str()), fen, engineName, hours);
+            notifyPartialResult(stoull(match[1].str()), fen, engineName, hours, depth);
         }
 
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
@@ -63,16 +63,16 @@ void Engine::readStdin() {
     }
 }
 
-void Engine::notifyTotResult(const u64 i, const string &fen, const string &engineName1, const int hours) {
+void Engine::notifyTotResult(const u64 i, const string &fen, const string &engineName1, const int hours, const int depth) {
     if (observer != nullptr) {
         assert(i != NO_RESULT);
-        observer->observerTotResult(i, fen, engineName1, hours);
+        observer->observerTotResult(i, fen, engineName1, hours, depth);
     }
 }
 
-void Engine::notifyPartialResult(const u64 i, const string &fen, const string &engineName1, const int hours) {
+void Engine::notifyPartialResult(const u64 i, const string &fen, const string &engineName1, const int hours, const int depth) {
     if (observer != nullptr) {
-        observer->observerPartialResult(i, fen, engineName1, hours);
+        observer->observerPartialResult(i, fen, engineName1, hours, depth);
     }
 }
 
@@ -101,7 +101,7 @@ void Engine::readStderr() {
             debug(engineName, " stderr match partial: ", match[1].str());
             high_resolution_clock::time_point timeEnd = std::chrono::high_resolution_clock::now();
             int hours = Time::diffTime(timeEnd, timeStart) / 1000 / 60 / 60;
-            notifyPartialResult(stoull(match[1].str()), fen, engineName, hours);
+            notifyPartialResult(stoull(match[1].str()), fen, engineName, hours, depth);
         }
 
 
@@ -138,7 +138,7 @@ void Engine::endRun() {
     info(engineName, " endRun id ", getId(), " result: ", result, " reading: ", (bool) reading);
     assert(result != NO_RESULT);
     int hours = Time::diffTime(timeEnd, timeStart) / 1000 / 60 / 60;
-    notifyTotResult(result, fen, engineName, hours);
+    notifyTotResult(result, fen, engineName, hours, depth);
 }
 
 Engine::~Engine() {

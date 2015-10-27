@@ -52,17 +52,17 @@ Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &e
     taskUUID = taskUUID1;
 }
 
-void Perft::observerTotResult(const u64 result, const string &fen, const string &engineName, const int hours) {
+void Perft::observerTotResult(const u64 result, const string &fen, const string &engineName, const int hours, const int depth) {
     getResultMutex.lock();
     TOT += result;
     getResultMutex.unlock();
     info("TOT: ", String::toString(TOT));
-    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(result), engineName, author, fen, String::toString(hours));
+    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(result), engineName, author, fen, to_string(hours), to_string(depth));
 }
 
-void Perft::observerPartialResult(const u64 result, const string &fen, const string &engineName, const int hours) {
+void Perft::observerPartialResult(const u64 result, const string &fen, const string &engineName, const int hours, const int depth) {
     info("partial result: ", result);
-    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(result), engineName, author, fen, String::toString(hours));
+    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(result), engineName, author, fen, to_string(hours), to_string(depth));
 }
 
 i128 Perft::calculate() {
@@ -97,6 +97,7 @@ i128 Perft::calculate() {
         e.registerObserverEngine(this);
         e.start();
         e.setPosition(fen);
+        e.setDepth(taskEntity->getDepth());
         e.put("perft " + String(taskEntity->getDepth()));
     }
     threadPool.joinAll();

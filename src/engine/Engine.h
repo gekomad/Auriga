@@ -64,6 +64,10 @@ public :
         observer = obs;
     }
 
+    void setDepth(const int depth1) {
+        depth = depth1;
+    }
+
 private:
 
     string regex_heartbeat;
@@ -84,9 +88,9 @@ private:
     std::regex GET_NAME_REGEX[2];
     u64 result;
 
-    void notifyTotResult(const u64 i, const string &fen, const string &engineName, const int hours);
+    void notifyTotResult(const u64 i, const string &fen, const string &engineName, const int hours, const int depth);
 
-    void notifyPartialResult(const u64 i, const string &fen, const string &engineName, const int hours);
+    void notifyPartialResult(const u64 i, const string &fen, const string &engineName, const int hours, const int depth);
 
     void readStdin();
 
@@ -101,6 +105,7 @@ private:
     high_resolution_clock::time_point timeStart;
 
     Ipipe *pipe;
+    int depth;
 };
 
 

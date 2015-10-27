@@ -18,8 +18,8 @@
 
 #include "HttpPost.h"
 
-void HttpPost::postThread(const string &host, const int port, const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours) {
-    info("Sending data to server host:", host, " port:", port, " uuid_perft:", uuid_perft, " uuid_task:", uuid_task, " partial_moves:", partial_moves, " tot:", tot, " engine:", engine, " author:", author, " fen:", fen, " hours:", hours);
+void HttpPost::postThread(const string &host, const int port, const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours, const string &depth) {
+    info("Sending data to server host:", host, " port:", port, " uuid_perft:", uuid_perft, " uuid_task:", uuid_task, " partial_moves:", partial_moves, " tot:", tot, " engine:", engine, " author:", author, " fen:", fen, " hours:", hours, " depth:", depth);
     if (host.empty()) {
         info("host = null, don't send data to server");
         return;
@@ -33,7 +33,7 @@ void HttpPost::postThread(const string &host, const int port, const string &uuid
     Client *httpClient = new Client();
     httpClients.insert(httpClient);
     httpClient->init(host, port);
-    httpClient->preparePost(uuid_perft, uuid_task, partial_moves, tot, engine, author, fen, hours);
+    httpClient->preparePost(uuid_perft, uuid_task, partial_moves, tot, engine, author, fen, hours, depth);
     httpClient->start();
     httpClient->join();
 //TODO    httpClient->detach();
