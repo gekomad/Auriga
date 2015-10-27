@@ -31,7 +31,6 @@ ifeq ($(OS),Windows)
 
 else
 	# *nix
-	ARC=
 	LIBS=-s -Wl,--whole-archive -lpthread -Wl,--no-whole-archive
 	ifeq ($(OS),OSX)
 		LIBS= -static-libgcc -static-libstdc++ -lpthread
@@ -70,13 +69,13 @@ build:
 	$(STRIP) $(EXE)
 
 auriga32-generic:
-	$(MAKE) LIBS="$(LIBS) lib/$(OS)/32/libCinnamon.a" ARC="$(ARC) -m32" build
+	$(MAKE) LIBS="$(LIBS) lib/$(OS)/32/libCinnamon.a" ARC="-m32" build
 
 auriga-ARM:
-	$(MAKE) LIBS="$(LIBS) gtb/ARM/32/libgtb.a" ARC="$(ARC) -fno-gcse -w -fsigned-char" build
+	$(MAKE) LIBS="$(LIBS) gtb/ARM/32/libgtb.a" ARC="-fno-gcse -w -fsigned-char" build
 
 auriga64-generic:
-	$(MAKE) LIBS="$(LIBS) lib/$(OS)/64/libCinnamon.a" ARC="$(ARC) -m64" build
+	$(MAKE) LIBS="$(LIBS) lib/$(OS)/64/libCinnamon.a" ARC="-m64" build
 
 all:	Engine.o Client.o  PerftSplitter.o  Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o
 	$(COMP) ${CFLAGS} ${ARC} -o ${EXE}  Engine.o Client.o  PerftSplitter.o  Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o ${LIBS}
