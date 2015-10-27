@@ -25,6 +25,10 @@ using namespace _def;
 
 class GetOptTask {
 public:
+    static void help(char **argv) {
+        string exe = FileUtil::getFileName(argv[0]);
+        cout << "Calculate perft on task:\t" << exe << " --task -start WORKER.INI DIR PERFT_UUID TASK_UUID\n";
+    }
 
     static void parse(int argc, char **argv) {
         vector<string> params;
@@ -90,7 +94,7 @@ public:
             perft.calculate();
 
         } else {
-            cout << "err" << endl;//TODO
+            help(argv);
         }
     }
 };

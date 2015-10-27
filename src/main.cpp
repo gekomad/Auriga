@@ -30,7 +30,7 @@ using namespace std;
 int main(int argc, char *argv[]) {
 
     cout << NAME << " - Distributed and collaborative perft framework by Giuseppe Cannella\n";
-    cout << "\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\n";
+    cout << "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\n";
 #if UINTPTR_MAX != 0xffffffffffffffff
     //32 bit
     warn ("This version is 32-bit, manages results <= 2^64");
