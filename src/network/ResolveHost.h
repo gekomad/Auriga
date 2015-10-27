@@ -45,6 +45,7 @@ public:
         string ip = Dns::getInstance().getIp(hostname);
         if (!ip.empty())
             return ip;
+        if(hostname=="localhost")return "127.0.0.1";
         struct hostent *he;
         struct in_addr **addr_list;
         int i;
