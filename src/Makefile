@@ -69,12 +69,21 @@ build:
 	$(STRIP) $(EXE)
 
 auriga32:
+	ifndef OS
+	$(error OS not defined)
+	endif
 	$(MAKE) LIBS="$(LIBS) lib/$(OS)/32/libCinnamon.a" ARC="-m32" build
 
 auriga-ARM:
+	ifndef OS
+	$(error OS not defined)
+	endif
 	$(MAKE) LIBS="$(LIBS) gtb/ARM/32/libgtb.a" ARC="-fno-gcse -w -fsigned-char" build
 
 auriga64:
+	ifndef OS
+	$(error OS not defined)
+	endif
 	$(MAKE) LIBS="$(LIBS) lib/$(OS)/64/libCinnamon.a" ARC="-m64" build
 
 all:	Engine.o Client.o  PerftSplitter.o PipePosix.o  PipeWindows.o Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o
