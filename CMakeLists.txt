@@ -6,7 +6,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g  -std=c++11 -pedantic -W -DDLOG_LEVEL
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -s -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -static -std=c++11 -DDLOG_LEVEL=_INFO")
 
 if (DR_MEMORY STREQUAL "YES")
-    set(CMAKE_CXX_FLAGS "-DDEBUG_MODE -DDLOG_LEVEL=_INFO -pthread -std=c++11 -m32 -g -fno-inline -fno-omit-frame-pointer -Wno-reorder")
+    set(CMAKE_CXX_FLAGS "-DDEBUG_MODE -pthread -DDLOG_LEVEL=_INFO -pthread -std=c++11 -m32 -g -fno-inline -fno-omit-frame-pointer -Wno-reorder")
 endif ()
 
 set(SOURCE_FILES
@@ -14,7 +14,7 @@ set(SOURCE_FILES
         src/engine/Engine.cpp
 
         src/network/Client.cpp
-
+        src/util/String.cpp
         src/perft/master/PerftSplitter.cpp
 
         src/perft/task/Perft.cpp
@@ -26,8 +26,9 @@ set(SOURCE_FILES
         src/main.cpp
         )
 
-set(CMAKE_CXX_COMPILER "g++")
-#set(CMAKE_CXX_COMPILER "x86_64-w64-mingw32-g++")
+#set(CMAKE_CXX_COMPILER "g++")
+set(CMAKE_CXX_COMPILER "x86_64-w64-mingw32-g++")
+#set(CMAKE_CXX_COMPILER "i686-w64-mingw32-g++")
 add_executable(auriga ${SOURCE_FILES})
 if (DR_MEMORY STREQUAL "YES")
     target_link_libraries(auriga ${CMAKE_SOURCE_DIR}/src/lib/Linux/32/libCinnamon.a)
