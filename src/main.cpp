@@ -29,10 +29,11 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
-    cout << NAME << endl;
+    cout << NAME << " - Distributed and collaborative perft framework by Giuseppe Cannella\n";
+    cout << "\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\n";
 #if UINTPTR_MAX != 0xffffffffffffffff
     //32 bit
-    warn ("32bit version manage max 64bit results");
+    warn ("This version is 32-bit, manages results <= 2^64");
 #endif
     GetOpt::parse(argc, argv);
     return 0;
