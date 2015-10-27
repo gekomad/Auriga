@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include <mutex>
 #include <cxxabi.h>
 #include <stdio.h>
 #include <string.h>

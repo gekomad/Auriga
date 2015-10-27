@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
     cout << NAME << endl;
 #if UINTPTR_MAX != 0xffffffffffffffff
     //32 bit
-    cout <<"warnging 32bit version manage max 64bit results\n";
+    warn ("32bit version manage max 64bit results");
 #endif
     GetOpt::parse(argc, argv);
     return 0;
