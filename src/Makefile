@@ -18,26 +18,30 @@ COMP=g++
 
 ifndef SystemRoot
 	# *nix
+	RM=rm -f
+	STRIP=strip
+else
+	RM=del
+	STRIP=strip.exe
+endif
+
+ifeq ($(OS),Windows)
+	LIBS=-static -static-libgcc -static-libstdc++ -lpthread -lws2_32
+	EXE="auriga.exe"
+
+else
+	# *nix
 	ARC=
 	LIBS=-s -Wl,--whole-archive -lpthread -Wl,--no-whole-archive
-	ifeq ($(shell uname -s),Darwin)
+	ifeq ($(OS),OSX)
 		LIBS= -static-libgcc -static-libstdc++ -lpthread
 		OS=OSX
 	else
+		#Linux/arm
 		STATIC="-static "
-		OS=Linux
 	endif
-
-	RM=rm -f
 	EXE="auriga"
-	STRIP=strip
-else
-	# Windows
-	OS=Windows
-	RM=del
-	LIBS=-static -static-libgcc -static-libstdc++ -lpthread -lws2_32
-	EXE="auriga.exe"
-	STRIP=strip.exe
+
 endif
 
 PARAM="-std=c++11 -O3 -w -DDLOG_LEVEL=_INFO -DNDEBUG  "
@@ -46,12 +50,18 @@ help:
 
 	@echo "Makefile for cross-compile Linux/Windows/OSX/ARM"
 	@echo ""
-	@echo "make auriga64-generic          > Unspecified 64-bit"
-	@echo "make auriga32-generic          > Unspecified 32-bit"
-	@echo "make auriga-ARM                > Optimized for arm cpu"
-
-	@echo "g++ is the default compiler, add COMP=yourcompiler to use another compiler"
-	@echo " example: make auriga64-generic COMP=clang++"
+	@echo "make auriga64-generic  OS=yourOS [COMP=comp]       > Unspecified 64-bit"
+	@echo "make auriga32-generic  OS=yourOS [COMP=comp]       > Unspecified 32-bit"
+	@echo "make auriga-ARM                  [COMP=comp]       > 32-bit arm cpu"
+	@echo ""
+	@echo "Supported OS:"
+	@echo ""
+	@echo "Linux"
+	@echo "Windows"
+	@echo "OSX"
+	@echo "ARM"
+	@echo ""
+	@echo " example: make auriga64-generic OS=Windows COMP=x86_64-w64-mingw32-g++"
 	@echo ""
 
 build:
@@ -66,7 +76,7 @@ auriga-ARM:
 	$(MAKE) LIBS="$(LIBS) gtb/ARM/32/libgtb.a" ARC="$(ARC) -fno-gcse -w -fsigned-char" build
 
 auriga64-generic:
-	$(MAKE) LIBS="$(LIBS) lib/$(OS)/x86_64/libCinnamon.a" ARC="$(ARC) -m64" build
+	$(MAKE) LIBS="$(LIBS) lib/$(OS)/64/libCinnamon.a" ARC="$(ARC) -m64" build
 
 all:	Engine.o Client.o  PerftSplitter.o  Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o
 	$(COMP) ${CFLAGS} ${ARC} -o ${EXE}  Engine.o Client.o  PerftSplitter.o  Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o ${LIBS}
