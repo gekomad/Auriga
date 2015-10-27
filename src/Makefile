@@ -16,45 +16,31 @@
 
 COMP=g++
 
-NATIVE_ARCH="32"
 ifndef SystemRoot
 	# *nix
 	ARC=
 	LIBS=-s -Wl,--whole-archive -lpthread -Wl,--no-whole-archive
-
 	ifeq ($(shell uname -s),Darwin)
 		LIBS= -static-libgcc -static-libstdc++ -lpthread
 		OS=OSX
 	else
-		PROFILE_USE_THREAD=" -fprofile-correction -fprofile-use "
 		STATIC="-static "
 		OS=Linux
 	endif
 
 	RM=rm -f
-	PA="./"
 	EXE="auriga"
 	STRIP=strip
-	UNAME_P := $(shell uname -p)
-	ifeq ($(UNAME_P),x86_64)
-		NATIVE_ARCH="64"
-	endif
 else
 	# Windows
-	ARC="-mno-ms-bitfields"
 	OS=Windows
 	RM=del
-	PA=""
-	LIBS=-static -static-libgcc -static-libstdc++ -lws2_32
+	LIBS=-static -static-libgcc -static-libstdc++ -lpthread -lws2_32
 	EXE="auriga.exe"
 	STRIP=strip.exe
-
-	ifeq ($(PROCESSOR_ARCHITEW6432),AMD64)
-		NATIVE_ARCH="64"
-	endif
 endif
 
-PARAM="-std=c++11 -O3 -w -pipe -DDLOG_LEVEL=_INFO -DNDEBUG -fno-exceptions -fno-rtti -fomit-frame-pointer -Wfloat-equal -Wpedantic -Wunreachable-code -Wmissing-include-dirs -Wswitch-enum -Wswitch-default -Wmain -Wundef -Winit-self -Wredundant-decls -Wcast-align -ffast-math -funroll-loops -Wno-long-long -Wcast-qual -Wextra -Wshadow "
+PARAM="-std=c++11 -O3 -w -DDLOG_LEVEL=_INFO -DNDEBUG  "
 
 help:
 
@@ -87,7 +73,6 @@ all:	Engine.o Client.o  PerftSplitter.o  Perft.o  PerftTree.o main.o TaskEntityD
 
 default:
 	help
-
 
 Engine.o: engine/Engine.cpp
 	$(COMP) -c engine/Engine.cpp ${CFLAGS} ${ARC}
