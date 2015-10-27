@@ -22,16 +22,18 @@
 #include <cstring>
 #include "network/Client.h"
 #include "namespaces/def.h"
+#include "network/ResolveHost.h"
 #include<iostream>
 
 using namespace std;
-//TODO usare u128 al posto di u64
-//TODO usare try catch
-
-
 
 int main(int argc, char *argv[]) {
+
     cout << NAME << endl;
+#if UINTPTR_MAX != 0xffffffffffffffff
+    //32 bit
+    cout <<"warnging 32bit version manage max 64bit results\n";
+#endif
     GetOpt::parse(argc, argv);
     return 0;
 }
