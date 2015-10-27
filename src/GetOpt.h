@@ -39,19 +39,16 @@ public:
     }
 
     static void parse(int argc, char **argv) {
-        if (argc == 1 || (argc == 2 && (!strcmp(argv[1], "--help") || !strcmp(argv[1], "-h")))) {
-            help(argv);
-            return;
-        }
 
         if (argc > 1 && !strcmp(argv[1], "--task")) {
             GetOptTask::parse(argc, argv);
             return;
         }
-        if (argc > 1 && !strcmp(argv[1], "--master")) {
+        if (argc > 1 && !strcmp(argv[1], "--generate-ini")) {
             GetOptMaster::parse(argc, argv);
             return;
         }
+        help(argv);
     }
 };
 

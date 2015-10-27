@@ -27,7 +27,7 @@ class GetOptTask {
 public:
     static void help(char **argv) {
         string exe = FileUtil::getFileName(argv[0]);
-        cout << "Calculate perft on task:\t" << exe << " --task -start WORKER.INI DIR PERFT_UUID TASK_UUID\n";
+        cout << "Calculate perft on task:\t" << exe << " --task WORKER.INI DIR PERFT_UUID TASK_UUID\n";
     }
 
     static void parse(int argc, char **argv) {
@@ -65,17 +65,17 @@ public:
                                         --task_uuid.log
 
         */
-        //--task -start /home/geko/workspace/workspace_my/Auriga/conf/worker/stockfish.auriga.ini /home/geko/auriga_perft 8E42A477-83F1-8863-E05C-D68E4EA23236 3EC4AEB6-D764-9FBF-0991-5791A38CB691
-        if ((params.size() == 6 && params[1] == "-start")) {
+        //--task /home/geko/workspace/workspace_my/Auriga/conf/worker/stockfish.auriga.ini /home/geko/auriga_perft 8E42A477-83F1-8863-E05C-D68E4EA23236 3EC4AEB6-D764-9FBF-0991-5791A38CB691
+        if (params.size() == 5) {
 
-            string workerIniFile = params[2];
+            string workerIniFile = params[1];
             if (!FileUtil::fileExists(workerIniFile)) {
                 fatal("file not found ", workerIniFile);
                 exit(0);
             }
-            string dir = params[3];
-            string perftUUID = params[4];
-            string taskUUID = params[5];
+            string dir = params[2];
+            string perftUUID = params[3];
+            string taskUUID = params[4];
             string perftIniFile = dir + "/" + perftUUID + "/" + perftUUID + ".ini";
             if (!FileUtil::fileExists(perftIniFile)) {
                 fatal("file not found ", perftIniFile);
