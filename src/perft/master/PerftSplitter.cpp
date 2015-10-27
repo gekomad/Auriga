@@ -29,7 +29,7 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
 
     WrapperCinnamon wrapperCinnamon;
 
-    vector<string> successorsFen = wrapperCinnamon.getSuccessorsFen(fen, 1);
+    vector<string> successorsFen;// = wrapperCinnamon.getSuccessorsFen(fen, 1);
 
     int effectiveNtask = Ntask;
     int succDepth = 0;
