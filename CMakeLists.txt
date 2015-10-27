@@ -3,7 +3,7 @@ project(auriga)
 set(DR_MEMORY "NO")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pthread -std=c++11 -DDLOG_LEVEL=_DEBUG -DDEBUG_MODE")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -s -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -static -std=c++11 -DDLOG_LEVEL=_INFO")
+
 
 if (DR_MEMORY STREQUAL "YES")
     set(CMAKE_CXX_FLAGS "-DDEBUG_MODE -pthread -DDLOG_LEVEL=_INFO -pthread -std=c++11 -m32 -g -fno-inline -fno-omit-frame-pointer -Wno-reorder")
@@ -26,7 +26,7 @@ set(SOURCE_FILES
         src/main.cpp
         )
 
-set(CMAKE_CXX_COMPILER "g++")
+set(CMAKE_CXX_COMPILER "clang++")
 #set(CMAKE_CXX_COMPILER "x86_64-w64-mingw32-g++")
 #set(CMAKE_CXX_COMPILER "i686-w64-mingw32-g++")
 

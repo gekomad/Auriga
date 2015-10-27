@@ -160,7 +160,8 @@ void Engine::put(string command) {
     int nbytes = command.size();
     assert(pipe->writeStdout(command) == nbytes);
 //    assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
-    usleep(500000);
+//    usleep(500000);
+    sleep(1);
 }
 
 void Engine::setPosition(const string &fen1) {

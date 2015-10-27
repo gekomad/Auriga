@@ -77,11 +77,13 @@ public:
                 fatal("file not found ", perftIniFile);
                 exit(0);
             }
-            int count=0;
-            string logpath = dir + "/" + perftUUID + "/" + taskUUID + ".log";
-            while (FileUtil::fileExists(logpath)) {
-                logpath +=to_string(++count);
+            int count = 0;
+            string countS = "";
+            string logpathTmp = dir + "/" + perftUUID + "/" + taskUUID + ".log";
+            while (FileUtil::fileExists(logpathTmp + countS)) {
+                countS = to_string(++count);
             };
+            string logpath = logpathTmp + countS;
             Logger::getInstance().setLogfile(logpath);
 
             _perft::Perft perft(taskUUID, perftIniFile, workerIniFile);
