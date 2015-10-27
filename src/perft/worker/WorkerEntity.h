@@ -55,8 +55,9 @@ public:
         a.append("\npath=" + enginePath);
         a.append("\nregex_perft_moves=" + regex_perft_moves);
         a.append("\nregex_heartbeat=" + regex_heartbeat);
-        a.append("\nforce_restart=" + force_restart);
-        a.append("\ninstances=" + instances);
+        string s = force_restart ? "true" : "false";
+        a.append("\nforce_restart=" + s);
+        a.append("\ninstances=" + to_string(instances));
 
         a.append("[setoption_name_value]");
         for (pair<string, string> o:options) {
