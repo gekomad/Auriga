@@ -19,15 +19,18 @@
 #pragma once
 
 #include <random>
+#include <ctime>
+#include <chrono>
 
 class Random {
 
 public:
-    template<typename T>
-    static T getRandom(T from, T to) {
-        std::random_device rd;
-        std::mt19937 mt(rd());
-        std::uniform_real_distribution<double> dist(from, to);
+    static int getRandom(const int from, const int to) {
+
+        std::chrono::nanoseconds ns = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch());
+
+        std::mt19937 mt(static_cast<unsigned int>(ns.count()));
+        std::uniform_int_distribution<> dist(from, to);
         return dist(mt);
     }
 };

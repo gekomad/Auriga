@@ -32,23 +32,23 @@ namespace _uuid {
             char *uuid = uuid1;
 
             for (int i = 0; i < 8; i++, uuid++)
-                ((*uuid = (Random::getRandom<int>(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
+                ((*uuid = (Random::getRandom(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
 
             *uuid++ = '-';
             for (int i = 0; i < 4; i++, uuid++)
-                ((*uuid = (Random::getRandom<int>(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
+                ((*uuid = (Random::getRandom(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
 
             *uuid++ = '-';
             for (int i = 0; i < 4; i++, uuid++)
-                ((*uuid = (Random::getRandom<int>(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
+                ((*uuid = (Random::getRandom(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
 
             *uuid++ = '-';
             for (int i = 0; i < 4; i++, uuid++)
-                ((*uuid = (Random::getRandom<int>(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
+                ((*uuid = (Random::getRandom(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
 
             *uuid++ = '-';
             for (int i = 0; i < 12; i++, uuid++)
-                ((*uuid = (Random::getRandom<int>(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
+                ((*uuid = (Random::getRandom(0, 16))) < 10) ? *uuid += 48 : *uuid += 55;
 
             *uuid = 0;
             return string(uuid1);

@@ -49,9 +49,9 @@ help:
 
 	@echo "Makefile for cross-compile Linux/Windows/OSX/ARM"
 	@echo ""
-	@echo "make auriga64-generic  OS=yourOS [COMP=comp]       > Unspecified 64-bit"
-	@echo "make auriga32-generic  OS=yourOS [COMP=comp]       > Unspecified 32-bit"
-	@echo "make auriga-ARM                  [COMP=comp]       > 32-bit arm cpu"
+	@echo "make auriga64      OS=yourOS [COMP=comp]"
+	@echo "make auriga32      OS=yourOS [COMP=comp]"
+	@echo "make auriga-ARM              [COMP=comp]"
 	@echo ""
 	@echo "Supported OS:"
 	@echo ""
@@ -60,7 +60,7 @@ help:
 	@echo "OSX"
 	@echo "ARM"
 	@echo ""
-	@echo " example: make auriga64-generic OS=Windows COMP=x86_64-w64-mingw32-g++"
+	@echo " example: make auriga64 OS=Windows COMP=clang++"
 	@echo ""
 
 build:
@@ -68,13 +68,13 @@ build:
 	$(MAKE) -j4 EXE=$(EXE) CFLAGS=$(PARAM)$(STATIC) all
 	$(STRIP) $(EXE)
 
-auriga32-generic:
+auriga32:
 	$(MAKE) LIBS="$(LIBS) lib/$(OS)/32/libCinnamon.a" ARC="-m32" build
 
 auriga-ARM:
 	$(MAKE) LIBS="$(LIBS) gtb/ARM/32/libgtb.a" ARC="-fno-gcse -w -fsigned-char" build
 
-auriga64-generic:
+auriga64:
 	$(MAKE) LIBS="$(LIBS) lib/$(OS)/64/libCinnamon.a" ARC="-m64" build
 
 all:	Engine.o Client.o  PerftSplitter.o PipePosix.o  PipeWindows.o Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o
