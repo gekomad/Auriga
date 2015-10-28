@@ -106,8 +106,8 @@ public:
 
         string dir = iniDir + "/" + perftUUID;
         if (FileUtil::fileExists(dir)) {
-            fatal("directory " + dir + " exists, delete it or rerun without '-fetch'");
-            exit(1);
+            warn("directory " + dir + " exists, skip fetch data");
+            return true;
         }
         IniFile ini(workerIniFile);
         string aurigaHost = ini.getValue("host");
