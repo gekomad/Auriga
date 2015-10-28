@@ -30,7 +30,7 @@ Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &w
         exit(1);
     }
     if (taskUUID1.size() != 36) {
-        fatal("taskUUID malformed ", taskUUID1);
+        fatal("task_uuid malformed ", taskUUID1);
         exit(1);
     }
     IniFile ini(workerIniFile);
@@ -105,7 +105,7 @@ i128 Perft::calculate() {
 
     string timetot = Time::diffTimeToString(start1, stop1);
 
-    cout << "Tot Perft moves for TaskUUID " << taskUUID << ": " << String::toString(TOT) << " in " << timetot << endl;
+    cout << "Tot Perft moves for task_uuid " << taskUUID << ": " << String::toString(TOT) << " in " << timetot << endl;
 
     return TOT;
 }

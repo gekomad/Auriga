@@ -26,15 +26,16 @@ using namespace std;
 
 class PipePosix : public Ipipe {
 public :
-    int writeStdout(const string &msg) ;
+    int writeStdout(const string &msg);
 
-    ~PipePosix() ;
+    ~PipePosix();
 
     const string readStdin();
 
-    const string readStderr() ;
+    const string readStderr();
 
-    bool init(const string &enginePath) ;
+    bool init(const string &enginePath);
+
 private:
     pid_t childpid;
     bool initialized;

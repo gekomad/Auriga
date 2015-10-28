@@ -33,7 +33,7 @@ void Post::init(const string &host1, const int port1) {
     debug("resolved host ", host, "->", ip);
 }
 
-void Post::preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours,const string & depth) {
+void Post::preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours, const string &depth) {
 
     info("send data ", uuid_perft, " ", uuid_task, " ", partial_moves, " ", tot, " ", engine, " ", author, " ", fen);
 

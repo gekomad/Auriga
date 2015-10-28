@@ -52,7 +52,7 @@ public:
 
     void endRun();
 
-    void preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours,const string & depth);
+    void preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours, const string &depth);
 
     void init(const string &host1, const int port1);
 

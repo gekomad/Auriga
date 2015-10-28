@@ -27,7 +27,7 @@
 using namespace std;
 #if UINTPTR_MAX == 0xffffffffffffffff
 //64 bit
-    typedef __int128_t i128;
+typedef __int128_t i128;
 #else
 //32 bit
     typedef unsigned long long i128;

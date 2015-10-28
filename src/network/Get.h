@@ -77,18 +77,17 @@ public:
         while (1) {
             r = recv(sock, buf, sizeof(buf), 0);
             if (r <= 0)break;
-            buf[r]=0;
+            buf[r] = 0;
             receiveBuffer.append(buf);
 
         }
         std::size_t pos = receiveBuffer.find("#auriga");
-        if(pos==-1)return "";
-        std::string str3 = receiveBuffer.substr (pos);
+        if (pos == -1)return "";
+        std::string str3 = receiveBuffer.substr(pos);
 
         debug (str3);
         return str3;
     }
-
 
 
 };
