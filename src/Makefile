@@ -20,27 +20,24 @@ ifndef SystemRoot
 	# *nix
 	RM=rm -f
 	STRIP=strip
-else
-	RM=del
-	STRIP=strip.exe
-endif
 
-ifeq ($(OS),Windows)
-	LIBS=-static -static-libgcc -static-libstdc++ -lpthread -lws2_32
-	EXE="auriga.exe"
-
-else
-	# *nix
 	LIBS=-s -Wl,--whole-archive -lpthread -Wl,--no-whole-archive
-	ifeq ($(OS),OSX)
+	ifeq ($(shell uname -s),Darwin)
 		LIBS= -static-libgcc -static-libstdc++ -lpthread
 		OS=OSX
 	else
 		#Linux/arm
+		OS=Linux
 		STATIC="-static "
 	endif
 	EXE="auriga"
-
+else
+	# Windows
+	LIBS=-static -static-libgcc -static-libstdc++ -lpthread -lws2_32
+	EXE="auriga.exe"
+	RM=del
+	STRIP=strip.exe
+	OS=Windows
 endif
 
 PARAM="-std=c++11 -O3 -w -DDLOG_LEVEL=_INFO -DNDEBUG  "
@@ -49,18 +46,12 @@ help:
 
 	@echo "Makefile for cross-compile Linux/Windows/OSX/ARM"
 	@echo ""
-	@echo "make auriga64      OS=yourOS [COMP=comp]"
-	@echo "make auriga32      OS=yourOS [COMP=comp]"
-	@echo "make auriga-ARM              [COMP=comp]"
+	@echo "make auriga64      [COMP=comp]"
+	@echo "make auriga32      [COMP=comp]"
+	@echo "make auriga-ARM    [COMP=comp]"
+
 	@echo ""
-	@echo "Supported OS:"
-	@echo ""
-	@echo "Linux"
-	@echo "Windows"
-	@echo "OSX"
-	@echo "ARM"
-	@echo ""
-	@echo " example: make auriga64 OS=Windows COMP=clang++"
+	@echo " example: make auriga64 COMP=clang++"
 	@echo ""
 
 build:
@@ -69,25 +60,16 @@ build:
 	$(STRIP) $(EXE)
 
 auriga32:
-	ifndef OS
-	$(error OS not defined)
-	endif
 	$(MAKE) LIBS="$(LIBS) lib/$(OS)/32/libCinnamon.a" ARC="-m32" build
 
 auriga-ARM:
-	ifndef OS
-	$(error OS not defined)
-	endif
 	$(MAKE) LIBS="$(LIBS) gtb/ARM/32/libgtb.a" ARC="-fno-gcse -w -fsigned-char" build
 
 auriga64:
-	ifndef OS
-	$(error OS not defined)
-	endif
 	$(MAKE) LIBS="$(LIBS) lib/$(OS)/64/libCinnamon.a" ARC="-m64" build
 
-all:	Engine.o Client.o  PerftSplitter.o PipePosix.o  PipeWindows.o Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o
-	$(COMP) ${CFLAGS} ${ARC} -o ${EXE}  Engine.o Client.o PipePosix.o PipeWindows.o  PerftSplitter.o  Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o ${LIBS}
+all:	Engine.o Post.o  PerftSplitter.o PipePosix.o  PipeWindows.o Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o
+	$(COMP) ${CFLAGS} ${ARC} -o ${EXE}  Engine.o Post.o PipePosix.o PipeWindows.o  PerftSplitter.o  Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o ${LIBS}
 
 default:
 	help
@@ -95,8 +77,8 @@ default:
 Engine.o: engine/Engine.cpp
 	$(COMP) -c engine/Engine.cpp ${CFLAGS} ${ARC}
 
-Client.o: network/Client.cpp
-	$(COMP) -c network/Client.cpp ${CFLAGS} ${ARC}
+Post.o: network/Post.cpp
+	$(COMP) -c network/Post.cpp ${CFLAGS} ${ARC}
 
 PerftSplitter.o: perft/master/PerftSplitter.cpp
 	$(COMP) -c perft/master/PerftSplitter.cpp ${CFLAGS} ${ARC}
