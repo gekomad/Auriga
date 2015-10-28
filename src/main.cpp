@@ -23,6 +23,7 @@
 #include "network/Post.h"
 #include "namespaces/def.h"
 #include "network/ResolveHost.h"
+#include "network/Get.h"
 #include<iostream>
 
 using namespace std;

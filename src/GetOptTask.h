@@ -20,6 +20,7 @@
 
 #include "perft/task/Perft.h"
 #include "namespaces/def.h"
+#include "network/Get.h"
 
 using namespace _def;
 
@@ -66,7 +67,7 @@ public:
 
         */
         //--task /home/geko/workspace/workspace_my/Auriga/conf/worker/stockfish.auriga.ini /home/geko/auriga_perft 8E42A477-83F1-8863-E05C-D68E4EA23236 3EC4AEB6-D764-9FBF-0991-5791A38CB691 -fetch
-        if (params.size() == 5) {
+        if (params.size() >= 5) {
 
             string workerIniFile = params[1];
             if (!FileUtil::fileExists(workerIniFile)) {
@@ -76,6 +77,9 @@ public:
             string dir = params[2];
             string perftUUID = params[3];
             string taskUUID = params[4];
+            if (params.size() == 6 && params[5] == "-fetch") {
+                fetch(workerIniFile, dir, perftUUID);
+            }
             string perftIniFile = dir + "/" + perftUUID + "/" + perftUUID + ".ini";
             if (!FileUtil::fileExists(perftIniFile)) {
                 fatal("file not found ", perftIniFile);
@@ -96,6 +100,43 @@ public:
         } else {
             help(argv);
         }
+    }
+
+    static bool fetch(const string &workerIniFile, const string &iniDir, const string &perftUUID) {
+
+        string dir = iniDir + "/" + perftUUID;
+        if (FileUtil::fileExists(dir)) {
+            fatal("directory " + dir + " exists, delete it or rerun without '-fetch'");
+            exit(1);
+        }
+        IniFile ini(workerIniFile);
+        string aurigaHost = ini.getValue("host");
+        int aurigaPort;
+        if (aurigaHost.empty()) {
+            fatal("auriga host not defined, can't fetch data");
+            exit(1);
+        } else {
+            string port = ini.getValue("port");
+            if (port.empty()) {
+                fatal("auriga server port not defined, can't fetch data");
+                exit(1);
+            } else {
+                aurigaPort = stoi(port);
+            }
+        }
+
+        Get get;
+        string iniString = get.get(aurigaHost, aurigaPort, "downloadini.php");
+        if (iniString.empty()) {
+            fatal("error on fetch data");
+            exit(1);
+        }
+        FileUtil::createDirectory(iniDir + "/" + perftUUID);
+        string fileName = dir + "/" + perftUUID + ".ini";
+        ofstream fout(fileName);
+        fout << iniString;
+        fout.close();
+        return true;
     }
 };
 

@@ -20,20 +20,20 @@
 
 using namespace _perft;
 
-Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &engineConfFile) {
+Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &workerIniFile) {
     if (!FileUtil::fileExists(masterFile1)) {
         fatal("File not found ", masterFile1);
         exit(1);
     }
-    if (!FileUtil::fileExists(engineConfFile)) {
-        fatal("File not found ", engineConfFile);
+    if (!FileUtil::fileExists(workerIniFile)) {
+        fatal("File not found ", workerIniFile);
         exit(1);
     }
     if (taskUUID1.size() != 36) {
         fatal("taskUUID malformed ", taskUUID1);
         exit(1);
     }
-    IniFile ini(engineConfFile);
+    IniFile ini(workerIniFile);
     aurigaHost = ini.getValue("host");
     if (aurigaHost.empty()) {
         warn("auriga host not defined, the results will not be sent to server");
@@ -47,7 +47,7 @@ Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &e
         }
     }
 
-    engineConf = engineConfFile;
+    Perft::workerIniFile = workerIniFile;
     masterFile = masterFile1;
     taskUUID = taskUUID1;
 }
@@ -69,7 +69,7 @@ i128 Perft::calculate() {
     auto start1 = std::chrono::high_resolution_clock::now();
 
     ThreadPool<Engine> threadPool;
-    IniFile iniFile(engineConf);
+    IniFile iniFile(workerIniFile);
     author = iniFile.getValue("author");
 
     int ins = String::stoi(iniFile.getValue("instances"));
@@ -93,7 +93,7 @@ i128 Perft::calculate() {
 
     for (string fen:taskEntity->getFenList()) {
         Engine &e = threadPool.getNextThread();
-        e.init(engineConf);
+        e.init(workerIniFile);
         e.registerObserverEngine(this);
         e.start();
         e.setPosition(fen);

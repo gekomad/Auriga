@@ -39,7 +39,7 @@ namespace _perft {
         string masterFile;
 
         i128 TOT = 0;
-        string engineConf;
+        string workerIniFile;
         string perftUUID;
 
         string author;
