@@ -45,7 +45,7 @@
 using namespace std;
 using namespace _def;
 
-class Client : public Thread {
+class Post : public Thread {
 public:
 
     void run();

@@ -16,12 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Client.h"
+#include "Post.h"
 #include "ResolveHost.h"
 
 // HttpPost::getInstance().postThread("auriga-cinnamon.rhcloud.com", 80, "92165e61-7afc-11e5-ab63-0ec7b1e84563", "task_uuid", "2", "3", "engineName", "author", "fen","1");
 
-void Client::init(const string &host1, const int port1) {
+void Post::init(const string &host1, const int port1) {
     host = host1;
     port = port1;
     debug("resolving host ", host);
@@ -33,7 +33,7 @@ void Client::init(const string &host1, const int port1) {
     debug("resolved host ", host, "->", ip);
 }
 
-void Client::preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours,const string & depth) {
+void Post::preparePost(const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours,const string & depth) {
 
     info("send data ", uuid_perft, " ", uuid_task, " ", partial_moves, " ", tot, " ", engine, " ", author, " ", fen);
 
@@ -75,7 +75,7 @@ void Client::preparePost(const string &uuid_perft, const string &uuid_task, cons
 
 }
 
-void Client::run() {
+void Post::run() {
 
     sock = socket(AF_INET, SOCK_STREAM, 0);
     assert(sock != -1);
@@ -89,7 +89,7 @@ void Client::run() {
     debug ("ok data sent");
 }
 
-void Client::endRun() {
+void Post::endRun() {
     terminated = true;
-    debug("Client::endRun")
+    debug("Post::endRun")
 }

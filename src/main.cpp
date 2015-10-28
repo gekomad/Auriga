@@ -20,7 +20,7 @@
 #include "GetOpt.h"
 #include <iostream>
 #include <cstring>
-#include "network/Client.h"
+#include "network/Post.h"
 #include "namespaces/def.h"
 #include "network/ResolveHost.h"
 #include<iostream>

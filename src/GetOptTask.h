@@ -27,7 +27,7 @@ class GetOptTask {
 public:
     static void help(char **argv) {
         string exe = FileUtil::getFileName(argv[0]);
-        cout << "Calculate perft on task:\t" << exe << " --task WORKER.INI DIR PERFT_UUID TASK_UUID\n";
+        cout << "Calculate perft on task:\t" << exe << " --task WORKER.INI DIR PERFT_UUID TASK_UUID [-fetch]\n";
     }
 
     static void parse(int argc, char **argv) {
@@ -65,7 +65,7 @@ public:
                                         --task_uuid.log
 
         */
-        //--task /home/geko/workspace/workspace_my/Auriga/conf/worker/stockfish.auriga.ini /home/geko/auriga_perft 8E42A477-83F1-8863-E05C-D68E4EA23236 3EC4AEB6-D764-9FBF-0991-5791A38CB691
+        //--task /home/geko/workspace/workspace_my/Auriga/conf/worker/stockfish.auriga.ini /home/geko/auriga_perft 8E42A477-83F1-8863-E05C-D68E4EA23236 3EC4AEB6-D764-9FBF-0991-5791A38CB691 -fetch
         if (params.size() == 5) {
 
             string workerIniFile = params[1];

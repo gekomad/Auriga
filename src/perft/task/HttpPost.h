@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "../../network/Client.h"
+#include "../../network/Post.h"
 #include "../../util/Time.h"
 #include <set>
 
@@ -33,7 +33,7 @@ public:
 
 private:
     high_resolution_clock::time_point lastPost = std::chrono::high_resolution_clock::now();
-    std::set<Client *> httpClients;
+    std::set<Post *> httpClients;
 
     bool isDelayOK();
 
