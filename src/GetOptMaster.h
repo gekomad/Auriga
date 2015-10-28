@@ -25,7 +25,7 @@ class GetOptMaster {
 public:
     static void help(char **argv) {
         string exe = FileUtil::getFileName(argv[0]);
-        cout << "Generate ini file:\t\t" << exe << " --generate-ini Ntask \"FEN\" DEPTH DIR\n";
+        cout << "Generate ini file:\t\t" << exe << " --generate-ini AURIGA_ROOT Ntask \"FEN\" DEPTH\n";
     }
 
     static void parse(int argc, char **argv) {
@@ -35,13 +35,14 @@ public:
         }
         assert(params[0] == "--generate-ini");
 
-        //--generate-ini 100 "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -" 8 /home/geko/auriga_perft
+        //--generate-ini /home/geko/auriga_root 100 "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -" 8
         if (params.size() == 5) {
-            int Ntask = stoi(params[1]);
-            string fen = params[2];
-            int depth = stoi(params[3]);
-            string iniDir = params[4];
-            PerftSplitter::generateMasterINI(fen, Ntask, depth, iniDir);
+            string aurigaRoot = params[1];
+            int Ntask = stoi(params[2]);
+            string fen = params[3];
+            int depth = stoi(params[4]);
+
+            PerftSplitter::generateMasterINI(fen, Ntask, depth, aurigaRoot);
         } else {
             help(argv);
         }

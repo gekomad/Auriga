@@ -18,7 +18,7 @@
 
 #include "PerftSplitter.h"
 
-void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, const int depth, const string &iniDir) {
+void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, const int depth, const string &aurigaRoot) {
     assert(depth > 1);
     string res = "#auriga ini file - AUTO-GENERATED FILE - DO NOT EDIT\n\n";
 
@@ -61,8 +61,9 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
     TaskEntityDao taskEntityDao(taskEntityList);
     res.append(taskEntityDao.toINIformat());
     string perftUUID = perftEntity.getUuid();
-    FileUtil::createDirectory(iniDir + "/" + perftUUID);
-    string filename = iniDir + "/" + perftUUID + "/" + perftUUID + ".ini";
+    FileUtil::createDirectory(aurigaRoot + "/data" );
+    FileUtil::createDirectory(aurigaRoot + "/data/" + perftUUID);
+    string filename = aurigaRoot + "/data/" + perftUUID + "/" + perftUUID + ".ini";
 
     trace("\nwrite file", filename, "\n-------------\n", res, "\n-------------------");
     ofstream myfile;
@@ -71,11 +72,11 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
     myfile.close();
     info("Generated file " + filename);
     //CSV file for table perft
-    myfile.open(iniDir + "/" + perftUUID + "/perft_table.tmp");
+    myfile.open(aurigaRoot + "/data/" + perftUUID + "/perft_table.tmp");
     myfile << perftEntity.getUuid() + "|" + fen + "|" + to_string(depth) + "|" + to_string(Ntask) + "\n";
     myfile.close();
     //CSV file for table perft_tasks
-    myfile.open(iniDir + "/" + perftUUID + "/perft_tasks_table.tmp");
+    myfile.open(aurigaRoot + "/data/" + perftUUID + "/perft_tasks_table.tmp");
     for (TaskEntity taskEntity :taskEntityList) {
         myfile << perftEntity.getUuid()  + "|" + taskEntity.getTaskUUID() + "\n";
     }

@@ -28,7 +28,7 @@ class GetOptTask {
 public:
     static void help(char **argv) {
         string exe = FileUtil::getFileName(argv[0]);
-        cout << "Calculate perft on task:\t" << exe << " --task WORKER.INI DIR PERFT_UUID TASK_UUID [-fetch]\n";
+        cout << "Calculate perft on task:\t" << exe << " --task AURIGA_ROOT WORKER.INI DIR PERFT_UUID TASK_UUID [-fetch]\n";
     }
 
     static void parse(int argc, char **argv) {
@@ -38,7 +38,15 @@ public:
         }
         assert(params[0] == "--task");
         /*
-        /root/
+/root/
+     |
+     -worker
+            |
+            --stockfish-auriga.ini
+            --crafty-auriga.ini
+            .. ecc ..
+     |
+      --data
             |
              --perft_uuid/
                         |
@@ -66,35 +74,35 @@ public:
                                         --task_uuid.log
 
         */
-        //--task /home/geko/workspace/workspace_my/Auriga/conf/worker/stockfish.auriga.ini /home/geko/auriga_perft 8E42A477-83F1-8863-E05C-D68E4EA23236 3EC4AEB6-D764-9FBF-0991-5791A38CB691 -fetch
+        //--task /home/geko/auriga_root stockfish.auriga.ini 8E42A477-83F1-8863-E05C-D68E4EA23236 3EC4AEB6-D764-9FBF-0991-5791A38CB691 -fetch
         if (params.size() >= 5) {
 
-            string workerIniFile = params[1];
-            if (!FileUtil::fileExists(workerIniFile)) {
-                fatal("file not found ", workerIniFile);
-                exit(0);
+            string workerIniFile1 = params[1]+"/worker/"+params[2];
+            if (!FileUtil::fileExists(workerIniFile1)) {
+                fatal("file not found ", workerIniFile1);
+                exit(1);
             }
-            string dir = params[2];
+            string aurigaRoot = params[1];
             string perftUUID = params[3];
             string taskUUID = params[4];
             if (params.size() == 6 && params[5] == "-fetch") {
-                fetch(workerIniFile, dir, perftUUID);
+                fetch(workerIniFile1, aurigaRoot, perftUUID);
             }
-            string perftIniFile = dir + "/" + perftUUID + "/" + perftUUID + ".ini";
+            string perftIniFile = aurigaRoot + "/data/" + perftUUID + "/" + perftUUID + ".ini";
             if (!FileUtil::fileExists(perftIniFile)) {
                 fatal("file not found ", perftIniFile);
-                exit(0);
+                exit(1);
             }
             int count = 0;
             string countS = "";
-            string logpathTmp = dir + "/" + perftUUID + "/" + taskUUID + ".log";
+            string logpathTmp = aurigaRoot + "/data/" + perftUUID + "/" + taskUUID + ".log";
             while (FileUtil::fileExists(logpathTmp + countS)) {
                 countS = to_string(++count);
             };
             string logpath = logpathTmp + countS;
             Logger::getInstance().setLogfile(logpath);
 
-            _perft::Perft perft(taskUUID, perftIniFile, workerIniFile);
+            _perft::Perft perft(taskUUID, perftIniFile, workerIniFile1);
             perft.calculate();
 
         } else {
@@ -102,9 +110,9 @@ public:
         }
     }
 
-    static bool fetch(const string &workerIniFile, const string &iniDir, const string &perftUUID) {
+    static bool fetch(const string &workerIniFile, const string &aurigaRoot, const string &perftUUID) {
 
-        string dir = iniDir + "/" + perftUUID;
+        string dir = aurigaRoot + "/data/" + perftUUID;
         if (FileUtil::fileExists(dir)) {
             warn("directory " + dir + " exists, skip fetch data");
             return true;
@@ -132,7 +140,7 @@ public:
             fatal("error on fetch data");
             exit(1);
         }
-        FileUtil::createDirectory(iniDir + "/" + perftUUID);
+        FileUtil::createDirectory(aurigaRoot + "/data/" + perftUUID);
         string fileName = dir + "/" + perftUUID + ".ini";
         ofstream fout(fileName);
         fout << iniString;

@@ -62,6 +62,7 @@ void Perft::observerTotResult(const u64 result, const string &fen, const string 
 
 void Perft::observerPartialResult(const u64 result, const string &fen, const string &engineName, const int minutes, const int depth) {
     info("partial result: ", result);
+    //TODO aggiungere timer per heartbeat con -1
     HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, String::toString(result), "0", engineName, author, fen, to_string(minutes), to_string(depth));
 }
 
@@ -105,6 +106,7 @@ i128 Perft::calculate() {
 
     string timetot = Time::diffTimeToString(start1, stop1);
 
+    //TODO apend in file result.log
     cout << "Tot Perft moves for task_uuid " << taskUUID << ": " << String::toString(TOT) << " in " << timetot << endl;
 
     return TOT;
