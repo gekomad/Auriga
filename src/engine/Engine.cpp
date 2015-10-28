@@ -249,6 +249,7 @@ void Engine::init(const string &confFileName1) {
 
             if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
                 engineName = match[1].str();
+                info("engine name is ", engineName)
             }
 
             if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
@@ -276,6 +277,7 @@ void Engine::init(const string &confFileName1) {
 
             if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
                 engineName = match[1].str();
+                info("engine name is ", engineName)
             }
             if (initialized)break;
             if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
