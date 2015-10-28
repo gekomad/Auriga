@@ -126,8 +126,8 @@ public:
         }
 
         Get get;
-        //<?php header("Content-Type:text/plain");echo htmlspecialchars(file_get_contents($_GET['id'])); ?>
-        string iniString = get.get(aurigaHost, aurigaPort, "downloadini.php?id="+perftUUID+".ini");
+        //<?php header("Content-Type:text/plain");echo htmlspecialchars(file_get_contents($_GET['id'].".ini")); ?>
+        string iniString = get.get(aurigaHost, aurigaPort, "downloadini.php?id="+perftUUID);
         if (iniString.empty()) {
             fatal("error on fetch data");
             exit(1);
