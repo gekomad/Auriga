@@ -18,22 +18,22 @@
 
 #include "HttpPost.h"
 
-void HttpPost::postThread(const string &host, const int port, const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &hours, const string &depth) {
-    info("Sending data to server host: ", host, " port: ", port, " uuid_perft: ", uuid_perft, " uuid_task: ", uuid_task, " partial_moves: ", partial_moves, " tot: ", tot, " engine: ", engine, " author: ", author, " fen: ", fen, " hours: ", hours, " depth: ", depth);
+void HttpPost::postThread(const string &host, const int port, const string &uuid_perft, const string &uuid_task, const string &partial_moves, const string &tot, const string &engine, const string &author, const string &fen, const string &minutes, const string &depth) {
+    info("Sending data to server host: ", host, " port: ", port, " uuid_perft: ", uuid_perft, " uuid_task: ", uuid_task, " partial_moves: ", partial_moves, " tot: ", tot, " engine: ", engine, " author: ", author, " fen: ", fen, " minutes: ", minutes, " depth: ", depth);
     if (host.empty()) {
         info("host = null, don't send data to server");
        // return;
     }
     gc();
-    if (!isDelayOK()) {
+    /*if (!isDelayOK()) {
         info("don't send data to server, minimum time between 2 post is one hour");
-        //return;
-    }
+        return;
+    }*/
 
     Post *httpClient = new Post();
     httpClients.insert(httpClient);
     httpClient->init(host, port);
-    httpClient->preparePost(uuid_perft, uuid_task, partial_moves, tot, engine, author, fen, hours, depth);
+    httpClient->preparePost(uuid_perft, uuid_task, partial_moves, tot, engine, author, fen, minutes, depth);
     httpClient->start();
     httpClient->join();
 //TODO    httpClient->detach();

@@ -88,9 +88,9 @@ private:
     std::regex GET_NAME_REGEX[2];
     u64 result;
 
-    void notifyTotResult(const u64 i, const string &fen, const string &engineName, const int hours, const int depth);
+    void notifyTotResult(const u64 i, const string &fen, const string &engineName, const int minutes, const int depth);
 
-    void notifyPartialResult(const u64 i, const string &fen, const string &engineName, const int hours, const int depth);
+    void notifyPartialResult(const u64 i, const string &fen, const string &engineName, const int minutes, const int depth);
 
     void readStdin();
 

@@ -44,9 +44,9 @@ namespace _perft {
 
         string author;
 
-        void observerTotResult(const u64 result, const string &fen, const string &engineName, const int hours, const int depth);
+        void observerTotResult(const u64 result, const string &fen, const string &engineName, const int minutes, const int depth);
 
-        void observerPartialResult(const u64 result, const string &fen, const string &engineName, const int hours, const int depth);
+        void observerPartialResult(const u64 result, const string &fen, const string &engineName, const int minutes, const int depth);
 
         mutex getResultMutex;
         string aurigaHost;

@@ -84,7 +84,7 @@ CREATE TABLE `tasks` (
   `tot` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `engine` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `author` varchar(30) COLLATE utf8_bin DEFAULT NULL,
-  `hours` int(11) DEFAULT NULL,
+  `minutes` int(11) DEFAULT NULL,
   KEY `uuid_perft` (`uuid_perft`),
   CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
