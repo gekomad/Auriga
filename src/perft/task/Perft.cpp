@@ -62,7 +62,7 @@ void Perft::observerTotResult(const u64 result, const string &fen, const string 
 
 void Perft::observerPartialResult(const u64 result, const string &fen, const string &engineName, const int hours, const int depth) {
     info("partial result: ", result);
-    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(result), engineName, author, fen, to_string(hours), to_string(depth));
+    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, String::toString(result), "0", engineName, author, fen, to_string(hours), to_string(depth));
 }
 
 i128 Perft::calculate() {
