@@ -29,7 +29,7 @@
 #include <atomic>
 #include "../perft/worker/WorkerEntityDao.h"
 #include "../pipe/Ipipe.h"
-
+#include "../util/Timer.h"
 
 using namespace std;
 using namespace _def;
@@ -50,7 +50,6 @@ public :
 
     ~Engine();
 
-    void put(string);
 
     virtual void run();
 
@@ -67,6 +66,8 @@ public :
     void setDepth(const int depth1) {
         depth = depth1;
     }
+
+    void runPerft();
 
 private:
 
@@ -94,6 +95,8 @@ private:
 
     void readStdin();
 
+    void put(string);
+
     void readStderr();
 
     atomic<bool> reading;
@@ -106,6 +109,7 @@ private:
 
     Ipipe *pipe;
     int depth;
+    Timer *timerHearbeat = nullptr;
 };
 
 

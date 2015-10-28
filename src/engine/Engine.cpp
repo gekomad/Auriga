@@ -147,6 +147,9 @@ Engine::~Engine() {
     put("quit");
     initialized = false;
     if (pipe)delete pipe;
+    if (timerHearbeat) {
+        delete timerHearbeat;
+    }
 //    close(fd_c2p[0]);
 //    close(fd_p2c[1]);
 }
@@ -292,3 +295,12 @@ void Engine::init(const string &confFileName1) {
 
 }
 
+void Engine::runPerft() {
+    timerHearbeat = new Timer(Time::HOUR_IN_SECONDS * 6);
+    timerHearbeat->registerObservers([this]() {
+        high_resolution_clock::time_point timeEnd = std::chrono::high_resolution_clock::now();
+        int minutes = Time::diffTime(timeEnd, timeStart) / 1000 / 60;
+        notifyPartialResult(0, fen, engineName, minutes, depth);
+    });
+    put("perft " + to_string(depth));
+}
