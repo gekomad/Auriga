@@ -42,7 +42,7 @@ public:
             warn("file not found: ", fileName);
         }
         rgxLine.assign("^(.+?)=(.*)$");
-        rgxTag.assign("^\\[.+\\]$");//TODO errore in gcc
+        rgxTag.assign("^\\[.+\\]$");
     }
 
     ~IniFile() {
