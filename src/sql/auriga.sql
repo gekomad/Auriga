@@ -44,6 +44,30 @@ LOCK TABLES `perft` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `perft_tasks`
+--
+
+DROP TABLE IF EXISTS `perft_tasks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `perft_tasks` (
+  `uuid_perft` char(36) COLLATE utf8_bin NOT NULL,
+  `uuid_task` char(36) COLLATE utf8_bin NOT NULL,
+  KEY `uuid_perft` (`uuid_perft`,`uuid_task`),
+  CONSTRAINT `ptasks_ibfk_2` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `perft_tasks`
+--
+
+LOCK TABLES `perft_tasks` WRITE;
+/*!40000 ALTER TABLE `perft_tasks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `perft_tasks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tasks`
 --
 
@@ -84,4 +108,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-27 15:54:09
+-- Dump completed on 2015-10-28 11:58:08

@@ -25,7 +25,7 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
     PerftEntity perftEntity(fen, depth);
     res.append(perftEntity.toINIformat());
 
-    vector<TaskEntity> taskEntity;
+    vector<TaskEntity> taskEntityList;
 
     WrapperCinnamon wrapperCinnamon;
 
@@ -46,19 +46,19 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
     info("tot Ntask: ", Ntask);
     info("tot effectiveNtask: ", effectiveNtask);
     info("tot Fen: ", successorsFen.size());
-    taskEntity.reserve(effectiveNtask);
+    taskEntityList.reserve(effectiveNtask);
     for (int i = 0; i < effectiveNtask; i++) {
 
         TaskEntity task;
         task.setDepth(depth - succDepth);
-        taskEntity.push_back(task);
+        taskEntityList.push_back(task);
     }
     int c = 0;
     for (unsigned i = 0; i < successorsFen.size(); i++) {
-        taskEntity.at((c++) % effectiveNtask).addFen(successorsFen[i]);
+        taskEntityList.at((c++) % effectiveNtask).addFen(successorsFen[i]);
     }
 
-    TaskEntityDao taskEntityDao(taskEntity);
+    TaskEntityDao taskEntityDao(taskEntityList);
     res.append(taskEntityDao.toINIformat());
     string perftUUID = perftEntity.getUuid();
     FileUtil::createDirectory(iniDir + "/" + perftUUID);
@@ -69,10 +69,15 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
     myfile.open(filename);
     myfile << res;
     myfile.close();
+    info("Generated file " + filename);
     //CSV file for table perft
     myfile.open(iniDir + "/" + perftUUID + "/perft_table.tmp");
     myfile << perftEntity.getUuid() + "|" + fen + "|" + to_string(depth) + "|" + to_string(Ntask) + "\n";
     myfile.close();
-
-    info("Generated file " + filename);
+    //CSV file for table perft_tasks
+    myfile.open(iniDir + "/" + perftUUID + "/perft_tasks_table.tmp");
+    for (TaskEntity taskEntity :taskEntityList) {
+        myfile << perftEntity.getUuid()  + "|" + taskEntity.getTaskUUID() + "\n";
+    }
+    myfile.close();
 }

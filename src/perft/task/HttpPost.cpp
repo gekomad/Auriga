@@ -22,12 +22,12 @@ void HttpPost::postThread(const string &host, const int port, const string &uuid
     info("Sending data to server host: ", host, " port: ", port, " uuid_perft: ", uuid_perft, " uuid_task: ", uuid_task, " partial_moves: ", partial_moves, " tot: ", tot, " engine: ", engine, " author: ", author, " fen: ", fen, " hours: ", hours, " depth: ", depth);
     if (host.empty()) {
         info("host = null, don't send data to server");
-        return;
+       // return;
     }
     gc();
     if (!isDelayOK()) {
         info("don't send data to server, minimum time between 2 post is one hour");
-        return;
+        //return;
     }
 
     Post *httpClient = new Post();
