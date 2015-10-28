@@ -42,7 +42,8 @@ public:
             string fen = params[3];
             int depth = stoi(params[4]);
 
-            PerftSplitter::generateMasterINI(fen, Ntask, depth, aurigaRoot);
+            string perftUUID = PerftSplitter::generateMasterINI(fen, Ntask, depth, aurigaRoot);
+            cout <<"X"<<perftUUID<<"X\n";
         } else {
             help(argv);
         }

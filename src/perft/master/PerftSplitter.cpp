@@ -18,7 +18,7 @@
 
 #include "PerftSplitter.h"
 
-void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, const int depth, const string &aurigaRoot) {
+string PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, const int depth, const string &aurigaRoot) {
     assert(depth > 1);
     string res = "#auriga ini file - AUTO-GENERATED FILE - DO NOT EDIT\n\n";
 
@@ -29,7 +29,7 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
 
     WrapperCinnamon wrapperCinnamon;
 
-    vector<string> successorsFen;// = wrapperCinnamon.getSuccessorsFen(fen, 1);
+    vector<string> successorsFen;
 
     int effectiveNtask = Ntask;
     int succDepth = 0;
@@ -61,6 +61,7 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
     TaskEntityDao taskEntityDao(taskEntityList);
     res.append(taskEntityDao.toINIformat());
     string perftUUID = perftEntity.getUuid();
+
     FileUtil::createDirectory(aurigaRoot + "/data" );
     FileUtil::createDirectory(aurigaRoot + "/data/" + perftUUID);
     string filename = aurigaRoot + "/data/" + perftUUID + "/" + perftUUID + ".ini";
@@ -81,4 +82,5 @@ void PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask, c
         myfile << perftEntity.getUuid()  + "|" + taskEntity.getTaskUUID() + "\n";
     }
     myfile.close();
+    return perftEntity.getUuid();
 }
