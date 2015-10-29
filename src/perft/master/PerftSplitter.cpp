@@ -73,11 +73,11 @@ string PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask,
     myfile.close();
     info("Generated file " + filename);
     //CSV file for table perft
-    myfile.open(aurigaRoot + "/data/" + perftUUID + "/perft_table.tmp");
+    myfile.open(aurigaRoot + "/data/" + perftUUID + "/perft.txt");
     myfile << perftEntity.getUuid() + "|" + fen + "|" + to_string(depth) + "|" + to_string(Ntask) + "\n";
     myfile.close();
     //CSV file for table perft_tasks
-    myfile.open(aurigaRoot + "/data/" + perftUUID + "/perft_tasks_table.tmp");
+    myfile.open(aurigaRoot + "/data/" + perftUUID + "/perft_tasks.txt");
     for (TaskEntity taskEntity :taskEntityList) {
         myfile << perftEntity.getUuid()  + "|" + taskEntity.getTaskUUID() + "\n";
     }

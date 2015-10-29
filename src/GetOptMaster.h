@@ -43,7 +43,7 @@ public:
             int depth = stoi(params[4]);
 
             string perftUUID = PerftSplitter::generateMasterINI(fen, Ntask, depth, aurigaRoot);
-            cout <<"X"<<perftUUID<<"X\n";
+            cout <<"X"<<perftUUID<<"X\n";//TODO non modificare
         } else {
             help(argv);
         }
