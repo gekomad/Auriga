@@ -63,7 +63,7 @@ auriga32:
 	$(MAKE) LIBS="$(LIBS) lib/$(OS)/32/libCinnamon.a" ARC="-m32" build
 
 auriga-ARM:
-	$(MAKE) LIBS="$(LIBS) gtb/ARM/32/libgtb.a" ARC="-fno-gcse -w -fsigned-char" build
+	$(MAKE) LIBS="$(LIBS) lib/ARM/32/libCinnamon.a" ARC="-fno-gcse -w -fsigned-char" build
 
 auriga64:
 	$(MAKE) LIBS="$(LIBS) lib/$(OS)/64/libCinnamon.a" ARC="-m64" build
