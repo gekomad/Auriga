@@ -7,7 +7,7 @@ $tot=$_POST["tot"];
 $engine=$_POST["engine"];
 $author=$_POST["author"];
 $fen=$_POST["fen"];
-$hours=$_POST["hours"];
+$minutes=$_POST["minutes"];
 $depth=$_POST["depth"];
 
 	include 'mysql_connect.php';
@@ -19,7 +19,7 @@ $depth=$_POST["depth"];
 	echo $db_port."e<br>";
 
 	
-	$query = "INSERT INTO tasks (uuid_perft, uuid_task,partial_moves,tot,engine,author,fen,hours,depth)VALUES ('$uuid_perft', '$uuid_task','$partial_moves','$tot','$engine','$author','$fen',$hours,$depth)";
+	$query = "INSERT INTO tasks (uuid_perft, uuid_task,partial_moves,tot,engine,author,fen,minutes,depth)VALUES ('$uuid_perft', '$uuid_task','$partial_moves','$tot','$engine','$author','$fen',$minutes,$depth)";
     error_log ( $query,0);
 
 
