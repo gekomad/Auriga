@@ -95,8 +95,8 @@ if ($result->num_rows > 0) {
 	echo "<tr>";
 	echo "<td>fen</td>" ;
 	echo "<td>depth</td>" ;
-	echo "<td>creation_date</td>" ;
-	echo "<td>partial_moves</td>" ;
+	echo "<td>creation date</td>" ;
+	echo "<td>partial moves</td>" ;
 	echo "<td>tot</td>" ;
 	echo "<td>engine</td>" ;
 	echo "<td>author</td>" ;
