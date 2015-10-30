@@ -1,7 +1,7 @@
 <html><head>
 <meta name="robots" content="noindex">
 <title>Task</title>
-
+<link rel="stylesheet" media="screen" href="css/css1.css" />
 <script type="text/javascript">
 
 function setCookie(cname, cvalue) {
@@ -52,22 +52,12 @@ function MyFunction(perft_id,uuid_task)
 </head>
 <body onload="checkCookie()">
 
+
+
+
  <input type="hidden" id="syst">
 
 <textarea name=type rows=10 cols=150 id=t1 readonly=yes"></textarea>
-
- <br><br>worker.ini: 
-
-<input type="text" id="worker_ini" list="workerName"/>
-<datalist id="workerName">
-  <select>
- <option value="cheng.auriga.ini">cheng.auriga.ini</option>
-	<option value="stockfish.auriga.ini">stockfish.auriga.ini</option>
-	<option value="cinnamon.auriga.ini">cinnamon.auriga.ini</option>
-	<option value="crafty.auriga.ini">crafty.auriga.ini</option>
-    </select>
-</datalist>
-<br>
 
 <?php
 
@@ -83,12 +73,40 @@ include 'mysql_connect.php';
 
 $sql ="select fen,depth,creation_date,partial_moves,tot,engine,author,minutes from tasks pt where pt.uuid_task ='".$uuid_task."'";
 
-//echo "$sql";
-
 $result = $conn->query($sql);
-  echo "perft uuid: ".$uuid_perft."<br><br>";
-  
- echo 'task uuid: <a " href="#" onclick="MyFunction(\''.$uuid_perft.'\',\''.$uuid_task.'\');return false;">'.$uuid_task.'</a><br>';
+?>
+<section class="container">
+
+          <hgroup>
+<?php 
+  echo "<h1>task id ".$uuid_task."</h1> ";?>
+
+          </hgroup>
+
+
+        <div class="row">
+        
+            <section>
+              <h2>Deploying code changes</h2>
+                <p>OpenShift uses the <a href="http://git-scm.com/">Git version control system</a>
+ for your source code, and grants you access to it via the Secure Shell 
+(SSH) protocol. In order to upload and download code to your application
+ you need to give us your <a href="https://developers.openshift.com/en/managing-remote-connection.html">public SSH key</a>. You can upload it within the web console or install the <a href="https://developers.openshift.com/en/managing-client-tools.html">RHC command line tool</a> and run <code>rhc setup</code> to generate and upload your key automatically.</p>
+worker.ini: 
+<input type="text" id="worker_ini" list="workerName"/>
+<datalist id="workerName">
+  <select>
+ <option value="cheng.auriga.ini">cheng.auriga.ini</option>
+	<option value="stockfish.auriga.ini">stockfish.auriga.ini</option>
+	<option value="cinnamon.auriga.ini">cinnamon.auriga.ini</option>
+	<option value="crafty.auriga.ini">crafty.auriga.ini</option>
+    </select>
+</datalist>
+
+  <?php echo " <button onclick='MyFunction(\"$uuid_perft\",\"$uuid_task\")'>Generate command</button> ";
+     
+  echo "<br><br>perft uuid: ".$uuid_perft."<br><br>";
+
 	echo "<br>";
 if ($result->num_rows > 0) {
 	echo "<table width='75%' border='1' align='center' bgcolor='#11FFff'>";
@@ -123,5 +141,12 @@ if ($result->num_rows > 0) {
 $conn->close();
 ?> 
 
+  </section>         
+        </div>
+</section>
+        <footer>
+ssss
+          <div class="logo"><a href="https://www.openshift.com/"></a></div>
+        </footer>
 </body>
 </html>

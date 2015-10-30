@@ -6,8 +6,8 @@ $db_host = $_ENV['OPENSHIFT_MYSQL_DB_HOST'];
 	$db_name = $_ENV['OPENSHIFT_APP_NAME'];
 	$db_port = $_ENV['OPENSHIFT_MYSQL_DB_PORT'];
 	$auriga_root = $_ENV['OPENSHIFT_DATA_DIR']."/auriga_root";
-*/
-	 
+
+	 */
 	$db_host = "127.0.0.1";
 	$db_user = "root";
 	$db_pass = "root";
