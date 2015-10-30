@@ -14,9 +14,9 @@ $tmp_dir="/tmp/".rand()."/";
 mkdir($tmp_dir);
 echo "tmp_dir=$tmp_dir<br>";
 
-$AURIGA_DATA = $openshift_data_dir."/auriga_root";
+$AURIGA_DATA = $auriga_root."/data";
 
-mkdir($AURIGA_DATA."/data");
+mkdir($AURIGA_DATA);
 $AURIGA_EXE="timeout --signal=9 30s ./auriga";
 
 echo $_POST["fen"];
@@ -49,7 +49,7 @@ shell_exec("mysqlimport -u$db_user -p$db_pass --local  --fields-terminated-by='|
 
 
 shell_exec("rm -f $tmp_dir/data/$perft_uuid/*.tmp");
-shell_exec("mv $tmp_dir/data/$perft_uuid $AURIGA_DATA/data");
+shell_exec("mv $tmp_dir/data/$perft_uuid $AURIGA_DATA");
 shell_exec("rm -fr $tmp_dir");
 
 

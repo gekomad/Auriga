@@ -70,7 +70,10 @@ function MyFunction(perft_id,task_uuid)
 <?php
 
 $perft_uuid=$_GET['id'];
-
+if($perft_uuid == ""){
+	echo "perft_uuid missing<br>";
+	return;
+}
 include 'mysql_connect.php';
 
 
