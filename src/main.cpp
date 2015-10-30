@@ -29,7 +29,7 @@
 using namespace std;
 
 void printHeader() {
-    cout << NAME << " - Distributed and collaborative Perft framework by Giuseppe Cannella\n";
+    cout << NAME << " - Distributed and collaborative Perft system by Giuseppe Cannella\n";
 #if UINTPTR_MAX == 0xffffffffffffffff
     cout << "version 64-bit ";
 #else
