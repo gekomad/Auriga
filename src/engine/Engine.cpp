@@ -302,5 +302,6 @@ void Engine::runPerft() {
         int minutes = Time::diffTime(timeEnd, timeStart) / 1000 / 60;
         notifyPartialResult(0, fen, engineName, minutes, depth);
     });
+    timerHearbeat->start();
     put("perft " + to_string(depth));
 }
