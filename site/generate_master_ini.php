@@ -15,7 +15,7 @@ mkdir($tmp_dir);
 echo "tmp_dir=$tmp_dir<br>";
 
 $AURIGA_DATA = $auriga_root_server."/data";
-
+mkdir($auriga_root_server);
 mkdir($AURIGA_DATA);
 $AURIGA_EXE="timeout --signal=9 30s ./auriga";
 
