@@ -1,4 +1,5 @@
 <html><head>
+<meta name="robots" content="noindex">
 <title>Task</title>
 
 <script type="text/javascript">
