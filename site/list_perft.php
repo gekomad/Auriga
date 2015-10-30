@@ -31,10 +31,10 @@ function checkCookie() {
 }
 
 function MyFunction(perft_id,task_uuid)
-{
-	
-	var worker_ini=document.getElementById('worker_ini').value;
+{	
 
+	var worker_ini=document.getElementById('worker_ini').value;
+	if(worker_ini==""){document.getElementById('t1').value="error. select a worker";return;}
 
 	setCookie("paths",worker_ini) ;
 	document.getElementById('t1').value="Copy/paste on your client\n";
@@ -53,26 +53,29 @@ function MyFunction(perft_id,task_uuid)
 
  <input type="hidden" id="syst">
 
- worker.ini:<br>
-  <input type="text" id="worker_ini" value ="yourpath">
-  <br>
+<textarea name=type rows=10 cols=150 id=t1 readonly=yes"></textarea>
 
+ <br><br>worker.ini: 
 
-<textarea name=type rows=10 cols=150 id=t1 readonly=yes">
-
-</textarea>
+<input type="text" id="worker_ini" list="workerName"/>
+<datalist id="workerName">
+  <select>
+ <option value="cheng.auriga.ini">cheng.auriga.ini</option>
+	<option value="stockfish.auriga.ini">stockfish.auriga.ini</option>
+	<option value="cinnamon.auriga.ini">cinnamon.auriga.ini</option>
+	<option value="crafty.auriga.ini">crafty.auriga.ini</option>
+    </select>
+</datalist>
 <br>
-
 
 <?php
 
 $perft_uuid=$_GET['id'];
 if($perft_uuid == ""){
-	echo "perft_uuid missing<br>";
+	echo "perft_uuid missing<br><br>";
 	return;
 }
 include 'mysql_connect.php';
-
 
 $sql = "select pt.uuid_perft, pt.uuid_task, sum(not isnull(t.tot)) tot,sum(not isnull(t.partial_moves))partial from perft_tasks pt ". 
 "left join tasks t ".
@@ -83,7 +86,7 @@ $sql = "select pt.uuid_perft, pt.uuid_task, sum(not isnull(t.tot)) tot,sum(not i
 
 
 $result = $conn->query($sql);
-echo "Perft uuid: ".$perft_uuid."<br>";
+echo "Perft uuid: ".$perft_uuid."<br><br>";
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
 	   echo '<a " href="#" onclick="MyFunction(\''.$row["uuid_perft"].'\',\''.$row["uuid_task"].'\');return false;">'.$row["uuid_task"].'</a>'.' '. $row["tot"]. " " . $row["partial"].'<br>';
