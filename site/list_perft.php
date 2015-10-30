@@ -70,12 +70,24 @@ function MyFunction(perft_id,task_uuid)
 
 <?php
 
-$perft_uuid=$_GET['id'];
+$perft_uuid=$_GET['uuid_perft'];
 if($perft_uuid == ""){
 	echo "perft_uuid missing<br><br>";
 	return;
 }
+
+
 include 'mysql_connect.php';
+
+$sql = "SELECT fen, depth,tasks,creation_date,tot FROM perft where uuid_perft='".$perft_uuid."'";
+$result = $conn->query($sql);
+
+
+$row = $result->fetch_assoc();
+$fen =$row["fen"];
+$deph =$row["depth"];
+$tasks =$row["tasks"];
+$creation_date =$row["creation_date"];
 
 $sql = "select pt.uuid_perft, pt.uuid_task, sum(not isnull(t.tot)) tot,sum(not isnull(t.partial_moves))partial from perft_tasks pt ". 
 "left join tasks t ".
@@ -87,6 +99,13 @@ $sql = "select pt.uuid_perft, pt.uuid_task, sum(not isnull(t.tot)) tot,sum(not i
 
 $result = $conn->query($sql);
 echo "Perft uuid: ".$perft_uuid."<br><br>";
+echo "<img src='http://webchess.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";
+echo "<br><br>fen: $fen<br><br>";
+echo "depth: $deph<br>";
+echo "tasks: $tasks<br>";
+echo "creation_date: $creation_date<br>";
+echo "<br>";
+
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
 	   echo '<a " href="#" onclick="MyFunction(\''.$row["uuid_perft"].'\',\''.$row["uuid_task"].'\');return false;">'.$row["uuid_task"].'</a>'.' '. $row["tot"]. " " . $row["partial"].'<br>';
@@ -97,5 +116,6 @@ if ($result->num_rows > 0) {
 
 $conn->close();
 ?> 
+
 </body>
 </html>

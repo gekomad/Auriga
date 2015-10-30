@@ -10,14 +10,6 @@
 
 	include 'mysql_connect.php';
 
-	
-	echo $db_host."a<br>";
-	echo $db_user."b<br>";
-	
-	echo $db_name."d<br>";
-	echo $db_port."e<br>";
-
-
 	$sql = "SELECT uuid_perft, tasks FROM perft";
 	$result = $conn->query($sql);
 
