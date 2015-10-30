@@ -2,6 +2,7 @@
 <title>(Type a title for your page here)</title>
 
 <script type="text/javascript">
+
 function setCookie(cname, cvalue) {
     var d = new Date();
     d.setTime(d.getTime() + (365*24*60*60*1000));
@@ -25,25 +26,23 @@ function checkCookie() {
     var worker = getCookie("paths");
 
     if (worker != "") {
-		var ca =worker.split('|');
-		//alert(ca[0]+ "     "+ca[1]);
-		document.getElementById('worker_path').value=ca[0];
-		document.getElementById('dir_path').value=ca[1];
-    
+		document.getElementById('worker_ini').value=worker;    
     }
 }
 
 function MyFunction(perft_id,task_uuid)
 {
 	
-	var worker_path=document.getElementById('worker_path').value;
-	var dir_path=document.getElementById('dir_path').value;
+	var worker_ini=document.getElementById('worker_ini').value;
 
-	setCookie("paths",worker_path+"|"+dir_path) ;
+
+	setCookie("paths",worker_ini) ;
 	document.getElementById('t1').value="Copy/paste on your client\n";
 	var command="./auriga";
-    if(document.getElementById('syst').value=="win") command="auriga.exe";
-	var s=command+ " --task "+worker_path+" "+dir_path+" " +perft_id+ " "+task_uuid + " -fetch";
+	var aurigaroot="$AURIGA_ROOT";
+    if(document.getElementById('syst').value=="win") {command="auriga.exe";aurigaroot="%AURIGA_ROOT%";}
+
+	var s=command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " "+task_uuid + " -fetch";
 	document.getElementById('t1').value+=s+"\n";
 
 		
@@ -54,11 +53,9 @@ function MyFunction(perft_id,task_uuid)
 
  <input type="hidden" id="syst">
 
- complete path worker.ini:<br>
-  <input type="text" id="worker_path" value ="yourpath">
+ worker.ini:<br>
+  <input type="text" id="worker_ini" value ="yourpath">
   <br>
- complete path data directory:<br>
-  <input type="text" id="dir_path" value ="sfsdfd">
 
 
 <textarea name=type rows=10 cols=150 id=t1 readonly=yes">
@@ -90,7 +87,6 @@ echo "Perft uuid: ".$perft_uuid."<br>";
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
 	   echo '<a " href="#" onclick="MyFunction(\''.$row["uuid_perft"].'\',\''.$row["uuid_task"].'\');return false;">'.$row["uuid_task"].'</a>'.' '. $row["tot"]. " " . $row["partial"].'<br>';
-        /*echo "id: " . $row["uuid_perft"]. " - Name: " . $row["uuid_task"]. " " . $row["tot"]. " " . $row["partial"]. "<br>";*/
     }
 } else {
     echo "0 results";
