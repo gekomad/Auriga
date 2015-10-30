@@ -46,11 +46,12 @@ help:
 
 	@echo "Makefile for cross-compile Linux/Windows/OSX/ARM"
 	@echo ""
-	@echo "make auriga64      [COMP=comp]"
-	@echo "make auriga32      [COMP=comp]"
-	@echo "make auriga-ARM    [COMP=comp]"
+	@echo "make auriga64      [COMP=compiler]"
+	@echo "make auriga32      [COMP=compiler]"
+	@echo "make auriga-ARM    [COMP=compiler]"
 
 	@echo ""
+	@echo "g++ is the default compiler, add COMP=yourcompiler to use another compiler"
 	@echo " example: make auriga64 COMP=clang++"
 	@echo ""
 
