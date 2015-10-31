@@ -4,16 +4,18 @@
   <title>New Perft</title>
  <link rel="stylesheet"  href="css/css1.css" type="text/css"/>
 <link rel="stylesheet" href="css/layout.css" type="text/css" />
-<script>
+<script type="text/javascript">
 
 function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 function validate() {
+
+	
 	depth =document.getElementById('depth').value;
-	if(!isNumeric(depth)|| (depth<2||depth>1000)){
-		alert('error depth is a number between 1 and 1000');
+	if(!isNumeric(depth)|| (depth<2||depth>100)){
+		alert('error depth is a number between 1 and 100');
 		return false;
 	}
 	tasks =document.getElementById('tasks').value;
@@ -21,12 +23,22 @@ function validate() {
 		alert('error task is a number between 1 and 1000');
 		return false;
 	}
+
+	cap =document.getElementById('captcha').value;
+	if(cap== null || cap.trim()==""){
+		alert("insert captcha digit ");
+		return false;
+	}
+
 	fen =document.getElementById('fen').value;
     fen=fen.trim();
 	document.getElementById('fen').value=fen;
 	res=validate_fen(fen);
 	if(res.valid==true)return true;
 	alert(res.error+"\n\n[fen validator: https://github.com/jhlywa/chess.js]");
+
+	
+
 	return false;	
  }
 
@@ -121,26 +133,28 @@ function validate() {
   }
 
 </script>
+
+<?php include 'captcha.php';	?>
+
 </head>
  <body>
 <?php include 'menu.php';?>
 <section class="container">
-
           <hgroup>
-
             <h1>Create a Perft </h1> 
           </hgroup>
-
-
         <div class="row">
-         
             <section>
-
 <form method="post" onsubmit="return validate();" action="generate_master_ini.php" name="perftform" id="perftform" class="form form-stacked c-form">
 fen: <input name="fen" type="text" id="fen" placeholder="Fen string" />
 depth: <input name="depth" type="text" id="depth" placeholder="depth" />
 tasks: <input name="tasks" type="text" id="tasks" placeholder="tasks number" />
-<input type="submit" class="submit btn outline" id="submit" value="Create perft" />
+
+<br><br><br><br>
+<?php echo"<img src=\"tmp/$image.jpg\" width=\"120\" height=\"30\" border=\"1\" alt=\"CAPTCHA\">";?>
+<input type="text" size="6" maxlength="5" id="captcha" name="captcha" value="">
+<small>copy the digits from the image into this box</small>
+<br><br><input type="submit" class="submit btn outline" id="submit" value="Create perft" />
 </form>
 r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1
 <br><br><br><br><br><br><br><br><br><br><br><br>

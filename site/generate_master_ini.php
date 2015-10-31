@@ -1,19 +1,26 @@
-<html>
- <head>
 
-  <meta name="robots" content="noindex">
-  <title>generate masterfile4</title>
-<link rel="stylesheet"  href="css/css1.css" type="text/css"/>
-
- </head>
- <body>
 
 <?php
 
 include 'set_variable.php';	
 
-echo "auriga_root: $auriga_root ";
-echo "auriga_root: $auriga_root ";
+session_start();
+shell_exec("find tmp/* -type f -mmin +1 -exec rm {} \;");
+if($_POST['captcha'] != $_SESSION['digit']) {
+	header("Location: error_captcha.html");
+	exit;
+}
+session_destroy();
+
+echo $_POST["depth"];
+echo "<br>";
+echo $_POST["tasks"];
+echo "<br>";
+if (!is_numeric($_POST["depth"])||!is_numeric($_POST["tasks"])) {
+    echo "error";
+	return;
+} 
+
 
 $tmp_dir="/tmp/".rand()."/";
 mkdir($tmp_dir);
@@ -31,16 +38,6 @@ $fen=substr($fen,0,100);
 echo $fen;
 echo "<br>";
 
-echo $_POST["depth"];
-echo "<br>";
-
-echo $_POST["tasks"];
-echo "<br>";
-
-if (!is_numeric($_POST["depth"])||!is_numeric($_POST["tasks"])) {
-    echo "error";
-	return;
-} 
 
 $param="--generate-ini ".$tmp_dir." ".$_POST["tasks"]." \"".$fen."\" ".$_POST["depth"];
 echo "<br>";
@@ -74,7 +71,4 @@ header("Location: perft.php?uuid_perft=$perft_uuid");
 exit;
 
 ?>
-<?php include 'footer.html'; ?>     
- </body>
-</html>
 
