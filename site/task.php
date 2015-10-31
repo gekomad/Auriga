@@ -1,7 +1,8 @@
 <html><head>
 <meta name="robots" content="noindex">
 <title>Task</title>
-<link rel="stylesheet" media="screen" href="css/css1.css" />
+<link rel="stylesheet"  href="css/css1.css" type="text/css"/>
+<link rel="stylesheet" href="css/layout.css" type="text/css" />
 <script type="text/javascript">
 
 function setCookie(cname, cvalue) {
@@ -51,7 +52,7 @@ function MyFunction(perft_id,uuid_task)
 </script>
 </head>
 <body onload="checkCookie()">
-
+ <?php include 'menu.php';?>   
 
 
 
@@ -148,9 +149,6 @@ $conn->close();
   </section>         
         </div>
 </section>
-        <footer>
-ssss
-          <div class="logo"><a href="https://www.openshift.com/"></a></div>
-        </footer>
+<?php include 'footer.html'; ?>   
 </body>
 </html>

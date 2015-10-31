@@ -64,7 +64,7 @@ shell_exec("rm -fr $tmp_dir");
 
 
 ?>
-
+<?php include 'footer.html'; ?>     
  </body>
 </html>
 

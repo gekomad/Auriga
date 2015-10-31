@@ -4,9 +4,13 @@
   <meta name="robots" content="noindex">
   <title>all perft</title>
 <link rel="stylesheet"  href="css/css1.css" type="text/css"/>
+<link rel="stylesheet" href="css/layout.css" type="text/css" />
 
  </head>
  <body>
+
+<?php include 'menu.php';?>
+
 <section class="container">
 
           <hgroup>
@@ -124,9 +128,6 @@ memberships.</p>
 </div>
 
 </section>
-        <footer>
-ssss
-          <div class="logo"><a href="https://www.openshift.com/"></a></div>
-        </footer>
+<?php include 'footer.html'; ?>     
  </body>
 </html>

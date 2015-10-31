@@ -2,7 +2,8 @@
  <head>
   <meta name="robots" content="noindex">
   <title>New Perft</title>
- 
+ <link rel="stylesheet"  href="css/css1.css" type="text/css"/>
+<link rel="stylesheet" href="css/layout.css" type="text/css" />
 <script>
 
 function validate() {
@@ -117,7 +118,7 @@ function validate() {
 </script>
 </head>
  <body>
-
+<?php include 'menu.php';?>
 <form method="post" onsubmit="return validate();" action="generate_master_ini.php" name="perftform" id="perftform" class="form form-stacked c-form">
 <input name="fen" type="text" id="fen" placeholder="Fen string" />
 <input name="depth" type="text" id="depth" placeholder="depth" />
@@ -125,5 +126,6 @@ function validate() {
 <input type="submit" class="submit btn outline" id="submit" value="Create perft" />
 </form>
 r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1
+<?php include 'footer.html'; ?>     
  </body>
 </html>
