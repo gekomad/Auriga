@@ -69,11 +69,17 @@ echo "<br>";
 if ($result->num_rows > 0) {
 echo "<table>";
 		echo "<tr>";
-		echo "<td><b>TASK ID</b></td>" ;
+		echo "<td><b>Task ID</b></td>" ;
+		echo "<td><b>Completed</b></td>" ;
+		echo "<td><b>Running</b></td>" ;
 	 	echo "</tr>";
     while($row = $result->fetch_assoc()) {
 		echo "<tr>";
 		echo '<td><a href="task.php?uuid_task='.$row["uuid_task"].'&uuid_perft='.$uuid_perft.'">'.$row["uuid_task"].'</a></td>';
+		$completed=($row["tot"] == 0 ?"no": "yes");
+		echo "<td>$completed</td>";
+		$running=$completed=="yes"?"":($row["partial"] == 0 ?"no": "yes");
+		echo "<td>$running</td>";
 		echo "</tr>";
     }
 echo "</table>";

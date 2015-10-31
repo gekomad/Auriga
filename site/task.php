@@ -75,7 +75,7 @@ include 'mysql_connect.php';
 
 $sql ="select f.fen,f.depth,creation_date,partial_moves,tot,engine,author,minutes ".
 "from task_fens f left join tasks pt ".
-"on pt.uuid_task=f.uuid_task ".
+"on pt.uuid_task=f.uuid_task and pt.fen=f.fen ".
 "where f.uuid_task ='".$uuid_task."'";
 
 $result = $conn->query($sql);
