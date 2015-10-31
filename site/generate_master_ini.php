@@ -45,16 +45,16 @@ echo "perft_uuid $perft_uuid";
 echo "<br>----GENERATED MASTER NODES----------<br>";
 
 $csv=$tmp_dir."/data/".$perft_uuid."/perft.txt";
-echo "mysqlimport -u$db_user -p$db_pass -h$db_host --local  --fields-terminated-by='|' $db_name $csv<br>";
+echo "mysqlimport -u$db_user -pdb_pass -h$db_host --local  --fields-terminated-by='|' $db_name $csv<br>";
 shell_exec("mysqlimport -u$db_user -p$db_pass -h$db_host --local  --fields-terminated-by='|' $db_name $csv");
 
 
 $csv=$tmp_dir."data/".$perft_uuid."/perft_tasks.txt";
-echo "mysqlimport -u$db_user -p$db_pass -h$db_host --local  --fields-terminated-by='|' $db_name $csv<br>";
+echo "mysqlimport -u$db_user -pdb_pass -h$db_host --local  --fields-terminated-by='|' $db_name $csv<br>";
 shell_exec("mysqlimport -u$db_user -p$db_pass -h$db_host --local  --fields-terminated-by='|' $db_name $csv");
 
 $csv=$tmp_dir."data/".$perft_uuid."/task_fens.txt";
-echo "mysqlimport -u$db_user -p$db_pass -h$db_host --local  --fields-terminated-by='|' $db_name $csv<br>";
+echo "mysqlimport -u$db_user -pdb_pass -h$db_host --local  --fields-terminated-by='|' $db_name $csv<br>";
 shell_exec("mysqlimport -u$db_user -p$db_pass -h$db_host --local  --fields-terminated-by='|' $db_name $csv");
 
 
