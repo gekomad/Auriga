@@ -25,7 +25,10 @@ mkdir($auriga_root);
 mkdir($AURIGA_DATA);
 $AURIGA_EXE="timeout --signal=9 30s ./auriga";
 
-echo $_POST["fen"];
+$fen=$_POST["fen"];
+$fen=trim($fen);
+$fen=substr($fen,0,100);
+echo $fen;
 echo "<br>";
 
 echo $_POST["depth"];
@@ -34,7 +37,12 @@ echo "<br>";
 echo $_POST["tasks"];
 echo "<br>";
 
-$param="--generate-ini ".$tmp_dir." ".$_POST["tasks"]." \"".$_POST["fen"]."\" ".$_POST["depth"];
+if (!is_numeric($_POST["depth"])||!is_numeric($_POST["tasks"])) {
+    echo "error";
+	return;
+} 
+
+$param="--generate-ini ".$tmp_dir." ".$_POST["tasks"]." \"".$fen."\" ".$_POST["depth"];
 echo "<br>";
 echo "run: exec($AURIGA_EXE $param)";
 echo "<br>";
@@ -62,6 +70,8 @@ shell_exec("rm -f $tmp_dir/data/$perft_uuid/*.txt");
 shell_exec("mv $tmp_dir/data/$perft_uuid $AURIGA_DATA");
 shell_exec("rm -fr $tmp_dir");
 
+header("Location: perft.php?uuid_perft=$perft_uuid");
+exit;
 
 ?>
 <?php include 'footer.html'; ?>     

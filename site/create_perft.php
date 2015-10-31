@@ -6,27 +6,32 @@
 <link rel="stylesheet" href="css/layout.css" type="text/css" />
 <script>
 
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 function validate() {
+	depth =document.getElementById('depth').value;
+	if(!isNumeric(depth)|| (depth<2||depth>1000)){
+		alert('error depth is a number between 1 and 1000');
+		return false;
+	}
+	tasks =document.getElementById('tasks').value;
+	if(!isNumeric(tasks)|| (tasks<1||tasks>1000)){
+		alert('error task is a number between 1 and 1000');
+		return false;
+	}
 	fen =document.getElementById('fen').value;
+    fen=fen.trim();
+	document.getElementById('fen').value=fen;
 	res=validate_fen(fen);
 	if(res.valid==true)return true;
-	alert(res.error);
-	return false;
-
-	depth =document.getElementById('depth').value;
-	if(depth<2||depth>1000){
-		alert('error depth1');
-		return false;
-	}
-
-	tasks =document.getElementById('tasks').value;
-	if(tasks<1||tasks>1000){
-		alert('error tasks');
-		return false;
-	}
+	alert(res.error+"\n\n[fen validator: https://github.com/jhlywa/chess.js]");
+	return false;	
  }
 
  function validate_fen(fen) {
+	
 	//https://github.com/jhlywa/chess.js
     var errors = {
        0: 'No errors.',
@@ -119,13 +124,32 @@ function validate() {
 </head>
  <body>
 <?php include 'menu.php';?>
+<section class="container">
+
+          <hgroup>
+
+            <h1>Create a Perft </h1> 
+          </hgroup>
+
+
+        <div class="row">
+         
+            <section>
+
 <form method="post" onsubmit="return validate();" action="generate_master_ini.php" name="perftform" id="perftform" class="form form-stacked c-form">
-<input name="fen" type="text" id="fen" placeholder="Fen string" />
-<input name="depth" type="text" id="depth" placeholder="depth" />
-<input name="tasks" type="text" id="tasks" placeholder="tasks number" />
+fen: <input name="fen" type="text" id="fen" placeholder="Fen string" />
+depth: <input name="depth" type="text" id="depth" placeholder="depth" />
+tasks: <input name="tasks" type="text" id="tasks" placeholder="tasks number" />
 <input type="submit" class="submit btn outline" id="submit" value="Create perft" />
 </form>
 r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1
+<br><br><br><br><br><br><br><br><br><br><br><br>
+          </section>
+        </div>
+
+
+
+</section>
 <?php include 'footer.html'; ?>     
  </body>
 </html>
