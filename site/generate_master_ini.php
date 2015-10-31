@@ -249,7 +249,7 @@ echo "mysqlimport -u$db_user -p$db_pass -h$db_host --local  --fields-terminated-
 shell_exec("mysqlimport -u$db_user -p$db_pass -h$db_host --local  --fields-terminated-by='|' $db_name $csv2");
 
 
-shell_exec("rm -f $tmp_dir/data/$perft_uuid/*.tmp");
+shell_exec("rm -f $tmp_dir/data/$perft_uuid/*.txt");
 shell_exec("mv $tmp_dir/data/$perft_uuid $AURIGA_DATA");
 shell_exec("rm -fr $tmp_dir");
 
