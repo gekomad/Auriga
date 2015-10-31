@@ -7,6 +7,7 @@ include 'set_variable.php';
 session_start();
 shell_exec("find tmp/* -type f -mmin +1 -exec rm {} \;");
 if($_POST['captcha'] != $_SESSION['digit']) {
+	session_destroy();
 	header("Location: error_captcha.html");
 	exit;
 }
