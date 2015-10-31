@@ -62,7 +62,7 @@ string PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask,
     res.append(taskEntityDao.toINIformat());
     string perftUUID = perftEntity.getUuid();
 
-    FileUtil::createDirectory(aurigaRoot + "/data" );
+    FileUtil::createDirectory(aurigaRoot + "/data");
     FileUtil::createDirectory(aurigaRoot + "/data/" + perftUUID);
     string filename = aurigaRoot + "/data/" + perftUUID + "/" + perftUUID + ".ini";
 
@@ -79,7 +79,16 @@ string PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask,
     //CSV file for table perft_tasks
     myfile.open(aurigaRoot + "/data/" + perftUUID + "/perft_tasks.txt");
     for (TaskEntity taskEntity :taskEntityList) {
-        myfile << perftEntity.getUuid()  + "|" + taskEntity.getTaskUUID() + "\n";
+        myfile << perftEntity.getUuid() + "|" + taskEntity.getTaskUUID() + "\n";
+    }
+    myfile.close();
+
+    //CSV file for table task_fens
+    myfile.open(aurigaRoot + "/data/" + perftUUID + "/task_fens.txt");
+    for (TaskEntity taskEntity:taskEntityDao.getTaskEntity()) {
+        for (String fen:taskEntity.getFenList()) {
+            myfile << taskEntity.getTaskUUID() << "|" << fen << "|" << taskEntity.getDepth() << "\n";
+        }
     }
     myfile.close();
     return perftEntity.getUuid();

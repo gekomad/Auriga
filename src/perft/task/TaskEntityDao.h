@@ -41,6 +41,10 @@ public:
         return a;
     }
 
+    const vector<TaskEntity> &getTaskEntity() const {
+        return taskEntity;
+    }
+
 private:
     vector<TaskEntity> taskEntity;
 
