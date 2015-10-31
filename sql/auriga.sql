@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.19, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.44, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: auriga
 -- ------------------------------------------------------
--- Server version	5.6.19-0ubuntu0.14.04.1
+-- Server version	5.5.44-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -68,6 +68,29 @@ LOCK TABLES `perft_tasks` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `task_fens`
+--
+
+DROP TABLE IF EXISTS `task_fens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `task_fens` (
+  `uuid_task` char(36) COLLATE utf8_bin NOT NULL,
+  `fen` varchar(100) COLLATE utf8_bin NOT NULL,
+  `depth` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `task_fens`
+--
+
+LOCK TABLES `task_fens` WRITE;
+/*!40000 ALTER TABLE `task_fens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `task_fens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tasks`
 --
 
@@ -108,4 +131,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-28 11:58:08
+-- Dump completed on 2015-10-31 10:14:48
