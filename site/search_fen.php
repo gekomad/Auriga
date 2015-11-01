@@ -14,18 +14,21 @@ function validate() {
   <?php include 'menu.php';?>   
 <body>
 
-<form method="post" onsubmit="return validate();" action="search_fen.php" >
-fen: <input name="fen" type="text" id="fen" placeholder="Fen string" />
-<input type="submit" class="submit btn outline" id="submit" value="Search" />
-</form>
+
 
 <section class="container">
-
+<hgroup>
+            <h1>Search Fen</h1> 
+          </hgroup>
+<form method="post" onsubmit="return validate();" action="search_fen.php" >
+Search fen: <input name="fen" type="text" id="fen" placeholder="Fen string" />
+<input type="submit" class="submit btn outline" id="submit" value="Search" />
+</form>
           <hgroup>
 <?php   
 $fen=$_POST['fen'];
-echo "<h1>Fen ".$fen."</h1> ";
 ?>
+ 		
          </hgroup><div class="row"><section>
               <h2>Depsloying code changes</h2>
                 <p>OpenShift uses the <a href="http://git-scm.com/">Git version control system</a>
@@ -36,18 +39,17 @@ echo "<h1>Fen ".$fen."</h1> ";
 
          <?php  
 
-if($fen!="") {
+if($fen!="") {	
+	echo "<h1>Fen ".$fen."</h1> ";
 	include 'mysql_connect.php';
 	$sql = "SELECT uuid_task,depth FROM task_fens where fen ='".$fen."'";
 	$result = $conn->query($sql);
-	$uuid_task=$row["uuid_task"];
-
-	echo "<img src='http://webchess.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";
-
-
-	echo "<br>";
-
 	if ($result->num_rows > 0) {
+		$row = $result->fetch_assoc();
+		$uuid_task=$row["uuid_task"];
+
+		echo "<img src='http://webchess.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";
+		echo "<br>";	
 		echo "<table>";
 		echo "<tr>";
 		echo "<td><b>Task ID</b></td>" ;
@@ -66,8 +68,9 @@ if($fen!="") {
 			echo "</tr>";
     	}
 		echo "</table>";
-	} else {
-    	echo "0 results";
+	}
+	else {
+    	echo "0 results";	
 	}
 	$conn->close();	
 }
