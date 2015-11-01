@@ -3,13 +3,8 @@
 <title>Search Fen</title>
 <link rel="stylesheet"  href="css/css1.css" type="text/css"/>
 <link rel="stylesheet" href="css/layout.css" type="text/css" />
+<script src="js/validator.js"></script> 
 
-<script type="text/javascript">
-
-function validate() {
-	return true;
-}
-</script>
 </head>
   <?php include 'menu.php';?>   
 <body>
@@ -20,7 +15,8 @@ function validate() {
 <hgroup>
             <h1>Search Fen</h1> 
           </hgroup>
-<form method="post" onsubmit="return validate();" action="search_fen.php" >
+
+<form method="post" onsubmit="return validate_fen1();" action="search_fen.php" >
 Search fen: <input name="fen" type="text" id="fen" placeholder="Fen string" />
 <input type="submit" class="submit btn outline" id="submit" value="Search" />
 </form>

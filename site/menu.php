@@ -16,7 +16,7 @@
 				
 					
 						<li><a href="/allperft.php">All perfts</a></li>					
-						<li><a href="/docs">Search Fen</a></li>					
+						<li><a href="search_fen.php">Search Fen</a></li>					
 						
 					
 						<li><a href="#">Downloads</a>
