@@ -31,7 +31,7 @@ $sql = "select pt.uuid_perft,t.fen, pt.uuid_task, sum(not isnull(t.tot))=fens is
 "on  t.uuid_task=pt.uuid_task ".
 "where pt.uuid_perft ='".$uuid_perft."' ".
 "group by pt.uuid_perft,pt.uuid_task ".
-"order by 1,2,3 ";
+"order by 6 desc ";
 
 
 $result = $conn->query($sql);
