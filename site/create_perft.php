@@ -65,6 +65,9 @@ function validate() {
 	if (tokens.length == 4) {
       fen+=" 0 1";
     }
+	if (tokens.length == 3) {
+      fen+=" - 0 1";
+    }
 
     var tokens = fen.split(/\s+/);
     if (tokens.length !== 6) {
