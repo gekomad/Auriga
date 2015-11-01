@@ -53,6 +53,7 @@ DROP TABLE IF EXISTS `perft_tasks`;
 CREATE TABLE `perft_tasks` (
   `uuid_perft` char(36) COLLATE utf8_bin NOT NULL,
   `uuid_task` char(36) COLLATE utf8_bin NOT NULL,
+  `fens` int(11) DEFAULT NULL,
   KEY `uuid_perft` (`uuid_perft`,`uuid_task`),
   CONSTRAINT `ptasks_ibfk_2` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -77,7 +78,8 @@ DROP TABLE IF EXISTS `task_fens`;
 CREATE TABLE `task_fens` (
   `uuid_task` char(36) COLLATE utf8_bin NOT NULL,
   `fen` varchar(100) COLLATE utf8_bin NOT NULL,
-  `depth` int(11) DEFAULT NULL
+  `depth` int(11) DEFAULT NULL,
+  KEY `task_fens_fen_IDX` (`fen`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -131,4 +133,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-31 10:14:48
+-- Dump completed on 2015-11-01 22:23:33

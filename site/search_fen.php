@@ -6,10 +6,10 @@
 <script src="js/validator.js"></script> 
 
 </head>
-  <?php include 'menu.php';?>   
+
 <body>
-
-
+<?php include_once("analyticstracking.php") ;?>
+<?php include 'menu.php';?>   
 
 <section class="container">
 <hgroup>
@@ -21,7 +21,7 @@ Search fen: <input name="fen" type="text" id="fen" placeholder="Fen string" />
 <input type="submit" class="submit btn outline" id="submit" value="Search" />
 </form>
           <hgroup>
-<?php   
+<?php
 $fen=$_POST['fen'];
 ?>
  		
@@ -41,6 +41,13 @@ if($fen!="") {
 	$sql = "SELECT uuid_task,depth FROM task_fens where fen ='".$fen."'";
 	echo "$sql<br>";
 	$result = $conn->query($sql);
+	if($result->num_rows <= 0){
+		preg_match('/(.+) (.+) (.+) (.+) (.+ .+)/', $fen, $re);
+		$fen = $re[1]." ".$re[2]." ".$re[3]." ".$re[4]." 0 1";
+		$sql = "SELECT uuid_task,depth FROM task_fens where fen ='".$fen."'";
+		$result = $conn->query($sql);
+	}
+
 	if ($result->num_rows > 0) {
 		
 		$uuid_task=$row["uuid_task"];

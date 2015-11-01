@@ -52,10 +52,8 @@ function MyFunction(perft_id,uuid_task)
 </script>
 </head>
 <body onload="checkCookie()">
- <?php include 'menu.php';?>   
-
-
-
+<?php include_once("analyticstracking.php"); ?>
+ <?php include 'menu.php';?>
  <input type="hidden" id="syst">
 
 <textarea name=type rows=10 cols=150 id=t1 readonly=yes"></textarea>

@@ -79,7 +79,7 @@ string PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask,
     //CSV file for table perft_tasks
     myfile.open(aurigaRoot + "/data/" + perftUUID + "/perft_tasks.txt");
     for (TaskEntity taskEntity :taskEntityList) {
-        myfile << perftEntity.getUuid() + "|" + taskEntity.getTaskUUID() + "\n";
+        myfile << perftEntity.getUuid() << "|" << taskEntity.getTaskUUID() << "|" << taskEntity.getFenList().size() << "\n";
     }
     myfile.close();
 

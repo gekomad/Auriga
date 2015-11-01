@@ -37,9 +37,9 @@ $fen=$_POST["fen"];
 $fen=trim($fen);
 $fen=substr($fen,0,100);
 
-preg_match('/(.+) (.+) (.+) (.+) (.+ .+)/', $fen, $re);
+/*preg_match('/(.+) (.+) (.+) (.+) (.+ .+)/', $fen, $re);
 $strs = $re[1]." ".$re[2]." ".$re[3]." ".$re[4];
-$fen=$strs ;
+$fen=$strs ;*/
 
 echo $fen;
 echo "<br>";

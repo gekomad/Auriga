@@ -5,7 +5,6 @@ function isNumeric(n) {
 
 
 function validate() {
-alert("val");
 	
 	depth =document.getElementById('depth').value;
 	if(!isNumeric(depth)|| (depth<2||depth>100)){

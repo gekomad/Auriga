@@ -5,10 +5,9 @@
 <link rel="stylesheet" href="css/layout.css" type="text/css" />
 </head>
 <body>
-  <?php include 'menu.php';?>   
-      
+<?php include_once("analyticstracking.php");?>
+<?php include 'menu.php';?>
 <?php
-
 $uuid_perft=$_GET['uuid_perft'];
 if($uuid_perft == ""){
 	echo "uuid_perft missing<br><br>";
@@ -27,7 +26,7 @@ $deph =$row["depth"];
 $tasks =$row["tasks"];
 $creation_date =$row["creation_date"];
 
-$sql = "select pt.uuid_perft,t.fen, pt.uuid_task, min(not isnull(t.tot)) tot,max(not isnull(t.partial_moves))partial from perft_tasks pt ". 
+$sql = "select pt.uuid_perft,t.fen, pt.uuid_task, sum(not isnull(t.tot))=fens is_completed,fens,sum(not isnull(t.tot))/fens perc_completed,max(not isnull(t.partial_moves))partial from perft_tasks pt ".
 "left join tasks t ".
 "on  t.uuid_task=pt.uuid_task ".
 "where pt.uuid_perft ='".$uuid_perft."' ".
@@ -71,13 +70,16 @@ echo "<table>";
 		echo "<tr>";
 		echo "<td><b>Task ID</b></td>" ;
 		echo "<td><b>Completed</b></td>" ;
+		echo "<td><b>% completed</b></td>" ;
 		echo "<td><b>Running</b></td>" ;
 	 	echo "</tr>";
     while($row = $result->fetch_assoc()) {
 		echo "<tr>";
 		echo '<td><a href="task.php?uuid_task='.$row["uuid_task"].'&uuid_perft='.$uuid_perft.'">'.$row["uuid_task"].'</a></td>';
-		$completed=($row["tot"] == 0 ?"no": "yes");
+		$completed=($row["completed"] == 0 ?"no": "yes");
 		echo "<td>$completed</td>";
+		$perc_completed=$row["perc_completed"];
+		echo "<td>$perc_completed</td>";
 		$running=$completed=="yes"?"":($row["partial"] == 0 ?"no": "yes");
 		echo "<td>$running</td>";
 		echo "</tr>";
