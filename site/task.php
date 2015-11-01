@@ -64,13 +64,26 @@ function MyFunction(perft_id,uuid_task)
 
 $uuid_task=$_GET['uuid_task'];
 $uuid_perft=$_GET['uuid_perft'];
-if($uuid_task == "" || $uuid_perft == ""){
+if($uuid_task == ""){
 	echo "uuid missing<br><br>";
 	return;
 }
 
 
 include 'mysql_connect.php';
+
+if($uuid_perft == ""){
+	$sql="SELECT uuid_perft FROM perft_tasks WHERE uuid_task ='".$uuid_task."'";
+	$result = $conn->query($sql);
+	if ($result->num_rows > 0) {
+		$row = $result->fetch_assoc();
+		$uuid_perft=$row['uuid_perft'];
+	}	
+	if($uuid_perft == ""){
+		echo "$sql<br>uuid_perft missing<br><br>";
+		return;
+	}
+}
 
 
 $sql ="select f.fen,f.depth,creation_date,partial_moves,tot,engine,author,minutes ".
@@ -86,12 +99,7 @@ $result = $conn->query($sql);
 <?php 
   echo "<h1>task id ".$uuid_task."</h1> ";?>
 
-          </hgroup>
-
-
-        <div class="row">
-        
-            <section>
+          </hgroup><div class="row"><section>
               <h2>Deploying code changes</h2>
                 <p>OpenShift uses the <a href="http://git-scm.com/">Git version control system</a>
  for your source code, and grants you access to it via the Secure Shell 

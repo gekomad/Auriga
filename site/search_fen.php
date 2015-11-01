@@ -38,27 +38,27 @@ echo "<h1>Fen ".$fen."</h1> ";
 
 if($fen!="") {
 	include 'mysql_connect.php';
-	$sql = "SELECT uuid_task FROM task_fens where fen ='".$fen."'";
+	$sql = "SELECT uuid_task,depth FROM task_fens where fen ='".$fen."'";
 	$result = $conn->query($sql);
-
 	$uuid_task=$row["uuid_task"];
+
 	echo "<img src='http://webchess.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";
-	echo "<br><br>fen: $fen<br><br>";
-	echo "depth: $deph<br>";
-	echo "tasks: $tasks<br>";
-	echo "creation_date: $creation_date<br>";
+
+
 	echo "<br>";
 
 	if ($result->num_rows > 0) {
 		echo "<table>";
 		echo "<tr>";
 		echo "<td><b>Task ID</b></td>" ;
+		echo "<td><b>Depth</b></td>" ;
 		echo "<td><b>Completed</b></td>" ;
 		echo "<td><b>Running</b></td>" ;
 	 	echo "</tr>";
     	while($row = $result->fetch_assoc()) {
 			echo "<tr>";
 			echo '<td><a href="task.php?uuid_task='.$row["uuid_task"].'&uuid_perft='.$uuid_perft.'">'.$row["uuid_task"].'</a></td>';
+			echo "<td>".$row["depth"]."</td>";
 			$completed=($row["tot"] == 0 ?"no": "yes");
 			echo "<td>$completed</td>";
 			$running=$completed=="yes"?"":($row["partial"] == 0 ?"no": "yes");
