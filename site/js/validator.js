@@ -3,8 +3,9 @@ function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-function validate() {
 
+function validate() {
+alert("val");
 	
 	depth =document.getElementById('depth').value;
 	if(!isNumeric(depth)|| (depth<2||depth>100)){
@@ -30,16 +31,7 @@ function validate() {
 	return false;	
  }
 
- function validate_fen1() {
-	fen =document.getElementById('fen').value;
 
-    fen=fen.trim();
-	document.getElementById('fen').value=fen;
-	res =validate_fen(fen);
-	if(res.valid==true)return true;
-	alert(res.error+"\n\n[fen validator: https://github.com/jhlywa/chess.js]");
-	return false;
- }
  function validate_fen(fen) {
 
 	//https://github.com/jhlywa/chess.js
@@ -133,4 +125,11 @@ function validate() {
     return {valid: true, error_number: 0, error: errors[0]};
   }
 
+ function validate_fen1() {
+	fen =document.getElementById('fen').value;
+    fen=fen.trim();
+	document.getElementById('fen').value=fen;
+	res =validate_fen(fen);
+	return res;
+ }
 

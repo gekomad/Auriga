@@ -39,9 +39,10 @@ if($fen!="") {
 	echo "<h1>Fen ".$fen."</h1> ";
 	include 'mysql_connect.php';
 	$sql = "SELECT uuid_task,depth FROM task_fens where fen ='".$fen."'";
+	echo "$sql<br>";
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
-		$row = $result->fetch_assoc();
+		
 		$uuid_task=$row["uuid_task"];
 
 		echo "<img src='http://webchess.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";

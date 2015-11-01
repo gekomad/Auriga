@@ -27,7 +27,7 @@ $deph =$row["depth"];
 $tasks =$row["tasks"];
 $creation_date =$row["creation_date"];
 
-$sql = "select pt.uuid_perft,t.fen, pt.uuid_task, sum(not isnull(t.tot)) tot,sum(not isnull(t.partial_moves))partial from perft_tasks pt ". 
+$sql = "select pt.uuid_perft,t.fen, pt.uuid_task, min(not isnull(t.tot)) tot,max(not isnull(t.partial_moves))partial from perft_tasks pt ". 
 "left join tasks t ".
 "on  t.uuid_task=pt.uuid_task ".
 "where pt.uuid_perft ='".$uuid_perft."' ".
