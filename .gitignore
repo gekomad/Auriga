@@ -8,7 +8,6 @@
 *.so
 CMakeCache.txt
 CMakeFiles
-auriga
 cmake_install.cmake
 
 # Packages #
