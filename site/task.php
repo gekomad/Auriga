@@ -124,8 +124,8 @@ if ($result->num_rows > 0) {
 	echo "<tr>";
 	echo "<td>fen</td>" ;
 	echo "<td>depth</td>" ;
-	echo "<td>creation date</td>" ;
-	echo "<td>Last heartbeat</td>" ;
+	echo "<td>Date</td>" ;
+	echo "<td>Heartbeat</td>" ;
 	echo "<td>tot</td>" ;
 	echo "<td>engine</td>" ;
 	echo "<td>author</td>" ;
