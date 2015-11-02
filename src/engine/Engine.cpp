@@ -41,15 +41,6 @@ void Engine::readStdin() {
         receiveOutput.append(readbuffer);
 //        log(name, " id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
         std::smatch match;
-        if (regex_heartbeat.size() && regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxPartial)) {
-            debug(engineName, " stdin match partial: ", match[1].str());
-
-            high_resolution_clock::time_point timeEnd = std::chrono::high_resolution_clock::now();
-            int minutes = Time::diffTime(timeEnd, timeStart) / 1000 / 60;
-
-            notifyPartialResult(stoull(match[1].str()), fen, engineName, minutes, depth);
-        }
-
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
             reading = false;
             debug(engineName, " stdin match tot: ", match[1].str());
@@ -70,9 +61,9 @@ void Engine::notifyTotResult(const u64 i, const string &fen, const string &engin
     }
 }
 
-void Engine::notifyPartialResult(const u64 i, const string &fen, const string &engineName1, const int minutes, const int depth) {
+void Engine::notifyHearthbeat(const string &fen, const string &engineName1, const int minutes, const int depth) {
     if (observer != nullptr) {
-        observer->observerPartialResult(i, fen, engineName1, minutes, depth);
+        observer->observerHearthbeat(fen, engineName1, minutes, depth);
     }
 }
 
@@ -96,14 +87,6 @@ void Engine::readStderr() {
 
 //        log(name, " id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
         std::smatch match;
-
-        if (regex_heartbeat.size() && regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxPartial)) {
-            debug(engineName, " stderr match partial: ", match[1].str());
-            high_resolution_clock::time_point timeEnd = std::chrono::high_resolution_clock::now();
-            int minutes = Time::diffTime(timeEnd, timeStart) / 1000 / 60;
-            notifyPartialResult(stoull(match[1].str()), fen, engineName, minutes, depth);
-        }
-
 
         if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxTot)) {
             reading = false;
@@ -179,9 +162,7 @@ void Engine::init(const string &confFileName1) {
     string enginePath = workerEntityDao.getWorkerEntity().getEnginePath();
     forceRestart = workerEntityDao.getWorkerEntity().getForce_restart();
 
-    rgxPartial.assign(workerEntityDao.getWorkerEntity().getRegex_heartbeat());
     rgxTot.assign(workerEntityDao.getWorkerEntity().getRegex_perft_moves());
-    regex_heartbeat = workerEntityDao.getWorkerEntity().getRegex_heartbeat();
 
     info(" load engine ", enginePath);
 //    pid_t childpid;
@@ -300,7 +281,7 @@ void Engine::runPerft() {
     timerHearbeat->registerObservers([this]() {
         high_resolution_clock::time_point timeEnd = std::chrono::high_resolution_clock::now();
         int minutes = Time::diffTime(timeEnd, timeStart) / 1000 / 60;
-        notifyPartialResult(0, fen, engineName, minutes, depth);
+        notifyHearthbeat(fen, engineName, minutes, depth);
     });
     timerHearbeat->start();
     put("perft " + to_string(depth));

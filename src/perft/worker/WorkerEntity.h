@@ -37,7 +37,6 @@ private:
     string workerCountry;
     string enginePath;
     string regex_perft_moves;
-    string regex_heartbeat;
     bool force_restart;
     int instances;
 public:
@@ -54,7 +53,6 @@ public:
         a.append("[engine]");
         a.append("\npath=" + enginePath);
         a.append("\nregex_perft_moves=" + regex_perft_moves);
-        a.append("\nregex_heartbeat=" + regex_heartbeat);
         string s = force_restart ? "true" : "false";
         a.append("\nforce_restart=" + s);
         a.append("\ninstances=" + to_string(instances));
@@ -113,14 +111,6 @@ public:
 
     void setRegex_perft_moves(const string &regex_perft_moves) {
         WorkerEntity::regex_perft_moves = regex_perft_moves;
-    }
-
-    const string &getRegex_heartbeat() const {
-        return regex_heartbeat;
-    }
-
-    void setRegex_heartbeat(const string &regex_heartbeat) {
-        WorkerEntity::regex_heartbeat = regex_heartbeat;
     }
 
     bool isForce_restart() const {

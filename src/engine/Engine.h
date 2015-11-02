@@ -71,7 +71,6 @@ public :
 
 private:
 
-    string regex_heartbeat;
     string receiveOutput;
     string receiveStdErr;
     const u64 NO_RESULT = 0xffffffffffffffff;
@@ -85,13 +84,13 @@ private:
 
     const string POSITION_FEN[2] = {"position fen ", "setboard "};
     std::regex rgxTot;
-    std::regex rgxPartial;
+
     std::regex GET_NAME_REGEX[2];
     u64 result;
 
     void notifyTotResult(const u64 i, const string &fen, const string &engineName, const int minutes, const int depth);
 
-    void notifyPartialResult(const u64 i, const string &fen, const string &engineName, const int minutes, const int depth);
+    void notifyHearthbeat(const string &fen, const string &engineName, const int minutes, const int depth);
 
     void readStdin();
 

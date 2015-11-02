@@ -56,20 +56,7 @@ void WorkerEntityDao::readWorker() {
             }
 
             workerEntity.setRegex_perft_moves(parameters->second);
-        } else if (parameters->first == "regex_heartbeat") {
-            if (parameters->second.size()) {
-                if (parameters->second.find("(\\d+)") == string::npos) {
-                    fatal("regex_heartbeat in ", iniFileName, " missing (\\d+)");
-                    exit(1);
-                }
-                if (String(parameters->second).endsWith("(\\d+)")) {
-                    fatal("regex_heartbeat in ", iniFileName, " ends with (\\d+)");
-                    exit(1);
-                }
-            }
-            workerEntity.setRegex_heartbeat(parameters->second);
-
-        } else if (parameters->first == "force_restart") {
+        }  else if (parameters->first == "force_restart") {
             workerEntity.setForce_restart(parameters->second == "true");
         } else if (parameters->first == "instances") {
             workerEntity.setInstances(String::stoi(parameters->second));

@@ -27,6 +27,6 @@ class ObserverEngine {
 public:
     virtual void observerTotResult(const u64 result, const string &fen, const string &engineName, const int minutes, const int depth) = 0;
 
-    virtual void observerPartialResult(const u64 result, const string &fen, const string &engineName, const int minutes, const int depth) = 0;
+    virtual void observerHearthbeat(const string &fen, const string &engineName, const int minutes, const int depth) = 0;
 
 };
