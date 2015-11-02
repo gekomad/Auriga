@@ -26,7 +26,10 @@ $deph =$row["depth"];
 $tasks =$row["tasks"];
 $creation_date =$row["creation_date"];
 
-$sql = "select pt.uuid_perft,t.fen, pt.uuid_task, sum(not isnull(t.tot))=fens is_completed,fens,sum(not isnull(t.tot))/fens perc_completed,max(t.creation_date)creation_date from perft_tasks pt ".
+$sql = "select pt.uuid_perft,t.fen, pt.uuid_task, sum(not isnull(t.tot))=fens is_completed,fens,".
+"ifnull(floor ((select count(distinct tt.fen) from tasks tt  where tt.uuid_task=t.uuid_task and tt.uuid_perft='DFGA191G-299F-2949-C8D8-72DC79F2F68G' ".
+"group by tt.fen)/fens*100),0) perc_completed ".
+",max(t.creation_date)creation_date from perft_tasks pt ".
 "left join tasks t ".
 "on  t.uuid_task=pt.uuid_task ".
 "where pt.uuid_perft ='".$uuid_perft."' ".
@@ -58,7 +61,7 @@ $result = $conn->query($sql);
 
          <?php   
 
-echo "<img src='http://webchess.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";
+echo "<img src='http://webchessXX.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";
 echo "<br><br>fen: $fen<br><br>";
 echo "depth: $deph<br>";
 echo "tasks: $tasks<br>";
@@ -70,16 +73,15 @@ echo "<table>";
 		echo "<tr>";
 		echo "<td><b>Task ID</b></td>" ;
 		echo "<td><b>Completed</b></td>" ;
-		echo "<td><b>% completed</b></td>" ;
-		echo "<td><b>Heartbeat</b></td>" ;
+		echo "<td><b>Completed</b></td>" ;
+		echo "<td><b>Last heartbeat</b></td>" ;
 	 	echo "</tr>";
     while($row = $result->fetch_assoc()) {
 		echo "<tr>";
 		echo '<td><a href="task.php?uuid_task='.$row["uuid_task"].'&uuid_perft='.$uuid_perft.'">'.$row["uuid_task"].'</a></td>';
 		$completed=($row["completed"] == 0 ?"no": "yes");
 		echo "<td>$completed</td>";
-		$perc_completed=$row["perc_completed"];
-		echo "<td>$perc_completed</td>";
+		echo "<td>".$row["perc_completed"]."%</td>";
 		$creation_date=$row["creation_date"];
 		echo "<td>$creation_date</td>";
 		echo "</tr>";
