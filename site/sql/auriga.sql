@@ -105,7 +105,7 @@ CREATE TABLE `tasks` (
   `fen` char(100) COLLATE utf8_bin NOT NULL,
   `depth` int(11) DEFAULT NULL,
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `partial_moves` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `heartbeat` tinyint(1) DEFAULT NULL,
   `tot` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `engine` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `author` varchar(30) COLLATE utf8_bin DEFAULT NULL,
