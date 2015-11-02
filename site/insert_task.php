@@ -2,7 +2,7 @@
 error_log ("inizio lettura",0);
 $uuid_perft=$_POST["uuid_perft"];
 $uuid_task=$_POST["uuid_task"];
-$partial_moves=$_POST["partial_moves"];
+$heartbeat=$_POST["heartbeat"];
 $tot=$_POST["tot"];
 $engine=$_POST["engine"];
 $author=$_POST["author"];
@@ -19,7 +19,7 @@ $depth=$_POST["depth"];
 	echo $db_port."e<br>";
 
 	
-	$query = "INSERT INTO tasks (uuid_perft, uuid_task,partial_moves,tot,engine,author,fen,minutes,depth)VALUES ('$uuid_perft', '$uuid_task','$partial_moves','$tot','$engine','$author','$fen',$minutes,$depth)";
+	$query = "INSERT INTO tasks (uuid_perft, uuid_task,heartbeat,tot,engine,author,fen,minutes,depth)VALUES ('$uuid_perft', '$uuid_task','$heartbeat','$tot','$engine','$author','$fen',$minutes,$depth)";
     error_log ( $query,0);
 
 

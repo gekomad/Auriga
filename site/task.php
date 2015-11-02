@@ -84,7 +84,7 @@ if($uuid_perft == ""){
 }
 
 
-$sql ="select f.fen,f.depth,creation_date,partial_moves,tot,engine,author,minutes ".
+$sql ="select f.fen,f.depth,creation_date,heartbeat,tot,engine,author,minutes ".
 "from task_fens f left join tasks pt ".
 "on pt.uuid_task=f.uuid_task and pt.fen=f.fen ".
 "where f.uuid_task ='".$uuid_task."'";
@@ -125,7 +125,7 @@ if ($result->num_rows > 0) {
 	echo "<td>fen</td>" ;
 	echo "<td>depth</td>" ;
 	echo "<td>creation date</td>" ;
-	echo "<td>partial moves</td>" ;
+	echo "<td>Last heartbeat</td>" ;
 	echo "<td>tot</td>" ;
 	echo "<td>engine</td>" ;
 	echo "<td>author</td>" ;
@@ -137,7 +137,7 @@ if ($result->num_rows > 0) {
 		echo "<td>".$row["fen"] ."</td>" ;
 		echo "<td>".$row["depth"] ."</td>" ;
 		echo "<td>".$row["creation_date"]."</td>" ;
-		echo "<td>".$row["partial_moves"] ."</td>" ;
+		echo "<td>".$row["heartbeat"] ."</td>" ;
 		echo "<td>".$row["tot"] ."</td>" ;
 		echo "<td>".$row["engine"] ."</td>" ;
 		echo "<td>".$row["author"] ."</td>" ;

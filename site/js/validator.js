@@ -132,3 +132,10 @@ function validate() {
 	return res;
  }
 
+ function validate_fen2() {
+	res=validate_fen1();
+	if(res.valid==true)return true;
+	alert(res.error+"\n\n[fen validator: https://github.com/jhlywa/chess.js]");
+	return false;	
+ }
+

@@ -12,18 +12,16 @@
 <?php include 'menu.php';?>   
 
 <section class="container">
-<hgroup>
-            <h1>Search Fen</h1> 
-          </hgroup>
+<hgroup><h1>Search Fen</h1></hgroup>
 
-<form method="post" onsubmit="return validate_fen1();" action="search_fen.php" >
-Search fen: <input name="fen" type="text" id="fen" placeholder="Fen string" />
+<?php $fen=$_POST['fen'];?>
+
+<form method="post" onsubmit="return validate_fen2();" action="search_fen.php" >
+Search fen: <input name="fen" type="text" id="fen" placeholder="Fen string" value="<?php echo $fen;?>" />
 <input type="submit" class="submit btn outline" id="submit" value="Search" />
 </form>
           <hgroup>
-<?php
-$fen=$_POST['fen'];
-?>
+
  		
          </hgroup><div class="row"><section>
               <h2>Depsloying code changes</h2>
@@ -36,6 +34,9 @@ $fen=$_POST['fen'];
          <?php  
 
 if($fen!="") {	
+	$fen = str_replace("%", "",$fen);
+	$fen = str_replace("'", "",$fen);
+	$fen = str_replace("\"", "",$fen);
 	echo "<h1>Fen ".$fen."</h1> ";
 	include 'mysql_connect.php';
 	$sql = "SELECT uuid_task,depth FROM task_fens where fen ='".$fen."'";
@@ -52,23 +53,17 @@ if($fen!="") {
 		
 		$uuid_task=$row["uuid_task"];
 
-		echo "<img src='http://webchess.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";
+		echo "<img src='http://webchess.XXXXfreehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";
 		echo "<br>";	
 		echo "<table>";
 		echo "<tr>";
 		echo "<td><b>Task ID</b></td>" ;
 		echo "<td><b>Depth</b></td>" ;
-		echo "<td><b>Completed</b></td>" ;
-		echo "<td><b>Running</b></td>" ;
 	 	echo "</tr>";
     	while($row = $result->fetch_assoc()) {
 			echo "<tr>";
 			echo '<td><a href="task.php?uuid_task='.$row["uuid_task"].'&uuid_perft='.$uuid_perft.'">'.$row["uuid_task"].'</a></td>';
 			echo "<td>".$row["depth"]."</td>";
-			$completed=($row["tot"] == 0 ?"no": "yes");
-			echo "<td>$completed</td>";
-			$running=$completed=="yes"?"":($row["partial"] == 0 ?"no": "yes");
-			echo "<td>$running</td>";
 			echo "</tr>";
     	}
 		echo "</table>";
@@ -78,8 +73,6 @@ if($fen!="") {
 	}
 	$conn->close();	
 }
-
-
 
 ?> 
       </section>         

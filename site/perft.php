@@ -26,15 +26,15 @@ $deph =$row["depth"];
 $tasks =$row["tasks"];
 $creation_date =$row["creation_date"];
 
-$sql = "select pt.uuid_perft,t.fen, pt.uuid_task, sum(not isnull(t.tot))=fens is_completed,fens,".
-"ifnull(floor ((select count(distinct tt.fen) from tasks tt  where tt.uuid_task=t.uuid_task and tt.uuid_perft='DFGA191G-299F-2949-C8D8-72DC79F2F68G' ".
+$sql = "select pt.uuid_perft,t.fen, pt.uuid_task, ".
+"ifnull(floor ((select count(distinct tt.fen) from tasks tt  where tt.uuid_task=t.uuid_task and tt.uuid_perft='".$uuid_perft."' ".
 "group by tt.fen)/fens*100),0) perc_completed ".
 ",max(t.creation_date)creation_date from perft_tasks pt ".
 "left join tasks t ".
 "on  t.uuid_task=pt.uuid_task ".
 "where pt.uuid_perft ='".$uuid_perft."' ".
 "group by pt.uuid_perft,pt.uuid_task ".
-"order by 6 desc ";
+"order by perc_completed desc ";
 
 
 $result = $conn->query($sql);
@@ -73,14 +73,11 @@ echo "<table>";
 		echo "<tr>";
 		echo "<td><b>Task ID</b></td>" ;
 		echo "<td><b>Completed</b></td>" ;
-		echo "<td><b>Completed</b></td>" ;
 		echo "<td><b>Last heartbeat</b></td>" ;
 	 	echo "</tr>";
     while($row = $result->fetch_assoc()) {
 		echo "<tr>";
 		echo '<td><a href="task.php?uuid_task='.$row["uuid_task"].'&uuid_perft='.$uuid_perft.'">'.$row["uuid_task"].'</a></td>';
-		$completed=($row["completed"] == 0 ?"no": "yes");
-		echo "<td>$completed</td>";
 		echo "<td>".$row["perc_completed"]."%</td>";
 		$creation_date=$row["creation_date"];
 		echo "<td>$creation_date</td>";
