@@ -6,27 +6,45 @@ function isNumeric(n) {
 
 function validate() {
 	
-	depth =document.getElementById('depth').value;
-	if(!isNumeric(depth)|| (depth<2||depth>100)){
-		alert('error depth is a number between 1 and 100');
-		return false;
-	}
-	tasks =document.getElementById('tasks').value;
-	if(!isNumeric(tasks)|| (tasks<1||tasks>1000)){
-		alert('error task is a number between 1 and 1000');
-		return false;
-	}
+	fen =document.getElementById('fen');
+	fen.style.backgroundColor = "initial";
+	document.getElementById("error_fen").className = 'hidden';
 
-	cap =document.getElementById('captcha').value;
-	if(cap== null || cap.trim()==""){
-		alert("insert captcha digit ");
+	depth =document.getElementById('depth');
+	if(!isNumeric(depth.value)|| (depth.value<2||depth.value>100)){		
+		depth.style.backgroundColor = "red";
+		document.getElementById("error_depth").className = '';
 		return false;
 	}
+	document.getElementById("error_depth").className = 'hidden';
+	depth.style.backgroundColor ="initial";
 
+	tasks =document.getElementById('tasks');
+	if(!isNumeric(tasks.value)|| (tasks.value<1||tasks.value>1000)){
+		tasks.style.backgroundColor = "red";
+		document.getElementById("error_tasks").className = '';
+		return false;
+	}
+	document.getElementById("error_tasks").className = 'hidden';
+	tasks.style.backgroundColor ="initial";
+
+	cap =document.getElementById('captcha');
+	if(cap.value.trim()==""){
+		cap.style.backgroundColor = "red";
+		document.getElementById("error_captcha").className = '';
+		return false;
+	}
+	document.getElementById("error_captcha").className = 'hidden';
+	cap.style.backgroundColor ="initial";
 	
 	res=validate_fen1();
+
 	if(res.valid==true)return true;
-	alert(res.error+"\n\n[fen validator: https://github.com/jhlywa/chess.js]");
+
+	fen =document.getElementById('fen');
+	fen.style.backgroundColor = "red";
+	document.getElementById("error_fen").className = '';
+
 	return false;	
  }
 
@@ -135,7 +153,9 @@ function validate() {
  function validate_fen2() {
 	res=validate_fen1();
 	if(res.valid==true)return true;
-	alert(res.error+"\n\n[fen validator: https://github.com/jhlywa/chess.js]");
+	fen =document.getElementById('fen');
+	fen.style.backgroundColor = "red";
+	document.getElementById("error_fen").className = '';
 	return false;	
  }
 
