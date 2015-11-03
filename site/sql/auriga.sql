@@ -54,6 +54,7 @@ CREATE TABLE `perft_tasks` (
   `uuid_perft` char(36) COLLATE utf8_bin NOT NULL,
   `uuid_task` char(36) COLLATE utf8_bin NOT NULL,
   `fens` int(11) DEFAULT NULL,
+  `engine` int(11) DEFAULT NULL,
   `perc_completed` tinyint(4) DEFAULT NULL,
   `creation_date` timestamp,
   PRIMARY KEY (`uuid_perft`,`uuid_task`),
