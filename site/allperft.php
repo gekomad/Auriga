@@ -6,9 +6,10 @@
 <link rel="stylesheet"  href="css/css1.css" type="text/css"/>
 <link rel="stylesheet" href="css/layout.css" type="text/css" />
 
+
  </head>
  <body>
-<?php include_once("analyticstracking.php");?>
+<!--<?php include_once("analyticstracking.php");?>TODO-->
 <?php include 'menu.php';?>
 
          
@@ -27,12 +28,12 @@
 	if ($result->num_rows > 0) {
 		echo "<table>";
 		echo "<tr>";
-		echo "<td>perft id</td>" ;
-		echo "<td>fen</td>" ;
-		echo "<td>depth</td>" ;
-		echo "<td>tasks</td>" ;
-		echo "<td>creation date</td>" ;
-		echo "<td>tot</td>" ;		
+		echo "<td><b>Perft id</b></td>" ;
+		echo "<td><b>Fen</b></td>" ;
+		echo "<td><b>Depth</b></td>" ;
+		echo "<td><b>Tasks</b></td>" ;
+		echo "<td><b>Creation date</b></td>" ;
+		echo "<td><b>Tot</b></td>" ;		
 	 	echo "</tr>";
 	    while($row = $result->fetch_assoc()) {
 			echo "<tr>";

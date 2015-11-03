@@ -39,10 +39,8 @@ function validate() {
 	cap =document.getElementById('captcha');
 	if(cap.value.trim()==""){
 		cap.style.backgroundColor = "red";
-		document.getElementById("error_captcha").className = '';
 		return false;
 	}
-	document.getElementById("error_captcha").className = 'hidden';
 	cap.style.backgroundColor ="initial";
 	
 	

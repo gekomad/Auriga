@@ -16,7 +16,7 @@ body{
 	font-size:16px;
 	font-family:Georgia, "Times New Roman", Times, serif;
 	color:darkslategray;
-	background-color:Seashell;
+	background-color:Lavender;
 	}
 
 
@@ -32,7 +32,7 @@ p.rotulo{ font-size:40px; padding-bottom:230px; margin-bottom:230px;}
 .clear{clear:both;}
 br.clear{clear:both; margin-top:-15px;}
 
-a{outline:none; text-decoration:none; color:#A3443E; background-color:Seashell;}
+a{outline:none; text-decoration:none; color:#A3443E; background-color:Lavender;}
 
 .fl_left{float:left;}
 .fl_right{float:right;}
@@ -84,14 +84,14 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 #header h1 a{
 	font-size:120px;
 	color:#292929;
-	background-color:seashell;
+	background-color:Lavender;
 	}
 
 #header p{
 	margin-top:-20px;
 	font-size:20px;
 	color:#4A4A4A;
-	background-color:seashell;
+	background-color:Lavender;
 	}
 
 /* ----------------------------------------------Topbar-------------------------------------*/
@@ -108,7 +108,7 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 
 #topbar .fl_left, #topbar .fl_left a{
 	color:#999999;
-	background-color:seashell;
+	background-color:Lavender;
 	}
 
 /* ----------------------------------------------BreadCrumb-------------------------------------*/
@@ -320,7 +320,7 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 
 #footer a{
 	color:#787878;
-	background-color:seashell;
+	background-color:Lavender;
 	}
 
 #footer h2, #footer p, #footer ul, #footer a{
@@ -333,7 +333,7 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 
 #footer h2{
 	color:#999999;
-	background-color:seashell;
+	background-color:Lavender;
 	font-size:16px;
 	font-weight:normal;
 	margin-bottom:10px;
@@ -391,7 +391,7 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 
 #copyright a{
 	color:#787878;
-	background-color:seashell;
+	background-color:Lavender;
 	}
 
 #copyright p{

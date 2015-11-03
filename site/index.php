@@ -8,7 +8,7 @@
 
  </head>
  <body>
-<?php include_once("analyticstracking.php");?>
+<!--<?php include_once("analyticstracking.php");?>TODO -->
 <?php include 'menu.php';?>
 
 <section class="container">
@@ -17,9 +17,9 @@
             <h1>Auriga </h1> 
           </hgroup>
 
-
         <div class="row">
           <section class="col-xs-12 col-sm-6 col-md-6">
+			<img src="logo.jpg" height="252" width="100%"> 
             <section>
               <h2>Deploying code changes</h2>
                 <p>OpenShift uses the <a href="http://git-scm.com/">Git version control system</a>
@@ -54,7 +54,7 @@ $ git push</pre>
 
           </section>
           <section class="col-xs-12 col-sm-6 col-md-6">
-				<img src="logo.jpg" height="252" width="100%"> 
+				
                 <h2>Managing your application</h2>
 
                 <h3>Web Console</h3>

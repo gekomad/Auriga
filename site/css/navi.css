@@ -76,7 +76,7 @@ ul.nav li li li:hover ul, ul.nav li li li.sfHover ul{
 .nav a{
 	padding:.75em 1em;
 	text-decoration:none;
-	background-color:Seashell;
+	background-color:Lavender;
 	}
 
 .nav li.active a{
@@ -88,15 +88,15 @@ ul.nav li li li:hover ul, ul.nav li li li.sfHover ul{
 	}
 
 .nav li{
-	background:Seashell;
+	background:Lavender;
 	}
 
 .nav li li{
-	background:Seashell;
+	background:Lavender;
 	}
 
 .nav li li li{
-	background:Seashell;
+	background:Lavender;
 	}
 
 .nav li:hover, .nav li.sfHover, .nav a:focus, .nav a:hover, .nav a:active{
@@ -152,7 +152,7 @@ a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-ind
 .column .subnav{
 		display:block; padding:25px;
 		color:darkslategray;
-		background-color:Seashell;
+		background-color:Lavender;
 		margin-bottom:30px;
 		}
 
@@ -163,7 +163,7 @@ a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-ind
 	font-weight:normal;
 	font-family:Georgia, "Times New Roman", Times, serif;
 	color:darkslategray;
-	background-color:Seashell;
+	background-color:Lavender;
 	line-height:normal;
 	border-bottom:1px dotted #666666;
 	}
@@ -186,8 +186,8 @@ a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-ind
 	margin:0;
 	padding:5px 10px 5px 20px;
 	color:darkslategray;
-	background-color:Seashell;
-	background:url("../images/red_file.gif") no-repeat 10px center Seashell;
+	background-color:Lavender;
+	background:url("../images/red_file.gif") no-repeat 10px center Lavender;
 	text-decoration:none;
 	border-bottom:1px dotted #666666;
 	}
@@ -195,7 +195,7 @@ a:focus > .sf-sub-indicator, a:hover > .sf-sub-indicator, a:active > .sf-sub-ind
 .column .subnav a:hover{color:#A3443E; background-color:#F9F9F9;}
 
 .column .subnav ul ul a, .column .subnav ul ul ul a, .column .subnav ul ul ul ul a, .column .subnav ul ul ul ul ul a{
-		background:url("../images/black_file.gif") no-repeat Seashell;
+		background:url("../images/black_file.gif") no-repeat Lavender;
 		}
 .column .subnav ul ul a{padding-left:40px; background-position:30px center;}
 .column .subnav ul ul ul a{padding-left:50px; background-position:40px center;}
