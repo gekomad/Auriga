@@ -15,7 +15,7 @@ header("Expires: 0"); // Proxies.
 
 </head>
  <body>
-<!-- <?php include_once("analyticstracking.php");?>TODO-->
+<?php include_once("analyticstracking.php");?>
 <?php include 'menu.php';?>
 <section class="container">
           <hgroup>
