@@ -159,7 +159,7 @@ void Engine::init(const string &confFileName1) {
         receiveOutput = readbuffer;
         debug("read from engine: ", receiveOutput);
         std::smatch match;
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)//TODO calcolare 2 a runtime è la size dell'enum
             if (receiveOutput.find(RECEIVE_INIT_STRING[i]) != string::npos) {
                 protocol = static_cast<PROTOCOL_TYPE>(i);
                 detected = true;
