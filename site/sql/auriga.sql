@@ -82,7 +82,7 @@ CREATE TABLE `tasks` (
   `depth` int(11) DEFAULT NULL,
   `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `heartbeat` tinyint(1) DEFAULT NULL,
-  `tot` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `tot` bigint(20) unsigned DEFAULT NULL,
   `engine` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `author` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `minutes` int(11) DEFAULT NULL,
