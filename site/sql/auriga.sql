@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.19, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.44, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: auriga
 -- ------------------------------------------------------
--- Server version	5.6.19-0ubuntu0.14.04.1
+-- Server version	5.5.44-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -35,6 +35,15 @@ CREATE TABLE `perft` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `perft`
+--
+
+LOCK TABLES `perft` WRITE;
+/*!40000 ALTER TABLE `perft` DISABLE KEYS */;
+/*!40000 ALTER TABLE `perft` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `perft_tasks`
 --
 
@@ -45,12 +54,21 @@ CREATE TABLE `perft_tasks` (
   `uuid_perft` char(36) COLLATE utf8_bin NOT NULL,
   `uuid_task` char(36) COLLATE utf8_bin NOT NULL,
   `fens` int(11) DEFAULT NULL,
-  `perc_completed` tinyint DEFAULT NULL,
+  `perc_completed` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`uuid_perft`,`uuid_task`),
   UNIQUE KEY `uuid_task` (`uuid_task`),
-  primary KEY `uuid_perft` (`uuid_perft`,`uuid_task`),
   CONSTRAINT `ptasks_i0f3_2` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `perft_tasks`
+--
+
+LOCK TABLES `perft_tasks` WRITE;
+/*!40000 ALTER TABLE `perft_tasks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `perft_tasks` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `task_fens`
@@ -70,6 +88,15 @@ CREATE TABLE `task_fens` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `task_fens`
+--
+
+LOCK TABLES `task_fens` WRITE;
+/*!40000 ALTER TABLE `task_fens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `task_fens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tasks`
 --
 
@@ -77,6 +104,7 @@ DROP TABLE IF EXISTS `tasks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tasks` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `uuid_perft` char(36) COLLATE utf8_bin NOT NULL,
   `uuid_task` char(36) COLLATE utf8_bin NOT NULL,
   `fen` char(100) COLLATE utf8_bin NOT NULL,
@@ -87,10 +115,20 @@ CREATE TABLE `tasks` (
   `engine` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `author` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `minutes` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
   KEY `uuid_perft` (`uuid_perft`),
-  CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE
+  CONSTRAINT `taskds_ibfk_1` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tasks`
+--
+
+LOCK TABLES `tasks` WRITE;
+/*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -101,4 +139,4 @@ CREATE TABLE `tasks` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-03 17:38:08
+-- Dump completed on 2015-11-03 21:26:26
