@@ -25,17 +25,7 @@ $deph =$row["depth"];
 $tasks =$row["tasks"];
 $creation_date =$row["creation_date"];
 
-$sql = "select pt.uuid_perft,t.fen, pt.uuid_task, ".
-"(select count(distinct engine)from tasks tt2 where tt2.uuid_task=t.uuid_task and tt2.uuid_perft='".$uuid_perft."' group by tt2.uuid_task,tt2.uuid_perft )n_engine, ".
-"ifnull(floor ((select count(distinct tt.fen) from tasks tt  where tt.uuid_task=t.uuid_task and tt.uuid_perft='".$uuid_perft."' ".
-"group by tt.uuid_perft,tt.uuid_task)/fens*100),0) perc_completed ".
-",max(t.creation_date)creation_date from perft_tasks pt ".
-"left join tasks t ".
-"on  t.uuid_task=pt.uuid_task ".
-"where pt.uuid_perft ='".$uuid_perft."' ".
-"group by pt.uuid_perft,pt.uuid_task ".
-"order by perc_completed desc ";
-
+$sql="select  uuid_task,engine n_engine,perc_completed,creation_date from perft_tasks where uuid_perft ='".$uuid_perft."' order by perc_completed desc";
 
 $result = $conn->query($sql);
 ?>
@@ -61,7 +51,7 @@ $result = $conn->query($sql);
 
          <?php   
 
-echo "<img src='http://webchessXX.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";
+echo "<img src='http://webchess.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";
 echo "<br><br>fen: $fen<br><br>";
 echo "depth: $deph<br>";
 echo "tasks: $tasks<br>";
@@ -79,7 +69,9 @@ echo "<table>";
     while($row = $result->fetch_assoc()) {
 		echo "<tr>";
 		echo '<td><a href="task.php?uuid_task='.$row["uuid_task"].'&uuid_perft='.$uuid_perft.'">'.$row["uuid_task"].'</a></td>';
-		echo "<td>".$row["perc_completed"]."%</td>";
+		$completed=$row["perc_completed"];
+		if($completed=="")$completed="0";
+		echo "<td>".$completed."%</td>";
 		$creation_date=$row["creation_date"];
 		echo "<td>$creation_date</td>";
 		echo "<td>".$row["n_engine"]."</td>";
