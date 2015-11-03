@@ -116,7 +116,8 @@ worker.ini:
 
   <?php echo " <button onclick='MyFunction(\"$uuid_perft\",\"$uuid_task\")'>Generate command</button> ";
      
-  echo "<br><br>perft uuid: ".$uuid_perft."<br><br>";
+	echo "<br><br>perft uuid: <a href='perft.php?uuid_perft=$uuid_perft'>$uuid_perft/a><br><br>";
+//  echo "<br><br>perft uuid: ".$uuid_perft."<br><br>";
 
 	echo "<br>";
 if ($result->num_rows > 0) {
