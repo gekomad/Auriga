@@ -36,8 +36,8 @@
 	 	echo "</tr>";
 	    while($row = $result->fetch_assoc()) {
 			echo "<tr>";
-			
-   			echo '<td><a href="perft.php?uuid_perft='.$row["uuid_perft"].'">'.$row["uuid_perft"].'</a></td>';
+			$mini_uuid_perft=substr($row["uuid_perft"],0,7)."...";
+   			echo '<td><a href="perft.php?uuid_perft='.$row["uuid_perft"].'">'.$mini_uuid_perft.'</a></td>';
 			echo "<td>".$row["fen"] ."</td>" ;
 			echo "<td>".$row["depth"] ."</td>" ;
 			echo "<td>".$row["tasks"] ."</td>" ;
