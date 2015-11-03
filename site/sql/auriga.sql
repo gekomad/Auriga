@@ -46,7 +46,7 @@ CREATE TABLE `perft_tasks` (
   `uuid_task` char(36) COLLATE utf8_bin NOT NULL,
   `fens` int(11) DEFAULT NULL,
   UNIQUE KEY `uuid_task` (`uuid_task`),
-  KEY `uuid_perft` (`uuid_perft`,`uuid_task`),
+  primary KEY `uuid_perft` (`uuid_perft`,`uuid_task`),
   CONSTRAINT `ptasks_i0f3_2` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
