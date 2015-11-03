@@ -75,10 +75,12 @@ private:
     string receiveStdErr;
     const u64 NO_RESULT = 0xffffffffffffffff;
     PROTOCOL_TYPE protocol;
-//    int fd_p2c[2], fd_c2p[2], stdErr[2];
+
     bool initialized = false;
     mutex putMutex;
-    const string SEND_INIT_STRING[2] = {"uci", "ping 1"};
+    const string SEND_INIT_STRING[3] = {"uci", "xboard", "ping 1"};
+    const string SEND_GET_NAME_STRING[2] = {"uci", "ping 1"};
+
     const string XBOARD_REQUEST_NAME_STRING = "protover 2";
     const string RECEIVE_INIT_STRING[2] = {"uciok", "pong 1"};
 

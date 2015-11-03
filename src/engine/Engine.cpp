@@ -21,8 +21,6 @@
 
 
 void Engine::readStdin() {
-//    int bytes_read;
-//    char readbuffer[1024];
     while (reading) {
 
         const string readbuffer = pipe->readStdin();
@@ -31,15 +29,7 @@ void Engine::readStdin() {
             break;
         };
 
-
-//        bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
-//        if (!reading || bytes_read <= 0) {
-//            reading = false;
-//            break;
-//        }
-//        readbuffer[bytes_read] = 0;
         receiveOutput.append(readbuffer);
-//        log(name, " id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
         std::smatch match;
         if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
             reading = false;
@@ -68,8 +58,6 @@ void Engine::notifyHearthbeat(const string &fen, const string &engineName1, cons
 }
 
 void Engine::readStderr() {
-//    int bytes_read_err;
-//    char readStderrBuffer[1024];
     while (reading) {
         const string &readStderrBuffer = pipe->readStderr();
         if (!reading || readStderrBuffer.empty()) {
@@ -77,15 +65,7 @@ void Engine::readStderr() {
             break;
         };
 
-//        bytes_read_err = read(stdErr[0], readStderrBuffer, sizeof(readStderrBuffer) - 1);
-//        if (!reading || bytes_read_err <= 0)s {
-//            reading = false;
-//            break;
-//        }
-//        readStderrBuffer[bytes_read_err] = 0;
         receiveStdErr.append(readStderrBuffer);
-
-//        log(name, " id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
         std::smatch match;
 
         if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxTot)) {
@@ -133,8 +113,7 @@ Engine::~Engine() {
     if (timerHearbeat) {
         delete timerHearbeat;
     }
-//    close(fd_c2p[0]);
-//    close(fd_p2c[1]);
+
 }
 
 void Engine::put(string command) {
@@ -145,7 +124,6 @@ void Engine::put(string command) {
     command.append("\n");
     int nbytes = command.size();
     assert(pipe->writeStdout(command) == nbytes);
-//    assert(write(fd_p2c[1], command.c_str(), nbytes) == nbytes);
 //    usleep(500000);
     sleep(1);
 }
@@ -165,48 +143,28 @@ void Engine::init(const string &confFileName1) {
     rgxTot.assign(workerEntityDao.getWorkerEntity().getRegex_perft_moves());
 
     info(" load engine ", enginePath);
-//    pid_t childpid;
     if (!pipe->init(enginePath)) {
         fatal(" Failed to execute ", enginePath);
         exit(1);
     };
 
-//    assert(!pipe(fd_p2c) && !pipe(fd_c2p) && !pipe(stdErr));
-//
-//    childpid = fork();
-//
-//    assert(childpid >= 0);
-//    if (childpid == 0) {
-//        assert(dup2(fd_p2c[0], 0) == 0 && close(fd_p2c[0]) == 0 && close(fd_p2c[1]) == 0);
-//        assert(dup2(fd_c2p[1], 1) == 1 && close(fd_c2p[1]) == 0 && close(fd_c2p[0]) == 0);
-//        assert(dup2(stdErr[1], 2) >= 0);
-//        execl(enginePath.c_str(), enginePath.c_str(), (char *) 0);
-//        fatal(" Failed to execute ", enginePath);
-//        exit(1);
-//    }
-//    close(fd_p2c[0]);
-//    close(fd_c2p[1]);
-//    close(stdErr[1]);
-
-    // char readbuffer[2048];
     bool detected = false;
-    for (unsigned i = 0; i < SEND_INIT_STRING->size(); i++) {
-        put(SEND_INIT_STRING[i]);
+    for (unsigned ii = 0; ii < SEND_INIT_STRING->size(); ii++) {
+        put(SEND_INIT_STRING[ii]);
         const string &readbuffer = pipe->readStdin();
-        //int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
         if (readbuffer.empty()) {
             fatal("engine not responding");
             exit(1);
         };
-//        readbuffer[bytes_read] = 0;
         receiveOutput = readbuffer;
         debug("read from engine: ", receiveOutput);
         std::smatch match;
-        if (receiveOutput.find(RECEIVE_INIT_STRING[i]) != string::npos) {
-            protocol = static_cast<PROTOCOL_TYPE>(i);
-            detected = true;
-            break;
-        }
+        for (int i = 0; i < 2; i++)
+            if (receiveOutput.find(RECEIVE_INIT_STRING[i]) != string::npos) {
+                protocol = static_cast<PROTOCOL_TYPE>(i);
+                detected = true;
+                break;
+            }
     }
     if (!detected) {
         fatal("protocol not detected");
@@ -217,16 +175,14 @@ void Engine::init(const string &confFileName1) {
     receiveOutput.clear();
     initialized = false;
     int count = 0;
-    put(SEND_INIT_STRING[protocol]);
+    //detect name
+    put(SEND_GET_NAME_STRING[protocol]);
     if (protocol == UCI) {
         while ((count++) < 100) {
             const string &readbuffer = pipe->readStdin();
-//            int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
             if (readbuffer.empty()) {
                 break;
             };
-//            if (bytes_read <= 0)break;
-//            readbuffer[bytes_read] = 0;
             receiveOutput.append(readbuffer);
             log(receiveOutput);
             std::smatch match;
@@ -252,9 +208,6 @@ void Engine::init(const string &confFileName1) {
             if (readbuffer.empty()) {
                 break;
             };
-//            int bytes_read = read(fd_c2p[0], readbuffer, sizeof(readbuffer) - 1);
-//            if (bytes_read <= 0)break;
-//            readbuffer[bytes_read] = 0;
             receiveOutput.append(readbuffer);
             log(receiveOutput);
             std::smatch match;
