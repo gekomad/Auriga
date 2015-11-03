@@ -55,6 +55,7 @@ CREATE TABLE `perft_tasks` (
   `uuid_task` char(36) COLLATE utf8_bin NOT NULL,
   `fens` int(11) DEFAULT NULL,
   `perc_completed` tinyint(4) DEFAULT NULL,
+  `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`uuid_perft`,`uuid_task`),
   UNIQUE KEY `uuid_task` (`uuid_task`),
   CONSTRAINT `ptasks_i0f3_2` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE
