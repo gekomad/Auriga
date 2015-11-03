@@ -19,7 +19,6 @@ include 'mysql_connect.php';
 $sql = "SELECT fen, depth,tasks,creation_date,tot FROM perft where uuid_perft='".$uuid_perft."'";
 $result = $conn->query($sql);
 
-
 $row = $result->fetch_assoc();
 $fen =$row["fen"];
 $deph =$row["depth"];
@@ -27,9 +26,9 @@ $tasks =$row["tasks"];
 $creation_date =$row["creation_date"];
 
 $sql = "select pt.uuid_perft,t.fen, pt.uuid_task, ".
-"(select count(distinct engine)from tasks tt2 where tt2.uuid_task=t.uuid_task and tt2.uuid_perft='2B215CB2-18DF-BDC3-C04B-9EAC24C0GD16' group by tt2.uuid_task,tt2.uuid_perft )n_engine, ".
+"(select count(distinct engine)from tasks tt2 where tt2.uuid_task=t.uuid_task and tt2.uuid_perft='".$uuid_perft."' group by tt2.uuid_task,tt2.uuid_perft )n_engine, ".
 "ifnull(floor ((select count(distinct tt.fen) from tasks tt  where tt.uuid_task=t.uuid_task and tt.uuid_perft='".$uuid_perft."' ".
-"group by tt.fen)/fens*100),0) perc_completed ".
+"group by tt.uuid_perft,tt.uuid_task)/fens*100),0) perc_completed ".
 ",max(t.creation_date)creation_date from perft_tasks pt ".
 "left join tasks t ".
 "on  t.uuid_task=pt.uuid_task ".
