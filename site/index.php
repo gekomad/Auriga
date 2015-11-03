@@ -19,7 +19,7 @@
 
         <div class="row">
           <section class="col-xs-12 col-sm-6 col-md-6">
-			<img src="logo.jpg" height="252" width="100%"> 
+			<img src="logo.jpg"> 
             <section>
               <h2>Deploying code changes</h2>
                 <p>OpenShift uses the <a href="http://git-scm.com/">Git version control system</a>
