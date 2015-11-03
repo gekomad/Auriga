@@ -21,16 +21,20 @@
 
 // HttpPost::getInstance().postThread("auriga-cinnamon.rhcloud.com", 80, "92165e61-7afc-11e5-ab63-0ec7b1e84563", "task_uuid", "2", "3", "engineName", "author", "fen","1");
 
-void Post::init(const string &host1, const int port1) {
+bool Post::init(const string &host1, const int port1) {
+    if (host.empty()) {
+        return false;
+    }
     host = host1;
     port = port1;
     debug("resolving host ", host);
     ip = ResolveHost::getIP(host);
     if (!ip.size()) {
-        fatal("unknow host");
-        exit(1);
+        error("unknow host");
+        return false;
     }
     debug("resolved host ", host, "->", ip);
+    return true;
 }
 
 void Post::preparePost(const string &uuid_perft, const string &uuid_task, const string &hearthbeat, const string &tot, const string &engine, const string &author, const string &fen, const string &minutes, const string &depth) {
