@@ -54,7 +54,7 @@ $ git push</pre>
 
           </section>
           <section class="col-xs-12 col-sm-6 col-md-6">
-				<img src="logo.jpg" height="252" width="570"> 
+				<img src="logo.jpg" height="252" width="100%"> 
                 <h2>Managing your application</h2>
 
                 <h3>Web Console</h3>
