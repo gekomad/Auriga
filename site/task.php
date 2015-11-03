@@ -33,19 +33,18 @@ function checkCookie() {
 }
 
 function MyFunction(perft_id,uuid_task)
-{	
-
+{
 	var worker_ini=document.getElementById('worker_ini').value;
 	if(worker_ini==""){document.getElementById('t1').value="error. select a worker";return;}
 
 	setCookie("paths",worker_ini) ;
-	document.getElementById('t1').value="Copy/paste on your client\n";
+	document.getElementById("label_command").className = '';
 	var command="./auriga";
 	var aurigaroot="$AURIGA_ROOT";
     if(document.getElementById('syst').value=="win") {command="auriga.exe";aurigaroot="%AURIGA_ROOT%";}
 
 	var s=command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " "+uuid_task + " -fetch";
-	document.getElementById('t1').value+=s+"\n";
+	document.getElementById('t1').value=s;
 
 		
 }
@@ -55,8 +54,6 @@ function MyFunction(perft_id,uuid_task)
 <?php include_once("analyticstracking.php"); ?>
  <?php include 'menu.php';?>
  <input type="hidden" id="syst">
-
-<textarea name=type rows=10 cols=150 id=t1 readonly=yes"></textarea>
 
 <?php
 
@@ -92,12 +89,15 @@ $sql ="select f.fen,f.depth,creation_date,heartbeat,tot,engine,author,minutes ".
 $result = $conn->query($sql);
 ?>
 <section class="container">
-
           <hgroup>
+
 <?php 
-  echo "<h1>task id ".$uuid_task."</h1> ";?>
+  echo "<h1>task id ".$uuid_task."</h1> ";
+	echo "perft uuid: <a href='perft.php?uuid_perft=$uuid_perft'>$uuid_perft</a><br><br>";
+	?>
 
           </hgroup><div class="row"><section>
+			
               <h2>Deploying code changes</h2>
                 <p>OpenShift uses the <a href="http://git-scm.com/">Git version control system</a>
  for your source code, and grants you access to it via the Secure Shell 
@@ -114,12 +114,13 @@ worker.ini:
     </select>
 </datalist>
 
-  <?php echo " <button onclick='MyFunction(\"$uuid_perft\",\"$uuid_task\")'>Generate command</button> ";
-     
-	echo "<br><br>perft uuid: <a href='perft.php?uuid_perft=$uuid_perft'>$uuid_perft/a><br><br>";
-//  echo "<br><br>perft uuid: ".$uuid_perft."<br><br>";
+<?php echo " <button onclick='MyFunction(\"$uuid_perft\",\"$uuid_task\")'>Generate command</button> ";?>
+	<br><br>
+	<small id="label_command" class="hidden">Copy/paste on your client</small><br>
+    <textarea id=t1 readonly='yes'></textarea>
+	<br>
+<?php	
 
-	echo "<br>";
 if ($result->num_rows > 0) {
 	echo "<table width='75%' border='1' align='center' bgcolor='#11FFff'>";
 	echo "<tr>";

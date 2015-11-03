@@ -6,6 +6,14 @@ function isNumeric(n) {
 
 function validate() {
 	
+	res=validate_fen1();
+
+	if(res.valid==false){
+		fen =document.getElementById('fen');
+		fen.style.backgroundColor = "red";
+		document.getElementById("error_fen").className = '';
+		return false;
+	}
 	fen =document.getElementById('fen');
 	fen.style.backgroundColor = "initial";
 	document.getElementById("error_fen").className = 'hidden';
@@ -37,15 +45,9 @@ function validate() {
 	document.getElementById("error_captcha").className = 'hidden';
 	cap.style.backgroundColor ="initial";
 	
-	res=validate_fen1();
+	
 
-	if(res.valid==true)return true;
-
-	fen =document.getElementById('fen');
-	fen.style.backgroundColor = "red";
-	document.getElementById("error_fen").className = '';
-
-	return false;	
+	return true;	
  }
 
 

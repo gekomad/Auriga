@@ -17,9 +17,9 @@
 <?php $fen=$_POST['fen'];?>
 
 <form method="post" onsubmit="return validate_fen2();" action="search_fen.php" >
-Search fen: <input name="fen" type="text" id="fen" placeholder="Fen string" value="<?php echo $fen;?>" />
+Search fen: <input name="fen" type="text" id="fen" placeholder="Fen string" value="<?php echo $fen;?>" /><input type="submit" class="submit btn outline" id="submit" value="Search" /><br>
 <label id="error_fen" class="hidden">fen format is wrong [fen validator: <a href="https://github.com/jhlywa/chess.js">https://github.com/jhlywa/chess.js</a>]</label>
-<input type="submit" class="submit btn outline" id="submit" value="Search" />
+
 </form>
           <hgroup>
 
