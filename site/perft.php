@@ -16,7 +16,7 @@ if($uuid_perft == ""){
 
 include 'mysql_connect.php';
 
-$sql = "SELECT fen, depth,tasks,creation_date,tot FROM perft where uuid_perft='".$uuid_perft."'";
+$sql = "SELECT fen, depth,tasks,creation_date,tot,perc_completed FROM perft where uuid_perft='".$uuid_perft."'";
 $result = $conn->query($sql);
 
 $row = $result->fetch_assoc();
@@ -24,6 +24,8 @@ $fen =$row["fen"];
 $deph =$row["depth"];
 $tasks =$row["tasks"];
 $creation_date =$row["creation_date"];
+$tot =$row["tot"];
+$perc_completed =$row["perc_completed"];
 
 $sql="select  uuid_task,engine n_engine,perc_completed,creation_date from perft_tasks where uuid_perft ='".$uuid_perft."' order by perc_completed desc";
 
@@ -51,11 +53,14 @@ $result = $conn->query($sql);
 
          <?php   
 
-echo "<img src='http://webchess.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";
+echo "<img src='http://webchessXXX.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";
 echo "<br><br>fen: $fen<br><br>";
 echo "depth: $deph<br>";
 echo "tasks: $tasks<br>";
-echo "creation_date: $creation_date<br>";
+echo "last pudate: $creation_date<br>";
+echo "tot: $tot<br>";
+echo "completed: $perc_completed%<br>";
+
 echo "<br>";
 
 if ($result->num_rows > 0) {
