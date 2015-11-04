@@ -183,6 +183,12 @@ tr:nth-child(odd) td { background: #FEFEFE; }
    visibility:hidden;
 }
 
+.nohidden{
+   color: #ff0000;
+   font-weight: bold;
+}
+
+
 textarea
 {
     border:1px solid #999999;

@@ -11,7 +11,7 @@ function validate() {
 	if(res.valid==false){
 		fen =document.getElementById('fen');
 		fen.style.backgroundColor = "red";
-		document.getElementById("error_fen").className = '';
+		document.getElementById("error_fen").className = 'nohidden';
 		return false;
 	}
 	fen =document.getElementById('fen');
@@ -21,7 +21,7 @@ function validate() {
 	depth =document.getElementById('depth');
 	if(!isNumeric(depth.value)|| (depth.value<2||depth.value>100)){		
 		depth.style.backgroundColor = "red";
-		document.getElementById("error_depth").className = '';
+		document.getElementById("error_depth").className = 'nohidden';
 		return false;
 	}
 	document.getElementById("error_depth").className = 'hidden';
@@ -30,7 +30,7 @@ function validate() {
 	tasks =document.getElementById('tasks');
 	if(!isNumeric(tasks.value)|| (tasks.value<1||tasks.value>1000)){
 		tasks.style.backgroundColor = "red";
-		document.getElementById("error_tasks").className = '';
+		document.getElementById("error_tasks").className = 'nohidden';
 		return false;
 	}
 	document.getElementById("error_tasks").className = 'hidden';
@@ -155,7 +155,7 @@ function validate() {
 	if(res.valid==true)return true;
 	fen =document.getElementById('fen');
 	fen.style.backgroundColor = "red";
-	document.getElementById("error_fen").className = '';
+	document.getElementById("error_fen").className = 'nohidden';
 	return false;	
  }
 

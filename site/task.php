@@ -38,7 +38,7 @@ function MyFunction(perft_id,uuid_task)
 	if(worker_ini==""){document.getElementById('t1').value="error. select a worker";return;}
 
 	setCookie("paths",worker_ini) ;
-	document.getElementById("label_command").className = '';
+	document.getElementById("label_command").className = 'nohidden';
 	var command="./auriga";
 	var aurigaroot="$AURIGA_ROOT";
     if(document.getElementById('syst').value=="win") {command="auriga.exe";aurigaroot="%AURIGA_ROOT%";}
@@ -142,7 +142,8 @@ if ($result->num_rows > 0) {
 		echo "<td>".$row["heartbeat"] ."</td>" ;
 		echo "<td>".$row["tot"] ."</td>" ;
 		echo "<td>".$row["engine"] ."</td>" ;
-		echo "<td>".$row["author"] ."</td>" ;		
+		echo "<td>".$row["author"] ."</td>" ;
+		
 		$minutes=$row["minutes"];
 		if($minutes=="0")$minutes="<1";
 		echo "<td>".$minutes."</td>";
