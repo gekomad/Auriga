@@ -22,7 +22,7 @@
 
 	include 'mysql_connect.php';
 
-	$sql = "SELECT uuid_perft,fen,depth,tasks,creation_date,tot ,ifnull(perc_completed,0)perc_completed FROM perft";
+	$sql = "SELECT uuid_perft,fen,depth,tasks,creation_date,tot ,ifnull(perc_completed,0)perc_completed,hours  FROM perft";
 	$result = $conn->query($sql);
 
 	if ($result->num_rows > 0) {
@@ -33,6 +33,7 @@
 		echo "<td><b>Depth</b></td>" ;
 		echo "<td><b>Tasks</b></td>" ;
 		echo "<td><b>Last update</b></td>" ;
+		echo "<td><b>Hours</b></td>" ;
 		echo "<td><b>Completed</b></td>" ;
 		echo "<td><b>Tot</b></td>" ;		
 	 	echo "</tr>";
@@ -44,6 +45,7 @@
 			echo "<td>".$row["depth"] ."</td>" ;
 			echo "<td>".$row["tasks"] ."</td>" ;
 			echo "<td>".$row["creation_date"] ."</td>" ;
+			echo "<td>".$row["hours"] ."</td>" ;
 			echo "<td>".$row["perc_completed"] ."%</td>" ;
 			echo "<td>".$row["tot"] ."</td>" ;
 			echo "</tr>";

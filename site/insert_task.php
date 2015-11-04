@@ -11,7 +11,7 @@ $minutes=$_POST["minutes"];
 $depth=$_POST["depth"];
 
 include 'mysql_connect.php';
-include 'updateTaskSQL.php';
+include 'updateStatistics.php';
 
 //insert row in tasks
 $sql = "INSERT INTO tasks (uuid_perft, uuid_task,heartbeat,tot,engine,author,fen,minutes,depth)VALUES ('$uuid_perft', '$uuid_task','$heartbeat','$tot','$engine','$author','$fen',$minutes,$depth)";

@@ -27,7 +27,7 @@ $creation_date =$row["creation_date"];
 $tot =$row["tot"];
 $perc_completed =$row["perc_completed"];
 
-$sql="select  uuid_task,engine n_engine,perc_completed,creation_date from perft_tasks where uuid_perft ='".$uuid_perft."' order by perc_completed desc";
+$sql="select uuid_task,engine n_engine,perc_completed,creation_date,hours from perft_tasks where uuid_perft ='".$uuid_perft."' order by perc_completed desc";
 
 $result = $conn->query($sql);
 ?>
@@ -70,6 +70,7 @@ echo "<table>";
 		echo "<td><b>Completed</b></td>" ;
 		echo "<td><b>Last heartbeat</b></td>" ;
 		echo "<td><b># engine</b></td>" ;
+		echo "<td><b>Hours</b></td>" ;
 	 	echo "</tr>";
     while($row = $result->fetch_assoc()) {
 		echo "<tr>";
@@ -80,6 +81,7 @@ echo "<table>";
 		$creation_date=$row["creation_date"];
 		echo "<td>$creation_date</td>";
 		echo "<td>".$row["n_engine"]."</td>";
+		echo "<td>".$row["hours"]."</td>";
 		echo "</tr>";
     }
 echo "</table>";
