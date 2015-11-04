@@ -50,6 +50,7 @@ CREATE TABLE `perft_tasks` (
   `perc_completed` tinyint(4) DEFAULT NULL,
   `creation_date` timestamp NULL DEFAULT NULL,
   `tot` bigint(20) unsigned DEFAULT NULL,
+  `hours` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`uuid_perft`,`uuid_task`),
   UNIQUE KEY `uuid_task` (`uuid_task`),
   CONSTRAINT `ptasks_i0f3_2` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE
