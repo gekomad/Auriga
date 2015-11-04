@@ -64,15 +64,19 @@ string PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask,
 
     FileUtil::createDirectory(aurigaRoot + "/data");
     FileUtil::createDirectory(aurigaRoot + "/data/" + perftUUID);
-    string filename = aurigaRoot + "/data/" + perftUUID + "/" + perftUUID + ".ini";
+    string filename = aurigaRoot + "/data/" + perftUUID + "/" + perftUUID + ".ini.gz";
 
     trace("\nwrite file", filename, "\n-------------\n", res, "\n-------------------");
-    ofstream myfile;
-    myfile.open(filename);
-    myfile << res;
-    myfile.close();
+
+//    myfile.open(filename);
+//    myfile << res;
+//    myfile.close();
+    Compression compression;
+
+    compression.compress(res,filename);
     info("Generated file " + filename);
     //CSV file for table perft
+    ofstream myfile;
     myfile.open(aurigaRoot + "/data/" + perftUUID + "/perft.txt");
     myfile << perftEntity.getUuid() + "|" + fen + "|" + to_string(depth) + "|" + to_string(Ntask) + "\n";
     myfile.close();

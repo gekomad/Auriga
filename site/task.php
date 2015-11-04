@@ -124,14 +124,14 @@ worker.ini:
 if ($result->num_rows > 0) {
 	echo "<table width='75%' border='1' align='center' bgcolor='#11FFff'>";
 	echo "<tr>";
-	echo "<td>fen</td>" ;
-	echo "<td>depth</td>" ;
-	echo "<td>Date</td>" ;
-	echo "<td>Heartbeat</td>" ;
-	echo "<td>tot</td>" ;
-	echo "<td>engine</td>" ;
-	echo "<td>author</td>" ;
-	echo "<td>minutes</td>" ;
+	echo "<td><b>Fen</td></b>" ;
+	echo "<td><b>Depth</td></b>" ;
+	echo "<td><b>Date</td></b>" ;
+	echo "<td><b>Heartbeat</td></b>" ;
+	echo "<td><b>Tot</td></b>" ;
+	echo "<td><b>Engine</td></b>" ;
+	echo "<td><b>Author</td></b>" ;
+	echo "<td><b>Minutes</td></b>" ;
  	echo "</tr>";
 
     while($row = $result->fetch_assoc()) {

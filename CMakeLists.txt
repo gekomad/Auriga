@@ -25,13 +25,15 @@ set(SOURCE_FILES
         src/perft/shared/PerftEntityDao.cpp
         src/perft/worker/WorkerEntityDao.cpp
         src/main.cpp
-        )
+        src/util/Compression.h)
 
 set(CMAKE_CXX_COMPILER "clang++")
 #set(CMAKE_CXX_COMPILER "x86_64-w64-mingw32-g++")
 #set(CMAKE_CXX_COMPILER "i686-w64-mingw32-g++")
 
 add_executable(auriga ${SOURCE_FILES})
+
+target_link_libraries(auriga ${CMAKE_SOURCE_DIR}/src/lib/Linux/64/libz.a)
 if (DR_MEMORY STREQUAL "YES")
     target_link_libraries(auriga ${CMAKE_SOURCE_DIR}/src/lib/Linux/32/libCinnamon.a)
 else()

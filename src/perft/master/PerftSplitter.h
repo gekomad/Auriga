@@ -28,6 +28,7 @@
 #include "../../util/FileUtil.h"
 #include "../shared/PerftEntity.h"
 #include "../task/TaskEntityDao.h"
+#include "../../util/Compression.h"
 
 class PerftSplitter {
 

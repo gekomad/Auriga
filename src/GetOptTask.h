@@ -77,7 +77,7 @@ public:
         //--task /home/geko/auriga_root stockfish.auriga.ini 8E42A477-83F1-8863-E05C-D68E4EA23236 3EC4AEB6-D764-9FBF-0991-5791A38CB691 -fetch
         if (params.size() >= 5) {
 
-            string workerIniFile1 = params[1]+"/worker/"+params[2];
+            string workerIniFile1 = params[1] + "/worker/" + params[2];
             if (!FileUtil::fileExists(workerIniFile1)) {
                 fatal("file not found ", workerIniFile1);
                 exit(1);
@@ -143,9 +143,12 @@ public:
         FileUtil::createDirectory(aurigaRoot + "/data/");
         FileUtil::createDirectory(aurigaRoot + "/data/" + perftUUID);
         string fileName = dir + "/" + perftUUID + ".ini";
-        ofstream fout(fileName);
+        ofstream fout(fileName + ".gz");
         fout << iniString;
         fout.close();
+        Compression compression;
+        compression.decompress(fileName + ".gz", fileName);
+
         return true;
     }
 };
