@@ -48,9 +48,7 @@ if($fen!="") {
 		$fen = $re[1]." ".$re[2]." ".$re[3]." ".$re[4]." 0 1";
 		$sql = "SELECT uuid_task,depth FROM task_fens where fen ='".$fen."'";
 		$result = $conn->query($sql);
-	}
-
-	if ($result->num_rows > 0) {
+	}else {
 		
 		$uuid_task=$row["uuid_task"];
 
