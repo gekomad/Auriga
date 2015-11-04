@@ -68,7 +68,7 @@ echo "<table>";
 		echo "<tr>";
 		echo "<td><b>Task ID</b></td>" ;
 		echo "<td><b>Completed</b></td>" ;
-		echo "<td><b>Last heartbeat</b></td>" ;
+		echo "<td><b>Last update</b></td>" ;
 		echo "<td><b># engine</b></td>" ;
 		echo "<td><b>Hours</b></td>" ;
 	 	echo "</tr>";
