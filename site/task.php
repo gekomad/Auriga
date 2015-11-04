@@ -142,8 +142,12 @@ if ($result->num_rows > 0) {
 		echo "<td>".$row["heartbeat"] ."</td>" ;
 		echo "<td>".$row["tot"] ."</td>" ;
 		echo "<td>".$row["engine"] ."</td>" ;
-		echo "<td>".$row["author"] ."</td>" ;
-		echo "<td>".$row["minutes"] ."</td>" ;
+		echo "<td>".$row["author"] ."</td>" ;		
+		$minutes=$row["minutes"];
+		if($minutes=="0")$minutes="<1";
+		echo "<td>".$minutes."</td>";
+
+
 	 	echo "</tr>";
     }
 	echo "</table>";

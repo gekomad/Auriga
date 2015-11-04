@@ -81,7 +81,9 @@ echo "<table>";
 		$creation_date=$row["creation_date"];
 		echo "<td>$creation_date</td>";
 		echo "<td>".$row["n_engine"]."</td>";
-		echo "<td>".$row["hours"]."</td>";
+		$hours=$row["hours"];
+		if($hours=="0")$hours="<1";
+		echo "<td>".$hours."</td>";
 		echo "</tr>";
     }
 echo "</table>";
