@@ -39,7 +39,7 @@ pt.hours= t.minutes/60";
 function getUpdatePerftSQL($uuid_perft){
 return "update perft p
 join
-	(select uuid_perft,avg(perc_completed)perc_completed,max(creation_date)creation_date,sum(tot)tot,sum(hours)hours from perft_tasks pt 
+	(select uuid_perft,avg(ifnull(perc_completed,0))perc_completed,max(creation_date)creation_date,sum(tot)tot,sum(hours)hours from perft_tasks pt 
 	where pt.uuid_perft ='".$uuid_perft."' 
 	group by uuid_perft)t
 	on t.uuid_perft=p.uuid_perft
