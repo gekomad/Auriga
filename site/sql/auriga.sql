@@ -49,6 +49,7 @@ CREATE TABLE `perft_tasks` (
   `engine` int(11) DEFAULT NULL,
   `perc_completed` tinyint(4) DEFAULT NULL,
   `creation_date` timestamp NULL DEFAULT NULL,
+  `tot` bigint(20) unsigned DEFAULT NULL,
   PRIMARY KEY (`uuid_perft`,`uuid_task`),
   UNIQUE KEY `uuid_task` (`uuid_task`),
   CONSTRAINT `ptasks_i0f3_2` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE
@@ -106,4 +107,4 @@ CREATE TABLE `tasks` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-04 10:33:34
+-- Dump completed on 2015-11-04 10:58:41
