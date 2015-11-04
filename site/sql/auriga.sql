@@ -30,6 +30,7 @@ CREATE TABLE `perft` (
   `creation_date` timestamp NULL DEFAULT NULL,
   `tot` varchar(40) COLLATE utf8_bin DEFAULT NULL,
   `perc_completed` tinyint(4) DEFAULT NULL,
+  `hours` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`uuid_perft`),
   UNIQUE KEY `fen` (`fen`,`depth`,`tasks`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
