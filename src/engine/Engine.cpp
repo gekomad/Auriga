@@ -230,7 +230,7 @@ void Engine::init(const string &confFileName1) {
 }
 
 void Engine::runPerft() {
-    timerHearbeat = new Timer(Time::HOUR_IN_SECONDS * 6);
+    timerHearbeat = new Timer(Time::HOUR_IN_SECONDS);//TODO
     timerHearbeat->registerObservers([this]() {
         high_resolution_clock::time_point timeEnd = std::chrono::high_resolution_clock::now();
         int minutes = Time::diffTime(timeEnd, timeStart) / 1000 / 60;

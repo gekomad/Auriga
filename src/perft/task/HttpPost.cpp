@@ -21,10 +21,10 @@
 void HttpPost::postThread(const string &host, const int port, const string &uuid_perft, const string &uuid_task, const string &hearthbeat, const string &tot, const string &engine, const string &author, const string &fen, const string &minutes, const string &depth) {
     info("Sending data to server host: ", host, " port: ", port, " uuid_perft: ", uuid_perft, " uuid_task: ", uuid_task, " hearthbeat: ", hearthbeat, " tot: ", tot, " engine: ", engine, " author: ", author, " fen: ", fen, " minutes: ", minutes, " depth: ", depth);
     gc();
-    if (!isDelayOK()) {
-        info("don't send data to server, minimum time between 2 post is 10 minutes");
-        return;
-    }
+//    if (!isDelayOK()) {TODO
+//        info("don't send data to server, minimum time between 2 post is 10 minutes");
+//        return;
+//    }
 
     Post *httpClient = new Post();
     if (httpClient->init(host, port)) {
