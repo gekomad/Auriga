@@ -66,14 +66,18 @@ echo "<br>";
 if ($result->num_rows > 0) {
 echo "<table>";
 		echo "<tr>";
+		echo "<td><b>#</b></td>" ;
 		echo "<td><b>Task ID</b></td>" ;
 		echo "<td><b>Completed</b></td>" ;
 		echo "<td><b>Last update</b></td>" ;
 		echo "<td><b># engine</b></td>" ;
 		echo "<td><b>Hours</b></td>" ;
 	 	echo "</tr>";
+		$count=0;
     while($row = $result->fetch_assoc()) {
 		echo "<tr>";
+		$count++;
+		echo "<td>$count</td>";
 		echo '<td><a href="task.php?uuid_task='.$row["uuid_task"].'&uuid_perft='.$uuid_perft.'">'.$row["uuid_task"].'</a></td>';
 		$completed=$row["perc_completed"];
 		if($completed=="")$completed="0";
