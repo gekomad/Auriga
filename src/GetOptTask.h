@@ -41,40 +41,37 @@ public:
 /root/
      |
      -worker
-            |
-            --stockfish-auriga.ini
-            --crafty-auriga.ini
-            .. ecc ..
+     |      |
+     |      --stockfish-auriga.ini
+     |      --crafty-auriga.ini
+     |      .. ecc ..
      |
       --data
             |
-             --perft_uuid/
+             --perft_uuid1/
                         |
-                        --task_uuid/
+                        --task_uuid1/
                         |          |
-                        |          --task_uuid.ini
-                        |          --log/
-                        |               |
-                        |               --task_uuid.log
+                        |          --task_uuid1.ini
+                        |          |
+                        |          --task_uuid1.log
                         |
-                        --task_uuid/
+                        --task_uuid2/
                                    |
-                                   --task_uuid.ini
-                                   --log/
-                                        |
-                                        --task_uuid.log
+                                   --task_uuid2.ini
+                                   |
+                                   --task_uuid2.log
             |
-             --perft_uuid/
+             --perft_uuid2/
                         |
-                        --task_uuid/
+                        --task_uuid3/
                                    |
-                                   --task_uuid.ini
-                                   --log/
-                                        |
-                                        --task_uuid.log
+                                   --task_uuid3.ini
+                                   |
+                                   --task_uuid3.log
 
         */
-        //--task /home/geko/auriga_root stockfish.auriga.ini 8E42A477-83F1-8863-E05C-D68E4EA23236 3EC4AEB6-D764-9FBF-0991-5791A38CB691 -fetch
+
         if (params.size() >= 5) {
 
             string workerIniFile1 = params[1] + "/worker/" + params[2];
@@ -145,12 +142,9 @@ public:
             exit(1);
         }
 
-//        ofstream fout(fileName + ".gz");
-//        fout << iniString;
-//        fout.close();
         Compression compression;
         compression.decompress(fileName + ".gz", fileName);
-        //TODO delete file .gz
+        std::remove(string(fileName + ".gz").c_str());
         return true;
     }
 };
