@@ -48,7 +48,6 @@ using namespace _def;
 class GetGZ {
 public:
     bool get(const string &host, const int port, const string &url, const string &outFile) {
-//        string receiveBuffer;
         char buf[4096];
         debug("resolving host ", host);
         string ip = ResolveHost::getIP(host);
@@ -75,7 +74,6 @@ public:
         assert(send(sock, str.c_str(), str.size(), 0) == (int) str.size());
         int r;
         std::ofstream fout(outFile, std::ofstream::binary);
-//        ofstream fout(outFile);
         char *header = 0;
 
         char startGzip[3];
@@ -87,7 +85,7 @@ public:
             if (r <= 0)break;
             buf[r] = 0;
             if (!header) {
-                char *header = strstr(buf, startGzip);
+                header = strstr(buf, startGzip);
                 if (header) {
                     fout.write(header, r - (header - buf) - 1);
                 }
@@ -98,13 +96,5 @@ public:
         fout.close();
         if (!header) return false;
         return true;
-//        std::size_t pos = receiveBuffer.find("#auriga");
-//        if (pos == -1)return "";
-//        std::string str3 = receiveBuffer.substr(pos);
-//
-//        debug (str3);
-//        return str3;
     }
-
-
 };

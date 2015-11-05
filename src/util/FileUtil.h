@@ -43,7 +43,7 @@ public:
 #if defined(_WIN32)
         mkdir(filename.c_str());
 #else
-        mkdir(filename.c_str(), 0777);
+        mkdir(filename.c_str(), 0755);
 #endif
         return true;
     }

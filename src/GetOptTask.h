@@ -113,7 +113,7 @@ public:
     static bool fetch(const string &workerIniFile, const string &aurigaRoot, const string &perftUUID) {
 
         string dir = aurigaRoot + "/data/" + perftUUID;
-        if (FileUtil::fileExists(dir)) {
+        if (FileUtil::fileExists(dir + "/" + perftUUID + ".ini")) {
             warn("directory " + dir + " exists, skip fetch data");
             return true;
         }
@@ -139,7 +139,7 @@ public:
         FileUtil::createDirectory(aurigaRoot + "/data/" + perftUUID);
         string fileName = dir + "/" + perftUUID + ".ini";
 
-        bool b = get.get(aurigaHost, aurigaPort, "downloadini.php?id=" + perftUUID,fileName + ".gz");
+        bool b = get.get(aurigaHost, aurigaPort, "downloadini.php?id=" + perftUUID, fileName + ".gz");
         if (!b) {
             fatal("error on fetch data");
             exit(1);
@@ -150,7 +150,7 @@ public:
 //        fout.close();
         Compression compression;
         compression.decompress(fileName + ".gz", fileName);
-
+        //TODO delete file .gz
         return true;
     }
 };

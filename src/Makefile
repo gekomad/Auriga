@@ -61,13 +61,13 @@ build:
 	$(STRIP) $(EXE)
 
 auriga32:
-	$(MAKE) LIBS="$(LIBS) lib/$(OS)/32/libCinnamon.a" ARC="-m32" build
+	$(MAKE) LIBS="$(LIBS) lib/$(OS)/32/libCinnamon.a lib/$(OS)/32/libz.a" ARC="-m32" build
 
 auriga-ARM:
-	$(MAKE) LIBS="$(LIBS) lib/ARM/32/libCinnamon.a" ARC="-fno-gcse -w -fsigned-char" build
+	$(MAKE) LIBS="$(LIBS) lib/ARM/32/libCinnamon.a lib/ARM/32/libz.a" ARC="-fno-gcse -w -fsigned-char" build
 
 auriga64:
-	$(MAKE) LIBS="$(LIBS) lib/$(OS)/64/libCinnamon.a" ARC="-m64" build
+	$(MAKE) LIBS="$(LIBS) lib/$(OS)/64/libCinnamon.a  lib/$(OS)/64/libz.a" ARC="-m64" build
 
 all:	Engine.o Post.o  PerftSplitter.o PipePosix.o  PipeWindows.o Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o
 	$(COMP) ${CFLAGS} ${ARC} -o ${EXE}  Engine.o Post.o PipePosix.o PipeWindows.o  PerftSplitter.o  Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o ${LIBS}
