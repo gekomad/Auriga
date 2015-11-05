@@ -37,15 +37,15 @@ bool Post::init(const string &host1, const int port1) {
     return true;
 }
 
-void Post::preparePost(const string &uuid_perft, const string &uuid_task, const string &hearthbeat, const string &tot, const string &engine, const string &author, const string &fen, const string &minutes, const string &depth) {
+void Post::preparePost(const string &uuid_perft, const string &uuid_task, const string &heartbeat, const string &tot, const string &engine, const string &author, const string &fen, const string &minutes, const string &depth) {
 
-    info("send data ", uuid_perft, " ", uuid_task, " ", hearthbeat, " ", tot, " ", engine, " ", author, " ", fen);
+    info("send data ", uuid_perft, " ", uuid_task, " ", heartbeat, " ", tot, " ", engine, " ", author, " ", fen);
 
     std::ostringstream formBuffer;
 
     char dataType1[] = "uuid_perft=";
     char dataType2[] = "&uuid_task=";
-    char dataType3[] = "&hearthbeat=";
+    char dataType3[] = "&heartbeat=";
 
     char dataType4[] = "&tot=";
     char dataType5[] = "&engine=";
@@ -56,7 +56,7 @@ void Post::preparePost(const string &uuid_perft, const string &uuid_task, const 
 
     string FormAction = string("https://").append(ip).append(to_string(port)).append("/insert_task.php");
 //    string FormAction = "http://127.0.0.1/auriga/insert_task.php";
-    auto ContentLength = uuid_perft.size() + uuid_task.size() + hearthbeat.size() + tot.size() + engine.size() + author.size() + fen.size() + minutes.size() + depth.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3) + strlen(dataType4) + strlen(dataType5) + strlen(dataType6) + strlen(dataType7) + strlen(dataType8) + strlen(dataType9);
+    auto ContentLength = uuid_perft.size() + uuid_task.size() + heartbeat.size() + tot.size() + engine.size() + author.size() + fen.size() + minutes.size() + depth.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3) + strlen(dataType4) + strlen(dataType5) + strlen(dataType6) + strlen(dataType7) + strlen(dataType8) + strlen(dataType9);
 
 
     // header
@@ -68,7 +68,7 @@ void Post::preparePost(const string &uuid_perft, const string &uuid_task, const 
     // actual content
     formBuffer << dataType1 << uuid_perft;
     formBuffer << dataType2 << uuid_task;
-    formBuffer << dataType3 << hearthbeat;
+    formBuffer << dataType3 << heartbeat;
     formBuffer << dataType4 << tot;
     formBuffer << dataType5 << engine;
     formBuffer << dataType6 << author;

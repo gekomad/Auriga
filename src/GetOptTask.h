@@ -144,7 +144,7 @@ public:
 
         Compression compression;
         compression.decompress(fileName + ".gz", fileName);
-        std::remove(string(fileName + ".gz").c_str());
+        //std::remove(string(fileName + ".gz").c_str());
         return true;
     }
 };

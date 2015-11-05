@@ -46,7 +46,13 @@ using namespace std;
 using namespace _def;
 
 class GetGZ {
+private:
+    std::regex rgxTot;
 public:
+    GetGZ() {
+        rgxTot.assign(".*\\r\\n\\r\\n(.+)\\r\\n\\n.*");
+    }
+
     bool get(const string &host, const int port, const string &url, const string &outFile) {
         char buf[4096];
         debug("resolving host ", host);
@@ -55,6 +61,7 @@ public:
             error("unknow host");
             return false;
         }
+
         debug("resolved host ", host, " -> ", ip);
         int sock = socket(AF_INET, SOCK_STREAM, 0);
         assert(sock != -1);
@@ -67,7 +74,7 @@ public:
 
         std::ostringstream formBuffer;
         formBuffer << "GET /" << url << " HTTP/1.1\n";
-//        formBuffer << "Content-Type: application/x-www-form-urlencoded\n";
+        formBuffer << "Content-Type: application/x-gzip\n";
         formBuffer << "Host: " << host << "\n\n";
 
         string str = formBuffer.str();
@@ -80,17 +87,37 @@ public:
         startGzip[0] = 31;
         startGzip[1] = 139;
         startGzip[2] = 0;
+        string receiveStd;
+        int totBytes = -1;
+        int totWritten = 0;
         while (1) {
             r = recv(sock, buf, sizeof(buf), 0);
             if (r <= 0)break;
             buf[r] = 0;
+            if (totBytes == -1) {
+                receiveStd.append(buf);
+                std::smatch match;
+                if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxTot)) {
+                    string tot = match[1].str();
+                    totBytes = std::stoi(tot, nullptr, 16);
+                    totBytes--;//TODO
+                }
+            }
             if (!header) {
                 header = strstr(buf, startGzip);
                 if (header) {
-                    fout.write(header, r - (header - buf) - 1);
+                    totWritten += r - (header - buf) ;
+                    fout.write(header, r - (header - buf) );
+                    fout.flush();
                 }
             } else {
+                if (totWritten+r > totBytes){
+                    fout.write(buf, totBytes-totWritten);
+                    break;
+                }
+                totWritten += r;
                 fout.write(buf, r);
+                fout.flush();
             }
         }
         fout.close();

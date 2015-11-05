@@ -51,9 +51,9 @@ void Engine::notifyTotResult(const u64 i, const string &fen, const string &engin
     }
 }
 
-void Engine::notifyHearthbeat(const string &fen, const string &engineName1, const int minutes, const int depth) {
+void Engine::notifyHeartbeat(const string &fen, const string &engineName1, const int minutes, const int depth) {
     if (observer != nullptr) {
-        observer->observerHearthbeat(fen, engineName1, minutes, depth);
+        observer->observerHeartbeat(fen, engineName1, minutes, depth);
     }
 }
 
@@ -234,7 +234,7 @@ void Engine::runPerft() {
     timerHearbeat->registerObservers([this]() {
         high_resolution_clock::time_point timeEnd = std::chrono::high_resolution_clock::now();
         int minutes = Time::diffTime(timeEnd, timeStart) / 1000 / 60;
-        notifyHearthbeat(fen, engineName, minutes, depth);
+        notifyHeartbeat(fen, engineName, minutes, depth);
     });
     timerHearbeat->start();
     put("perft " + to_string(depth));

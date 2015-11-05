@@ -60,8 +60,8 @@ void Perft::observerTotResult(const u64 result, const string &fen, const string 
     HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(result), engineName, author, fen, to_string(minutes), to_string(depth));
 }
 
-void Perft::observerHearthbeat(const string &fen, const string &engineName, const int minutes, const int depth) {
-    info("Hearthbeat ");
+void Perft::observerHeartbeat(const string &fen, const string &engineName, const int minutes, const int depth) {
+    info("Heartbeat ");
     HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "1", "0", engineName, author, fen, to_string(minutes), to_string(depth));
 }
 

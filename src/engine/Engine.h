@@ -92,7 +92,7 @@ private:
 
     void notifyTotResult(const u64 i, const string &fen, const string &engineName, const int minutes, const int depth);
 
-    void notifyHearthbeat(const string &fen, const string &engineName, const int minutes, const int depth);
+    void notifyHeartbeat(const string &fen, const string &engineName, const int minutes, const int depth);
 
     void readStdin();
 
