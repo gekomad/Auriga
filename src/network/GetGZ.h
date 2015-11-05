@@ -45,16 +45,16 @@
 using namespace std;
 using namespace _def;
 
-class Get {
+class GetGZ {
 public:
-    string get(const string &host, const int port, const string &url) {
-        string receiveBuffer;
-        char buf[1024];
+    bool get(const string &host, const int port, const string &url, const string &outFile) {
+//        string receiveBuffer;
+        char buf[4096];
         debug("resolving host ", host);
         string ip = ResolveHost::getIP(host);
         if (!ip.size()) {
             error("unknow host");
-            return "";
+            return false;
         }
         debug("resolved host ", host, " -> ", ip);
         int sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -74,19 +74,36 @@ public:
         string str = formBuffer.str();
         assert(send(sock, str.c_str(), str.size(), 0) == (int) str.size());
         int r;
+        std::ofstream fout(outFile, std::ofstream::binary);
+//        ofstream fout(outFile);
+        char *header = 0;
+
+        char startGzip[3];
+        startGzip[0] = 31;
+        startGzip[1] = 139;
+        startGzip[2] = 0;
         while (1) {
             r = recv(sock, buf, sizeof(buf), 0);
             if (r <= 0)break;
             buf[r] = 0;
-            receiveBuffer.append(buf);
-
+            if (!header) {
+                char *header = strstr(buf, startGzip);
+                if (header) {
+                    fout.write(header, r - (header - buf) - 1);
+                }
+            } else {
+                fout.write(buf, r);
+            }
         }
-        std::size_t pos = receiveBuffer.find("#auriga");
-        if (pos == -1)return "";
-        std::string str3 = receiveBuffer.substr(pos);
-
-        debug (str3);
-        return str3;
+        fout.close();
+        if (!header) return false;
+        return true;
+//        std::size_t pos = receiveBuffer.find("#auriga");
+//        if (pos == -1)return "";
+//        std::string str3 = receiveBuffer.substr(pos);
+//
+//        debug (str3);
+//        return str3;
     }
 
 

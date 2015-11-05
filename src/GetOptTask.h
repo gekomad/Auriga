@@ -20,7 +20,7 @@
 
 #include "perft/task/Perft.h"
 #include "namespaces/def.h"
-#include "network/Get.h"
+#include "network/GetGZ.h"
 
 using namespace _def;
 
@@ -133,19 +133,21 @@ public:
             }
         }
 
-        Get get;
+        GetGZ get;
 
-        string iniString = get.get(aurigaHost, aurigaPort, "downloadini.php?id=" + perftUUID);
-        if (iniString.empty()) {
-            fatal("error on fetch data");
-            exit(1);
-        }
         FileUtil::createDirectory(aurigaRoot + "/data/");
         FileUtil::createDirectory(aurigaRoot + "/data/" + perftUUID);
         string fileName = dir + "/" + perftUUID + ".ini";
-        ofstream fout(fileName + ".gz");
-        fout << iniString;
-        fout.close();
+
+        bool b = get.get(aurigaHost, aurigaPort, "downloadini.php?id=" + perftUUID,fileName + ".gz");
+        if (!b) {
+            fatal("error on fetch data");
+            exit(1);
+        }
+
+//        ofstream fout(fileName + ".gz");
+//        fout << iniString;
+//        fout.close();
         Compression compression;
         compression.decompress(fileName + ".gz", fileName);
 

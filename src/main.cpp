@@ -23,7 +23,7 @@
 #include "network/Post.h"
 #include "namespaces/def.h"
 #include "network/ResolveHost.h"
-#include "network/Get.h"
+#include "network/GetGZ.h"
 #include<iostream>
 
 using namespace std;
@@ -67,6 +67,11 @@ void printHeader() {
 }
 
 int main(int argc, char *argv[]) {
+
+
+    GetGZ get;
+     get.get("127.0.0.1", 80, "downloadini.php?id=G23409F0-4204-4B1E-47F7-B57C93G27GFA","/home/geko/pippo.ini.gz" );
+
     printHeader();
 
     GetOpt::parse(argc, argv);
