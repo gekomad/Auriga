@@ -1,7 +1,8 @@
 <?php 
 
-header("Content-Type:text/plain");
+header('Content-type: application/x-gzip');
 include 'set_variable.php';	
-echo htmlspecialchars(file_get_contents($auriga_root."/data/".$_GET['id']."/".$_GET['id'].".ini")); 
+echo file_get_contents($auriga_root."/data/".$_GET['id']."/".$_GET['id'].".ini.gz"); 
 
 ?>
+
