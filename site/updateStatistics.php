@@ -8,10 +8,10 @@ join
 		  and tt2.uuid_perft='".$uuid_perft."' 
 		  and tt2.uuid_task='".$uuid_task."'
 		  group by tt2.uuid_task,tt2.uuid_perft )n_engine,  
-		(select sum(tot)from tasks tt2 where tt2.uuid_task=t.uuid_task 
-		  and tt2.uuid_perft='".$uuid_perft."' 
+		(select sum(d.tot) from ( select avg(tot) tot from tasks tt2 where
+		   tt2.uuid_perft='".$uuid_perft."' 
 		  and tt2.uuid_task='".$uuid_task."'
-		  group by tt2.uuid_task,tt2.uuid_perft )tot,  
+		  group by fen )d)tot,  
      	  (select sum(minutes)from tasks tt2 where tt2.uuid_task=t.uuid_task 
 		  and tt2.uuid_perft='".$uuid_perft."' 
 		  and tt2.uuid_task='".$uuid_task."'
