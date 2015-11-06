@@ -4,16 +4,27 @@
 include 'mysql_connect.php';
 include 'updateStatistics.php';
 
-$uuid_perft="CG903DC1-CA9E-BFE7-A1D2-4D24C3G55472";
-$uuid_task="013BF886-928G-AC19-G2G5-F6394D26FEB5";
 
-//update statistics in perft_tasks for uuid_task
-$sql = getUpdateTaskSQL($uuid_perft,$uuid_task);
-$conn->query($sql);
 
-//update statistics in perft for uuid_perft
-$sql = getUpdatePerftSQL($uuid_perft);
-$conn->query($sql);
+$sql = "SELECT uuid_perft,uuid_task FROM perft_tasks";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+		$uuid_perft=$row["uuid_perft"];
+		$uuid_task=$row["uuid_task"];
+		echo "$uuid_perft  $uuid_task\n";
+		//update statistics in perft_tasks for uuid_task
+		$sql2 = getUpdateTaskSQL($uuid_perft,$uuid_task);
+		$conn->query($sql2);
+
+		//update statistics in perft for uuid_perft
+		$sql2 = getUpdatePerftSQL($uuid_perft);
+		$conn->query($sql2);
+		
+	}
+}
+
 
 $conn->close();
 
