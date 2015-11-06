@@ -97,7 +97,7 @@ CREATE TABLE `tasks` (
   PRIMARY KEY (`id`),
   KEY `uuid_perft` (`uuid_perft`),
   CONSTRAINT `taskds_ibfk_1` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2048 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -109,4 +109,4 @@ CREATE TABLE `tasks` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-04 10:58:41
+-- Dump completed on 2015-11-06 12:34:38
