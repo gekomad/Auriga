@@ -21,7 +21,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "zlib.h"
+#include "../lib/zlib.h"
 #include <errno.h>
 #include <string.h>
 
