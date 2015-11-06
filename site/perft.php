@@ -53,12 +53,12 @@ echo "tot: $tot<br>";
 echo "completed: $perc_completed%<br>";
 
 echo "<br>";
-?>
-<div id="commandzone" >
-<?php include("_command_area.php");?>
-<?php echo "<button onclick='writeCommands(\"$uuid_perft\",ut)'>Generate command for unfinished</button>";?>
-</div>
-<?php
+
+if($perc_completed!="100"){
+	include("_command_area.php");
+	echo "<button onclick='writeCommands(\"$uuid_perft\",ut)'>Generate command for unfinished</button>";
+}
+
 if ($result->num_rows > 0) {
 echo "<table>";
 		echo "<tr>";
@@ -93,7 +93,7 @@ echo "</table>";
 }
 $conn->close();
 ?> 
-<script>if(ut.length==0)document.getElementById("commandzone").className = 'hidden';</script>
+
       </section>         
         </div>
 </section>
