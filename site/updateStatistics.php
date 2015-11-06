@@ -3,12 +3,15 @@
 function getUpdateTaskSQL($uuid_perft,$uuid_task){
 return "update perft_tasks pt 
 join 
-	(select pt.uuid_perft, pt.uuid_task,  
+	(	
+	select pt.uuid_perft, pt.uuid_task,  
 		(select count(distinct engine)from tasks tt2 where tt2.uuid_task=t.uuid_task 
 		  and tt2.uuid_perft='".$uuid_perft."' 
 		  and tt2.uuid_task='".$uuid_task."'
-		  group by tt2.uuid_task,tt2.uuid_perft )n_engine,  
-		(select sum(d.tot) from ( select avg(tot) tot from tasks tt2 where
+		  group by tt2.uuid_task,tt2.uuid_perft )n_engine,  	
+		  (select sum(d.tot) from ( select avg(tot*(select count(1) from task_fens2 tf2 where tf2.uuid_task='".$uuid_task."' and fen =tt2.fen
+)) tot from tasks tt2 where
+		   ifnull(tt2.tot,-1)!=-1 and
 		   tt2.uuid_perft='".$uuid_perft."' 
 		  and tt2.uuid_task='".$uuid_task."'
 		  group by fen )d)tot,  
@@ -17,22 +20,23 @@ join
 		  and tt2.uuid_task='".$uuid_task."'
 		  and tt2.tot is not null
 		  group by tt2.uuid_task,tt2.uuid_perft )minutes,  
-	ifnull(floor ((select count(distinct tt.fen) from tasks tt where tt.tot is not null and tt.uuid_task=t.uuid_task 
-	and tt.uuid_perft='".$uuid_perft."'
-	group by tt.uuid_perft,tt.uuid_task)/fens*100),0) perc_completed , 
+	ifnull(floor ((select count(fen) from task_fens2 tf2 where id in(
+	select distinct id from task_fens2 tf2 where tf2.uuid_task ='".$uuid_task."'  and tf2.fen in (
+select distinct f.fen from task_fens2 f
+where f.uuid_task='".$uuid_task."' )))/fens*100),0) perc_completed , 
 	max(t.creation_date)creation_date from perft_tasks pt  
 	left join tasks t  
 	on  t.uuid_task=pt.uuid_task  
 	where pt.uuid_perft ='".$uuid_perft."' 
 	and pt.uuid_task ='".$uuid_task."' 
-	group by pt.uuid_perft,pt.uuid_task  
+	group by pt.uuid_perft,pt.uuid_task  	
 	)t 
 on t.uuid_perft=pt.uuid_perft and t.uuid_task=pt.uuid_task 
 and pt.uuid_perft ='".$uuid_perft."' 
 and pt.uuid_task ='".$uuid_task."' 
 set pt.engine =t.n_engine, pt.perc_completed = t.perc_completed,
 pt.creation_date= t.creation_date,pt.tot= t.tot,
-pt.hours= t.minutes/60";
+pt.hours= t.minutes/60	";
 
 }
 
