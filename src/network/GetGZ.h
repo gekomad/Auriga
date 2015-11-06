@@ -50,7 +50,7 @@ private:
     std::regex rgxTot;
 public:
     GetGZ() {
-        rgxTot.assign(".*\\r\\n\\r\\n(.+)\\r\\n\\n.*");
+        rgxTot.assign(".*Content-Length: (\\d+).*");
     }
 
     bool get(const string &host, const int port, const string &url, const string &outFile) {
@@ -90,22 +90,26 @@ public:
         string receiveStd;
         int totBytes = -1;
         int totWritten = 0;
+      
         while (1) {
             r = recv(sock, buf, sizeof(buf), 0);
             if (r <= 0)break;
             buf[r] = 0;
+            
             if (totBytes == -1) {
                 receiveStd.append(buf);
                 std::smatch match;
                 if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxTot)) {
                     string tot = match[1].str();
-                    totBytes = std::stoi(tot, nullptr, 16);
+                    totBytes = std::stoi(tot);
+                    totBytes--;//TODO
                     totBytes--;//TODO
                 }
             }
             if (!header) {
                 header = strstr(buf, startGzip);
                 if (header) {
+                    assert(totBytes!=-1);
                     totWritten += r - (header - buf) ;
                     fout.write(header, r - (header - buf) );
                     fout.flush();
