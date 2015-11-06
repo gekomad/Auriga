@@ -3,58 +3,12 @@
 <title>Task</title>
 <link rel="stylesheet"  href="css/css1.css" type="text/css"/>
 <link rel="stylesheet" href="css/layout.css" type="text/css" />
-<script type="text/javascript">
 
-function setCookie(cname, cvalue) {
-    var d = new Date();
-    d.setTime(d.getTime() + (365*24*60*60*1000));
-    var expires = "expires="+d.toUTCString();
-    document.cookie = cname + "=" + cvalue + "; " + expires;
-}
-
-function getCookie(cname) {
-	if (navigator.appVersion.indexOf("Win")!=-1) document.getElementById('syst').value="win";
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-    }
-    return "";
-}
-
-function checkCookie() {
-    var worker = getCookie("paths");
-
-    if (worker != "") {
-		document.getElementById('worker_ini').value=worker;    
-    }
-}
-
-function MyFunction(perft_id,uuid_task)
-{
-	var worker_ini=document.getElementById('worker_ini').value;
-	if(worker_ini==""){document.getElementById('t1').value="error. select a worker";return;}
-
-	setCookie("paths",worker_ini) ;
-	document.getElementById("label_command").className = 'nohidden';
-	var command="./auriga";
-	var aurigaroot="$AURIGA_ROOT";
-    if(document.getElementById('syst').value=="win") {command="auriga.exe";aurigaroot="%AURIGA_ROOT%";}
-
-	var s=command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " "+uuid_task + " -fetch";
-	document.getElementById('t1').value=s;
-
-		
-}
-</script>
 </head>
 <body onload="checkCookie()">
 <?php include_once("analyticstracking.php"); ?>
  <?php include 'menu.php';?>
- <input type="hidden" id="syst">
-
+ 
 <?php
 
 $uuid_task=$_GET['uuid_task'];
@@ -103,25 +57,10 @@ $result = $conn->query($sql);
  for your source code, and grants you access to it via the Secure Shell 
 (SSH) protocol. In order to upload and download code to your application
  you need to give us your <a href="https://developers.openshift.com/en/managing-remote-connection.html">public SSH key</a>. You can upload it within the web console or install the <a href="https://developers.openshift.com/en/managing-client-tools.html">RHC command line tool</a> and run <code>rhc setup</code> to generate and upload your key automatically.</p>
-worker.ini: 
-<input type="text" id="worker_ini" list="workerName"/>
-<datalist id="workerName">
-  <select>
- <option value="cheng.auriga.ini">cheng.auriga.ini</option>
-	<option value="stockfish.auriga.ini">stockfish.auriga.ini</option>
-	<option value="cinnamon.auriga.ini">cinnamon.auriga.ini</option>
-	<option value="crafty.auriga.ini">crafty.auriga.ini</option>
-    </select>
-</datalist>
 
-<?php echo " <button onclick='MyFunction(\"$uuid_perft\",\"$uuid_task\")'>Generate command</button> ";?>
-	<br><br>
-	<small id="label_command" class="hidden">Copy/paste on your client</small><br>
-    <textarea id=t1 readonly='yes'></textarea>
-	<br>
-<?php	
-
-if ($result->num_rows > 0) {
+<?php include("_command_area.php");?>
+<?php echo "<button onclick='writeCommand(\"$uuid_perft\",\"$uuid_task\")'>Generate command</button>";?>
+<?php if ($result->num_rows > 0) {
 	echo "<table width='75%' border='1' align='center' bgcolor='#11FFff'>";
 	echo "<tr>";
 	echo "<td><b>Fen</td></b>" ;
