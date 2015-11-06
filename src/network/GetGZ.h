@@ -102,7 +102,7 @@ public:
                 if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxTot)) {
                     string tot = match[1].str();
                     totBytes = std::stoi(tot);
-                    totBytes--;//TODO
+                    assert(totBytes>0);
                     totBytes--;//TODO
                 }
             }
