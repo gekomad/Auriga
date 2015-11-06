@@ -21,7 +21,7 @@ join
 		  and tt2.tot is not null
 		  group by tt2.uuid_task,tt2.uuid_perft )minutes,  
 	ifnull(floor ((select count(fen) from task_fens tf2 where id in(
-	select distinct id from task_fens tf2 where tf2.uuid_task ='".$uuid_task."'  and tf2.fen in (
+	select distinct id from task_fens tf2 where tf2.uuid_task =t.uuid_task  and tf2.fen in (
 select distinct f.fen from task_fens f
 where f.uuid_task='".$uuid_task."' )))/fens*100),0) perc_completed , 
 	max(t.creation_date)creation_date from perft_tasks pt  
