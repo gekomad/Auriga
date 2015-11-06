@@ -16,7 +16,6 @@ cmake_install.cmake
 # git has its own built in compression methods
 *.7z
 *.dmg
-*.gz
 *.iso
 *.jar
 *.rar
