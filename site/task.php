@@ -38,7 +38,7 @@ if($uuid_perft == ""){
 $sql ="select f.fen,f.depth,creation_date,heartbeat,tot,engine,author,minutes ".
 "from task_fens f left join tasks pt ".
 "on pt.uuid_task=f.uuid_task and pt.fen=f.fen ".
-"where f.uuid_task ='".$uuid_task."'";
+"where f.uuid_task ='".$uuid_task."' order by ifnull(tot,0) asc,fen, creation_date desc";
 
 $result = $conn->query($sql);
 ?>
@@ -49,7 +49,6 @@ $result = $conn->query($sql);
   echo "<h1>task id ".$uuid_task."</h1> ";
 	echo "perft uuid: <a href='perft.php?uuid_perft=$uuid_perft'>$uuid_perft</a><br><br>";
 	?>
-
           </hgroup><div class="row"><section>
 			
               <h2>Deploying code changes</h2>
