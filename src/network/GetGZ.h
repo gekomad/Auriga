@@ -107,37 +107,14 @@ public:
                 }
             }
 
-//            if (!header) {
-//                header = strstr(buf, startGzip);
-//                if (!header) {
-//                    error("no gzip file");
-//                    break;
-//                }
-//                    totWritten += r - (header - buf) ;
-//                fout.write(header, r - (header - buf));
-////                    fout.flush();
-//
-//            } else {
-////                if (totWritten+r > totBytes){
-//                fout.write(buf, r);
-////                    break;
-////                }
-////                totWritten += r;
-////                fout.write(buf, r);
-////                fout.flush();
-//            }
-
             if (!header) {
                 header = strstr(buf, startGzip);
                 if (!header) {
                     error("no gzip file");
                     break;
                 }
-
                 totWritten += r - (header - buf);
                 fout.write(header, r - (header - buf));
-                //fout.flush();
-
             } else {
                 if (totWritten + r > totBytes) {
                     fout.write(buf, totBytes - totWritten);
@@ -145,7 +122,6 @@ public:
                 }
                 totWritten += r;
                 fout.write(buf, r);
-               // fout.flush();
             }
         }
         fout.close();
