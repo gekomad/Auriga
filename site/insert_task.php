@@ -13,7 +13,9 @@ $depth=$_POST["depth"];
 
 $ip = $_SERVER['REMOTE_ADDR'];
 $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
-$country=$details->country; 
+
+
+if(isset($details->country))$country=$details->country; 
 
 
 include 'mysql_connect.php';
