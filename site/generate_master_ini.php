@@ -24,7 +24,7 @@ $fen=substr($fen,0,100);
 //echo "<br>";
 $depth=$_POST["depth"];
 $tasks=$_POST["tasks"];
-if (!is_numeric($depth)||!is_numeric($tasks)||tasks>1000||depth>100) {
+if (!is_numeric($depth)||!is_numeric($tasks)||$tasks>1000||$depth>100) {
     echo "error";
 	return;
 } 
