@@ -35,10 +35,10 @@ if($uuid_perft == ""){
 }
 
 
-$sql ="select f.fen,f.depth,creation_date,heartbeat,tot,engine,author,minutes ".
-"from task_fens f left join tasks pt ".
-"on pt.uuid_task=f.uuid_task and pt.fen=f.fen ".
-"where f.uuid_task ='".$uuid_task."' order by fen,ifnull(tot,0) asc,fen, creation_date desc";
+$sql ="select f.fen,f.depth,creation_date,heartbeat,tot,engine,author,minutes,country".
+" from task_fens f left join tasks pt ".
+" on pt.uuid_task=f.uuid_task and pt.fen=f.fen ".
+" where f.uuid_task ='".$uuid_task."' order by fen,ifnull(tot,0) asc,fen, creation_date desc";
 
 $result = $conn->query($sql);
 ?>
@@ -69,6 +69,7 @@ $result = $conn->query($sql);
 	echo "<td><b>Engine</td></b>" ;
 	echo "<td><b>Author</td></b>" ;
 	echo "<td><b>Minutes</td></b>" ;
+    echo "<td><b>Country</td></b>" ;
  	echo "</tr>";
 
     while($row = $result->fetch_assoc()) {
@@ -86,6 +87,7 @@ $result = $conn->query($sql);
 		$minutes=$row["minutes"];
 		if($minutes=="0")$minutes="<1";
 		echo "<td>".$minutes."</td>";		
+		echo "<td> <img src='flags/".$row["country"].".png'> </td>";	
 	 	echo "</tr>";
     }
 	echo "</table>";
