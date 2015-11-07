@@ -102,8 +102,9 @@ public:
                 if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxTot)) {
                     string tot = match[1].str();
                     totBytes = std::stoi(tot);
+                    cout <<totBytes<<endl;
                     assert(totBytes>0);
-                    totBytes--;//TODO
+                    //totBytes--;//TODO
                 }
             }
             if (!header) {
@@ -125,6 +126,7 @@ public:
             }
         }
         fout.close();
+
         if (!header) return false;
         return true;
     }
