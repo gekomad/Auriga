@@ -197,5 +197,13 @@ textarea
     padding:1%;
 }
 
+#header-wrap {
+    position: fixed;
+    height: 200px;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
 
 

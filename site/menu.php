@@ -1,3 +1,4 @@
+<div id="header-wrap">
 <div class="wrapper">
 		<div class="sf_menu" id="topnav">
 			<ul class="nav">					
@@ -33,3 +34,5 @@
 			<div class="clear"></div>
 		</div>
 	</div>
+ 
+</div>
