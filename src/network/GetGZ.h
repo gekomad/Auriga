@@ -47,10 +47,10 @@ using namespace _def;
 
 class GetGZ {
 private:
-    std::regex rgxTot;
+    std::regex rgxSize;
 public:
     GetGZ() {
-        rgxTot.assign(".*Content-Length: (\\d+).*");
+        rgxSize.assign(".*XXX(\\d+)XXX.*");
     }
 
     bool get(const string &host, const int port, const string &url, const string &outFile) {
@@ -90,43 +90,65 @@ public:
         string receiveStd;
         int totBytes = -1;
         int totWritten = 0;
-      
+        string deb;
         while (1) {
             r = recv(sock, buf, sizeof(buf), 0);
             if (r <= 0)break;
             buf[r] = 0;
-            
+#ifdef DEBUG_MODE
+            deb.append(buf);
+#endif
             if (totBytes == -1) {
                 receiveStd.append(buf);
                 std::smatch match;
-                if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxTot)) {
+                if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxSize)) {
                     string tot = match[1].str();
                     totBytes = std::stoi(tot);
-                    cout <<totBytes<<endl;
-                    assert(totBytes>0);
-                    //totBytes--;//TODO
                 }
             }
+
+//            if (!header) {
+//                header = strstr(buf, startGzip);
+//                if (!header) {
+//                    error("no gzip file");
+//                    break;
+//                }
+//                    totWritten += r - (header - buf) ;
+//                fout.write(header, r - (header - buf));
+////                    fout.flush();
+//
+//            } else {
+////                if (totWritten+r > totBytes){
+//                fout.write(buf, r);
+////                    break;
+////                }
+////                totWritten += r;
+////                fout.write(buf, r);
+////                fout.flush();
+//            }
+
             if (!header) {
                 header = strstr(buf, startGzip);
-                if (header) {
-                    assert(totBytes!=-1);
-                    totWritten += r - (header - buf) ;
-                    fout.write(header, r - (header - buf) );
-                    fout.flush();
+                if (!header) {
+                    error("no gzip file");
+                    break;
                 }
+
+                totWritten += r - (header - buf);
+                fout.write(header, r - (header - buf));
+                //fout.flush();
+
             } else {
-                if (totWritten+r > totBytes){
-                    fout.write(buf, totBytes-totWritten);
+                if (totWritten + r > totBytes) {
+                    fout.write(buf, totBytes - totWritten);
                     break;
                 }
                 totWritten += r;
                 fout.write(buf, r);
-                fout.flush();
+               // fout.flush();
             }
         }
         fout.close();
-
         if (!header) return false;
         return true;
     }
