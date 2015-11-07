@@ -183,6 +183,10 @@ tr:nth-child(odd) td { background: #FEFEFE; }
    visibility:hidden;
 }
 
+.heartbeat{
+   font-size: 90%;
+}
+
 .nohidden{
    color: #ff0000;
    font-weight: bold;

@@ -65,7 +65,6 @@ $result = $conn->query($sql);
 	echo "<td><b>Fen</td></b>" ;
 	echo "<td><b>Depth</td></b>" ;
 	echo "<td><b>Date</td></b>" ;
-	echo "<td><b>Heartbeat</td></b>" ;
 	echo "<td><b>Tot</td></b>" ;
 	echo "<td><b>Engine</td></b>" ;
 	echo "<td><b>Author</td></b>" ;
@@ -73,20 +72,20 @@ $result = $conn->query($sql);
  	echo "</tr>";
 
     while($row = $result->fetch_assoc()) {
-	 	echo "<tr>";
+//	 	if($row["heartbeat"]=="1")echo "<tr class='heartbeat'>";else	
+		echo "<tr>";	
 		echo "<td>".$row["fen"] ."</td>" ;
 		echo "<td>".$row["depth"] ."</td>" ;
 		echo "<td>".$row["creation_date"]."</td>" ;
-		echo "<td>".$row["heartbeat"] ."</td>" ;
-		echo "<td>".$row["tot"] ."</td>" ;
+		$tot=$row["tot"];
+		if($tot==0)$tot="<i>heartbeat</i>";
+		echo "<td>".$tot."</td>" ;
 		echo "<td>".$row["engine"] ."</td>" ;
 		echo "<td>".$row["author"] ."</td>" ;
 		
 		$minutes=$row["minutes"];
 		if($minutes=="0")$minutes="<1";
-		echo "<td>".$minutes."</td>";
-
-
+		echo "<td>".$minutes."</td>";		
 	 	echo "</tr>";
     }
 	echo "</table>";
