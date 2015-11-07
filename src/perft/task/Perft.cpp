@@ -70,7 +70,7 @@ i128 Perft::calculate() {
 
     ThreadPool<Engine> threadPool;
     IniFile iniFile(workerIniFile);
-    author = iniFile.getValue("author");
+    author = iniFile.getValue("public_name");
 
     int ins = String::stoi(iniFile.getValue("instances"));
     threadPool.setNthread(ins == 0 ? 1 : ins);
@@ -91,7 +91,7 @@ i128 Perft::calculate() {
         exit(1);
     }
 
-    for (string fen:taskEntity->getFenList()) {
+    for (string fen:taskEntity->getFenList()) {//TODO creare un set se 2 fen uguali inviarne solo uno
         Engine &e = threadPool.getNextThread();
         e.init(workerIniFile);
         e.registerObserverEngine(this);
@@ -106,7 +106,7 @@ i128 Perft::calculate() {
 
     string timetot = Time::diffTimeToString(start1, stop1);
 
-    //TODO apend in file result.log
+    //TODO append in file result.log
     cout << "Tot Perft moves for task_uuid " << taskUUID << ": " << String::toString(TOT) << " in " << timetot << endl;
 
     return TOT;
