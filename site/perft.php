@@ -8,6 +8,7 @@
 <body onload="checkCookie()">
 <?php include_once("analyticstracking.php");?>
 <?php include 'menu.php';?>
+
 <?php
 $uuid_perft=$_GET['uuid_perft'];
 if($uuid_perft == ""){
@@ -99,5 +100,6 @@ $conn->close();
 </section>
 
 <?php include 'footer.html'; ?>    
+
 </body>
 </html>
