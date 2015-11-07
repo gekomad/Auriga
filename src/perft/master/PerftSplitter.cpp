@@ -65,7 +65,7 @@ string PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask,
     FileUtil::createDirectory(aurigaRoot + "/data");
     FileUtil::createDirectory(aurigaRoot + "/data/" + perftUUID);
     string filename = aurigaRoot + "/data/" + perftUUID + "/" + perftUUID + ".ini.gz";
-
+    res.append("\n#END FILE");
     trace("\nwrite file", filename, "\n-------------\n", res, "\n-------------------");
 
 //    myfile.open(filename);
