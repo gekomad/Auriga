@@ -71,7 +71,14 @@ public:
                                    --task_uuid3.log
 
         */
-
+        //--task /home/geko/auriga_root cinnamon.auriga.ini  -fetch_random
+        if (params.size() == 4 && params[3] == "-fetch_random") {
+            string aurigaRoot = params[1];
+            string workerIniFile1 = aurigaRoot + "/worker/" + params[2];
+            pair<string, string> uuids = fetch(workerIniFile1, aurigaRoot);
+            doPerft(aurigaRoot, uuids.first, uuids.second, workerIniFile1);
+        }
+        //--task /home/geko/auriga_root cinnamon.auriga.ini DEE504F4-40A1-1A31-8F50-7BAC48DCC17G 6F55F6CF-DC1E-E4DD-D547-G5BB6A9G6BAD -fetch
         if (params.size() >= 5) {
 
             string workerIniFile1 = params[1] + "/worker/" + params[2];
@@ -85,34 +92,44 @@ public:
             if (params.size() == 6 && params[5] == "-fetch") {
                 fetch(workerIniFile1, aurigaRoot, perftUUID);
             }
-            string perftIniFile = aurigaRoot + "/data/" + perftUUID + "/" + perftUUID + ".ini";
-            if (!FileUtil::fileExists(perftIniFile)) {
-                fatal("file not found ", perftIniFile);
-                exit(1);
-            }
-            int count = 0;
-            string countS = "";
-            string logpathTmp = aurigaRoot + "/data/" + perftUUID + "/" + taskUUID + ".log";
-            while (FileUtil::fileExists(logpathTmp + countS)) {
-                countS = to_string(++count);
-            };
-            string logpath = logpathTmp + countS;
-            Logger::getInstance().setLogfile(logpath);
 
-            _perft::Perft perft(taskUUID, perftIniFile, workerIniFile1);
-            perft.calculate();
+            doPerft(aurigaRoot, perftUUID, taskUUID, workerIniFile1);
 
         } else {
             help(argv);
         }
     }
 
-    static bool fetch(const string &workerIniFile, const string &aurigaRoot, const string &perftUUID) {
+    static void doPerft(const string &aurigaRoot, const string &perftUUID, const string &taskUUID, const string &workerIniFile1) {
 
-        string dir = aurigaRoot + "/data/" + perftUUID;
-        if (FileUtil::fileExists(dir + "/" + perftUUID + ".ini")) {
-            warn("directory " + dir + " exists, skip fetch data");
-            return true;
+        int count = 0;
+        string countS = "";
+        string logpathTmp = aurigaRoot + "/data/" + perftUUID + "/" + taskUUID + ".log";
+        while (FileUtil::fileExists(logpathTmp + countS)) {
+            countS = to_string(++count);
+        };
+        string logpath = logpathTmp + countS;
+        Logger::getInstance().setLogfile(logpath);
+
+        string perftIniFile = aurigaRoot + "/data/" + perftUUID + "/" + perftUUID + ".ini";
+        if (!FileUtil::fileExists(perftIniFile)) {
+            fatal("file not found ", perftIniFile);
+            exit(1);
+        }
+        log("Do perft perft_uuid: ", perftUUID, " task_uuid: ", taskUUID);
+
+        _perft::Perft perft(taskUUID, perftIniFile, workerIniFile1);
+        perft.calculate();
+    }
+
+    static pair<string, string> fetch(const string &workerIniFile, const string &aurigaRoot, const string &perftUUID = "") {
+
+        string dataDir = aurigaRoot + "/data/";
+        if (!perftUUID.empty()) {
+            if (FileUtil::fileExists(dataDir + "/" + perftUUID + "/" + perftUUID + ".ini")) {
+                warn("file " + dataDir + "/" + perftUUID + "/" + perftUUID + ".ini exists, skip fetch data");
+                return pair<string, string>(perftUUID, "");
+            }
         }
         IniFile ini(workerIniFile);
         string aurigaHost = ini.getValue("host");
@@ -138,21 +155,14 @@ public:
         }
 
         GetGZ get;
-
         FileUtil::createDirectory(aurigaRoot + "/data/");
-        FileUtil::createDirectory(aurigaRoot + "/data/" + perftUUID);
-        string fileName = dir + "/" + perftUUID + ".ini";
-
-        bool b = get.get(aurigaHost, aurigaPort, "downloadini.php?id=" + perftUUID, fileName + ".gz");
-        if (!b) {
-            fatal("error on fetch data");
-            exit(1);
+        string fileName = dataDir + "/" + perftUUID + ".ini";
+        pair<string, string> uuids = get.get(aurigaHost, aurigaPort, "downloadini.php?id=" + perftUUID, aurigaRoot + "/data/");
+        if (uuids.first.empty()) {
+            warn("no data to fetch");
+            return pair<string, string>("", "");
         }
-
-        Compression compression;
-        compression.decompress(fileName + ".gz", fileName);
-        //std::remove(string(fileName + ".gz").c_str());
-        return true;
+        return uuids;
     }
 };
 

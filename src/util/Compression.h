@@ -27,8 +27,18 @@
 
 
 class Compression {
+private:
+    std::regex rgxName;
 public:
-    int decompress(const string &fileGZ,const string &fileOut) {
+    Compression(){
+        rgxName.assign("(.*)\\.gz");
+    }
+    int decompress(const string &fileGZ) {
+        string fileOut;
+        std::smatch match;
+        if (regex_search(((const string) fileGZ).begin(), ((const string) fileGZ).end(), match, rgxName)) {
+            fileOut = match[1].str();
+        }
         const int LENGTH = 0x1000;
         static const char *file_name = fileGZ.c_str();
         FILE *pFile = fopen(fileOut.c_str(), "w");

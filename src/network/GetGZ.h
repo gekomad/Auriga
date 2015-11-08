@@ -50,16 +50,17 @@ private:
     std::regex rgxSize;
 public:
     GetGZ() {
-        rgxSize.assign(".*XXX(\\d+)XXX.*");
+        //.*XXXuuid_perftXXXuuid_depthXXXsize_fileXXX.*
+        rgxSize.assign(".*XXX(.*)XXX(.*)XXX(\\d+)XXX.*");
     }
 
-    bool get(const string &host, const int port, const string &url, const string &outFile) {
+    pair<string, string> get(const string &host, const int port, const string &url, const string &dataDir) {
         char buf[4096];
         debug("resolving host ", host);
         string ip = ResolveHost::getIP(host);
         if (!ip.size()) {
             error("unknow host");
-            return false;
+            return pair<string, string>("", "");
         }
 
         debug("resolved host ", host, " -> ", ip);
@@ -80,7 +81,7 @@ public:
         string str = formBuffer.str();
         assert(send(sock, str.c_str(), str.size(), 0) == (int) str.size());
         int r;
-        std::ofstream fout(outFile, std::ofstream::binary);
+        std::ofstream fout;
         char *header = 0;
 
         char startGzip[3];
@@ -91,6 +92,8 @@ public:
         int totBytes = -1;
         int totWritten = 0;
         string deb;
+        string UUID_PERFT;
+        string UUID_TASK;
         while (1) {
             r = recv(sock, buf, sizeof(buf), 0);
             if (r <= 0)break;
@@ -102,11 +105,19 @@ public:
                 receiveStd.append(buf);
                 std::smatch match;
                 if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxSize)) {
-                    string tot = match[1].str();
+                    UUID_PERFT = match[1].str();
+                    UUID_TASK = match[2].str();
+                    string tot = match[3].str();
                     totBytes = std::stoi(tot);
+
+                    string ini = dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini";
+                    if (FileUtil::fileExists(ini)){
+                        return pair<string, string>(UUID_PERFT, UUID_TASK);
+                    }
+                    FileUtil::createDirectory(dataDir + "/" + UUID_PERFT);
+                    fout.open(ini + ".gz", std::ofstream::binary);
                 }
             }
-
             if (!header) {
                 header = strstr(buf, startGzip);
                 if (!header) {
@@ -124,8 +135,11 @@ public:
                 fout.write(buf, r);
             }
         }
-        fout.close();
-        if (!header) return false;
-        return true;
+        if (fout.is_open())fout.close();
+        if (!header) return pair<string, string>("", "");
+        Compression compression;
+        compression.decompress(dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini.gz");
+        //std::remove(string(fileName + ".gz").c_str());
+        return pair<string, string>(UUID_PERFT, UUID_TASK);
     }
 };
