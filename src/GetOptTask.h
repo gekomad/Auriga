@@ -116,6 +116,13 @@ public:
         }
         IniFile ini(workerIniFile);
         string aurigaHost = ini.getValue("host");
+
+        //test connection
+        if (ResolveHost::getIP(aurigaHost).empty()) {
+            fatal("cant't resolve host");
+            exit(1);
+        }
+
         int aurigaPort;
         if (aurigaHost.empty()) {
             fatal("auriga host not defined, can't fetch data");
