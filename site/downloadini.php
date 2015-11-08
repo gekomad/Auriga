@@ -19,5 +19,10 @@ if($uuid_perft==""){
 	echo "X";
 	exit(0);
 }
-$filename=$auriga_root."/data/".$uuid_perft."/".$uuid_perft.".ini.gz";
-echo "XXX".$uuid_perft."XXX".$uuid_task."XXX".filesize($filename)."XXX".file_get_contents($filename);?>
+shell_exec("find /tmp/*.tosend -type f -mmin +3 -exec rm {} \;");
+$filename1=$auriga_root."/data/".$uuid_perft."/".$uuid_perft.".ini";
+$zipped=$filename1.".gz";
+$random=rand(10,100000);
+$tosend="/tmp/".$random.".tosend";
+shell_exec("gunzip -c $zipped >$tosend");
+echo "XXX".$uuid_perft."XXX".$uuid_task."XXX".filesize($tosend)."XXX".file_get_contents($tosend);?>

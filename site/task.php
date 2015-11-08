@@ -79,7 +79,7 @@ $result = $conn->query($sql);
 		echo "<td>".$row["depth"] ."</td>" ;
 		echo "<td>".$row["creation_date"]."</td>" ;
 		$tot=$row["tot"];
-		if($tot==0)$tot="<i>heartbeat</i>";
+		if($row["heartbeat"]=="1")$tot="<i>heartbeat</i>";
 		echo "<td>".$tot."</td>" ;
 		echo "<td>".$row["engine"] ."</td>" ;
 		echo "<td>".$row["author"] ."</td>" ;
