@@ -84,62 +84,110 @@ public:
         std::ofstream fout;
         char *header = 0;
 
-        char startGzip[3];
-        startGzip[0] = 31;
-        startGzip[1] = 139;
-        startGzip[2] = 0;
+//        char startGzip[3];
+//        startGzip[0] = 0x1f;
+//        startGzip[1] = 0x8b;
+//        startGzip[2] = 0;
         string receiveStd;
         int totBytes = -1;
         int totWritten = 0;
         string deb;
         string UUID_PERFT;
         string UUID_TASK;
-        while (1) {
-            r = recv(sock, buf, sizeof(buf), 0);
-            if (r <= 0)break;
-            buf[r] = 0;
-#ifdef DEBUG_MODE
-            deb.append(buf);
-#endif
-            if (totBytes == -1) {
-                receiveStd.append(buf);
-                std::smatch match;
-                if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxSize)) {
-                    UUID_PERFT = match[1].str();
-                    UUID_TASK = match[2].str();
-                    string tot = match[3].str();
-                    totBytes = std::stoi(tot);
 
-                    string ini = dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini";
-                    if (FileUtil::fileExists(ini)){
-                        return pair<string, string>(UUID_PERFT, UUID_TASK);
-                    }
-                    FileUtil::createDirectory(dataDir + "/" + UUID_PERFT);
-                    fout.open(ini + ".gz", std::ofstream::binary);
-                }
-            }
+        std::ofstream fout2(dataDir + "/tmp1");
+        while (1) {
+#ifdef DEBUG_MODE
+            memset(buf, 0, sizeof(buf));
+#endif
+            r = recv(sock, buf, sizeof(buf) - 1, 0);
+            if (r <= 0)break;
+            fout2.write(buf, r);
+#ifdef DEBUG_MODE
+            deb.assign(buf);
+#endif
+//            if (totBytes == -1) {
+//                buf[r] = 0;
+//                receiveStd.append(buf);
+//                std::smatch match;
+//                if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxSize)) {
+//                    UUID_PERFT = match[1].str();
+//                    UUID_TASK = match[2].str();
+//                    string tot = match[3].str();
+//                    totBytes = std::stoi(tot);
+//
+//                    string ini = dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini";
+//                    if (FileUtil::fileExists(ini)) {
+//                        return pair<string, string>(UUID_PERFT, UUID_TASK);
+//                    }
+//                    FileUtil::createDirectory(dataDir + "/" + UUID_PERFT);
+//                    fout.open(ini + ".gz", std::ofstream::binary);
+//                }
+//            }
+//            if (!header) {
+//                header = strstr(buf, startGzip);
+//                if (!header) {
+//                    error("no gzip file");
+//                    break;
+//                }
+//                totWritten += r - (header - buf);
+//                fout.write(header, r - (header - buf));
+//                fout.flush();
+//            } else {
+//                if (totWritten + r > totBytes) {
+//
+//                    fout.write(buf, totBytes - totWritten);
+//                    fout.flush();
+//
+//                    break;
+//                }
+//                totWritten += r;
+//                fout.write(buf, r);
+//                fout.flush();
+//
+//
+//            }
+        }
+//        if (fout.is_open())fout.close();
+//        if (!header) return pair<string, string>("", "");
+//        Compression compression;
+//        compression.decompress(dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini.gz");
+        //std::remove(string(fileName + ".gz").c_str());
+
+        fout2.close();
+        char *buffer;
+        long size = FileUtil::fileSize(dataDir + "/tmp1");
+        ifstream file(dataDir + "/tmp1");
+
+        file.seekg(0, ios::beg);
+        buffer = new char[size];
+        file.read(buffer, size);
+        file.close();
+        receiveStd.assign(buffer, 1000);
+        std::smatch match;
+        if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxSize)) {
+            UUID_PERFT = match[1].str();
+            UUID_TASK = match[2].str();
+            string tot = match[3].str();
+            int totBytes = std::stoi(tot);
+            header = strstr(buffer, "#auriga ini file - AUTO-GENERATED FILE - DO NOT EDIT");
             if (!header) {
-                header = strstr(buf, startGzip);
-                if (!header) {
-                    error("no gzip file");
-                    break;
-                }
-                totWritten += r - (header - buf);
-                fout.write(header, r - (header - buf));
+                error("no gzip file");
             } else {
-                if (totWritten + r > totBytes) {
-                    fout.write(buf, totBytes - totWritten);
-                    break;
+                string ini = dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini";
+                if (FileUtil::fileExists(ini)) {
+                    return pair<string, string>(UUID_PERFT, UUID_TASK);
                 }
-                totWritten += r;
-                fout.write(buf, r);
+                FileUtil::createDirectory(dataDir + "/" + UUID_PERFT);
+                fout2.open(ini , std::ofstream::binary);
+                fout2.write(header, size - (header - buffer));
+                fout2.close();
             }
         }
-        if (fout.is_open())fout.close();
-        if (!header) return pair<string, string>("", "");
-        Compression compression;
-        compression.decompress(dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini.gz");
-        //std::remove(string(fileName + ".gz").c_str());
+
+        delete[] buffer;
+
+        cout << "fine" << endl;
         return pair<string, string>(UUID_PERFT, UUID_TASK);
     }
 };
