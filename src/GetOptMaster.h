@@ -25,7 +25,7 @@ class GetOptMaster {
 public:
     static void help(char **argv) {
         string exe = FileUtil::getFileName(argv[0]);
-        cout << "Generate ini file:\t\t" << exe << " --generate-ini AURIGA_ROOT Ntask \"FEN\" DEPTH\n";
+        cout << "Generate ini file:\t\t\t\t" << exe << " --generate-ini AURIGA_ROOT Ntask \"FEN\" DEPTH\n";
     }
 
     static void parse(int argc, char **argv) {
