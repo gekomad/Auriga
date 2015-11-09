@@ -37,23 +37,27 @@ function setCommands(){
 
 	setCookie("paths",worker_ini) ;
 	document.getElementById("label_command").className = 'nohidden';
-	command="auriga";
-	aurigaroot="$AURIGA_ROOT";
-    if(document.getElementById('syst').value=="win") {command="auriga.exe";aurigaroot="%AURIGA_ROOT%";}
+    if(document.getElementById('syst').value=="win") {
+		aurigaroot="%AURIGA_ROOT%";
+		command="%AURIGA_ROOT%/auriga.exe";
+	}else{
+		aurigaroot="$AURIGA_ROOT";
+		command=aurigaroot+"/auriga";
+	}
 	return true;
 }
 
 function writeCommandRandom(){
 	if(setCommands()==false)return;
 
-	var s=aurigaroot+"/"+command+ " --task " + aurigaroot + " " + worker_ini + " -fetch_random";
+	var s=command+ " --task " + aurigaroot + " " + worker_ini + " -fetch_random";
 	document.getElementById('t1').value=s;
 }
 
 function writeCommand(perft_id,uuid_task){
 	if(setCommands()==false)return;
 
-	var s=aurigaroot+"/"+command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " "+uuid_task + " -fetch";
+	var s=command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " "+uuid_task + " -fetch";
 	document.getElementById('t1').value=s;
 }
 
@@ -61,7 +65,7 @@ function writeCommands(perft_id,tasksArray){
 	if(setCommands()==false)return;
 	document.getElementById('t1').value="";
 	for (var i = 0; i < tasksArray.length; i++) {
-		var s=aurigaroot+"/"+command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " "+tasksArray[i] + " -fetch;\n";
+		var s=command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " "+tasksArray[i] + " -fetch;\n";
 		document.getElementById('t1').value+=s;
 	}
 }
