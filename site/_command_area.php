@@ -11,8 +11,7 @@ function setCookie(cname, cvalue) {
     document.cookie = cname + "=" + cvalue + "; " + expires;
 }
 
-function getCookie(cname) {
-	if (navigator.appVersion.indexOf("Win")!=-1) document.getElementById('syst').value="win";
+function getCookie(cname) {	
     var name = cname + "=";
     var ca = document.cookie.split(';');
     for(var i=0; i<ca.length; i++) {
@@ -32,6 +31,7 @@ function checkCookie() {
 }
 
 function setCommands(){
+	if (navigator.appVersion.indexOf("Win")!=-1) document.getElementById('syst').value="win";
 	worker_ini=document.getElementById('worker_ini').value;
 	if(worker_ini==""){document.getElementById('t1').value="error. select a worker";return false;}
 
