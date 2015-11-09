@@ -1,5 +1,9 @@
 <script type="text/javascript">
 
+var command;
+var aurigaroot;
+var worker_ini;
+
 function setCookie(cname, cvalue) {
     var d = new Date();
     d.setTime(d.getTime() + (365*24*60*60*1000));
@@ -27,32 +31,37 @@ function checkCookie() {
     }
 }
 
-function writeCommand(perft_id,uuid_task){
-	var worker_ini=document.getElementById('worker_ini').value;
-	if(worker_ini==""){document.getElementById('t1').value="error. select a worker";return;}
+function setCommands(){
+	worker_ini=document.getElementById('worker_ini').value;
+	if(worker_ini==""){document.getElementById('t1').value="error. select a worker";return false;}
 
 	setCookie("paths",worker_ini) ;
 	document.getElementById("label_command").className = 'nohidden';
-	var command="./auriga";
-	var aurigaroot="$AURIGA_ROOT";
+	command="auriga";
+	aurigaroot="$AURIGA_ROOT";
     if(document.getElementById('syst').value=="win") {command="auriga.exe";aurigaroot="%AURIGA_ROOT%";}
+	return true;
+}
 
-	var s=command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " "+uuid_task + " -fetch";
+function writeCommandRandom(){
+	if(setCommands()==false)return;
+
+	var s=aurigaroot+"/"+command+ " --task " + aurigaroot + " " + worker_ini + " -fetch_random";
+	document.getElementById('t1').value=s;
+}
+
+function writeCommand(perft_id,uuid_task){
+	if(setCommands()==false)return;
+
+	var s=aurigaroot+"/"+command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " "+uuid_task + " -fetch";
 	document.getElementById('t1').value=s;
 }
 
 function writeCommands(perft_id,tasksArray){
-	var worker_ini=document.getElementById('worker_ini').value;
-	if(worker_ini==""){document.getElementById('t1').value="error. select a worker";return;}
-
-	setCookie("paths",worker_ini) ;
-	document.getElementById("label_command").className = 'nohidden';
-	var command="./auriga";
-	var aurigaroot="$AURIGA_ROOT";
-    if(document.getElementById('syst').value=="win") {command="auriga.exe";aurigaroot="%AURIGA_ROOT%";}
+	if(setCommands()==false)return;
 	document.getElementById('t1').value="";
 	for (var i = 0; i < tasksArray.length; i++) {
-		var s=command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " "+tasksArray[i] + " -fetch\n";
+		var s=aurigaroot+"/"+command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " "+tasksArray[i] + " -fetch;\n";
 		document.getElementById('t1').value+=s;
 	}
 }

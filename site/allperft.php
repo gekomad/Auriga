@@ -18,6 +18,8 @@
 	<hgroup>
 		<h1>All Perfts</h1> 
 	</hgroup>
+<?php include("_command_area.php");?>
+<?php echo "<button onclick='writeCommandRandom()'>Generate command for random task</button>";?>
 <?php
 
 	include 'mysql_connect.php';

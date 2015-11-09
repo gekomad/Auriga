@@ -57,7 +57,7 @@ echo "<br>";
 
 if($perc_completed!="100"){
 	include("_command_area.php");
-	echo "<button onclick='writeCommands(\"$uuid_perft\",ut)'>Generate command for unfinished</button>";
+	echo "<button onclick='writeCommands(\"$uuid_perft\",ut)'>Generate command for uncompleted tasks</button>";
 }
 
 if ($result->num_rows > 0) {
