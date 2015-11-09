@@ -8,7 +8,7 @@
 
 
  </head>
- <body>
+<body onload="checkCookie()">
 <?php include_once("analyticstracking.php");?>
 <?php include 'menu.php';?>
 
