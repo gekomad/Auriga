@@ -24,6 +24,11 @@ if(isset($details->country))$country=$details->country;
 include 'mysql_connect.php';
 include 'updateStatistics.php';
 
+if($heartbeat=="1"){
+	$sql = "delete from tasks where heartbeat=1 and fen= '$fen' and depth=$depth and engine ='$engine' and author ='$author' ";
+	$conn->query($sql);
+}
+
 //insert row in tasks
 $sql = "INSERT INTO tasks (uuid_perft, uuid_task,heartbeat,tot,engine,author,fen,minutes,depth,country)VALUES ('$uuid_perft', '$uuid_task','$heartbeat','$tot','$engine','$author','$fen',$minutes,$depth,'$country')";
 $conn->query($sql);
