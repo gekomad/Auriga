@@ -6,7 +6,14 @@ $uuid_perft=$_GET['id'];
 $uuid_task="";
 if($uuid_perft==""){
 	include 'mysql_connect.php';
-	$sql="SELECT uuid_perft,uuid_task FROM perft_tasks where tot is null ORDER BY RAND() LIMIT 0,1";
+	//get random task
+	$sql="SELECT pt.uuid_perft, pt.uuid_task
+	FROM perft_tasks pt
+	left join tasks t
+	on pt.uuid_task=t.uuid_task
+	where  ifnull(pt.perc_completed,-1)!=100 
+	ORDER BY ifnull(pt.creation_date ,0) asc,ifnull(pt.perc_completed,-1) asc,ifnull(heartbeat,-1) asc, RAND() LIMIT 0,1";
+
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 		$row = $result->fetch_assoc();
