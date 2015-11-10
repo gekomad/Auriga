@@ -169,8 +169,12 @@ public:
                     }
                 }
                 char *h = strstr(buf, "XXXSTART");
+                if(!h){
+                    error("error on fatching data");
+                    return pair<string, string>("", "");
+                }
                 h+=strlen("XXXSTART");
-                encode64.append(h);no deve copiare lo zero
+                encode64.append(h);
                 continue;
             }
 
