@@ -3,9 +3,9 @@
 <title>Task</title>
 <link rel="stylesheet"  href="css/css1.css" type="text/css"/>
 <link rel="stylesheet" href="css/layout.css" type="text/css" />
-
 </head>
 <body onload="checkCookie()">
+<?php include("setTimezone.php");?>
 <?php include_once("analyticstracking.php"); ?>
 <?php include 'menu.php';?>
  
@@ -34,8 +34,8 @@ if($uuid_perft == ""){
 	}
 }
 
-
-$sql ="select f.fen,f.depth,creation_date,heartbeat,tot,engine,author,minutes,country".
+//select  creation_date, CONVERT_TZ(creation_date,'-12:00',@@global.time_zone) from tasks
+$sql ="select f.fen,f.depth,CONVERT_TZ(creation_date,'".$time_zone.":00',@@global.time_zone) creation_date,heartbeat,tot,engine,author,minutes,country".
 " from task_fens f left join tasks pt ".
 " on pt.uuid_task=f.uuid_task and pt.fen=f.fen ".
 " where f.uuid_task ='".$uuid_task."' order by fen,ifnull(tot,0) asc,fen, creation_date desc";
@@ -73,7 +73,6 @@ $result = $conn->query($sql);
  	echo "</tr>";
 
     while($row = $result->fetch_assoc()) {
-//	 	if($row["heartbeat"]=="1")echo "<tr class='heartbeat'>";else	
 		echo "<tr>";	
 		echo "<td>".$row["fen"] ."</td>" ;
 		echo "<td>".$row["depth"] ."</td>" ;
