@@ -164,10 +164,14 @@ public:
 
                     string ini = dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini";
                     if (FileUtil::fileExists(ini)) {
-                        info("file ",ini," exists skip fetch")
+                        info("file ", ini, " exists skip fetch")
                         return pair<string, string>(UUID_PERFT, UUID_TASK);
                     }
                 }
+                char *h = strstr(buf, "XXXSTART");
+                h+=strlen("XXXSTART");
+                encode64.append(h);no deve copiare lo zero
+                continue;
             }
 
             if (totWritten + r > totBytes) {

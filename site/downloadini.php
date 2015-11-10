@@ -34,4 +34,4 @@ $filename=$auriga_root."/data/".$uuid_perft."/".$uuid_perft.".ini.gz";
 //shell_exec("gunzip -c $zipped >$tosend");
 $data = file_get_contents($filename);
 $base64 = base64_encode($data);
-echo "XXX".$uuid_perft."XXX".$uuid_task."XXX".strlen($tosend)."XXX".$base64;?>
+echo "XXX".$uuid_perft."XXX".$uuid_task."XXX".strlen($tosend)."XXXSTART".$base64;?>
