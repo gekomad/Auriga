@@ -51,7 +51,7 @@ private:
 public:
     GetGZ() {
         //.*XXXuuid_perftXXXuuid_depthXXXsize_fileXXX.*
-        rgxSize.assign(".*XXX(.*)XXX(.*)XXX(\\d+)XXX.*");
+        rgxSize.assign(".*XXX(.*)XXX(.*)XXX(\\d+)XXXSTART.*");
     }
 
     typedef unsigned char BYTE;
@@ -174,18 +174,21 @@ public:
                     return pair<string, string>("", "");
                 }
                 h+=strlen("XXXSTART");
+                totWritten=strlen(h);
                 encode64.append(h);
                 continue;
             }
 
             if (totWritten + r > totBytes) {
                 encode64.append(buf, totBytes - totWritten);
+                totWritten += totBytes - totWritten;
                 break;
             }
             totWritten += r;
-            encode64.append(buf, totBytes - totWritten);
+            encode64.append(buf, r);
         }
         std::vector<BYTE> x = base64_decode(encode64);
+
         FileUtil::createDirectory(dataDir + "/" + UUID_PERFT);
         string fileGzipped = dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini.gz";
         std::ofstream tmp(fileGzipped);
