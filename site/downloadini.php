@@ -26,10 +26,12 @@ if($uuid_perft==""){
 	echo "X";
 	exit(0);
 }
-shell_exec("find /tmp/*.tosend -type f -mmin +3 -exec rm {} \;");
-$filename1=$auriga_root."/data/".$uuid_perft."/".$uuid_perft.".ini";
-$zipped=$filename1.".gz";
-$random=rand(10,100000);
-$tosend="/tmp/".$random.".tosend";
-shell_exec("gunzip -c $zipped >$tosend");
-echo "XXX".$uuid_perft."XXX".$uuid_task."XXX".filesize($tosend)."XXX".file_get_contents($tosend);?>
+//shell_exec("find /tmp/*.tosend -type f -mmin +3 -exec rm {} \;");
+$filename=$auriga_root."/data/".$uuid_perft."/".$uuid_perft.".ini.gz";
+//$zipped=$filename1.".gz";
+//$random=rand(10,100000);
+//$tosend="/tmp/".$random.".tosend";
+//shell_exec("gunzip -c $zipped >$tosend");
+$data = file_get_contents($filename);
+$base64 = base64_encode($data);
+echo "XXX".$uuid_perft."XXX".$uuid_task."XXX".strlen($tosend)."XXX".$base64;?>

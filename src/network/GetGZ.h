@@ -54,6 +54,59 @@ public:
         rgxSize.assign(".*XXX(.*)XXX(.*)XXX(\\d+)XXX.*");
     }
 
+    typedef unsigned char BYTE;
+    const std::string base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            "abcdefghijklmnopqrstuvwxyz"
+            "0123456789+/";
+
+
+    bool is_base64(unsigned char c) {
+        return (isalnum(c) || (c == '+') || (c == '/'));
+    }
+
+    std::vector<BYTE> base64_decode(std::string const &encoded_string) {
+        int in_len = encoded_string.size();
+        int i = 0;
+        int j = 0;
+        int in_ = 0;
+        BYTE char_array_4[4], char_array_3[3];
+        std::vector<BYTE> ret;
+
+        while (in_len-- && (encoded_string[in_] != '=') && is_base64(encoded_string[in_])) {
+            char_array_4[i++] = encoded_string[in_];
+            in_++;
+            if (i == 4) {
+                for (i = 0; i < 4; i++)
+                    char_array_4[i] = base64_chars.find(char_array_4[i]);
+
+                char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+                char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+                char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+
+                for (i = 0; (i < 3); i++)
+                    ret.push_back(char_array_3[i]);
+                i = 0;
+            }
+        }
+
+        if (i) {
+            for (j = i; j < 4; j++)
+                char_array_4[j] = 0;
+
+            for (j = 0; j < 4; j++)
+                char_array_4[j] = base64_chars.find(char_array_4[j]);
+
+            char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+            char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+            char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
+
+            for (j = 0; (j < i - 1); j++) ret.push_back(char_array_3[j]);
+        }
+
+        return ret;
+    }
+
+
     pair<string, string> get(const string &host, const int port, const string &url, const string &dataDir) {
         char buf[4096];
         debug("resolving host ", host);
@@ -81,111 +134,60 @@ public:
         string str = formBuffer.str();
         assert(send(sock, str.c_str(), str.size(), 0) == (int) str.size());
         int r;
-        std::ofstream fout;
-        char *header = 0;
-
-//        char startGzip[3];
-//        startGzip[0] = 0x1f;
-//        startGzip[1] = 0x8b;
-//        startGzip[2] = 0;
         string receiveStd;
         int totBytes = -1;
         int totWritten = 0;
         string deb;
         string UUID_PERFT;
         string UUID_TASK;
+        string encode64;
 
-        std::ofstream fout2(dataDir + "/tmp1");
         while (1) {
 #ifdef DEBUG_MODE
             memset(buf, 0, sizeof(buf));
 #endif
             r = recv(sock, buf, sizeof(buf) - 1, 0);
             if (r <= 0)break;
-            fout2.write(buf, r);
+
 #ifdef DEBUG_MODE
             deb.assign(buf);
 #endif
-//            if (totBytes == -1) {
-//                buf[r] = 0;
-//                receiveStd.append(buf);
-//                std::smatch match;
-//                if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxSize)) {
-//                    UUID_PERFT = match[1].str();
-//                    UUID_TASK = match[2].str();
-//                    string tot = match[3].str();
-//                    totBytes = std::stoi(tot);
-//
-//                    string ini = dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini";
-//                    if (FileUtil::fileExists(ini)) {
-//                        return pair<string, string>(UUID_PERFT, UUID_TASK);
-//                    }
-//                    FileUtil::createDirectory(dataDir + "/" + UUID_PERFT);
-//                    fout.open(ini + ".gz", std::ofstream::binary);
-//                }
-//            }
-//            if (!header) {
-//                header = strstr(buf, startGzip);
-//                if (!header) {
-//                    error("no gzip file");
-//                    break;
-//                }
-//                totWritten += r - (header - buf);
-//                fout.write(header, r - (header - buf));
-//                fout.flush();
-//            } else {
-//                if (totWritten + r > totBytes) {
-//
-//                    fout.write(buf, totBytes - totWritten);
-//                    fout.flush();
-//
-//                    break;
-//                }
-//                totWritten += r;
-//                fout.write(buf, r);
-//                fout.flush();
-//
-//
-//            }
-        }
-//        if (fout.is_open())fout.close();
-//        if (!header) return pair<string, string>("", "");
-//        Compression compression;
-//        compression.decompress(dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini.gz");
-        //std::remove(string(fileName + ".gz").c_str());
+            if (totBytes == -1) {
+                buf[r] = 0;
+                receiveStd.append(buf);
+                std::smatch match;
+                if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxSize)) {
+                    UUID_PERFT = match[1].str();
+                    UUID_TASK = match[2].str();
+                    string tot = match[3].str();
+                    totBytes = std::stoi(tot);
 
-        fout2.close();
-        char *buffer;
-        long size = FileUtil::fileSize(dataDir + "/tmp1");
-        ifstream file(dataDir + "/tmp1");
-
-        file.seekg(0, ios::beg);
-        buffer = new char[size];
-        file.read(buffer, size);
-        file.close();
-        receiveStd.assign(buffer, 1000);
-        std::smatch match;
-        if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxSize)) {
-            UUID_PERFT = match[1].str();
-            UUID_TASK = match[2].str();
-            string tot = match[3].str();
-            int totBytes = std::stoi(tot);
-            header = strstr(buffer, "#auriga ini file - AUTO-GENERATED FILE - DO NOT EDIT");
-            if (!header) {
-                error("no gzip file");
-            } else {
-                string ini = dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini";
-                if (FileUtil::fileExists(ini)) {
-                    return pair<string, string>(UUID_PERFT, UUID_TASK);
+                    string ini = dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini";
+                    if (FileUtil::fileExists(ini)) {
+                        info("file ",ini," exists skip fetch")
+                        return pair<string, string>(UUID_PERFT, UUID_TASK);
+                    }
                 }
-                FileUtil::createDirectory(dataDir + "/" + UUID_PERFT);
-                fout2.open(ini , std::ofstream::binary);
-                fout2.write(header, size - (header - buffer));
-                fout2.close();
             }
-        }
 
-        delete[] buffer;
+            if (totWritten + r > totBytes) {
+                encode64.append(buf, totBytes - totWritten);
+                break;
+            }
+            totWritten += r;
+            encode64.append(buf, totBytes - totWritten);
+        }
+        std::vector<BYTE> x = base64_decode(encode64);
+        FileUtil::createDirectory(dataDir + "/" + UUID_PERFT);
+        string fileGzipped = dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini.gz";
+        std::ofstream tmp(fileGzipped);
+        for (int i = 0; i < x.size(); i++)
+            tmp << x.at(i);
+        tmp.close();
+
+        Compression compression;
+        compression.decompress(fileGzipped);
+        //std::remove(fileGzipped.c_str());
 
         cout << "fine" << endl;
         return pair<string, string>(UUID_PERFT, UUID_TASK);
