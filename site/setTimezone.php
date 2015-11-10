@@ -1,5 +1,5 @@
 <?php 
-setcookie("time_zone", "pippo", time()+3600*24*365);
+setcookie("time_zone", "pippo", time()+(3600*24*365));
 if (isset($_COOKIE['timezone'])) {
   $timezone = $_COOKIE['timezone'];
 }else{
