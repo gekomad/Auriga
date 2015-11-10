@@ -1,12 +1,10 @@
+<?php include("setTimezone.php");?>
 <html>
  <head>
-
   <meta name="robots" content="noindex">
   <title>all perft</title>
 <link rel="stylesheet"  href="css/css1.css" type="text/css"/>
 <link rel="stylesheet" href="css/layout.css" type="text/css" />
-
-
  </head>
 <body onload="checkCookie()">
 <?php include_once("analyticstracking.php");?>
@@ -24,7 +22,7 @@
 
 	include 'mysql_connect.php';
 
-	$sql = "SELECT uuid_perft,fen,depth,tasks,creation_date,tot ,ifnull(perc_completed,0)perc_completed,hours  FROM perft";
+	$sql = "SELECT uuid_perft,fen,depth,tasks,CONVERT_TZ(creation_date,'".$time_zone.":00',@@global.time_zone) creation_date,tot ,ifnull(perc_completed,0)perc_completed,hours  FROM perft";
 	$result = $conn->query($sql);
 
 	if ($result->num_rows > 0) {

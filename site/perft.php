@@ -1,3 +1,4 @@
+<?php include("setTimezone.php");?>
 <html><head>
 <meta name="robots" content="noindex">
 <title>Perft</title>
@@ -18,7 +19,7 @@ if($uuid_perft == ""){
 
 include 'mysql_connect.php';
 
-$sql = "SELECT fen, depth,tasks,creation_date,tot,perc_completed FROM perft where uuid_perft='".$uuid_perft."'";
+$sql = "SELECT fen, depth,tasks,CONVERT_TZ(creation_date,'".$time_zone.":00',@@global.time_zone) creation_date,tot,perc_completed FROM perft where uuid_perft='".$uuid_perft."'";
 $result = $conn->query($sql);
 
 $row = $result->fetch_assoc();
@@ -29,7 +30,7 @@ $creation_date =$row["creation_date"];
 $tot =$row["tot"];
 $perc_completed =$row["perc_completed"];
 
-$sql="select uuid_task,engine n_engine,perc_completed,creation_date,hours from perft_tasks where uuid_perft ='".$uuid_perft."' order by perc_completed asc";
+$sql="select uuid_task,engine n_engine,perc_completed,CONVERT_TZ(creation_date,'".$time_zone.":00',@@global.time_zone) creation_date,hours from perft_tasks where uuid_perft ='".$uuid_perft."' order by perc_completed asc";
 
 $result = $conn->query($sql);
 ?>

@@ -1,5 +1,5 @@
 <?php 
-setcookie("time_zone", "pippo", time()+(3600*24*365));
+$time_zone="+0";
 if (isset($_COOKIE['timezone'])) {
   $timezone = $_COOKIE['timezone'];
 }else{
@@ -14,15 +14,13 @@ if (isset($_COOKIE['timezone'])) {
 
  $country="";
  $sql = "select time_zone from ip_country_timezone where network ='$miniip'";
- $result = $conn->query($sql);
- $time_zone="+0";
- setcookie("time_zone", "pippo", time()+3600*24*365);
+ $result = $conn->query($sql); 
  if ($result->num_rows > 0) {
 	$row = $result->fetch_assoc();
 	$time_zone=$row['time_zone'];
 	if($time_zone>=0)$time_zone="+".$time_zone; 
-	setcookie("time_zone", $time_zone, time()+3600*24*365);
  }
+ setcookie("time_zone", $time_zone, time()+3600*24*365);
  $conn->close();
 }
 ?>

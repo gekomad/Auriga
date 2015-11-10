@@ -1,3 +1,4 @@
+<?php include("setTimezone.php");?>
 <html><head>
 <meta name="robots" content="noindex">
 <title>Task</title>
@@ -5,7 +6,7 @@
 <link rel="stylesheet" href="css/layout.css" type="text/css" />
 </head>
 <body onload="checkCookie()">
-<?php include("setTimezone.php");?>
+
 <?php include_once("analyticstracking.php"); ?>
 <?php include 'menu.php';?>
  
