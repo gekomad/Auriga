@@ -26,6 +26,7 @@ if($uuid_perft==""){
 	echo "X";
 	exit(0);
 }
+
 $filename=$auriga_root."/data/".$uuid_perft."/".$uuid_perft.".ini.gz";
 error_log($filename);
 $data = file_get_contents($filename);
