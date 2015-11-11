@@ -107,7 +107,7 @@ void Engine::endRun() {
 Engine::~Engine() {
     debug(engineName, " ~Engine");
     if (!initialized)return;
-    put("quit");
+    put("quit");//TODO non funziona
     initialized = false;
     if (pipe)delete pipe;
     if (timerHearbeat) {

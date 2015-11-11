@@ -52,17 +52,37 @@ Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &w
     taskUUID = taskUUID1;
 }
 
+int Perft::getOStype() {
+#ifdef _WIN32
+    return OS_WIN;
+#elif __APPLE__
+    return OS_APPLE;
+#elif __linux__
+    return OS_LINUX;
+#elif __unix__
+    return OS_UNIX;
+#elif _AURIGA_RASPBERRY
+    return OS_RASPBERRY;
+#elif _AURIGA_ODROID
+    return OS_ODROID;
+#endif
+    return 0;
+}
+
 void Perft::observerTotResult(const u64 result, const string &fen, const string &engineName, const int minutes, const int depth) {
     getResultMutex.lock();
     TOT += result;
     getResultMutex.unlock();
     info("TOT: ", String::toString(TOT));
-    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "0", String::toString(result), engineName, author, fen, to_string(minutes), to_string(depth));
+    int type = getOStype();
+    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, to_string(type), String::toString(result), engineName, author, fen, to_string(minutes), to_string(depth));
 }
 
 void Perft::observerHeartbeat(const string &fen, const string &engineName, const int minutes, const int depth) {
     info("Heartbeat ");
-    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, "1", "0", engineName, author, fen, to_string(minutes), to_string(depth));
+    int type = getOStype();
+    type |= HEARTBEAT;
+    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, to_string(type), "0", engineName, author, fen, to_string(minutes), to_string(depth));
 }
 
 i128 Perft::calculate() {

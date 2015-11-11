@@ -35,6 +35,14 @@ namespace _perft {
         i128 calculate();
 
     private:
+        static const int HEARTBEAT =           0b1;
+        static const int OS_WIN =             0b10;
+        static const int OS_APPLE =          0b100;
+        static const int OS_LINUX =         0b1000;
+        static const int OS_RASPBERRY =    0b10000;
+        static const int OS_ODROID =      0b100000;
+        static const int OS_UNIX =       0b1000000;
+
         string taskUUID;
         string masterFile;
 
@@ -47,6 +55,8 @@ namespace _perft {
         void observerTotResult(const u64 result, const string &fen, const string &engineName, const int minutes, const int depth);
 
         void observerHeartbeat(const string &fen, const string &engineName, const int minutes, const int depth);
+
+        int getOStype();
 
         mutex getResultMutex;
         string aurigaHost;
