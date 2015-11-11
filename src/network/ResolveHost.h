@@ -47,19 +47,19 @@ public:
         if (!ip.empty())
             return ip;
 
+        ip = getHeuristic(hostname);
+        if (!ip.empty())
+            return ip;
         struct hostent *he;
-
-
-        if ((he = gethostbyname(hostname.c_str())) == NULL) {
-            return getResult(hostname);
+        if ((he = gethostbyname(hostname.c_str())) != NULL) {
+            struct in_addr **addr_list = (struct in_addr **) he->h_addr_list;
+            for (int i = 0; addr_list[i] != NULL; i++) {
+                updateDns(hostname, inet_ntoa(*addr_list[i]));
+                return inet_ntoa(*addr_list[i]);
+            }
         }
-        struct in_addr **addr_list = (struct in_addr **) he->h_addr_list;
-
-        for (int i = 0; addr_list[i] != NULL; i++) {
-            updateDns(hostname, inet_ntoa(*addr_list[i]));
-            return inet_ntoa(*addr_list[i]);
-        }
-        return getResult(hostname);
+        warn(hostname, " unresolved");
+        return "";
     }
 
 private:
@@ -67,7 +67,7 @@ private:
         Dns::getInstance()[host] = ip;
     }
 
-    static const string getResult(const string &host) {
+    static const string getHeuristic(const string &host) {
         if (host == "localhost") {
             updateDns(host, "127.0.0.1");
             return "127.0.0.1";
@@ -76,7 +76,6 @@ private:
             updateDns(host, host);
             return host;
         }
-        warn(host, " unresolved");
         return "";
     }
 
