@@ -36,7 +36,8 @@ public:
     int decompress(const string &fileGZ) {
         string fileOut;
         std::smatch match;
-        if (regex_search(((const string) fileGZ).begin(), ((const string) fileGZ).end(), match, rgxName)) {
+        if (regex_search(fileGZ, match, rgxName) && match.size() > 1) {
+//        if (regex_search(((const string) fileGZ).begin(), ((const string) fileGZ).end(), match, rgxName)) {
             fileOut = match[1].str();
         }
         const int LENGTH = 0x1000;

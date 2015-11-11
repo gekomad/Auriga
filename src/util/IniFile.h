@@ -76,10 +76,13 @@ public:
             if (line.at(0) == '#' || line.at(0) == ';')continue;
 
             const string line2 = line;
-            if (std::regex_search(line2.begin(), line2.end(), match, rgxTag)) {
+            if (regex_search(line2, match, rgxTag) ) {
+//            if (regex_search(line2.begin(), line2.end(), match, rgxTag)) {
                 params.first = line;
                 params.second = "";
-            } else if (std::regex_search(line2.begin(), line2.end(), match, rgxLine)) {
+            } else
+            if (regex_search(line2, match, rgxLine) && match.size() > 1) {
+//            if (std::regex_search(line2.begin(), line2.end(), match, rgxLine)) {
                 params.first = String(match[1]).trim();
                 if (!params.first.size())continue;
                 params.second = match[2];

@@ -163,7 +163,8 @@ public:
                 buf[r] = 0;
                 receiveStd.append(buf);
                 std::smatch match;
-                if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxSize)) {
+                if (regex_search(receiveStd, match, rgxSize) && match.size() > 1) {
+//                if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxSize)) {
                     UUID_PERFT = match[1].str();
                     UUID_TASK = match[2].str();
                     string tot = match[3].str();

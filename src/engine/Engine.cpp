@@ -31,7 +31,8 @@ void Engine::readStdin() {
 
         receiveOutput.append(readbuffer);
         std::smatch match;
-        if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
+        if (regex_search(receiveOutput, match, rgxTot) && match.size() > 1) {
+//        if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
             reading = false;
             debug(engineName, " stdin match tot: ", match[1].str());
             result = stoull(match[1].str());
@@ -67,8 +68,8 @@ void Engine::readStderr() {
 
         receiveStdErr.append(readStderrBuffer);
         std::smatch match;
-
-        if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxTot)) {
+        if (regex_search(receiveStdErr, match, rgxTot) && match.size() > 1) {
+//        if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxTot)) {
             reading = false;
             result = stoull(match[1].str());
             ASSERT(result != NO_RESULT);
@@ -186,8 +187,8 @@ void Engine::init(const string &confFileName1) {
             receiveOutput.append(readbuffer);
             log(receiveOutput);
             std::smatch match;
-
-            if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
+            if (regex_search(receiveOutput, match, GET_NAME_REGEX[protocol]) && match.size() > 1) {
+//            if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
                 engineName = match[1].str();
                 info("engine name is ", engineName)
             }
@@ -211,8 +212,8 @@ void Engine::init(const string &confFileName1) {
             receiveOutput.append(readbuffer);
             log(receiveOutput);
             std::smatch match;
-
-            if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
+            if (regex_search(receiveOutput, match, GET_NAME_REGEX[protocol]) && match.size() > 1) {
+//            if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
                 engineName = match[1].str();
                 info("engine name is ", engineName)
             }

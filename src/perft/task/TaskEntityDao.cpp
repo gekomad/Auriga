@@ -34,6 +34,7 @@ void TaskEntityDao::readTask() {
         warn("file ", iniFileName, " not found");
         return;
     }
+    cout <<iniFileName<<endl;
     IniFile iniFile(iniFileName);
     TaskEntity *task = nullptr;
     while (true) {
