@@ -117,6 +117,13 @@ public:
         }
 
         debug("resolved host ", host, " -> ", ip);
+#ifdef _WIN32
+        WSADATA wsaData;
+        if (WSAStartup(MAKEWORD(1,1), &wsaData) == SOCKET_ERROR) {
+            error ("Error initialising WSA");
+            return pair<string, string>("", "");
+        }
+#endif
         int sock = socket(AF_INET, SOCK_STREAM, 0);
         assert(sock != -1);
         struct sockaddr_in server;
@@ -177,6 +184,11 @@ public:
                 totWritten=strlen(h);
                 encode64.append(h);
                 continue;
+            }
+
+            if (totBytes == -1) {
+                error("Error on fatching data");
+                return pair<string, string>("", "");
             }
 
             if (totWritten + r > totBytes) {
