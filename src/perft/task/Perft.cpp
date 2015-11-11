@@ -111,7 +111,13 @@ i128 Perft::calculate() {
         exit(1);
     }
 
-    for (string fen:taskEntity->getFenList()) {//TODO creare un set se 2 fen uguali inviarne solo uno
+    vector<string> uniqueListFen;
+    for (string fen:taskEntity->getFenList()) {
+        if (std::find(uniqueListFen.begin(), uniqueListFen.end(), fen) == uniqueListFen.end()) {
+            uniqueListFen.push_back(fen);
+        }
+    }
+    for (string fen:uniqueListFen) {//TODO creare un set se 2 fen uguali inviarne solo uno
         Engine &e = threadPool.getNextThread();
         e.init(workerIniFile);
         e.registerObserverEngine(this);
