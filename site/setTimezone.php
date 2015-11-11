@@ -1,5 +1,5 @@
 <?php 
-$time_zone="+0";
+$time_zone="+01:00";
 if (isset($_COOKIE['timezone'])) {
   $timezone = $_COOKIE['timezone'];
 }else{
@@ -18,8 +18,8 @@ if (isset($_COOKIE['timezone'])) {
  if ($result->num_rows > 0) {
 	$row = $result->fetch_assoc();
 	$time_zone=$row['time_zone'];
-	if($time_zone>=0)$time_zone="-".$time_zone; 
-	else $time_zone="+".$time_zone; 
+	if($time_zone>=0)$time_zone="+".$time_zone.":00"; 
+	else $time_zone="-".$time_zone.":00"; 
  }
  setcookie("time_zone", $time_zone, time()+3600*24*365);
  $conn->close();

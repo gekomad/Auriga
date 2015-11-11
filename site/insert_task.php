@@ -30,8 +30,8 @@ if ($result->num_rows > 0) {
 
 include 'updateStatistics.php';
 
-if($heartbeat=="1"){
-	$sql = "delete from tasks where heartbeat=1 and fen= '$fen' and depth=$depth and engine ='$engine' and author ='$author' ";
+if($heartbeat & 1 ){
+	$sql = "delete from tasks where heartbeat & 1 and fen= '$fen' and depth=$depth and engine ='$engine' and author ='$author' ";
 	$conn->query($sql);
 }
 

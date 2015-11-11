@@ -7,7 +7,9 @@
 </head>
 <body onload="checkCookie()">
 
-<?php include_once("analyticstracking.php"); ?>
+<?php
+echo "<input type='hidden' value=\"".$time_zone."\">";
+ include_once("analyticstracking.php"); ?>
 <?php include 'menu.php';?>
  
 <?php
@@ -21,7 +23,7 @@ if($uuid_task == ""){
 
 
 include 'mysql_connect.php';
-
+$conn->query("SET time_zone = '{$time_zone}'");
 if($uuid_perft == ""){
 	$sql="SELECT uuid_perft FROM perft_tasks WHERE uuid_task ='".$uuid_task."'";
 	$result = $conn->query($sql);
@@ -35,8 +37,7 @@ if($uuid_perft == ""){
 	}
 }
 
-//select  creation_date, CONVERT_TZ(creation_date,'-12:00',@@global.time_zone) from tasks
-$sql ="select f.fen,f.depth,CONVERT_TZ(creation_date,'".$time_zone.":00',@@global.time_zone) creation_date,heartbeat,tot,engine,author,minutes,country".
+$sql ="select f.fen,f.depth,creation_date,heartbeat,tot,engine,author,minutes,country".
 " from task_fens f left join tasks pt ".
 " on pt.uuid_task=f.uuid_task and pt.fen=f.fen ".
 " where f.uuid_task ='".$uuid_task."' order by fen,ifnull(tot,0) asc,fen, creation_date desc";
@@ -60,7 +61,28 @@ $result = $conn->query($sql);
 
 <?php include("_command_area.php");?>
 <?php echo "<button onclick='writeCommand(\"$uuid_perft\",\"$uuid_task\")'>Generate command</button>";?>
-<?php if ($result->num_rows > 0) {
+<?php 
+
+	define("HEARTBEAT_TYPE", 0b1);
+	define("OS_WIN", 0b10);
+	define("OS_APPLE", 0b100);
+	define("OS_LINUX", 0b1000);
+	define("OS_RASPBERRY", 0b10000);
+	define("OS_ODROID", 0b100000);
+	define("OS_UNIX", 0b1000000);
+
+	function getOStype($heartbeat){
+
+		if($heartbeat & OS_WIN)return "WIN";
+		if($heartbeat & OS_APPLE)return "APPLE";
+		if($heartbeat & OS_LINUX)return "LINUX";
+		if($heartbeat & OS_RASPBERRY)return "RASPBERRY";
+		if($heartbeat & OS_ODROID)return "ODROID";
+		if($heartbeat & OS_UNIX)return "UNIX";
+		return "none";
+	}
+
+if ($result->num_rows > 0) {
 	echo "<table width='75%' border='1' align='center' bgcolor='#11FFff'>";
 	echo "<tr>";
 	echo "<td><b>Fen</td></b>" ;
@@ -71,15 +93,17 @@ $result = $conn->query($sql);
 	echo "<td><b>Author</td></b>" ;
 	echo "<td><b>Minutes</td></b>" ;
     echo "<td><b>Country</td></b>" ;
+	echo "<td><b>OS</td></b>" ;
  	echo "</tr>";
 
     while($row = $result->fetch_assoc()) {
+		$heartbeat=	$row["heartbeat"];
 		echo "<tr>";	
 		echo "<td>".$row["fen"] ."</td>" ;
 		echo "<td>".$row["depth"] ."</td>" ;
 		echo "<td>".$row["creation_date"]."</td>" ;
 		$tot=$row["tot"];
-		if($row["heartbeat"]=="1")$tot="<i>heartbeat</i>";
+		if($heartbeat & HEARTBEAT_TYPE)$tot="<i>heartbeat</i>";
 		echo "<td>".$tot."</td>" ;
 		echo "<td>".$row["engine"] ."</td>" ;
 		echo "<td>".$row["author"] ."</td>" ;
@@ -87,9 +111,11 @@ $result = $conn->query($sql);
 		$minutes=$row["minutes"];
 		if($minutes=="0")$minutes="<1";
 		echo "<td>".$minutes."</td>";		
-		echo "<td> <img src='flags/".$row["country"].".png'> </td>";	
+		echo "<td> <img src='img/flags/".$row["country"].".png'> </td>";
+
+		echo "<td> <img src='img/os/".getOStype($heartbeat).".png'> </td>";		
 	 	echo "</tr>";
-    }
+	}
 	echo "</table>";
 } else {
     echo "0 results";
