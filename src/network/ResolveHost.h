@@ -91,7 +91,7 @@ private:
 
     static bool isIP(const string &host) {
         static const std::regex regIp(R"(^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$)");
-        if (std::regex_match(host.begin(), host.end(), regIp))
+        if (std::regex_match(host, regIp))
             return true;
         return false;
     }
