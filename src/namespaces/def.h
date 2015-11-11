@@ -31,6 +31,13 @@ namespace _def {
     static const string NAME = "Auriga 0.1.x";
     typedef unsigned char uchar;
     typedef long long unsigned u64;
+
+#if defined(WIN32) || defined(_WIN32)
+#define PATH_SEPARATOR "\\"
+#else
+#define PATH_SEPARATOR "/"
+#endif
+
 #if UINTPTR_MAX == 0xffffffffffffffff
     //64 bit
     typedef __int128_t i128;

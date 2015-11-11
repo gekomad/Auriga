@@ -62,9 +62,9 @@ string PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask,
     res.append(taskEntityDao.toINIformat());
     string perftUUID = perftEntity.getUuid();
 
-    FileUtil::createDirectory(aurigaRoot + "/data");
-    FileUtil::createDirectory(aurigaRoot + "/data/" + perftUUID);
-    string filename = aurigaRoot + "/data/" + perftUUID + "/" + perftUUID + ".ini.gz";
+    FileUtil::createDirectory(aurigaRoot + PATH_SEPARATOR + "data");
+    FileUtil::createDirectory(aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR + perftUUID);
+    string filename = aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + perftUUID + ".ini.gz";
     res.append("\n#END FILE");
     trace("\nwrite file", filename, "\n-------------\n", res, "\n-------------------");
 
@@ -73,22 +73,22 @@ string PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask,
 //    myfile.close();
     Compression compression;
 
-    compression.compress(res,filename);
+    compression.compress(res, filename);
     info("Generated file " + filename);
     //CSV file for table perft
     ofstream myfile;
-    myfile.open(aurigaRoot + "/data/" + perftUUID + "/perft.txt");
+    myfile.open(aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + "perft.txt");
     myfile << perftEntity.getUuid() + "|" + fen + "|" + to_string(depth) + "|" + to_string(Ntask) + "\n";
     myfile.close();
     //CSV file for table perft_tasks
-    myfile.open(aurigaRoot + "/data/" + perftUUID + "/perft_tasks.txt");
+    myfile.open(aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + "perft_tasks.txt");
     for (TaskEntity taskEntity :taskEntityList) {
         myfile << perftEntity.getUuid() << "|" << taskEntity.getTaskUUID() << "|" << taskEntity.getFenList().size() << "\n";
     }
     myfile.close();
 
     //CSV file for table task_fens
-    myfile.open(aurigaRoot + "/data/" + perftUUID + "/task_fens.txt");
+    myfile.open(aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + "task_fens.txt");
     for (TaskEntity taskEntity:taskEntityDao.getTaskEntity()) {
         for (String fen:taskEntity.getFenList()) {
             myfile << taskEntity.getTaskUUID() << "|" << fen << "|" << taskEntity.getDepth() << "\n";

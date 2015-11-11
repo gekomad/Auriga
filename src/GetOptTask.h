@@ -75,14 +75,14 @@ public:
         //--task /home/geko/auriga_root cinnamon.auriga.ini  -fetch_random
         if (params.size() == 4 && params[3] == "-fetch_random") {
             string aurigaRoot = params[1];
-            string workerIniFile1 = aurigaRoot + "/worker/" + params[2];
+            string workerIniFile1 = aurigaRoot + PATH_SEPARATOR + "worker" + PATH_SEPARATOR + params[2];
             pair<string, string> uuids = fetch(workerIniFile1, aurigaRoot);
             doPerft(aurigaRoot, uuids.first, uuids.second, workerIniFile1);
         }
         //--task /home/geko/auriga_root cinnamon.auriga.ini DEE504F4-40A1-1A31-8F50-7BAC48DCC17G 6F55F6CF-DC1E-E4DD-D547-G5BB6A9G6BAD -fetch
         if (params.size() >= 5) {
 
-            string workerIniFile1 = params[1] + "/worker/" + params[2];
+            string workerIniFile1 = params[1] + PATH_SEPARATOR + "worker" + PATH_SEPARATOR + params[2];
             if (!FileUtil::fileExists(workerIniFile1)) {
                 fatal("file not found ", workerIniFile1);
                 exit(1);
@@ -105,14 +105,14 @@ public:
 
         int count = 0;
         string countS = "";
-        string logpathTmp = aurigaRoot + "/data/" + perftUUID + "/" + taskUUID + ".log";
+        string logpathTmp = aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + taskUUID + ".log";
         while (FileUtil::fileExists(logpathTmp + countS)) {
             countS = to_string(++count);
         };
         string logpath = logpathTmp + countS;
         Logger::getInstance().setLogfile(logpath);
 
-        string perftIniFile = aurigaRoot + "/data/" + perftUUID + "/" + perftUUID + ".ini";
+        string perftIniFile = aurigaRoot + PATH_SEPARATOR "data" + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + perftUUID + ".ini";
         if (!FileUtil::fileExists(perftIniFile)) {
             fatal("file not found ", perftIniFile);
             exit(1);
@@ -125,10 +125,10 @@ public:
 
     static pair<string, string> fetch(const string &workerIniFile, const string &aurigaRoot, const string &perftUUID = "") {
 
-        string dataDir = aurigaRoot + "/data/";
+        string dataDir = aurigaRoot + PATH_SEPARATOR "data" + PATH_SEPARATOR;
         if (!perftUUID.empty()) {
-            if (FileUtil::fileExists(dataDir + "/" + perftUUID + "/" + perftUUID + ".ini")) {
-                warn("file " + dataDir + "/" + perftUUID + "/" + perftUUID + ".ini exists, skip fetch data");
+            if (FileUtil::fileExists(dataDir + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + perftUUID + ".ini")) {
+                warn("file " + dataDir + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + perftUUID + ".ini exists, skip fetch data");
                 return pair<string, string>(perftUUID, "");
             }
         }
@@ -156,9 +156,9 @@ public:
         }
 
         GetGZ get;
-        FileUtil::createDirectory(aurigaRoot + "/data/");
-        string fileName = dataDir + "/" + perftUUID + ".ini";
-        pair<string, string> uuids = get.get(aurigaHost, aurigaPort, "downloadini.php?id=" + perftUUID, aurigaRoot + "/data/");
+        FileUtil::createDirectory(aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR);
+        string fileName = dataDir + PATH_SEPARATOR + perftUUID + ".ini";
+        pair<string, string> uuids = get.get(aurigaHost, aurigaPort, "downloadini.php?id=" + perftUUID, aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR);
         if (uuids.first.empty()) {
             warn("no data to fetch");
             return pair<string, string>("", "");

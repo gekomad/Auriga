@@ -169,7 +169,7 @@ public:
                     string tot = match[3].str();
                     totBytes = std::stoi(tot);
 
-                    string ini = dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini";
+                    string ini = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR+ UUID_PERFT + ".ini";
                     if (FileUtil::fileExists(ini)) {
                         info("file ", ini, " exists skip fetch")
                         return pair<string, string>(UUID_PERFT, UUID_TASK);
@@ -201,8 +201,8 @@ public:
         }
         std::vector<BYTE> x = base64_decode(encode64);
 
-        FileUtil::createDirectory(dataDir + "/" + UUID_PERFT);
-        string fileGzipped = dataDir + "/" + UUID_PERFT + "/" + UUID_PERFT + ".ini.gz";
+        FileUtil::createDirectory(dataDir +PATH_SEPARATOR+ UUID_PERFT);
+        string fileGzipped = dataDir +PATH_SEPARATOR + UUID_PERFT +PATH_SEPARATOR+ UUID_PERFT + ".ini.gz";
         std::ofstream tmp(fileGzipped);
         for (int i = 0; i < x.size(); i++)
             tmp << x.at(i);
