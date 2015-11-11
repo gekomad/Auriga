@@ -43,6 +43,16 @@ class ResolveHost {
 public:
 
     static string getIP(const string &hostname) {
+#ifdef _WIN32
+        WSADATA wsaData;
+        WORD version;
+        int error;
+
+        version = MAKEWORD( 2, 0 );
+        error = WSAStartup( version, &wsaData );
+#endif
+
+
         string ip = Dns::getInstance().getIp(hostname);
         if (!ip.empty())
             return ip;
@@ -50,12 +60,12 @@ public:
         ip = getHeuristic(hostname);
         if (!ip.empty())
             return ip;
-        struct hostent *he;
-        if ((he = gethostbyname(hostname.c_str())) != NULL) {
-            struct in_addr **addr_list = (struct in_addr **) he->h_addr_list;
-            for (int i = 0; addr_list[i] != NULL; i++) {
-                updateDns(hostname, inet_ntoa(*addr_list[i]));
-                return inet_ntoa(*addr_list[i]);
+        struct hostent *hp = gethostbyname(hostname.c_str());
+        if (hp != NULL) {
+            unsigned int i = 0;
+            while (hp->h_addr_list[i] != NULL) {
+                return  inet_ntoa(*(struct in_addr *) (hp->h_addr_list[i])) ;
+                i++;
             }
         }
         warn(hostname, " unresolved");
