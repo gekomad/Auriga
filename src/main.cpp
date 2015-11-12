@@ -68,6 +68,10 @@ void printHeader() {
 
 int main(int argc, char *argv[]) {//TODO eliminare directory site
 
+    cout << ResolveHost::getIP("google.com")<<endl;
+    /*GetGZ a;
+    a.get("127.0.0.1",3128,"downloadini.php?id=G3EAGE21-A23A-F96B-AA79-41923CE89A94","/home/geko/auriga_root");
+     */
     printHeader();
 
     GetOpt::parse(argc, argv);

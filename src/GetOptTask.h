@@ -137,7 +137,7 @@ public:
 
         //test connection
         if (ResolveHost::getIP(aurigaHost).empty()) {
-            fatal("cant't resolve host");
+            fatal("cant't resolve host ",aurigaHost);
             exit(1);
         }
 

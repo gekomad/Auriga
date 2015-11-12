@@ -19,7 +19,6 @@
 #pragma once
 
 #include <iostream>
-#include <errno.h>
 #include <regex>
 
 #ifdef _WIN32
@@ -46,12 +45,9 @@ public:
 #ifdef _WIN32
         WSADATA wsaData;
         WORD version;
-        int error;
-
         version = MAKEWORD( 2, 0 );
-        error = WSAStartup( version, &wsaData );
+        WSAStartup( version, &wsaData );
 #endif
-
 
         string ip = Dns::getInstance().getIp(hostname);
         if (!ip.empty())
@@ -62,13 +58,15 @@ public:
             return ip;
         struct hostent *hp = gethostbyname(hostname.c_str());
         if (hp != NULL) {
+            if (hp->h_addr_list[0] != NULL) {
+                return inet_ntoa(*(struct in_addr *) (hp->h_addr_list[0]));
+            }/*
             unsigned int i = 0;
             while (hp->h_addr_list[i] != NULL) {
-                return  inet_ntoa(*(struct in_addr *) (hp->h_addr_list[i])) ;
+                return inet_ntoa(*(struct in_addr *) (hp->h_addr_list[i]));
                 i++;
-            }
+            }*/
         }
-        warn(hostname, " unresolved");
         return "";
     }
 

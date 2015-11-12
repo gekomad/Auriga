@@ -30,7 +30,7 @@ bool Post::init(const string &host1, const int port1) {
     debug("resolving host ", host);
     ip = ResolveHost::getIP(host);
     if (ip.empty()) {
-        error("unknow host");
+        error("unknow host ",host);
         return false;
     }
     debug("resolved host ", host, "->", ip);
