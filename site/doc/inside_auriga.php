@@ -18,9 +18,7 @@
         <div class="row">
           <section class="col-xs-12 col-sm-6 col-md-6">
 			
-			<img src="img/logo.jpg" ALIGN="right" border="60px"/> 
-            <section>
-              
+            <section>             
 			
                 <h2>Lavorare sulla tua rete</h2>
 				<p>Puoi utilizzare Auriga al di fuori di questo sito.</p>	
@@ -73,15 +71,9 @@ fen=rnbqkbnr/pppppppp/8/8/8/5P2/PPPPP1PP/RNBQKBNR b KQkq - 0 1
 ..
 
 </pre>
-
 				</p>
-
            </section>        
-
-          </section>
-        </div>
-
-
+          </section>        </div>
 
 </section>
 
