@@ -27,7 +27,7 @@ set(SOURCE_FILES
         src/main.cpp
         src/util/Compression.h)
 
-#set(CMAKE_CXX_COMPILER "clang++")
+set(CMAKE_CXX_COMPILER "clang++")
 #set(CMAKE_CXX_COMPILER "x86_64-w64-mingw32-g++")
 #set(CMAKE_CXX_COMPILER "i686-w64-mingw32-g++")
 
