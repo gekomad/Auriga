@@ -14,7 +14,7 @@
 						</ul>
 						<li><a href="search_fen.php">Search Fen</a></li>
 						
-						<li><a href="download.php">Download</a></li>
+						<li><a href="/download.php">Download</a></li>
 				
 			</ul>
 			<div class="clear"></div>
