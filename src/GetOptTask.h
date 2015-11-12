@@ -76,6 +76,10 @@ public:
         if (params.size() == 4 && params[3] == "-fetch_random") {
             string aurigaRoot = params[1];
             string workerIniFile1 = aurigaRoot + PATH_SEPARATOR + "worker" + PATH_SEPARATOR + params[2];
+            if (!FileUtil::fileExists(workerIniFile1)) {
+                fatal("file not found ", workerIniFile1);
+                exit(1);
+            }
             pair<string, string> uuids = fetch(workerIniFile1, aurigaRoot);
             doPerft(aurigaRoot, uuids.first, uuids.second, workerIniFile1);
         }
