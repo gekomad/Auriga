@@ -12,72 +12,41 @@
 <?php include 'menu.php';?>
 <div class="container2">
 <section class="container">
-
           <hgroup>
             <h1>Auriga </h1> 
           </hgroup>
 
         <div class="row">
           <section class="col-xs-12 col-sm-6 col-md-6">
-			<img src="logo.jpg"> 
+			
+			<img src="img/logo.jpg" ALIGN="right" border="60px"/> 
             <section>
-              <h2>Deploying code changes</h2>
-                <p>OpenShift uses the <a href="http://git-scm.com/">Git version control system</a>
- for your source code, and grants you access to it via the Secure Shell 
-(SSH) protocol. In order to upload and download code to your application
- you need to give us your <a href="https://developers.openshift.com/en/managing-remote-connection.html">public SSH key</a>. You can upload it within the web console or install the <a href="https://developers.openshift.com/en/managing-client-tools.html">RHC command line tool</a> and run <code>rhc setup</code> to generate and upload your key automatically.</p>
+              <h2>Overview</h2>
+                <p>Auriga è un sistema open source distribuito collaborativo e multi architettura per il calcolo della funzione <a href="https://chessprogramming.wikispaces.com/Perft">Perft</a>.
+                <h3>Come funziona</h3>
+                <p>L'albero viene suddiviso in tasks, ogni task sarà analizzato da una singola macchina (<b>worker</b>) e il risultato sarà inviato automaticamente a questo sito. Quando tutti i tasks saranno elaborati si avrà il risultato finale del perft.
+				<h3>Setup worker</h3>
+  <a href="download.php">Scaricare</a> Auriga per la tua piattaforma e copiare la cartella in quelche parte del tuo file system; 
+settare la variabile di ambiente AURIGA_ROOT ad esempio su ubuntu inserisci nel file ~/.bashrc <br><br> <pre>export AURIGA_ROOT="/your/path/auriga_root"</pre>
+per windows clicca <a href="https://support.microsoft.com/en-us/kb/310519">qui.</a><br><br>La cartella <i>auriga_root</i> contiene un'altra cartella denominata <i>worker</i> con le configurazioni per alcuni motori, vedi <a href="doc/worker.php">qui</a> per la configurazione del worker.
+</p>
 
-                <h3>Working in your local Git repository</h3>
-                <p>If you created your application from the command line
- and uploaded your SSH key, rhc will automatically download a copy of 
-that source code repository (Git calls this 'cloning') to your local 
-system.</p>
+<h3>Lanciare un worker</h3>
+Prima di lanciare un worker devi averlo <a href="doc/worker.php">configurato</a>.<br><br>
+<p>Puoi lanciare un worker su:
+<ul>
+<li> un task random non acora completato, vai <a href="allperft.php">qui</a> seleziona un worker e clicca sul bottone 'Generate command for random task',
+copia e incolla il comando generato sulla shell della tua macchina.</li>
 
-                <p>If you created the application from the web console, 
-you'll need to manually clone the repository to your local system. Copy 
-the application's source code Git URL and then run:</p>
+<li>Tutti i task non completati di un perft - vai <a href="allperft.php">qui</a> clicca su un perft e poi su 'Generate command for uncompleted tasks' copia e incolla il comando generato sulla shell della tua macchina.</li>
 
-<pre>$ git clone &lt;git_url&gt; &lt;directory_to_create&gt;
-
-# Within your project directory
-# Commit your changes and push to OpenShift
-
-$ git commit -a -m 'Some commit message'
-$ git push</pre>
-
-
-                  <ul>
-                    <li><a href="https://developers.openshift.com/en/managing-modifying-applications.html">Learn more about deploying and building your application</a></li>
-                    <li>See the README file in your local application Git repository for more information on the options for deploying applications.</li>
-                  </ul>
-            </section>
-
-          </section>
-          <section class="col-xs-12 col-sm-6 col-md-6">
-				
-                <h2>Managing your application</h2>
-
-                <h3>Web Console</h3>
-                <p>You can use the OpenShift web console to enable 
-additional capabilities via cartridges, add collaborator access 
-authorizations, designate custom domain aliases, and manage domain 
-memberships.</p>
-
-                <h3>Command Line Tools</h3>
-                <p>Installing the <a href="https://developers.openshift.com/en/managing-client-tools.html">OpenShift RHC client tools</a>
- allows you complete control of your cloud environment. Read more on how
- to manage your application from the command line in our <a href="https://www.openshift.com/user-guide">User Guide</a>.
-                </p>
-
-                <h2>Development Resources</h2>
-                  <ul>
-                    <li><a href="https://developers.openshift.com/en/php-overview.html">Getting Started with PHP on OpenShift</a></li>
-                    <li><a href="https://developers.openshift.com/">Developer Center</a></li>
-                    <li><a href="https://www.openshift.com/user-guide">User Guide</a></li>
-                    <li><a href="https://help.openshift.com/">Help Center</a></li>
-                    <li><a href="http://stackoverflow.com/questions/tagged/openshift">Stack Overflow questions for OpenShift</a></li>
-                    <li><a href="http://git-scm.com/documentation">Git documentation</a></li>
-                  </ul>
+<li>Un determinato task - dalla pagina precedente clicca su un task e poi su 'Generate command'  copia e incolla il comando generato sulla shell della tua macchina. </li></p>
+</ul>
+			
+                <h2>Lavorare sulla tua rete</h2>
+			
+                <p>View <a href="doc/inside_auriga.php">inside auriga</a>  </p>
+            
 
 
           </section>
