@@ -44,9 +44,9 @@ echo "<input type='hidden' value=\"".$time_zone."\">";
 	 	echo "</tr>";
 	    while($row = $result->fetch_assoc()) {
 			echo "<tr>";
-			$mini_uuid_perft=substr($row["uuid_perft"],0,7)."...";
-   			echo '<td><a href="perft.php?uuid_perft='.$row["uuid_perft"].'">'.$mini_uuid_perft.'</a></td>';
-			echo "<td>".$row["fen"] ."</td>" ;
+			$uuid_perft=$row["uuid_perft"];
+   			echo '<td><font size="1"><a href="perft.php?uuid_perft='.$uuid_perft.'">'.$uuid_perft.'</a></font></td>';
+   			echo "<td><small>".$row["fen"]."</small></td>";
 			echo "<td>".$row["depth"] ."</td>" ;
 			echo "<td>".$row["tasks"] ."</td>" ;
 			echo "<td>".$row["creation_date"] ."</td>" ;

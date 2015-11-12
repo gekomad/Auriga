@@ -78,7 +78,7 @@ echo "<table>";
 		echo "<tr>";
 		$count++;
 		echo "<td>$count</td>";
-		echo '<td><a href="task.php?uuid_task='.$row["uuid_task"].'&uuid_perft='.$uuid_perft.'">'.$row["uuid_task"].'</a></td>';
+		echo '<td><font size="1"><a href="task.php?uuid_task='.$row["uuid_task"].'&uuid_perft='.$uuid_perft.'">'.$row["uuid_task"].'</a></font></td>';
 		$completed=$row["perc_completed"];
 		if($completed=="")$completed="0";
 		echo "<td>".$completed."%</td>";

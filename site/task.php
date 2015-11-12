@@ -99,7 +99,7 @@ if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
 		$heartbeat=	$row["heartbeat"];
 		echo "<tr>";	
-		echo "<td>".$row["fen"] ."</td>" ;
+		echo "<td><small>".$row["fen"] ."</small></td>" ;
 		echo "<td>".$row["depth"] ."</td>" ;
 		echo "<td>".$row["creation_date"]."</td>" ;
 		$tot=$row["tot"];
