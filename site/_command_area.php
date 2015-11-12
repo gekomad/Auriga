@@ -72,7 +72,7 @@ function writeCommands(perft_id,tasksArray){
 
 </script>
 
-worker.ini: <input type="text" id="worker_ini" list="workerName"/>
+select a worker.ini file: <input type="text" id="worker_ini" list="workerName"/>
 <datalist id="workerName">
   <select>
  <option value="cheng.worker.ini">cheng.auriga.ini</option>
@@ -82,7 +82,7 @@ worker.ini: <input type="text" id="worker_ini" list="workerName"/>
     </select>
 </datalist>
 	<input type="hidden" id="syst">
-	<br><br>
+	<br>
 	<small id="label_command" class="hidden">Copy/paste on your client</small><br>
     <textarea id=t1 readonly='yes'></textarea>
 	<br>

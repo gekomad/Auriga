@@ -48,13 +48,13 @@ $result = $conn->query($sql);
 
 <?php   
 
-echo "<img src='http://webchess.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";
-echo "<br><br>fen: $fen<br><br>";
-echo "depth: $deph<br>";
-echo "tasks: $tasks<br>";
-echo "last pudate: $creation_date<br>";
-echo "tot: $tot<br>";
-echo "completed: $perc_completed%<br>";
+echo "<div align='center'><img src='http://webchess.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=lavander&amp&color2=635147&amp&color3=000000'  height='300' width='300'></div>";
+echo "<br><br>Fen: $fen<br>";
+echo "Depth: $deph<br>";
+echo "Tasks: $tasks<br>";
+echo "Last pudate: $creation_date<br>";
+echo "Tot: $tot<br>";
+echo "Completed: $perc_completed%<br>";
 
 echo "<br>";
 
