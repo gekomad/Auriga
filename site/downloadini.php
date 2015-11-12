@@ -1,6 +1,6 @@
 <?php 
 
-header('Content-type: application/x-gzip');
+
 include 'set_variable.php';	
 $uuid_perft=$_GET['id'];
 $uuid_task="";
@@ -31,4 +31,6 @@ $filename=$auriga_root."/data/".$uuid_perft."/".$uuid_perft.".ini.gz";
 error_log($filename);
 $data = file_get_contents($filename);
 $base64 = base64_encode($data);
+header('Content-type: text/plain;');
+header("Content-Length: ".strlen($base64));
 echo "XXX".$uuid_perft."XXX".$uuid_task."XXX".strlen($base64)."XXXSTART".$base64;?>

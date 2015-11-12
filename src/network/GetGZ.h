@@ -174,7 +174,7 @@ public:
                     if (FileUtil::fileExists(ini)) {
                         info("file ", ini, " exists skip fetch")
                         return pair<string, string>(UUID_PERFT, UUID_TASK);
-                    }
+                    } 
                 }
                 char *h = strstr(buf, "XXXSTART");
                 if(!h){
