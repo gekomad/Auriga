@@ -113,7 +113,7 @@ if ($result->num_rows > 0) {
 		echo "<td>".$minutes."</td>";		
 		echo "<td> <img src='img/flags/".$row["country"].".png'> </td>";
 
-		echo "<td> <img src='img/os/".getOStype($heartbeat).".png'> </td>";		
+		echo "<td> <img src='img/os/".getOStype($heartbeat).".png' height='30' width='30'> </td>";		
 	 	echo "</tr>";
 	}
 	echo "</table>";
