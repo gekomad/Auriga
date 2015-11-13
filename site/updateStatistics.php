@@ -15,9 +15,9 @@ join
 		  group by fen )d)tot,  
      	  (select sum(minutes)from tasks tt2 where tt2.uuid_task=t.uuid_task 
 		  and tt2.uuid_task='".$uuid_task."'
-		  and tt2.heartbeat =0
+		  and tt2.heartbeat &1 =0
 		  group by tt2.uuid_task,tt2.uuid_perft )minutes,  
-	ifnull(floor ((select count(tas.fen) from tasks tas, task_fens tf2 where tas.heartbeat =0 and tas.fen=tf2.fen and tf2.id in(
+	ifnull(floor ((select count(tas.fen) from tasks tas, task_fens tf2 where tas.heartbeat &1=0 and tas.fen=tf2.fen and tf2.id in(
 	select distinct tf2.id from task_fens tf2 where tf2.uuid_task =t.uuid_task  and tf2.fen in (
 select distinct f.fen from task_fens f
 where f.uuid_task='".$uuid_task."' )))/fens*100),0) perc_completed , 
@@ -44,6 +44,14 @@ join
 	on t.uuid_perft=p.uuid_perft
 	set p.perc_completed=if(t.perc_completed>100,100,t.perc_completed),p.creation_date=t.creation_date,p.tot=t.tot,
 	p.hours=t.hours";
+}
+
+function getUpdatePerftEngineSQL($uuid_perft){
+return "update perft p
+join
+	(select uuid_perft,count(distinct engine ) engines from tasks where uuid_perft='".$uuid_perft."'  )t
+	on t.uuid_perft=p.uuid_perft
+	set p.engines=t.engines";
 }
 
 ?>

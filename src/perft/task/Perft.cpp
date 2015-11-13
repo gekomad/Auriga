@@ -57,14 +57,14 @@ int Perft::getOStype() {
     return OS_WIN;
 #elif __APPLE__
     return OS_APPLE;
-#elif __linux__
-    return OS_LINUX;
-#elif __unix__
-    return OS_UNIX;
 #elif _AURIGA_RASPBERRY
     return OS_RASPBERRY;
 #elif _AURIGA_ODROID
     return OS_ODROID;
+#elif __linux__
+    return OS_LINUX;
+#elif __unix__
+    return OS_UNIX;
 #endif
     return 0;
 }
