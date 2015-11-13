@@ -124,6 +124,7 @@ public:
                         info("file ", ini, " exists skip fetch")
                         return pair<string, string>(UUID_PERFT, UUID_TASK);
                     }
+                    FileUtil::createDirectory(dataDir + PATH_SEPARATOR + UUID_PERFT);
                     fileGzipped = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR + UUID_PERFT + ".ini.gz";
                     tmp.open(fileGzipped);
                 } else {
@@ -150,7 +151,7 @@ public:
             totWritten += r;
             tmp.write(buf, r);
         }
-        FileUtil::createDirectory(dataDir + PATH_SEPARATOR + UUID_PERFT);
+
 
 
         if (!tmp.is_open()) {
