@@ -48,64 +48,11 @@ using namespace _def;
 class GetGZ {
 private:
     std::regex rgxSize;
+    unsigned char GZIP_HEADER[3] = {0x1f, 0x8b, 0x0};
 public:
-    GetGZ() {
-        //.*XXXuuid_perftXXXuuid_depthXXXsize_fileXXX.*
-        rgxSize.assign(".*XXX(.*)XXX(.*)XXX(\\d+)XXXSTART.*");
+    GetGZ() {//TODO in .cpp
+        rgxSize.assign(R"(.*Content-Length: (\d+)\r\nuuid_perft: (.+)\r\nuuid_task: (.+)\r.*)");
     }
-
-    typedef unsigned char BYTE;
-    const std::string base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            "abcdefghijklmnopqrstuvwxyz"
-            "0123456789+/";
-
-
-    bool is_base64(unsigned char c) {
-        return (isalnum(c) || (c == '+') || (c == '/'));
-    }
-
-    std::vector<BYTE> base64_decode(std::string const &encoded_string) {//TODO file util
-        int in_len = encoded_string.size();
-        int i = 0;
-        int j = 0;
-        int in_ = 0;
-        BYTE char_array_4[4], char_array_3[3];
-        std::vector<BYTE> ret;
-
-        while (in_len-- && (encoded_string[in_] != '=') && is_base64(encoded_string[in_])) {
-            char_array_4[i++] = encoded_string[in_];
-            in_++;
-            if (i == 4) {
-                for (i = 0; i < 4; i++)
-                    char_array_4[i] = base64_chars.find(char_array_4[i]);
-
-                char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-                char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
-                char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
-
-                for (i = 0; (i < 3); i++)
-                    ret.push_back(char_array_3[i]);
-                i = 0;
-            }
-        }
-
-        if (i) {
-            for (j = i; j < 4; j++)
-                char_array_4[j] = 0;
-
-            for (j = 0; j < 4; j++)
-                char_array_4[j] = base64_chars.find(char_array_4[j]);
-
-            char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-            char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
-            char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
-
-            for (j = 0; (j < i - 1); j++) ret.push_back(char_array_3[j]);
-        }
-
-        return ret;
-    }
-
 
     pair<string, string> get(const string &host, const int port, const string &url, const string &dataDir) {
         char buf[4096];
@@ -147,7 +94,7 @@ public:
         string deb;
         string UUID_PERFT;
         string UUID_TASK;
-        // string encode64;
+
         char *gzBuf = nullptr;
         char *gzBufP;
         while (1) {
@@ -166,9 +113,9 @@ public:
                 receiveStd.append(buf);
                 std::smatch match;
                 if (regex_search(receiveStd, match, rgxSize) && match.size() > 1) {
-                    UUID_PERFT = match[1].str();
-                    UUID_TASK = match[2].str();
-                    string tot = match[3].str();
+                    string tot = match[1].str();
+                    UUID_PERFT = match[2].str();
+                    UUID_TASK = match[3].str();
                     totBytes = std::stoi(tot);
                     gzBufP = gzBuf = (char *) malloc(sizeof(char) * totBytes);//TODO scrivere su file
                     string ini = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR + UUID_PERFT + ".ini";
@@ -177,13 +124,13 @@ public:
                         return pair<string, string>(UUID_PERFT, UUID_TASK);
                     }
                 }
-                char *h = strstr(buf, "XXXSTART");
+
+                char *h = strstr(buf, (const char *) GZIP_HEADER);
                 if (!h) {
                     error("error on fatching data");
                     return pair<string, string>("", "");
                 }
-                h += strlen("XXXSTART");
-                totWritten = r-(h-buf);
+                totWritten = r - (h - buf);
                 memcpy(gzBufP, h, totWritten);
                 gzBufP += totWritten;
 
@@ -196,8 +143,8 @@ public:
             }
 
             if (totWritten + r > totBytes) {
-                int k=totBytes - totWritten;
-                memcpy(gzBufP , buf, k);
+                int k = totBytes - totWritten;
+                memcpy(gzBufP, buf, k);
                 gzBufP += k;
                 totWritten += k;
                 break;
@@ -205,24 +152,18 @@ public:
             totWritten += r;
             memcpy(gzBufP, buf, r);
             gzBufP += r;
-            // encode64.append(buf, r);
         }
-        //std::vector<BYTE> x = base64_decode(encode64);
-
         FileUtil::createDirectory(dataDir + PATH_SEPARATOR + UUID_PERFT);
         string fileGzipped = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR + UUID_PERFT + ".ini.gz";
 
         std::ofstream tmp(fileGzipped);
         tmp.write(gzBuf, totWritten);
-//        for (int i = 0; i < x.size(); i++)
-//            tmp << x.at(i);
         tmp.close();
 
         Compression compression;
         compression.decompress(fileGzipped);
         //std::remove(fileGzipped.c_str());
 
-        cout << "fine" << endl;
         return pair<string, string>(UUID_PERFT, UUID_TASK);
     }
 };
