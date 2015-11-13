@@ -127,7 +127,7 @@ public:
                     fileGzipped = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR + UUID_PERFT + ".ini.gz";
                     tmp.open(fileGzipped);
                 } else {
-                    error("Error on fatching data");
+                    debug("no data fetched");
                     return pair<string, string>("", "");
                 }
 

@@ -81,7 +81,9 @@ public:
                 exit(1);
             }
             pair<string, string> uuids = fetch(workerIniFile1, aurigaRoot);
-            doPerft(aurigaRoot, uuids.first, uuids.second, workerIniFile1);
+            if(!uuids.first.empty()) {
+                doPerft(aurigaRoot, uuids.first, uuids.second, workerIniFile1);
+            }
         }
         //--task /home/geko/auriga_root cinnamon.auriga.ini DEE504F4-40A1-1A31-8F50-7BAC48DCC17G 6F55F6CF-DC1E-E4DD-D547-G5BB6A9G6BAD -fetch
         if (params.size() >= 5) {

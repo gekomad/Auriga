@@ -1,6 +1,8 @@
 <?php 
 
 header('Content-Transfer-Encoding: binary');
+header('Content-Type: application/octet-stream');
+
     header('Expires: 0');
     header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
     header('Pragma: public');
@@ -35,5 +37,7 @@ error_log($filename);
 $data = file_get_contents($filename);
 
 header("Content-Length: ".filesize($filename));
-echo "XXX".$uuid_perft."XXX".$uuid_task."XXX".filesize($filename)."XXXSTART".$data;
+header("uuid_perft: ".$uuid_perft);
+header("uuid_task: ".$uuid_task);
+echo $data;
 
