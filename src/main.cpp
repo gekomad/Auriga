@@ -69,8 +69,8 @@ void printHeader() {
 }
 
 int main(int argc, char *argv[]) {//TODO eliminare directory site
-for(int i=0;i<100;i++)cout <<UUID::getUUID()<<endl;return 0;
-    cout << ResolveHost::getIP("google.com")<<endl;
+
+    //cout << ResolveHost::getIP("google.com")<<endl;
     /*GetGZ a;
     a.get("127.0.0.1",3128,"downloadini.php?id=G3EAGE21-A23A-F96B-AA79-41923CE89A94","/home/geko/auriga_root");
      */
