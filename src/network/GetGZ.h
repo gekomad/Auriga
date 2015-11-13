@@ -112,7 +112,7 @@ public:
         debug("resolving host ", host);
         string ip = ResolveHost::getIP(host);
         if (!ip.size()) {
-            error("unknow host ",host);
+            error("unknow host ", host);
             return pair<string, string>("", "");
         }
 
@@ -147,14 +147,16 @@ public:
         string deb;
         string UUID_PERFT;
         string UUID_TASK;
-        string encode64;
-
+        // string encode64;
+        char *gzBuf = nullptr;
+        char *gzBufP;
         while (1) {
 #ifdef DEBUG_MODE
             memset(buf, 0, sizeof(buf));
 #endif
             r = recv(sock, buf, sizeof(buf) - 1, 0);
-            if (r <= 0)break;
+            if (r <= 0)
+                break;
 
 #ifdef DEBUG_MODE
             deb.assign(buf);
@@ -164,26 +166,27 @@ public:
                 receiveStd.append(buf);
                 std::smatch match;
                 if (regex_search(receiveStd, match, rgxSize) && match.size() > 1) {
-//                if (regex_search(((const string) receiveStd).begin(), ((const string) receiveStd).end(), match, rgxSize)) {
                     UUID_PERFT = match[1].str();
                     UUID_TASK = match[2].str();
                     string tot = match[3].str();
                     totBytes = std::stoi(tot);
-
-                    string ini = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR+ UUID_PERFT + ".ini";
+                    gzBufP = gzBuf = (char *) malloc(sizeof(char) * totBytes);//TODO scrivere su file
+                    string ini = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR + UUID_PERFT + ".ini";
                     if (FileUtil::fileExists(ini)) {
                         info("file ", ini, " exists skip fetch")
                         return pair<string, string>(UUID_PERFT, UUID_TASK);
-                    } 
+                    }
                 }
                 char *h = strstr(buf, "XXXSTART");
-                if(!h){
+                if (!h) {
                     error("error on fatching data");
                     return pair<string, string>("", "");
                 }
-                h+=strlen("XXXSTART");
-                totWritten=strlen(h);
-                encode64.append(h);
+                h += strlen("XXXSTART");
+                totWritten = r-(h-buf);
+                memcpy(gzBufP, h, totWritten);
+                gzBufP += totWritten;
+
                 continue;
             }
 
@@ -193,20 +196,26 @@ public:
             }
 
             if (totWritten + r > totBytes) {
-                encode64.append(buf, totBytes - totWritten);
-                totWritten += totBytes - totWritten;
+                int k=totBytes - totWritten;
+                memcpy(gzBufP , buf, k);
+                gzBufP += k;
+                totWritten += k;
                 break;
             }
             totWritten += r;
-            encode64.append(buf, r);
+            memcpy(gzBufP, buf, r);
+            gzBufP += r;
+            // encode64.append(buf, r);
         }
-        std::vector<BYTE> x = base64_decode(encode64);
+        //std::vector<BYTE> x = base64_decode(encode64);
 
-        FileUtil::createDirectory(dataDir +PATH_SEPARATOR+ UUID_PERFT);
-        string fileGzipped = dataDir +PATH_SEPARATOR + UUID_PERFT +PATH_SEPARATOR+ UUID_PERFT + ".ini.gz";
+        FileUtil::createDirectory(dataDir + PATH_SEPARATOR + UUID_PERFT);
+        string fileGzipped = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR + UUID_PERFT + ".ini.gz";
+
         std::ofstream tmp(fileGzipped);
-        for (int i = 0; i < x.size(); i++)
-            tmp << x.at(i);
+        tmp.write(gzBuf, totWritten);
+//        for (int i = 0; i < x.size(); i++)
+//            tmp << x.at(i);
         tmp.close();
 
         Compression compression;

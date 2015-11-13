@@ -1,6 +1,9 @@
 <?php 
 
-
+header('Content-Transfer-Encoding: binary');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    header('Pragma: public');
 include 'set_variable.php';	
 $uuid_perft=$_GET['id'];
 $uuid_task="";
@@ -30,7 +33,7 @@ if($uuid_perft==""){
 $filename=$auriga_root."/data/".$uuid_perft."/".$uuid_perft.".ini.gz";
 error_log($filename);
 $data = file_get_contents($filename);
-$base64 = base64_encode($data);
-header('Content-type: text/plain;');
-header("Content-Length: ".strlen($base64));
-echo "XXX".$uuid_perft."XXX".$uuid_task."XXX".strlen($base64)."XXXSTART".$base64;?>
+
+header("Content-Length: ".filesize($filename));
+echo "XXX".$uuid_perft."XXX".$uuid_task."XXX".filesize($filename)."XXXSTART".$data;
+
