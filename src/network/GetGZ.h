@@ -96,7 +96,9 @@ public:
         string UUID_TASK;
 
         char *gzBuf = nullptr;
-        char *gzBufP;
+
+        ofstream tmp;
+        string fileGzipped;
         while (1) {
 #ifdef DEBUG_MODE
             memset(buf, 0, sizeof(buf));
@@ -117,12 +119,16 @@ public:
                     UUID_PERFT = match[2].str();
                     UUID_TASK = match[3].str();
                     totBytes = std::stoi(tot);
-                    gzBufP = gzBuf = (char *) malloc(sizeof(char) * totBytes);//TODO scrivere su file
                     string ini = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR + UUID_PERFT + ".ini";
                     if (FileUtil::fileExists(ini)) {
                         info("file ", ini, " exists skip fetch")
                         return pair<string, string>(UUID_PERFT, UUID_TASK);
                     }
+                    fileGzipped = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR + UUID_PERFT + ".ini.gz";
+                    tmp.open(fileGzipped);
+                } else {
+                    error("Error on fatching data");
+                    return pair<string, string>("", "");
                 }
 
                 char *h = strstr(buf, (const char *) GZIP_HEADER);
@@ -131,37 +137,29 @@ public:
                     return pair<string, string>("", "");
                 }
                 totWritten = r - (h - buf);
-                memcpy(gzBufP, h, totWritten);
-                gzBufP += totWritten;
-
+                tmp.write(h, totWritten);
                 continue;
-            }
-
-            if (totBytes == -1) {
-                error("Error on fatching data");
-                return pair<string, string>("", "");
             }
 
             if (totWritten + r > totBytes) {
                 int k = totBytes - totWritten;
-                memcpy(gzBufP, buf, k);
-                gzBufP += k;
+                tmp.write(buf, k);
                 totWritten += k;
                 break;
             }
             totWritten += r;
-            memcpy(gzBufP, buf, r);
-            gzBufP += r;
+            tmp.write(buf, r);
         }
         FileUtil::createDirectory(dataDir + PATH_SEPARATOR + UUID_PERFT);
-        string fileGzipped = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR + UUID_PERFT + ".ini.gz";
 
-        std::ofstream tmp(fileGzipped);
-        tmp.write(gzBuf, totWritten);
+
+        if (!tmp.is_open()) {
+            return pair<string, string>("", "");
+        }
         tmp.close();
-
         Compression compression;
         compression.decompress(fileGzipped);
+
         //std::remove(fileGzipped.c_str());
 
         return pair<string, string>(UUID_PERFT, UUID_TASK);
