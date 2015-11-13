@@ -28,7 +28,7 @@ ifndef SystemRoot
 	else
 		#Linux/arm
 		OS=Linux
-		STATIC=" -static "
+		STATIC=" "
 	endif
 	EXE="auriga"
 else
