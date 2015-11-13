@@ -30,6 +30,10 @@ if ($result->num_rows > 0) {
 		//update statistics in perft for uuid_perft
 		$sql = getUpdatePerftSQL($uuid_perft);
 		$conn->query($sql);		
+
+		//update statistics in perft_engine for uuid_perft
+		$sql = getUpdatePerftEngineSQL($uuid_perft);
+		$conn->query($sql);
 	}
 }
 
