@@ -136,7 +136,7 @@ public:
         std::ostringstream formBuffer;
         formBuffer << "GET /" << url << " HTTP/1.1\n";
         formBuffer << "Content-Type: application/x-gzip\n";
-        formBuffer << "Host: " << "auriga-cinnamon.rhcloud.com" << "\n\n";
+        formBuffer << "Host: " << host << "\n\n";
 
         string str = formBuffer.str();
         assert(send(sock, str.c_str(), str.size(), 0) == (int) str.size());
