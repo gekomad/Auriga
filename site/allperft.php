@@ -27,7 +27,7 @@ echo "<input type='hidden' value=\"".$time_zone."\">";
 
 	include 'mysql_connect.php';
 	$conn->query("SET time_zone = '{$time_zone}'");
-	$sql = "SELECT uuid_perft,fen,depth,tasks,creation_date,tot ,ifnull(perc_completed,0)perc_completed,engines,hours order by creation_date desc FROM perft";
+	$sql = "SELECT uuid_perft,fen,depth,tasks,creation_date,tot ,ifnull(perc_completed,0)perc_completed,engines,hours FROM perft order by creation_date desc";
 	$result = $conn->query($sql);
 
 	if ($result->num_rows > 0) {
