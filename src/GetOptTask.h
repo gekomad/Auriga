@@ -29,7 +29,7 @@ public:
     static void help(char **argv) {
         string exe = FileUtil::getFileName(argv[0]);
         cout << "Calculate perft on task:\t\t" << exe << " --task AURIGA_ROOT WORKER.INI PERFT_UUID TASK_UUID [-fetch]\n";
-        cout << "Calculate perft on random task:\t" << exe << " --task AURIGA_ROOT WORKER.INI -fetch_random\n";
+        cout << "Calculate perft on random task:\t\t" << exe << " --task AURIGA_ROOT WORKER.INI -fetch_random\n";
     }
 
     static void parse(int argc, char **argv) {
