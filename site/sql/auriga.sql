@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.19, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.44, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: auriga
 -- ------------------------------------------------------
--- Server version	5.6.19-0ubuntu0.14.04.1
+-- Server version	5.5.44-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -47,6 +47,7 @@ CREATE TABLE `perft` (
   `perc_completed` tinyint(4) DEFAULT NULL,
   `hours` int(10) unsigned DEFAULT NULL,
   `engines` int(11) DEFAULT NULL,
+  `confermated` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`uuid_perft`),
   UNIQUE KEY `fen` (`fen`,`depth`,`tasks`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -105,7 +106,7 @@ CREATE TABLE `task_fens` (
   KEY `task_fs_fen_IDX` (`fen`),
   KEY `ptasksds_bf3_2` (`uuid_task`),
   CONSTRAINT `iptaxdds_bf3_2` FOREIGN KEY (`uuid_task`) REFERENCES `perft_tasks` (`uuid_task`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9303 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2445 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,7 +133,7 @@ CREATE TABLE `tasks` (
   KEY `uuid_task` (`uuid_task`),
   KEY `tadkds_ibifk_1` (`uuid_perft`),
   CONSTRAINT `tadkids_ibfk_1` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11193 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2544 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -144,4 +145,4 @@ CREATE TABLE `tasks` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-13 12:08:12
+-- Dump completed on 2015-11-14 16:16:30
