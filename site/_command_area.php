@@ -75,10 +75,10 @@ function writeCommands(perft_id,tasksArray){
 select a worker.ini file: <input type="text" id="worker_ini" list="workerName"/>
 <datalist id="workerName">
   <select>
- <option value="cheng.worker.ini">cheng.auriga.ini</option>
-	<option value="stockfish.worker.ini">stockfish.auriga.ini</option>
-	<option value="cinnamon.worker.ini">cinnamon.auriga.ini</option>
-	<option value="crafty.worker.ini">crafty.auriga.ini</option>
+ <option value="cheng.worker.ini">cheng.worker.ini</option>
+	<option value="stockfish.worker.ini">stockfish.worker.ini</option>
+	<option value="cinnamon.worker.ini">cinnamon.worker.ini</option>
+	<option value="crafty.worker.ini">crafty.worker.ini</option>
     </select>
 </datalist>
 	<input type="hidden" id="syst">
