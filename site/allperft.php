@@ -56,8 +56,8 @@ echo "<input type='hidden' value=\"".$time_zone."\">";
 			echo "<td>".$row["hours"] ."</td>" ;
 			echo "<td>".$row["perc_completed"] ."%</td>" ;
 			echo "<td>".$row["tot"] ."</td>" ;
-			$confermated="no";
-			if($row["confermated"]==1)$confermated="yes";
+			$confermated="NO";
+			if($row["confermated"]==1)$confermated="YES";
 			echo "<td>".$confermated."</td>" ;		
 			echo "</tr>";
 	    }
