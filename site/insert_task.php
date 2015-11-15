@@ -51,6 +51,10 @@ $conn->query($sql);
 $sql = getUpdatePerftEngineSQL($uuid_perft);
 $conn->query($sql);
 
+//update anomaly for fen/depth
+$sql = getAnomalySQL($fen, $depth);
+$conn->query($sql);
+
 //
 $conn->close();
 

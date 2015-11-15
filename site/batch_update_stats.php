@@ -4,9 +4,7 @@
 include 'mysql_connect.php';
 include 'updateStatistics.php';
 
-
-
-$sql = "SELECT distinct uuid_task FROM perft_tasks";
+/*$sql = "SELECT distinct uuid_task FROM perft_tasks";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -36,7 +34,20 @@ if ($result->num_rows > 0) {
 		$conn->query($sql);
 	}
 }
+*/
+$sql = "select distinct fen,depth from tasks where heartbeat &1 =0";
+$result = $conn->query($sql);
 
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+		$fen=$row["fen"];
+		$depth=$row["depth"];
+		echo "fen:  $fen depth: $depth\n";
+		//update anomaly for fen/depth
+		$sql2 = getAnomalySQL($fen,$depth);
+		$conn->query($sql2);		
+	}
+}
 
 $conn->close();
 

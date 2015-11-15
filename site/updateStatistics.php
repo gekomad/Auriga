@@ -54,4 +54,10 @@ join
 	set p.engines=t.engines";
 }
 
+function getAnomalySQL($fen,$depth){
+return "update tasks  set anomaly = (select count(1)from (
+ select fen,depth,tot,count(1) from tasks where fen ='rnbqkbnr/pp1ppppp/2p5/8/3P4/8/PPP1PPPP/RNBQKBNR w KQkq - 0 1' and depth =5 and heartbeat&1=0
+ group by fen,depth,tot )a)  where heartbeat&1=0 and fen ='".$fen."' and depth =".$depth;
+}
+
 ?>
