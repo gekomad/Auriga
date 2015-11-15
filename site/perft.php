@@ -58,10 +58,10 @@ echo "Completed: $perc_completed%<br>";
 
 echo "<br>";
 
-if($perc_completed!="100"){
-	include("_command_area.php");
-	echo "<button onclick='writeCommands(\"$uuid_perft\",ut)'>Generate command for uncompleted tasks</button>";
-}
+
+include("_command_area.php");
+echo "<button onclick='writeCommands(\"$uuid_perft\",ut)'>Generate command</button>";
+
 
 if ($result->num_rows > 0) {
 echo "<table>";
@@ -82,7 +82,8 @@ echo "<table>";
 		$completed=$row["perc_completed"];
 		if($completed=="")$completed="0";
 		echo "<td>".$completed."%</td>";
-		if($completed!="100")echo "<script>ut.push('".$row["uuid_task"]."');</script>";
+//		if($completed!="100")
+		echo "<script>ut.push('".$row["uuid_task"]."');</script>";
 		$creation_date=$row["creation_date"];
 		echo "<td>$creation_date</td>";
 		echo "<td>".$row["n_engine"]."</td>";
