@@ -3,9 +3,7 @@ function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-
-function validate() {
-	
+function validate_single_fen() {
 	res=validate_fen1();
 
 	if(res.valid==false){
@@ -17,6 +15,11 @@ function validate() {
 	fen =document.getElementById('fen');
 	fen.style.backgroundColor = "initial";
 	document.getElementById("error_fen").className = 'hidden';
+}
+function validate() {
+	ff=validate_single_fen();
+	if(ff==false)return;
+	
 
 	depth =document.getElementById('depth');
 	if(!isNumeric(depth.value)|| (depth.value<2||depth.value>100)){		
