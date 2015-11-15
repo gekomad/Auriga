@@ -129,6 +129,7 @@ CREATE TABLE `tasks` (
   `author` varchar(30) COLLATE utf8_bin DEFAULT NULL,
   `minutes` int(11) DEFAULT NULL,
   `country` char(2) COLLATE utf8_bin DEFAULT NULL,
+  `anomaly` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `uuid_task` (`uuid_task`),
   KEY `tadkds_ibifk_1` (`uuid_perft`),
@@ -145,4 +146,4 @@ CREATE TABLE `tasks` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-14 16:16:30
+-- Dump completed on 2015-11-15 11:15:53
