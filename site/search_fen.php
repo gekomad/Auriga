@@ -41,7 +41,7 @@ if($fen!="") {
 	echo "<h1>Fen ".$fen."</h1> ";
 	include 'mysql_connect.php';
 	$sql = "SELECT uuid_task,depth FROM task_fens where fen ='".$fen."'";
-	echo "$sql<br>";
+
 	$result = $conn->query($sql);
 	if($result->num_rows <= 0){
 		preg_match('/(.+) (.+) (.+) (.+) (.+ .+)/', $fen, $re);

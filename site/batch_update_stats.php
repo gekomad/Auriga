@@ -4,7 +4,7 @@
 include 'mysql_connect.php';
 include 'updateStatistics.php';
 
-/*$sql = "SELECT distinct uuid_task FROM perft_tasks";
+$sql = "SELECT distinct uuid_task FROM perft_tasks";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -34,7 +34,7 @@ if ($result->num_rows > 0) {
 		$conn->query($sql);
 	}
 }
-*/
+
 $sql = "select distinct fen,depth from tasks where heartbeat &1 =0";
 $result = $conn->query($sql);
 
