@@ -13,7 +13,7 @@ header("Expires: 0"); // Proxies.
     <script src="js/cinnamon_engine_1_2b.js"></script>
    <script>
 	function calculateTasks(){
-		gettasks = Module.cwrap('getntasks', 'number', ['string','number','number']);
+		gettasks = Module.cwrap('getntasks', 'number', ['string','number','number']);//TODO solo una volta
 		
 
 		if(validate_single_fen()==false)return;
@@ -29,12 +29,9 @@ header("Expires: 0"); // Proxies.
 
 		
 alert(fen+ " "+reducedDepth.value);
-		var res = gettasks(fen,reducedDepth.value,1000);
-		reduce=res & 255;
-		tasks=res >>8;
-		alert(res+ " tasks: "+tasks+ " reduce: "+reduce);
-		document.getElementById('tasks').value=tasks;
-		if(reduce<reducedDepth.value)
+		rd=0;
+		var res = gettasks(fen,rd);
+		ciclo fino a 1000 tasks
 		document.getElementById('reducetasks_real').innerHTML = "depth reduce to "+reduce;else document.getElementById('reducetasks_real').innerHTML = "";
 
 }
