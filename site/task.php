@@ -62,7 +62,6 @@ $result = $conn->query($sql);
 <?php include("_command_area.php");?>
 <?php echo "<button onclick='writeCommand(\"$uuid_perft\",\"$uuid_task\")'>Generate command</button>";?>
 <?php 
-
 	define("HEARTBEAT_TYPE", 0b1);
 	define("OS_WIN", 0b10);
 	define("OS_APPLE", 0b100);
@@ -85,6 +84,7 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
 	echo "<table width='75%' border='1' align='center' bgcolor='#11FFff'>";
 	echo "<tr>";
+	echo "<td><b>#</td></b>" ;
 	echo "<td><b>Fen</td></b>" ;
 	echo "<td><b>Depth</td></b>" ;
 	echo "<td><b>Date</td></b>" ;
@@ -95,11 +95,15 @@ if ($result->num_rows > 0) {
     echo "<td><b>Country</td></b>" ;
 	echo "<td><b>OS</td></b>" ;
  	echo "</tr>";
-
+	$lastFen="";
+	$color=0;
     while($row = $result->fetch_assoc()) {
 		$heartbeat=	$row["heartbeat"];
 		echo "<tr>";	
-		echo "<td><small>".$row["fen"] ."</small></td>" ;
+		$fen=$row["fen"];
+		if($fen!=$lastFen){$color=($color+1)%9999;$lastFen=$fen;}
+		echo "<td>".$color."</td>" ;
+		echo "<td><small>".$fen."</small></td>" ;
 		echo "<td>".$row["depth"] ."</td>" ;
 		echo "<td>".$row["creation_date"]."</td>" ;
 		$tot=$row["tot"];
