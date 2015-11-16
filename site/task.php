@@ -101,7 +101,7 @@ if ($result->num_rows > 0) {
 		$heartbeat=	$row["heartbeat"];
 		echo "<tr>";	
 		$fen=$row["fen"];
-		if($fen!=$lastFen){$color=($color+1)%9999;$lastFen=$fen;}
+		if($fen!=$lastFen){$color++;$lastFen=$fen;}
 		echo "<td>".$color."</td>" ;
 		echo "<td><small>".$fen."</small></td>" ;
 		echo "<td>".$row["depth"] ."</td>" ;
