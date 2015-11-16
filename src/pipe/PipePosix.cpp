@@ -27,6 +27,7 @@ int PipePosix::writeStdout(const string &msg) {
 PipePosix::~PipePosix() {
     if (initialized) {
         close(stdIn[0]);
+        close(stdErr[0]);
         close(fd_p2c[1]);
     }
 }
@@ -79,5 +80,20 @@ bool PipePosix::init(const string &enginePath) {
     return initialized;
 };
 
+int PipePosix::isZombie() {
+    bool iszombie = false;
+    char pbuf[32];
+    snprintf(pbuf, sizeof(pbuf), "/proc/%d/stat", (int) childpid);
+    FILE *fpstat = fopen(pbuf, "r");
+    if (fpstat) {
+        int rpid = 0;
+        char rcmd[32];
+        char rstatc = 0;
+        fscanf(fpstat, "%d %30s %c", &rpid, rcmd, &rstatc);
+        iszombie = rstatc == 'Z';
+        fclose(fpstat);
+    }
+    return iszombie ? (int) childpid : 0;
+}
 
 #endif

@@ -32,7 +32,6 @@ void Engine::readStdin() {
         receiveOutput.append(readbuffer);
         std::smatch match;
         if (regex_search(receiveOutput, match, rgxTot) && match.size() > 1) {
-//        if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, rgxTot)) {
             reading = false;
             debug(engineName, " stdin match tot: ", match[1].str());
             result = stoull(match[1].str());
@@ -69,7 +68,6 @@ void Engine::readStderr() {
         receiveStdErr.append(readStderrBuffer);
         std::smatch match;
         if (regex_search(receiveStdErr, match, rgxTot) && match.size() > 1) {
-//        if (regex_search(((const string) receiveStdErr).begin(), ((const string) receiveStdErr).end(), match, rgxTot)) {
             reading = false;
             result = stoull(match[1].str());
             ASSERT(result != NO_RESULT);
@@ -100,7 +98,10 @@ void Engine::endRun() {
     receiveOutput.clear();
     receiveStdErr.clear();
     info(engineName, " endRun id ", getId(), " result: ", result, " reading: ", (bool) reading);
-    assert(result != NO_RESULT);
+    if (result == NO_RESULT) {
+        error("no result, is process a zombie?");
+        return;
+    };
     int minutes = Time::diffTime(timeEnd, timeStart) / 1000 / 60;
     notifyTotResult(result, fen, engineName, minutes, depth);
 }
@@ -188,7 +189,6 @@ void Engine::init(const string &confFileName1) {
             log(receiveOutput);
             std::smatch match;
             if (regex_search(receiveOutput, match, GET_NAME_REGEX[protocol]) && match.size() > 1) {
-//            if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
                 engineName = match[1].str();
                 info("engine name is ", engineName)
             }
@@ -213,7 +213,6 @@ void Engine::init(const string &confFileName1) {
             log(receiveOutput);
             std::smatch match;
             if (regex_search(receiveOutput, match, GET_NAME_REGEX[protocol]) && match.size() > 1) {
-//            if (regex_search(((const string) receiveOutput).begin(), ((const string) receiveOutput).end(), match, GET_NAME_REGEX[protocol])) {
                 engineName = match[1].str();
                 info("engine name is ", engineName)
             }
@@ -231,12 +230,24 @@ void Engine::init(const string &confFileName1) {
 }
 
 void Engine::runPerft() {
-    timerHearbeat = new Timer(Time::HOUR_IN_SECONDS * 24);//TODO
+    timerHearbeat = new Timer(Time::HOUR_IN_SECONDS * 24);
     timerHearbeat->registerObservers([this]() {
         high_resolution_clock::time_point timeEnd = std::chrono::high_resolution_clock::now();
         int minutes = Time::diffTime(timeEnd, timeStart) / 1000 / 60;
         notifyHeartbeat(fen, engineName, minutes, depth);
     });
     timerHearbeat->start();
+
+    timerZombie = new Timer(Time::HOUR_IN_SECONDS);
+    timerZombie->registerObservers([this]() {
+        int pid = pipe->isZombie();
+        if (pid) {
+            error("process ", pid, " is a zombie");
+            reading = false;
+            cv.notify_all();
+        }
+    });
+    timerZombie->start();
+
     put("perft " + to_string(depth));
 }

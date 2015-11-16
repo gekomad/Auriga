@@ -111,6 +111,7 @@ private:
     Ipipe *pipe;
     int depth;
     Timer *timerHearbeat = nullptr;
+    Timer *timerZombie = nullptr;
 };
 
 

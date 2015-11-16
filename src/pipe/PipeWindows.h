@@ -34,6 +34,7 @@ public :
     const string readStderr();
 
     bool init(const string &enginePath);
+    int isZombie(){assert(0);}
 private:
     bool initialized;
 

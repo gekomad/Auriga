@@ -33,6 +33,9 @@ public :
     virtual const string readStdin() = 0;
 
     virtual bool init(const string &enginePath) = 0;
+
+    virtual int isZombie() = 0;
+
 };
 
 
