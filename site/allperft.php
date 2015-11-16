@@ -27,7 +27,7 @@ echo "<input type='hidden' value=\"".$time_zone."\">";
 
 	include 'mysql_connect.php';
 	$conn->query("SET time_zone = '{$time_zone}'");
-	$sql = "SELECT uuid_perft,fen,depth,tasks,creation_date,tot ,ifnull(perc_completed,0)perc_completed,engines,hours,confermated FROM perft order by creation_date desc";
+	$sql = "SELECT uuid_perft,fen,depth,tasks,creation_date,tot ,ifnull(perc_completed,0)perc_completed,engines,hours,confirmed FROM perft order by creation_date desc";
 	$result = $conn->query($sql);
 
 	if ($result->num_rows > 0) {
@@ -42,7 +42,7 @@ echo "<input type='hidden' value=\"".$time_zone."\">";
 		echo "<td><b>Hours</b></td>" ;
 		echo "<td><b>Completed</b></td>" ;
 		echo "<td><b>Tot</b></td>" ;
-		echo "<td><b>Confermated</b></td>" ;				
+		echo "<td><b>Confirmed</b></td>" ;				
 	 	echo "</tr>";
 	    while($row = $result->fetch_assoc()) {
 			echo "<tr>";
@@ -56,9 +56,9 @@ echo "<input type='hidden' value=\"".$time_zone."\">";
 			echo "<td>".$row["hours"] ."</td>" ;
 			echo "<td>".$row["perc_completed"] ."%</td>" ;
 			echo "<td>".$row["tot"] ."</td>" ;
-			$confermated="NO";
-			if($row["confermated"]==1)$confermated="YES";
-			echo "<td>".$confermated."</td>" ;		
+			$confirmed="NO";
+			if($row["confirmed"]==1)$confirmed="YES";
+			echo "<td>".$confirmed."</td>" ;		
 			echo "</tr>";
 	    }
 		echo "</table>";
