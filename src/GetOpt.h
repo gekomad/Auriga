@@ -44,7 +44,7 @@ public:
             GetOptTask::parse(argc, argv);
             return;
         }
-        if (argc > 1 && !strcmp(argv[1], "--generate-ini") || !strcmp(argv[1], "--calculate-tasks")) {
+        if (argc > 1 && (!strcmp(argv[1], "--generate-ini") || !strcmp(argv[1], "--calculate-tasks"))) {
             GetOptMaster::parse(argc, argv);
             return;
         }
