@@ -17,12 +17,14 @@ header("Expires: 0"); // Proxies.
 		if(validate_single_fen()==false)return;		
 		fen=document.getElementById("fen").value;
 		var rd=1;
-		gettasks = Module.cwrap('getntasks', 'number', ['string','number']);//TODO solo una volta
-		
-		while(res<1000)
+		gettasks = Module.cwrap('perft', 'number', ['string','number']);//TODO solo una volta
+		res=0;
+		pretask=1;
+		while(res<=5000)
 		{
-			res = gettasks(fen,rd);			
-			document.getElementById("tree").innerHTML ="min tasks: "+res+" reduce depth: "+rd+"\n";
+			res = gettasks(fen,rd);
+			document.getElementById("tree").innerHTML +="tasks >= "+pretask+" and <=" + res+" reduce depth: "+rd+"\n";
+			pretask=res+1;
 			rd++;
 		}
 		
@@ -43,7 +45,8 @@ header("Expires: 0"); // Proxies.
         <section>
 	<aside>
 <div class="row">
-<textarea id="tree" type="text" style=" border: none; background-color: Lavender ;resize: none ; overflow:hidden;"></textarea>
+<!--<textarea id="tree" type="text" style=" border: none; background-color: Lavender "></textarea>-->
+<textarea id="tree" type="text" style=" height:70%; border: none; background-color: Lavender ;"></textarea>
 
 </div>
 </aside>
@@ -55,7 +58,7 @@ header("Expires: 0"); // Proxies.
 				<br>
 			
 				<br>tasks:&nbsp;&nbsp;<input name="tasks" type="text" id="tasks" placeholder="tasks number"/>
-                <small id="error_tasks" class="hidden">tasks is a number between 1 and 1000</small>
+                <small id="error_tasks" class="hidden">tasks is a number between 1 and 5000</small>
                 <br>
                 <br>
                 depth:&nbsp;<input name="depth" type="text" id="depth" placeholder="depth"/>
