@@ -13,15 +13,16 @@
 <div class="container2">
 <section class="container">
           <hgroup>
-            <h1>Auriga </h1> 
+            <h1>Auriga </h1> 			
           </hgroup>
-
         <div class="row">
           <section class="col-xs-12 col-sm-6 col-md-6">
 			
-			<img src="img/logo.jpg" ALIGN="right" border="60px"/> 
+			<img src="img/auriga.png" ALIGN="right" border="60px"/> 
             <section>
               <h2>Overview</h2>
+ <a href="https://en.wikipedia.org/wiki/Auriga_%28slave%29">
+				<img src="img/logo.jpg"/> <br></a>
                 <p>Auriga è un sistema open source distribuito collaborativo e multi piattaforma per il calcolo della funzione <a href="https://chessprogramming.wikispaces.com/Perft">Perft</a>.
                 <h3>Come funziona</h3>
                 <p>L'albero viene suddiviso in tasks, ogni task sarà analizzato da una singola macchina (<b>worker</b>) e il risultato sarà inviato automaticamente a questo sito. Quando tutti i tasks saranno elaborati si avrà il risultato finale del perft.
