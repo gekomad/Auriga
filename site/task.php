@@ -10,7 +10,7 @@
 <?php
 echo "<input type='hidden' value=\"".$time_zone."\">";
 
-<?php include 'menu.php';?>
+include 'menu.php';?>
  
 <?php
 
