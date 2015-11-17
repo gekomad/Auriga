@@ -9,7 +9,7 @@
 
 <?php
 echo "<input type='hidden' value=\"".$time_zone."\">";
- include_once("analyticstracking.php"); ?>
+
 <?php include 'menu.php';?>
  
 <?php
