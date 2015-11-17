@@ -51,7 +51,7 @@ private:
     unsigned char GZIP_HEADER[3] = {0x1f, 0x8b, 0x0};
 public:
     GetGZ() {//TODO in .cpp
-        rgxSize.assign(R"(.*Content-Length: (\d+)\r\nuuid_perft: (.+)\r\nuuid_task: (.+)\r.*)");
+        rgxSize.assign(R"(.*Content-Length: (\d+)\r\nuuid_perft: (.+)\r\nuuid_task: (.*)\r.*)");
     }
 
     pair<string, string> get(const string &host, const int port, const string &url, const string &dataDir) {
