@@ -124,6 +124,7 @@ public:
                         info("file ", ini, " exists skip fetch")
                         return pair<string, string>(UUID_PERFT, UUID_TASK);
                     }
+                    info("fetching...");
                     FileUtil::createDirectory(dataDir + PATH_SEPARATOR + UUID_PERFT);
                     fileGzipped = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR + UUID_PERFT + ".ini.gz";
                     tmp.open(fileGzipped);
@@ -146,19 +147,22 @@ public:
                 int k = totBytes - totWritten;
                 tmp.write(buf, k);
                 totWritten += k;
+                info("fetching tot",totWritten,"bytes");
                 break;
             }
+            info("fetching...",r," bytes...");
             totWritten += r;
             tmp.write(buf, r);
         }
 
 
-
+        info("fetched ",totWritten," bytes");
         if (!tmp.is_open()) {
             return pair<string, string>("", "");
         }
         tmp.close();
         Compression compression;
+        info("decompress..");
         compression.decompress(fileGzipped);
 
         //std::remove(fileGzipped.c_str());
