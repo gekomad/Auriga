@@ -151,6 +151,7 @@ void Engine::init(const string &confFileName1) {
 
     bool detected = false;
     for (unsigned ii = 0; ii < SEND_INIT_STRING->size(); ii++) {
+        if(detected)break;
         put(SEND_INIT_STRING[ii]);
         const string &readbuffer = pipe->readStdin();
         if (readbuffer.empty()) {
@@ -189,7 +190,7 @@ void Engine::init(const string &confFileName1) {
             std::smatch match;
             if (regex_search(receiveOutput, match, GET_NAME_REGEX[protocol]) && match.size() > 1) {
                 engineName = match[1].str();
-                info("engine name is ", engineName, " protocol ",SEND_GET_NAME_STRING[protocol]);
+                info("engine name is ", engineName, " protocol ",SEND_INIT_STRING[protocol]);
             }
 
             if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
@@ -213,7 +214,7 @@ void Engine::init(const string &confFileName1) {
             std::smatch match;
             if (regex_search(receiveOutput, match, GET_NAME_REGEX[protocol]) && match.size() > 1) {
                 engineName = match[1].str();
-                info("engine name is ", engineName, " protocol ",SEND_GET_NAME_STRING[protocol]);
+                info("engine name is ", engineName, " protocol ",SEND_INIT_STRING[protocol]);
             }
             if (initialized)break;
             if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
