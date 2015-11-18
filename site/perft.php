@@ -32,7 +32,7 @@ $creation_date =$row["creation_date"];
 $tot =$row["tot"];
 $perc_completed =$row["perc_completed"];
 
-$sql="select uuid_task,engine n_engine,perc_completed, creation_date,hours from perft_tasks where uuid_perft ='".$uuid_perft."' order by creation_date desc,perc_completed asc";
+$sql="select uuid_task,engine n_engine,perc_completed, creation_date,minutes from perft_tasks where uuid_perft ='".$uuid_perft."' order by creation_date desc,perc_completed asc";
 
 $result = $conn->query($sql);
 ?>
@@ -70,8 +70,8 @@ echo "<table>";
 		echo "<td><b>Task ID</b></td>" ;
 		echo "<td><b>Completed</b></td>" ;
 		echo "<td><b>Last update</b></td>" ;
-		echo "<td><b># engine</b></td>" ;
-		echo "<td><b>Hours</b></td>" ;
+		echo "<td><b># Engine</b></td>" ;
+		echo "<td><b>Minutes</b></td>" ;
 	 	echo "</tr>";
 		$count=0;
     while($row = $result->fetch_assoc()) {		
@@ -87,9 +87,8 @@ echo "<table>";
 		$creation_date=$row["creation_date"];
 		echo "<td>$creation_date</td>";
 		echo "<td>".$row["n_engine"]."</td>";
-		$hours=$row["hours"];
-		if($hours=="0")$hours="<1";
-		echo "<td>".$hours."</td>";
+		$minutes=$row["minutes"];		
+		echo "<td>".$minutes."</td>";
 		echo "</tr>";
     }
 echo "</table>";

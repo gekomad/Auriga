@@ -31,19 +31,19 @@ on t.uuid_perft=pt.uuid_perft and t.uuid_task=pt.uuid_task
 and pt.uuid_task ='".$uuid_task."' 
 set pt.engine =t.n_engine, pt.perc_completed = if(t.perc_completed>100,100,t.perc_completed),
 pt.creation_date= t.creation_date,pt.tot= t.tot,
-pt.hours= t.minutes/60";
+pt.minutes= t.minutes";
 
 }
 
 function getUpdatePerftSQL($uuid_perft){ 
 return "update perft p
 join
-	(select uuid_perft,floor(avg(ifnull(perc_completed,0)))perc_completed,max(creation_date)creation_date,sum(tot)tot,sum(hours)hours from perft_tasks pt 
+	(select uuid_perft,floor(avg(ifnull(perc_completed,0)))perc_completed,max(creation_date)creation_date,sum(tot)tot,sum(minutes)minutes from perft_tasks pt 
 	where pt.uuid_perft ='".$uuid_perft."' 
 	group by uuid_perft)t
 	on t.uuid_perft=p.uuid_perft
 	set p.perc_completed=if(t.perc_completed>100,100,t.perc_completed),p.creation_date=t.creation_date,p.tot=t.tot,
-	p.hours=t.hours";
+	p.minutes=t.minutes";
 }
 
 function getUpdatePerftEngineSQL($uuid_perft){
