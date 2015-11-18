@@ -189,7 +189,7 @@ void Engine::init(const string &confFileName1) {
             std::smatch match;
             if (regex_search(receiveOutput, match, GET_NAME_REGEX[protocol]) && match.size() > 1) {
                 engineName = match[1].str();
-                info("engine name is ", engineName)
+                info("engine name is ", engineName, " protocol ",SEND_GET_NAME_STRING[protocol]);
             }
 
             if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
@@ -213,7 +213,7 @@ void Engine::init(const string &confFileName1) {
             std::smatch match;
             if (regex_search(receiveOutput, match, GET_NAME_REGEX[protocol]) && match.size() > 1) {
                 engineName = match[1].str();
-                info("engine name is ", engineName)
+                info("engine name is ", engineName, " protocol ",SEND_GET_NAME_STRING[protocol]);
             }
             if (initialized)break;
             if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
