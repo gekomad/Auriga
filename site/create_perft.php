@@ -12,12 +12,13 @@ header("Expires: 0"); // Proxies.
     <script src="js/validator.js"></script>
     <script src="js/cinnamon_engine_1_2b.js"></script>
    <script>
+	var gettasks = Module.cwrap('perft', 'number', ['string','number']);
 	function calculateTasks(){
 		document.getElementById("tree").innerHTML ="";
 		if(validate_single_fen()==false)return;		
 		fen=document.getElementById("fen").value;
 		var rd=1;
-		gettasks = Module.cwrap('perft', 'number', ['string','number']);//TODO solo una volta
+		
 		res=0;
 		pretask=1;
 		while(res<=5000)
