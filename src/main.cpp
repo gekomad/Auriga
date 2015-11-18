@@ -35,7 +35,7 @@ void printHeader() {
 #if UINTPTR_MAX == 0xffffffffffffffff
     cout << "version 64-bit ";
 #else
-    cout <<"32-bit vesrion manages results <= 2^64\n";
+    cout <<"32-bit version manages results <= 2^64\n";
 #endif
 
     cout << "compiled " << __DATE__ << " with ";
