@@ -117,7 +117,7 @@ i128 Perft::calculate() {
             uniqueListFen.push_back(fen);
         }
     }
-    for (string fen:uniqueListFen) {//TODO creare un set se 2 fen uguali inviarne solo uno
+    for (string fen:uniqueListFen) {
         Engine &e = threadPool.getNextThread();
         e.init(workerIniFile);
         e.registerObserverEngine(this);

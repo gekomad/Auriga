@@ -138,6 +138,7 @@ void Engine::setPosition(const string &fen1) {
 void Engine::init(const string &confFileName1) {
     result = 0;
     if (!forceRestart && initialized)return;
+    if(initialized)put("quit");
     WorkerEntityDao workerEntityDao(confFileName1);
     string enginePath = workerEntityDao.getWorkerEntity().getEnginePath();
     forceRestart = workerEntityDao.getWorkerEntity().getForce_restart();
