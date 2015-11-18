@@ -3,7 +3,7 @@
 
 include 'mysql_connect.php';
 include 'updateStatistics.php';
-
+/*
 $sql = "SELECT distinct uuid_task FROM perft_tasks";
 $result = $conn->query($sql);
 
@@ -43,8 +43,25 @@ if ($result->num_rows > 0) {
 		$fen=$row["fen"];
 		$depth=$row["depth"];
 		echo "fen:  $fen depth: $depth\n";
+
 		//update anomaly for fen/depth
 		$sql2 = getAnomalySQL($fen,$depth);
+		$conn->query($sql2);		
+	}
+}
+*/
+$sql = "select distinct uuid_perft,engine from tasks where heartbeat &1 =0";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+		$uuid_perft=$row["uuid_perft"];
+		$engine=$row["engine"];
+		echo "uuid_perft:  $uuid_perft engine: $engine\n";
+
+		//update engine per perft
+		$sql2 = insertPerftEngine($uuid_perft,$engine);
+echo "$sql2\n";
 		$conn->query($sql2);		
 	}
 }

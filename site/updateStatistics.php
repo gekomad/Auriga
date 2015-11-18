@@ -60,4 +60,9 @@ return "update tasks  set anomaly = (select count(1)from (
  group by fen,depth,tot )a)  where heartbeat&1=0 and fen ='".$fen."' and depth =".$depth;
 }
 
+function insertPerftEngine($uuid_perft,$engine){
+return "insert into perft_engines (uuid_perft,engine) values('".$uuid_perft."','".$engine."') on duplicate key update uuid_perft='".$uuid_perft."' , engine='".$engine."'";
+}
+
+
 ?>

@@ -31,7 +31,7 @@ if ($result->num_rows > 0) {
 include 'updateStatistics.php';
 
 if($heartbeat & 1 ){
-	$sql = "delete from tasks where heartbeat & 1 and fen= '$fen' and depth=$depth and engine ='$engine' and author ='$author' ";
+	$sql = "delete from tasks where uuid_task ='".$uuid_task."' and heartbeat & 1 and fen= '$fen' and depth=$depth and engine ='$engine' and author ='$author' ";
 	$conn->query($sql);
 }
 
@@ -55,6 +55,9 @@ $conn->query($sql);
 $sql = getAnomalySQL($fen, $depth);
 $conn->query($sql);
 
+//insert engine for perft
+$sql= insertPerftEngine($uuid_perft,$engine);
+$conn->query($sql);
 //
 $conn->close();
 
