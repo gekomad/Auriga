@@ -112,10 +112,8 @@ Engine::~Engine() {
     put("quit");
     initialized = false;
     if (pipe)delete pipe;
-    if (timerHearbeat) {
-        delete timerHearbeat;
-    }
-
+    if (timerHearbeat)delete timerHearbeat;
+    if (timerZombie)delete timerZombie;
 }
 
 void Engine::put(string command) {
