@@ -15,8 +15,7 @@ include_once("analyticstracking.php");?>
 <?php
 $uuid_perft=$_GET['uuid_perft'];
 if($uuid_perft == ""){
-	echo "uuid_perft missing<br><br>";
-	return;
+	header("Location: 404.html");//TODO fare pagina
 }
 
 include 'mysql_connect.php';
@@ -24,7 +23,10 @@ $conn->query("SET time_zone = '{$time_zone}'");
 $sql = "SELECT fen, depth,tasks, creation_date,tot,perc_completed FROM perft where uuid_perft='".$uuid_perft."'";
 
 $result = $conn->query($sql);
-
+if ($result->num_rows == 0) {
+	$conn->close();
+	header("Location: 404.html");//TODO fare pagina
+}
 $row = $result->fetch_assoc();
 $fen =$row["fen"];
 $deph =$row["depth"];
@@ -61,9 +63,6 @@ if ($result->num_rows > 0) {
 	while($row = $result->fetch_assoc()) {		
 		echo $row["engine"]." ";
 	}
-}else{
-	$conn->close();
-	header("Location: 404.html");//TODO fare pagina
 }
 echo "<br>";
 
