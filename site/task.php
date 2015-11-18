@@ -17,8 +17,7 @@ include 'menu.php';?>
 $uuid_task=$_GET['uuid_task'];
 $uuid_perft=$_GET['uuid_perft'];
 if($uuid_task == ""){
-	echo "uuid missing<br><br>";
-	return;
+	header("Location: 404.html");//TODO fare pagina
 }
 
 
@@ -30,10 +29,13 @@ if($uuid_perft == ""){
 	if ($result->num_rows > 0) {
 		$row = $result->fetch_assoc();
 		$uuid_perft=$row['uuid_perft'];
+	}else{
+		$conn->close();
+		header("Location: 404.html");//TODO fare pagina
 	}	
 	if($uuid_perft == ""){
-		echo "$sql<br>uuid_perft missing<br><br>";
-		return;
+		$conn->close();
+		header("Location: 404.html");//TODO fare pagina
 	}
 }
 
@@ -43,6 +45,12 @@ $sql ="select f.fen,f.depth,creation_date,heartbeat,tot,engine,author,minutes,co
 " where f.uuid_task ='".$uuid_task."' order by fen,ifnull(tot,0) asc,fen, creation_date desc";
 
 $result = $conn->query($sql);
+
+if ($result->num_rows == 0) {
+	$conn->close();	
+	header("Location: 404.html");//TODO fare pagina
+}
+
 ?>
 <section class="container">
           <hgroup>
@@ -81,7 +89,7 @@ $result = $conn->query($sql);
 		return "none";
 	}
 
-if ($result->num_rows > 0) {
+
 	echo "<table width='75%' border='1' align='center' bgcolor='#11FFff'>";
 	echo "<tr>";
 	echo "<td><b>#</td></b>" ;
@@ -121,9 +129,7 @@ if ($result->num_rows > 0) {
 	 	echo "</tr>";
 	}
 	echo "</table>";
-} else {
-    echo "0 results";
-}
+
 
 $conn->close();
 ?> 

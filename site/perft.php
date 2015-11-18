@@ -22,6 +22,7 @@ if($uuid_perft == ""){
 include 'mysql_connect.php';
 $conn->query("SET time_zone = '{$time_zone}'");
 $sql = "SELECT fen, depth,tasks, creation_date,tot,perc_completed FROM perft where uuid_perft='".$uuid_perft."'";
+
 $result = $conn->query($sql);
 
 $row = $result->fetch_assoc();
@@ -32,9 +33,7 @@ $creation_date =$row["creation_date"];
 $tot =$row["tot"];
 $perc_completed =$row["perc_completed"];
 
-$sql="select uuid_task,engine n_engine,perc_completed, creation_date,minutes from perft_tasks where uuid_perft ='".$uuid_perft."' order by creation_date desc,perc_completed asc";
 
-$result = $conn->query($sql);
 ?>
 <section class="container">
           <hgroup><?php echo "<h1>Perft id ".$uuid_perft."</h1> ";?></hgroup>
@@ -55,14 +54,25 @@ echo "Tasks: $tasks<br>";
 echo "Last pudate: $creation_date<br>";
 echo "Tot: $tot<br>";
 echo "Completed: $perc_completed%<br>";
-
+$sql="SELECT engine  FROM perft_engines where uuid_perft='".$uuid_perft."'";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+	echo "Engines: ";
+	while($row = $result->fetch_assoc()) {		
+		echo $row["engine"]." ";
+	}
+}else{
+	$conn->close();
+	header("Location: 404.html");//TODO fare pagina
+}
 echo "<br>";
 
 
 include("_command_area.php");
 echo "<button onclick='writeCommands(\"$uuid_perft\",ut)'>Generate command</button>";
 
-
+$sql="select uuid_task,engine n_engine,perc_completed, creation_date,minutes from perft_tasks where uuid_perft ='".$uuid_perft."' order by creation_date desc,perc_completed asc";
+$result = $conn->query($sql);
 if ($result->num_rows > 0) {
 echo "<table>";
 		echo "<tr>";
