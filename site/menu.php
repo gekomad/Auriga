@@ -3,7 +3,7 @@
 		<div class="sf_menu" id="topnav">
 			<ul class="nav">					
 						<li><a href="index.php">Home</a></li>					
-						<li><a href="/allperft.php">All perfts</a></li>					
+						<li><a href="/allperft.php">All Perfts</a></li>					
 						<li><a href="/create_perft.php">Create a Perft</a></li>											
 						<ul>								
 									<li><a href="/videos?v=Orcodituapse">How to works Auriga</a></li>
