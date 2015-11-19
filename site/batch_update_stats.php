@@ -50,6 +50,9 @@ if ($result->num_rows > 0) {
 	}
 }
 
+$sql = "delete from perft_engines";
+$result = $conn->query($sql);
+
 $sql = "select distinct uuid_perft,engine from tasks where heartbeat &1 =0";
 $result = $conn->query($sql);
 
@@ -61,7 +64,7 @@ if ($result->num_rows > 0) {
 
 		//update engine per perft
 		$sql2 = insertPerftEngine($uuid_perft,$engine);
-echo "$sql2\n";
+		echo "$sql2\n";
 		$conn->query($sql2);		
 	}
 }
