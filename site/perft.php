@@ -70,7 +70,7 @@ echo "<br>";
 include("_command_area.php");
 echo "<button onclick='writeCommands(\"$uuid_perft\",ut)'>Generate command</button>";
 
-$sql="select uuid_task,engine n_engine,perc_completed, creation_date,minutes from perft_tasks where uuid_perft ='".$uuid_perft."' order by creation_date desc,perc_completed asc";
+$sql="select uuid_task,engine n_engine,perc_completed, creation_date,minutes,if(minutes=0,' < 1 min', if(minutes>=60*24,concat(round(minutes/60/24),' days'),if(minutes>=60,concat(round(minutes/60,' hours'),' hours'),concat(minutes,' min'))))time from perft_tasks where uuid_perft ='".$uuid_perft."' order by creation_date desc,perc_completed asc";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
 echo "<table>";
@@ -80,7 +80,7 @@ echo "<table>";
 		echo "<td><b>Completed</b></td>" ;
 		echo "<td><b>Last update</b></td>" ;
 		echo "<td><b># Engine</b></td>" ;
-		echo "<td><b>Minutes</b></td>" ;
+		echo "<td><b>Time</b></td>" ;
 	 	echo "</tr>";
 		$count=0;
     while($row = $result->fetch_assoc()) {		
@@ -96,8 +96,8 @@ echo "<table>";
 		$creation_date=$row["creation_date"];
 		echo "<td>$creation_date</td>";
 		echo "<td>".$row["n_engine"]."</td>";
-		$minutes=$row["minutes"];		
-		echo "<td>".$minutes."</td>";
+		$time=$row["time"];		
+		echo "<td>".$time."</td>";
 		echo "</tr>";
     }
 echo "</table>";

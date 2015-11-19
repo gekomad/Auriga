@@ -39,7 +39,7 @@ if($uuid_perft == ""){
 	}
 }
 
-$sql ="select f.fen,f.depth,creation_date,heartbeat,tot,engine,author,minutes,country".
+$sql ="select f.fen,f.depth,creation_date,heartbeat,tot,engine,author,if(minutes=0,' < 1 min', if(minutes>=60*24,concat(round(minutes/60/24),' days'),if(minutes>=60,concat(round(minutes/60,' hours'),' hours'),concat(minutes,' min'))))time,country".
 " from task_fens f left join tasks pt ".
 " on pt.uuid_task=f.uuid_task and pt.fen=f.fen ".
 " where f.uuid_task ='".$uuid_task."' order by fen,ifnull(tot,0) asc,fen, creation_date desc";
@@ -99,7 +99,7 @@ if ($result->num_rows == 0) {
 	echo "<td><b>Tot</td></b>" ;
 	echo "<td><b>Engine</td></b>" ;
 	echo "<td><b>Author</td></b>" ;
-	echo "<td><b>Minutes</td></b>" ;
+	echo "<td><b>Time</td></b>" ;
     echo "<td><b>Country</td></b>" ;
 	echo "<td><b>OS</td></b>" ;
  	echo "</tr>";
@@ -120,9 +120,9 @@ if ($result->num_rows == 0) {
 		echo "<td>".$row["engine"] ."</td>" ;
 		echo "<td>".$row["author"] ."</td>" ;
 		
-		$minutes=$row["minutes"];
-		if($minutes=="0")$minutes="<1";
-		echo "<td>".$minutes."</td>";		
+		$time=$row["time"];
+		if($time=="0 min")$time="<1 min";
+		echo "<td>".$row["time"]."</td>";		
 		echo "<td> <img src='img/flags/".$row["country"].".png'> </td>";
 		$OS=getOStype($heartbeat);
 		echo "<td> <img src='img/os/".$OS.".png' height='30' width='30' alt='".$OS."' title='".$OS."'> </td>";		

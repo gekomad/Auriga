@@ -27,7 +27,7 @@ echo "<input type='hidden' value=\"".$time_zone."\">";
 
 	include 'mysql_connect.php';
 	$conn->query("SET time_zone = '{$time_zone}'");
-	$sql = "SELECT uuid_perft,fen,depth,tasks,creation_date,tot ,ifnull(perc_completed,0)perc_completed,engines,minutes,confirmed FROM perft order by creation_date desc";
+	$sql = "SELECT uuid_perft,fen,depth,tasks,creation_date,tot ,if(minutes=0,' < 1 min', if(minutes>=60*24,concat(round(minutes/60/24),' days'),if(minutes>=60,concat(round(minutes/60,' hours'),' hours'),concat(minutes,' min'))))time,confirmed FROM perft order by creation_date desc";
 	$result = $conn->query($sql);
 
 	if ($result->num_rows > 0) {
@@ -39,7 +39,7 @@ echo "<input type='hidden' value=\"".$time_zone."\">";
 		echo "<td><b>Tasks</b></td>" ;
 		echo "<td><b>Last update</b></td>" ;
 		echo "<td><b># Engines</b></td>" ;
-		echo "<td><b>Minutes</b></td>" ;
+		echo "<td><b>Time</b></td>" ;
 		echo "<td><b>Completed</b></td>" ;
 		echo "<td><b>Tot</b></td>" ;
 		echo "<td><b>Confirmed</b></td>" ;				
@@ -53,7 +53,7 @@ echo "<input type='hidden' value=\"".$time_zone."\">";
 			echo "<td>".$row["tasks"] ."</td>" ;
 			echo "<td>".$row["creation_date"] ."</td>" ;
 			echo "<td>".$row["engines"] ."</td>" ;
-			echo "<td>".$row["minutes"] ."</td>" ;
+			echo "<td>".$row["time"] ."</td>" ;
 			echo "<td>".$row["perc_completed"] ."%</td>" ;
 			echo "<td>".$row["tot"] ."</td>" ;
 			$confirmed="NO";
