@@ -73,8 +73,8 @@ int Perft::getOStype() {
 void Perft::observerTotResult(const u64 result, const string &fen, const string &engineName, const int minutes, const int depth) {
 
     getResultMutex.lock();
-    /*TODO verificare*/    ofstream logResult(aurigaRoot + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + "results.log", std::ofstream::out | std::ofstream::app);
-    logResult << "Tot Perft moves for task_uuid " << taskUUID << " fen  " << fen << " result: " << result << " in " << minutes << "minutes \n";
+    /*TODO verificare*/    ofstream logResult(aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + "results.log", std::ofstream::out | std::ofstream::app);
+    logResult << "Tot Perft moves for " << perftUUID << " " << taskUUID << " " << result << " " << engineName << " " << author << " " << fen << " " << minutes << " " << depth << "\n";
     logResult.close();
     int type = getOStype();
     HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, to_string(type), String::toString(result), engineName, author, fen, to_string(minutes), to_string(depth));
