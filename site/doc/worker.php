@@ -19,7 +19,7 @@
           <section class="col-xs-12 col-sm-6 col-md-6">
 			
             <section>             			             
-				<p>Il worker è un file contenuto nella cartella $AURIGA_ROOT/worker e identifica il motore utilizzato sulla tua macchina per calcolare il perft.</p>	
+				<p>Il worker è un file contenuto nella cartella <code>$AURIGA_ROOT/worker</code> e identifica il motore utilizzato sulla tua macchina per calcolare il perft.</p>	
             
 <pre>
 #AURIGA worker ini file
