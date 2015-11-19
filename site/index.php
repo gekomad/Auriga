@@ -31,7 +31,7 @@
                     <h3>Setup worker</h3>
                     <a href="download.php">Scaricare</a> Auriga per la tua piattaforma e copiare la cartella in quelche parte del tuo file system;
                     settare la variabile di ambiente AURIGA_ROOT ad esempio su ubuntu inserisci nel file ~/.bashrc <br><br>
-                    <pre>export AURIGA_ROOT="/your/path/auriga_root"</pre>
+                    <code>export AURIGA_ROOT="/your/path/auriga_root"</code>
                     per windows clicca <a href="https://support.microsoft.com/en-us/kb/310519">qui.</a><br><br>La cartella <i>auriga_root</i> contiene un'altra cartella denominata <i>worker</i> con le configurazioni per alcuni motori, vedi <a href="doc/worker.php">qui</a> per la configurazione del worker.
                     </p>
 
