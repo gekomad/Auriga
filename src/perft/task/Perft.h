@@ -30,7 +30,7 @@
 namespace _perft {
     class Perft : public ObserverEngine {
     public :
-        Perft(const string &taskUUID, const string &masterFile, const string &engineConfFile);
+        Perft(const string& aurigaRoot1,const string &taskUUID, const string &masterFile, const string &engineConfFile);
 
         i128 calculate();
 
@@ -45,7 +45,7 @@ namespace _perft {
 
         string taskUUID;
         string masterFile;
-
+        string aurigaRoot;
         i128 TOT = 0;
         string workerIniFile;
         string perftUUID;

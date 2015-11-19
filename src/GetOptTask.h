@@ -125,7 +125,7 @@ public:
         }
         log("Do perft perft_uuid: ", perftUUID, " task_uuid: ", taskUUID);
 
-        _perft::Perft perft(taskUUID, perftIniFile, workerIniFile1);
+        _perft::Perft perft(aurigaRoot,taskUUID, perftIniFile, workerIniFile1);
         perft.calculate();
     }
 

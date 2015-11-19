@@ -20,7 +20,7 @@
 
 using namespace _perft;
 
-Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &workerIniFile) {
+Perft::Perft(const string &aurigaRoot1, const string &taskUUID1, const string &masterFile1, const string &workerIniFile) {
     if (!FileUtil::fileExists(masterFile1)) {
         fatal("File not found ", masterFile1);
         exit(1);
@@ -49,6 +49,7 @@ Perft::Perft(const string &taskUUID1, const string &masterFile1, const string &w
 
     Perft::workerIniFile = workerIniFile;
     masterFile = masterFile1;
+    aurigaRoot = aurigaRoot1;
     taskUUID = taskUUID1;
 }
 
@@ -132,8 +133,9 @@ i128 Perft::calculate() {
 
     string timetot = Time::diffTimeToString(start1, stop1);
 
-    //TODO append in file result.log
-    cout << "Tot Perft moves for task_uuid " << taskUUID << ": " << String::toString(TOT) << " in " << timetot << endl;
+/*TODO verificare*/    ofstream logResult(aurigaRoot + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + "results.log", std::ofstream::out | std::ofstream::app);
+    logResult << "Tot Perft moves for task_uuid " << taskUUID << ": " << String::toString(TOT) << " in " << timetot << "\n";
+    logResult.close();
 
     return TOT;
 }
