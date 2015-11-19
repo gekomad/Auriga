@@ -124,8 +124,8 @@ if ($result->num_rows == 0) {
 		if($minutes=="0")$minutes="<1";
 		echo "<td>".$minutes."</td>";		
 		echo "<td> <img src='img/flags/".$row["country"].".png'> </td>";
-
-		echo "<td> <img src='img/os/".getOStype($heartbeat).".png' height='30' width='30'> </td>";		
+		$OS=getOStype($heartbeat);
+		echo "<td> <img src='img/os/".$OS.".png' height='30' width='30' alt='".$OS."' title='".$OS."'> </td>";		
 	 	echo "</tr>";
 	}
 	echo "</table>";
