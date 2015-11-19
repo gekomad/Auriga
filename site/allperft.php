@@ -1,6 +1,7 @@
 <?php include("setTimezone.php");?>
 <html>
  <head>
+  <meta charset="UTF-8">
   <meta name="robots" content="noindex">
   <title>all perft</title>
 <link rel="stylesheet"  href="css/css1.css" type="text/css"/>
@@ -27,7 +28,7 @@ echo "<input type='hidden' value=\"".$time_zone."\">";
 
 	include 'mysql_connect.php';
 	$conn->query("SET time_zone = '{$time_zone}'");
-	$sql = "SELECT uuid_perft,fen,depth,tasks,creation_date,tot ,if(minutes=0,' < 1 min', if(minutes>=60*24,concat(round(minutes/60/24),' days'),if(minutes>=60,concat(round(minutes/60,' hours'),' hours'),concat(minutes,' min'))))time,confirmed FROM perft order by creation_date desc";
+	$sql = "SELECT uuid_perft,fen,depth,tasks,ifnull(perc_completed,0)perc_completed,creation_date,tot ,if(minutes=0,' < 1 min', if(minutes>=60*24,concat(round(minutes/60/24),' days'),if(minutes>=60,concat(round(minutes/60,' hours'),' hours'),concat(minutes,' min'))))time,confirmed FROM perft order by creation_date desc";
 	$result = $conn->query($sql);
 
 	if ($result->num_rows > 0) {

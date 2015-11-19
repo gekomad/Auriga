@@ -20,7 +20,7 @@ if($uuid_perft == ""){
 
 include 'mysql_connect.php';
 $conn->query("SET time_zone = '{$time_zone}'");
-$sql = "SELECT fen, depth,tasks, creation_date,tot,perc_completed FROM perft where uuid_perft='".$uuid_perft."'";
+$sql = "SELECT fen, depth,tasks, creation_date,tot,ifnull(perc_completed,0)perc_completed FROM perft where uuid_perft='".$uuid_perft."'";
 
 $result = $conn->query($sql);
 if ($result->num_rows == 0) {
