@@ -44,7 +44,7 @@ public :
 
     void setPipe(Ipipe *pipe1) {
         GET_NAME_REGEX[0].assign("id name (.+)");
-        GET_NAME_REGEX[1].assign("feature myname=\"(.+)\".*");
+        GET_NAME_REGEX[1].assign("feature .*myname=\"(.+)\".*");
         pipe = pipe1;
     };
 
