@@ -89,6 +89,6 @@ select a worker.ini file: <input type="text" id="worker_ini" list="workerName"/>
 </datalist>
 	<input type="hidden" id="syst">
 	<br>
-	<small id="label_command" class="hidden">Copy/paste on your client</small><br>
+	<small id="label_command" class="hidden" style="color:blue">Copy/paste on your client</small><br>
     <textarea id=t1 readonly='yes'></textarea>
 	<br>
