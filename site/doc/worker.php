@@ -100,7 +100,7 @@ host=auriga-cinnamon.rhcloud.com
 port=80
 
 <b>[worker]</b>
-public_name=unknow
+public_name=Alice L.
 
 <b>[engine]</b>
 path=/home/geko/crafty
@@ -128,7 +128,7 @@ host=auriga-cinnamon.rhcloud.com
 port=80
 
 <b>[worker]</b>
-public_name=unknow
+public_name=Bob (I7)
 
 <b>[engine]</b>
 path=/home/geko/stockfish
