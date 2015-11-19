@@ -71,12 +71,14 @@ int Perft::getOStype() {
 }
 
 void Perft::observerTotResult(const u64 result, const string &fen, const string &engineName, const int minutes, const int depth) {
+
     getResultMutex.lock();
-    TOT += result;
-    getResultMutex.unlock();
-    info("TOT: ", String::toString(TOT));
+    /*TODO verificare*/    ofstream logResult(aurigaRoot + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + "results.log", std::ofstream::out | std::ofstream::app);
+    logResult << "Tot Perft moves for task_uuid " << taskUUID << " fen  " << fen << " result: " << result << " in " << minutes << "minutes \n";
+    logResult.close();
     int type = getOStype();
     HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, to_string(type), String::toString(result), engineName, author, fen, to_string(minutes), to_string(depth));
+    getResultMutex.unlock();
 }
 
 void Perft::observerHeartbeat(const string &fen, const string &engineName, const int minutes, const int depth) {
@@ -86,7 +88,7 @@ void Perft::observerHeartbeat(const string &fen, const string &engineName, const
     HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, to_string(type), "0", engineName, author, fen, to_string(minutes), to_string(depth));
 }
 
-i128 Perft::calculate() {
+void Perft::calculate() {
     auto start1 = std::chrono::high_resolution_clock::now();
 
     ThreadPool<Engine> threadPool;
@@ -129,13 +131,6 @@ i128 Perft::calculate() {
 
     }
     threadPool.joinAll();
-    auto stop1 = std::chrono::high_resolution_clock::now();
 
-    string timetot = Time::diffTimeToString(start1, stop1);
 
-/*TODO verificare*/    ofstream logResult(aurigaRoot + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + "results.log", std::ofstream::out | std::ofstream::app);
-    logResult << "Tot Perft moves for task_uuid " << taskUUID << ": " << String::toString(TOT) << " in " << timetot << "\n";
-    logResult.close();
-
-    return TOT;
 }

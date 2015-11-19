@@ -32,7 +32,7 @@ namespace _perft {
     public :
         Perft(const string& aurigaRoot1,const string &taskUUID, const string &masterFile, const string &engineConfFile);
 
-        i128 calculate();
+        void calculate();
 
     private:
         static const int HEARTBEAT =           0b1;
@@ -46,7 +46,7 @@ namespace _perft {
         string taskUUID;
         string masterFile;
         string aurigaRoot;
-        i128 TOT = 0;
+
         string workerIniFile;
         string perftUUID;
 
