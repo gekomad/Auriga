@@ -73,14 +73,17 @@ auriga-ODROID:
 auriga64:
 	$(MAKE) LIBS="$(LIBS) lib/$(OS)/64/libCinnamon.a  lib/$(OS)/64/libz.a" ARC="-m64" build
 
-all:	Engine.o Post.o  PerftSplitter.o PipePosix.o  PipeWindows.o Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o
-	$(COMP) ${CFLAGS} ${ARC} -o ${EXE}  Engine.o Post.o PipePosix.o PipeWindows.o  PerftSplitter.o  Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o ${LIBS}
+all:	Engine.o Post.o  PerftSplitter.o PipePosix.o  PipeWindows.o Perft.o GetGZ.o PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o
+	$(COMP) ${CFLAGS} ${ARC} -o ${EXE}  Engine.o Post.o PipePosix.o PipeWindows.o GetGZ.o PerftSplitter.o  Perft.o  PerftTree.o main.o TaskEntityDao.o  HttpPost.o  PerftEntityDao.o  WorkerEntityDao.o ${LIBS}
 
 default:
 	help
 
 Engine.o: engine/Engine.cpp
 	$(COMP) -c engine/Engine.cpp ${CFLAGS} ${ARC}
+
+GetGZ.o: network/GetGZ.cpp
+	$(COMP) -c network/GetGZ.cpp ${CFLAGS} ${ARC}
 
 Post.o: network/Post.cpp
 	$(COMP) -c network/Post.cpp ${CFLAGS} ${ARC}

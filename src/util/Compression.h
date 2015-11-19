@@ -18,14 +18,14 @@
 
 #pragma once
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "../lib/zlib.h"
 #include <errno.h>
 #include <string.h>
+#include <regex>
 
-
+using namespace std;
 class Compression {
 private:
     std::regex rgxName;
