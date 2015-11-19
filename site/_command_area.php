@@ -72,18 +72,18 @@ function writeCommands(perft_id,tasksArray){
 
 </script>
 
-select a worker.ini file: <input type="text" id="worker_ini" list="workerName"/>
+select a  <a href="/doc/worker.php">worker</a>  <input type="text" id="worker_ini" list="workerName"/>
 <datalist id="workerName">
   <select>
- 	<option value="cheng.worker.ini">cheng.worker.ini</option>
-	<option value="stockfish.worker.ini">stockfish.worker.ini</option>
-	<option value="cinnamon.worker.ini">cinnamon.worker.ini</option>
-	<option value="crafty.worker.ini">crafty.worker.ini</option>
-	<option value="clarabit.worker.ini">clarabit.worker.ini</option>
-	<option value="critter.worker.ini">critter.worker.ini</option>
-	<option value="daydreamer.worker.ini">daydreamer.worker.ini</option>
-	<option value="greko.worker.ini">greko.worker.ini</option>
-	<option value="redqueen.worker.ini">redqueen.worker.ini</option>
+ 	<option value="cheng">cheng</option>
+	<option value="stockfish">stockfish</option>
+	<option value="cinnamon">cinnamon</option>
+	<option value="crafty">crafty</option>
+	<option value="clarabit">clarabit</option>
+	<option value="critter">critter</option>
+	<option value="daydreamer">daydreamer</option>
+	<option value="greko">greko</option>
+	<option value="redqueen">redqueen</option>
 
     </select>
 </datalist>

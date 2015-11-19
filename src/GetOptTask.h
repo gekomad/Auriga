@@ -28,8 +28,8 @@ class GetOptTask {
 public:
     static void help(char **argv) {
         string exe = FileUtil::getFileName(argv[0]);
-        cout << "Calculate perft on task:\t\t" << exe << " --task AURIGA_ROOT WORKER.INI PERFT_UUID TASK_UUID [-fetch]\n";
-        cout << "Calculate perft on random task:\t\t" << exe << " --task AURIGA_ROOT WORKER.INI -fetch_random\n";
+        cout << "Calculate perft on task:\t\t" << exe << " --task AURIGA_ROOT WORKER PERFT_UUID TASK_UUID [-fetch]\n";
+        cout << "Calculate perft on random task:\t\t" << exe << " --task AURIGA_ROOT WORKER -fetch_random\n";
     }
 
     static void parse(int argc, char **argv) {
@@ -75,7 +75,7 @@ public:
         //--task /home/geko/auriga_root cinnamon.auriga.ini  -fetch_random
         if (params.size() == 4 && params[3] == "-fetch_random") {
             string aurigaRoot = params[1];
-            string workerIniFile1 = aurigaRoot + PATH_SEPARATOR + "worker" + PATH_SEPARATOR + params[2];
+            string workerIniFile1 = aurigaRoot + PATH_SEPARATOR + "worker" + PATH_SEPARATOR + params[2]+".worker.ini";
             if (!FileUtil::fileExists(workerIniFile1)) {
                 fatal("file not found ", workerIniFile1);
                 exit(1);
@@ -88,7 +88,7 @@ public:
         //--task /home/geko/auriga_root cinnamon.auriga.ini DEE504F4-40A1-1A31-8F50-7BAC48DCC17G 6F55F6CF-DC1E-E4DD-D547-G5BB6A9G6BAD -fetch
         if (params.size() >= 5) {
 
-            string workerIniFile1 = params[1] + PATH_SEPARATOR + "worker" + PATH_SEPARATOR + params[2];
+            string workerIniFile1 = params[1] + PATH_SEPARATOR + "worker" + PATH_SEPARATOR + params[2]+".worker.ini";;
             if (!FileUtil::fileExists(workerIniFile1)) {
                 fatal("file not found ", workerIniFile1);
                 exit(1);
