@@ -35,6 +35,9 @@ if ($result->num_rows > 0) {
 	}
 }
 
+$sql = "update tasks set anomaly = null";
+$result = $conn->query($sql);
+
 $sql = "select distinct fen,depth from tasks where heartbeat &1 =0";
 $result = $conn->query($sql);
 
