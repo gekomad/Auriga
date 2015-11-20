@@ -9,6 +9,7 @@ $author=$_POST["author"];
 $fen=$_POST["fen"];
 $minutes=$_POST["minutes"];
 $depth=$_POST["depth"];
+$personal_uuid=$_POST["personal_uuid"];
 
 $ip = $_SERVER['REMOTE_ADDR'];
 if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
@@ -36,7 +37,7 @@ if($heartbeat & 1 ){
 }
 
 //insert row in tasks
-$sql = "INSERT INTO tasks (uuid_perft, uuid_task,heartbeat,tot,engine,author,fen,minutes,depth,country)VALUES ('$uuid_perft', '$uuid_task','$heartbeat','$tot','$engine','$author','$fen',$minutes,$depth,'$country')";
+$sql = "INSERT INTO tasks (uuid_perft, uuid_task,heartbeat,tot,engine,author,fen,minutes,depth,country,personal_uuid)VALUES ('$uuid_perft', '$uuid_task','$heartbeat','$tot','$engine','$author','$fen',$minutes,$depth,'$country','$personal_uuid')";
 $conn->query($sql);
 
 //update statistics in perft_tasks for uuid_task

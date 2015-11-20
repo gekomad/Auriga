@@ -35,6 +35,7 @@ Perft::Perft(const string &aurigaRoot1, const string &taskUUID1, const string &m
     }
     IniFile ini(workerIniFile);
     aurigaHost = ini.getValue("host");
+    personalUUID = ini.getValue("personal_uuid");
     if (aurigaHost.empty()) {
         warn("auriga host not defined, the results will not be sent to server");
     } else {
@@ -77,7 +78,7 @@ void Perft::observerTotResult(const u64 result, const string &fen, const string 
     logResult << "Tot Perft moves for " << perftUUID << " " << taskUUID << " " << result << " " << engineName << " " << author << " " << fen << " " << minutes << " " << depth << "\n";
     logResult.close();
     int type = getOStype();
-    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, to_string(type), String::toString(result), engineName, author, fen, to_string(minutes), to_string(depth));
+    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, personalUUID, perftUUID, taskUUID, to_string(type), String::toString(result), engineName, author, fen, to_string(minutes), to_string(depth));
     getResultMutex.unlock();
 }
 
@@ -85,7 +86,7 @@ void Perft::observerHeartbeat(const string &fen, const string &engineName, const
     info("Heartbeat ");
     int type = getOStype();
     type |= HEARTBEAT;
-    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, perftUUID, taskUUID, to_string(type), "0", engineName, author, fen, to_string(minutes), to_string(depth));
+    HttpPost::getInstance().postThread(aurigaHost, aurigaPort, personalUUID, perftUUID, taskUUID, to_string(type), "0", engineName, author, fen, to_string(minutes), to_string(depth));
 }
 
 void Perft::calculate() {

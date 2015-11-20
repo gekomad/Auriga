@@ -85,7 +85,7 @@ public:
                 doPerft(aurigaRoot, uuids.first, uuids.second, workerIniFile1);
             }
         }
-        
+
         if (params.size() >= 5) {
 
             string workerIniFile1 = params[1] + PATH_SEPARATOR + "worker" + PATH_SEPARATOR + params[2]+".worker.ini";;

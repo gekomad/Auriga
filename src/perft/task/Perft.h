@@ -60,6 +60,7 @@ namespace _perft {
 
         mutex getResultMutex;
         string aurigaHost;
+        string personalUUID;
         int aurigaPort;
     };
 

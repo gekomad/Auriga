@@ -30,35 +30,35 @@ bool Post::init(const string &host1, const int port1) {
     debug("resolving host ", host);
     ip = ResolveHost::getIP(host);
     if (ip.empty()) {
-        error("unknow host ",host);
+        error("unknow host ", host);
         return false;
     }
     debug("resolved host ", host, "->", ip);
     return true;
 }
 
-void Post::preparePost(const string &uuid_perft, const string &uuid_task, const string &heartbeat, const string &tot, const string &engine, const string &author, const string &fen, const string &minutes, const string &depth) {
+void Post::preparePost(const string &personalUUID, const string &uuid_perft, const string &uuid_task, const string &heartbeat, const string &tot, const string &engine, const string &author, const string &fen, const string &minutes, const string &depth) {
 
-    info("send data ", uuid_perft, " ", uuid_task, " ", heartbeat, " ", tot, " ", engine, " ", author, " ", fen);
+    info("send data ", personalUUID, " ", uuid_perft, " ", uuid_task, " ", heartbeat, " ", tot, " ", engine, " ", author, " ", fen);
 
     std::ostringstream formBuffer;
 
-    char dataType1[] = "uuid_perft=";
-    char dataType2[] = "&uuid_task=";
-    char dataType3[] = "&heartbeat=";
+    string dataType0 = "personal_uuid=";
+    string dataType1 = "&uuid_perft=";
+    string dataType2 = "&uuid_task=";
+    string dataType3 = "&heartbeat=";
 
-    char dataType4[] = "&tot=";
-    char dataType5[] = "&engine=";
-    char dataType6[] = "&author=";
-    char dataType7[] = "&fen=";
-    char dataType8[] = "&minutes=";
-    char dataType9[] = "&depth=";
+    string dataType4 = "&tot=";
+    string dataType5 = "&engine=";
+    string dataType6 = "&author=";
+    string dataType7 = "&fen=";
+    string dataType8 = "&minutes=";
+    string dataType9 = "&depth=";
 
     string FormAction = string("https://").append(ip).append(to_string(port)).append("/insert_task.php");
-//    string FormAction = "http://127.0.0.1/auriga/insert_task.php";
-    auto ContentLength = uuid_perft.size() + uuid_task.size() + heartbeat.size() + tot.size() + engine.size() + author.size() + fen.size() + minutes.size() + depth.size() + strlen(dataType1) + strlen(dataType2) + strlen(dataType3) + strlen(dataType4) + strlen(dataType5) + strlen(dataType6) + strlen(dataType7) + strlen(dataType8) + strlen(dataType9);
 
-
+    auto ContentLength = personalUUID.size() + uuid_perft.size() + uuid_task.size() + heartbeat.size() + tot.size() + engine.size() + author.size() + fen.size() + minutes.size() + depth.size() + dataType0.size() + dataType1.size() + dataType2.size() + dataType3.size() + dataType4.size() + dataType5.size() + dataType6.size() + dataType7.size() + dataType8.size() + dataType9.size();
+    
     // header
     formBuffer << "POST " << FormAction.c_str() << " HTTP/1.1\n";
     formBuffer << "Content-Type: application/x-www-form-urlencoded\n";
@@ -66,6 +66,7 @@ void Post::preparePost(const string &uuid_perft, const string &uuid_task, const 
     formBuffer << "Content-Length: " << std::to_string(ContentLength) << "\n\n";
 
     // actual content
+    formBuffer << dataType0 << personalUUID;
     formBuffer << dataType1 << uuid_perft;
     formBuffer << dataType2 << uuid_task;
     formBuffer << dataType3 << heartbeat;
@@ -76,7 +77,6 @@ void Post::preparePost(const string &uuid_perft, const string &uuid_task, const 
     formBuffer << dataType8 << minutes;
     formBuffer << dataType9 << depth;
     str = formBuffer.str();
-
 }
 
 void Post::run() {
