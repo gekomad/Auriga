@@ -33,7 +33,7 @@ if($uuid_perft==""){
 }
 
 $filename=$auriga_root."/data/".$uuid_perft."/".$uuid_perft.".ini.gz";
-error_log($filename);
+//error_log($filename);
 $data = file_get_contents($filename);
 
 header("Content-Length: ".filesize($filename));
