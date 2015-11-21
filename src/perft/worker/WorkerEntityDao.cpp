@@ -55,7 +55,7 @@ void WorkerEntityDao::readWorker() {
                 exit(1);
             }
             String s = parameters->second;
-#ifndef _WIN32
+#ifdef _WIN32
             s = s.replace("\\n", "\\r\\n");
 #endif
             workerEntity.setRegex_perft_moves(s);
