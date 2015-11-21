@@ -21,10 +21,10 @@
 void HttpPost::postThread(const string &host, const int port, const string &personalUUID, const string &uuid_perft, const string &uuid_task, const string &heartbeat, const string &tot, const string &engine, const string &author, const string &fen, const string &minutes, const string &depth) {
     info("Sending data to server host: ", host, " port: ", port, " uuid_perft: ", uuid_perft, " uuid_task: ", uuid_task, " heartbeat: ", heartbeat, " tot: ", tot, " engine: ", engine, " author: ", author, " fen: ", fen, " minutes: ", minutes, " depth: ", depth);
     gc();
-//    if (!isDelayOK()) {TODO
-//        info("don't send data to server, minimum time between 2 post is 10 minutes");
-//        return;
-//    }
+    if (!isDelayOK()) {
+        info("don't send data to server, minimum time between 2 post is 1 minute");
+        return;
+    }
 
     Post *httpClient = new Post();
     if (httpClient->init(host, port)) {
@@ -32,7 +32,6 @@ void HttpPost::postThread(const string &host, const int port, const string &pers
         httpClient->preparePost(personalUUID,uuid_perft, uuid_task, heartbeat, tot, engine, author, fen, minutes, depth);
         httpClient->start();
         httpClient->join();
-        //TODO    httpClient->detach();
     } else {
         delete httpClient;
     }
@@ -42,7 +41,7 @@ void HttpPost::postThread(const string &host, const int port, const string &pers
 
 bool HttpPost::isDelayOK() {
     auto now = std::chrono::high_resolution_clock::now();
-    if (Time::diffTime(now, lastPost) < Time::MINUTE_IN_SECONDS * 10 * 1000) {
+    if (Time::diffTime(now, lastPost) < Time::MINUTE_IN_SECONDS * 1 * 1000) {
         return false;
     }
     lastPost = now;

@@ -74,7 +74,7 @@ int Perft::getOStype() {
 void Perft::observerTotResult(const u64 result, const string &fen, const string &engineName, const int minutes, const int depth) {
 
     getResultMutex.lock();
-    /*TODO verificare*/    ofstream logResult(aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + "results.log", std::ofstream::out | std::ofstream::app);
+    ofstream logResult(aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + "results.log", std::ofstream::out | std::ofstream::app);
     logResult << "Tot Perft moves for " << perftUUID << " " << taskUUID << " " << result << " " << engineName << " " << author << " " << fen << " " << minutes << " " << depth << "\n";
     logResult.close();
     int type = getOStype();
