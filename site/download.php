@@ -1,6 +1,6 @@
 <html>
  <head>
-
+<meta charset="UTF-8">
   <meta name="robots" content="noindex">
   <title>Download Auriga</title>
 <link rel="stylesheet"  href="css/css1.css" type="text/css"/>
