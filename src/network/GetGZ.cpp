@@ -77,7 +77,7 @@ pair<string, string> GetGZ::get(const string &host, const int port, const string
                 info("fetching...");
                 FileUtil::createDirectory(dataDir + PATH_SEPARATOR + UUID_PERFT);
                 fileGzipped = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR + UUID_PERFT + ".ini.gz";
-                tmp.open(fileGzipped);
+                tmp.open(fileGzipped,ios_base::out|ios_base::binary);
             } else {
                 debug("no data fetched");
                 return pair<string, string>("", "");
