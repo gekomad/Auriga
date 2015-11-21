@@ -210,7 +210,7 @@ void Engine::init(const string &confFileName1) {
                 break;
             };
             receiveOutput.append(readbuffer);
-            log(receiveOutput);
+            log(engineName, " id: ",receiveOutput);
             std::smatch match;
             if (regex_search(receiveOutput, match, GET_NAME_REGEX[protocol]) && match.size() > 1) {
                 engineName = match[1].str();
