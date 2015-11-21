@@ -105,12 +105,9 @@ public:
         return *this;
     }
 
-    String &replace(const string &s1, const string &s2) {
-        unsigned long a;
-        while ((a = find(s1)) != string::npos) {
-            string::replace(a, s1.size(), s2);
-        }
-        return *this;
+    String &replace(const string &from, const string &to) {
+        replaceAll(*this,from ,to);
+        return  *this;
     }
 
     String &toUpper() {
@@ -121,6 +118,17 @@ public:
     String &toLower() {
         transform(begin(), end(), begin(), ::tolower);
         return *this;
+    }
+private:
+
+    void replaceAll(std::string& str, const std::string& from, const std::string& to) {
+        if(from.empty())
+            return;
+        size_t start_pos = 0;
+        while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+            str.replace(start_pos, from.length(), to);
+            start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
+        }
     }
 
 };

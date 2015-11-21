@@ -54,9 +54,12 @@ void WorkerEntityDao::readWorker() {
                 fatal("regex_perft_moves in ", iniFileName, " ends with (\\d+)");
                 exit(1);
             }
-
-            workerEntity.setRegex_perft_moves(parameters->second);
-        }  else if (parameters->first == "force_restart") {
+            String s = parameters->second;
+#ifndef _WIN32
+            s = s.replace("\\n", "\\r\\n");
+#endif
+            workerEntity.setRegex_perft_moves(s);
+        } else if (parameters->first == "force_restart") {
             workerEntity.setForce_restart(parameters->second == "true");
         } else if (parameters->first == "instances") {
             workerEntity.setInstances(String::stoi(parameters->second));
