@@ -3,8 +3,9 @@
 <meta charset="UTF-8">
 <meta name="robots" content="noindex">
 <title>Perft</title>
-<link rel="stylesheet"  href="css/css1.css" type="text/css"/>
-<link rel="stylesheet" href="css/layout.css" type="text/css" />
+<link rel="stylesheet"  href="/css/css1.css" type="text/css"/>
+<link rel="stylesheet" href="/css/layout.css" type="text/css" />
+<link type="text/css" rel="stylesheet" href="/css/tsc_pagination.css" />
 <?php echo "<script>var ut = [];</script>" ?>
 </head>
 <body onload="checkCookie()">
@@ -15,6 +16,8 @@ include_once("analyticstracking.php");?>
 
 <?php
 $uuid_perft=$_GET['uuid_perft'];
+$from =$_GET["from"];
+if($from == "")$from=0;
 if($uuid_perft == ""){
 	header("Location: 404.html");//TODO fare pagina
 }
@@ -24,7 +27,7 @@ $conn->query("SET time_zone = '{$time_zone}'");
 $sql = "SELECT fen, depth,tasks, creation_date,tot,ifnull(perc_completed,0)perc_completed FROM perft where uuid_perft='".$uuid_perft."'";
 
 $result = $conn->query($sql);
-if ($result->num_rows == 0) {
+if ($result->num_rows == 0 ) {
 	$conn->close();
 	header("Location: 404.html");//TODO fare pagina
 }
@@ -34,6 +37,8 @@ $deph =$row["depth"];
 $tasks =$row["tasks"];
 $creation_date =$row["creation_date"];
 $tot =$row["tot"];
+
+
 $perc_completed =$row["perc_completed"];
 
 
@@ -67,14 +72,16 @@ if ($result->num_rows > 0) {
 }
 echo "<br>";
 
+$sql="select uuid_task,engine n_engine,perc_completed, creation_date,minutes,if(minutes=0,' < 1 min', if(minutes>=60*24,concat(round(minutes/60/24),' days'),if(minutes>=60,concat(round(minutes/60,' hours'),' hours'),concat(minutes,' min'))))time from perft_tasks where uuid_perft ='".$uuid_perft."' order by creation_date desc,perc_completed asc limit ".$from.",500";
 
-include("_command_area.php");
-echo "<button onclick='writeCommands(\"$uuid_perft\",ut)'>Generate command</button>";
-
-$sql="select uuid_task,engine n_engine,perc_completed, creation_date,minutes,if(minutes=0,' < 1 min', if(minutes>=60*24,concat(round(minutes/60/24),' days'),if(minutes>=60,concat(round(minutes/60,' hours'),' hours'),concat(minutes,' min'))))time from perft_tasks where uuid_perft ='".$uuid_perft."' order by creation_date desc,perc_completed asc";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
-echo "<table>";
+
+	include("_command_area.php");
+	echo "<button onclick='writeCommands(\"$uuid_perft\",ut)'>Generate command</button>";
+
+
+	echo "<table>";
 		echo "<tr>";
 		echo "<td><b>#</b></td>" ;
 		echo "<td><b>Task ID</b></td>" ;
@@ -83,7 +90,7 @@ echo "<table>";
 		echo "<td><b># Engine</b></td>" ;
 		echo "<td><b>Time</b></td>" ;
 	 	echo "</tr>";
-		$count=0;
+		$count=$from;
     while($row = $result->fetch_assoc()) {		
 		echo "<tr>";
 		$count++;
@@ -101,15 +108,22 @@ echo "<table>";
 		echo "<td>".$time."</td>";
 		echo "</tr>";
     }
-echo "</table>";
+	echo "</table>";
+	if($count>500){
+		echo "<div class='pagination'><a class='page' href='perft.php?uuid_perft=".$uuid_perft."'>first page</a>";
+	}
+	if($count<$tasks){
+		echo"<a class='page'href='perft.php?uuid_perft=".$uuid_perft."&from=".($count)."'>next page</a>";
+	}
+		echo"</div>";
 } else {
     echo "0 results";
 }
 $conn->close();
+
+
 ?> 
 
-      </section>         
-        </div>
 </section>
 
 <?php include 'footer.html'; ?>    
