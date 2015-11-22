@@ -13,6 +13,7 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+
 aside,
 footer,
 header,
@@ -207,6 +208,12 @@ textarea
     top: 0;
     width: 100%;
     z-index: 50;
+}
+
+aside {
+  float: right;
+  margin: 0 1.5%;
+  width: 60%;
 }
 
 
