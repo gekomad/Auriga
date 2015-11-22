@@ -27,10 +27,24 @@ using namespace _def;
 class GetOptTask {
 public:
     static void help(char **argv) {
+        string AURIGA_ROOT;
+        string AURIGA_ROOT_EX;
+#if defined(_WIN32)
+        AURIGA_ROOT="%AURIGA_ROOT%";
+         AURIGA_ROOT_EX = "c:\\chess\\auriga_root";
+
+#else
+        AURIGA_ROOT = "$AURIGA_ROOT";
+        AURIGA_ROOT_EX="/home/bob/auriga_root";
+#endif
         string exe = FileUtil::getFileName(argv[0]);
-        cout << "Calculate perft on task:\t\t" << exe << " --task AURIGA_ROOT WORKER PERFT_UUID TASK_UUID\n";
-        cout << "Calculate perft on random task:\t\t" << exe << " --task AURIGA_ROOT WORKER PERFT_UUID ?\n";
-        cout << "Calculate perft on random perft random task:\t\t" << exe << " --task AURIGA_ROOT WORKER ? ?\n";
+
+        cout << "Calculate perft on uuid_perft and uuid_task:\t" << AURIGA_ROOT << PATH_SEPARATOR << exe << " --task " << AURIGA_ROOT << " WORKER PERFT_UUID TASK_UUID\n";
+        cout << "\texample: " << AURIGA_ROOT_EX << PATH_SEPARATOR << exe << " --task  " << AURIGA_ROOT_EX << "  stockfish 47E1A274-74D3-9A5D-6AD0-E3B06FD37D0F    AF02E872-10D0-DE6C-4089-1F23DB5D4324\n\n";
+        cout << "Calculate perft on uuid_perft and random uuid_task:\t" << exe << " --task " << AURIGA_ROOT << " WORKER PERFT_UUID ?\n";
+        cout << "\texample: " << AURIGA_ROOT_EX << PATH_SEPARATOR << exe << " --task  " << AURIGA_ROOT_EX << "  stockfish 47E1A274-74D3-9A5D-6AD0-E3B06FD37D0F    ?\n\n";
+        cout << "Calculate perft on random uuid_perft and random uuid_task:\t" << exe << " --task " << AURIGA_ROOT << " WORKER ? ?\n";
+        cout << "\texample: " << AURIGA_ROOT_EX << PATH_SEPARATOR << exe << " --task  " << AURIGA_ROOT_EX << "  stockfish ?    ?\n\n";
     }
 
     static void parse(int argc, char **argv) {
@@ -85,7 +99,7 @@ public:
                 exit(1);
             }
 
-            pair<string, string> uuids = fetch(workerIniFile1, aurigaRoot, perftUUID,taskUUID);
+            pair<string, string> uuids = fetch(workerIniFile1, aurigaRoot, perftUUID, taskUUID);
             if (!uuids.first.empty()) {
                 string uuidTask = taskUUID == "?" ? uuids.second : taskUUID;
                 doPerft(aurigaRoot, uuids.first, uuidTask, workerIniFile1);
@@ -148,7 +162,7 @@ public:
         GetGZ get;
         FileUtil::createDirectory(aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR);
         string fileName = dataDir + PATH_SEPARATOR + perftUUID + ".ini";
-        pair<string, string> uuids = get.get(aurigaHost, aurigaPort, "_downloadini.php?uuid_perft=" + perftUUID+"&uuid_task="+taskUUID, aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR);
+        pair<string, string> uuids = get.get(aurigaHost, aurigaPort, "_downloadini.php?uuid_perft=" + perftUUID + "&uuid_task=" + taskUUID, aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR);
         if (uuids.first.empty()) {
             warn("no data to fetch");
             return pair<string, string>("", "");
