@@ -6,7 +6,7 @@
 <link rel="stylesheet"  href="/css/css1.css" type="text/css"/>
 <link rel="stylesheet" href="/css/layout.css" type="text/css" />
 <link type="text/css" rel="stylesheet" href="/css/tsc_pagination.css" />
-<?php echo "<script>var ut = [];</script>" ?>
+
 </head>
 <body onload="checkCookie()">
 <?php 
@@ -78,7 +78,7 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
 
 	include("_command_area.php");
-	echo "<button onclick='writeCommands(\"$uuid_perft\",ut)'>Generate command</button>";
+	echo "<button onclick='writeCommandRandomTask(\"$uuid_perft\")'>Generate command for random task</button>";
 
 
 	echo "<table>";
@@ -99,8 +99,6 @@ if ($result->num_rows > 0) {
 		$completed=$row["perc_completed"];
 		if($completed=="")$completed="0";
 		echo "<td>".$completed."%</td>";
-//		if($completed!="100")
-		echo "<script>ut.push('".$row["uuid_task"]."');</script>";
 		$creation_date=$row["creation_date"];
 		echo "<td>$creation_date</td>";
 		echo "<td>".$row["n_engine"]."</td>";

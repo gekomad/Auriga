@@ -47,27 +47,27 @@ function setCommands(){
 	return true;
 }
 
-function writeCommandRandom(){
+function writeCommandRandomPerftTask(){
 	if(setCommands()==false)return;
 
-	var s=command+ " --task " + aurigaroot + " " + worker_ini + " -fetch_random";
+	var s=command+ " --task " + aurigaroot + " " + worker_ini+ " ? ?";
 	document.getElementById('t1').value=s;
 }
 
 function writeCommand(perft_id,uuid_task){
 	if(setCommands()==false)return;
 
-	var s=command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " "+uuid_task + " -fetch";
+	var s=command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " "+uuid_task;
 	document.getElementById('t1').value=s;
 }
 
-function writeCommands(perft_id,tasksArray){
+function writeCommandRandomTask(perft_id){
 	if(setCommands()==false)return;
 	document.getElementById('t1').value="";
-	for (var i = 0; i < tasksArray.length; i++) {
-		var s=command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " "+tasksArray[i] + " -fetch;\n";
-		document.getElementById('t1').value+=s;
-	}
+
+	var s=command+ " --task " + aurigaroot + " " + worker_ini + " " + perft_id+ " ?\n";
+	document.getElementById('t1').value+=s;
+
 }
 
 </script>

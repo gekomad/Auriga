@@ -23,7 +23,7 @@ echo "<input type='hidden' value=\"".$time_zone."\">";
 		<h1>All Perfts</h1> 
 	</hgroup>
 <?php include("_command_area.php");?>
-<?php echo "<button onclick='writeCommandRandom()'>Generate command for random task</button>";?>
+<?php echo "<button onclick='writeCommandRandomPerftTask()'>Generate command for random perft/task</button>";?>
 <?php
 
 	include 'mysql_connect.php';

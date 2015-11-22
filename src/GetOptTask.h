@@ -28,8 +28,9 @@ class GetOptTask {
 public:
     static void help(char **argv) {
         string exe = FileUtil::getFileName(argv[0]);
-        cout << "Calculate perft on task:\t\t" << exe << " --task AURIGA_ROOT WORKER PERFT_UUID TASK_UUID [-fetch]\n";
-        cout << "Calculate perft on random task:\t\t" << exe << " --task AURIGA_ROOT WORKER -fetch_random\n";
+        cout << "Calculate perft on task:\t\t" << exe << " --task AURIGA_ROOT WORKER PERFT_UUID TASK_UUID\n";
+        cout << "Calculate perft on random task:\t\t" << exe << " --task AURIGA_ROOT WORKER PERFT_UUID ?\n";
+        cout << "Calculate perft on random perft random task:\t\t" << exe << " --task AURIGA_ROOT WORKER ? ?\n";
     }
 
     static void parse(int argc, char **argv) {
@@ -72,35 +73,23 @@ public:
                                    --task_uuid3.log
 
         */
-        //--task /home/geko/auriga_root cinnamon.auriga.ini  -fetch_random
-        if (params.size() == 4 && params[3] == "-fetch_random") {
+        if (params.size() == 5) {
             string aurigaRoot = params[1];
-            string workerIniFile1 = aurigaRoot + PATH_SEPARATOR + "worker" + PATH_SEPARATOR + params[2]+".worker.ini";
-            if (!FileUtil::fileExists(workerIniFile1)) {
-                fatal("file not found ", workerIniFile1);
-                exit(1);
-            }
-            pair<string, string> uuids = fetch(workerIniFile1, aurigaRoot);
-            if(!uuids.first.empty()) {
-                doPerft(aurigaRoot, uuids.first, uuids.second, workerIniFile1);
-            }
-        }
-
-        if (params.size() >= 5) {
-
-            string workerIniFile1 = params[1] + PATH_SEPARATOR + "worker" + PATH_SEPARATOR + params[2]+".worker.ini";;
-            if (!FileUtil::fileExists(workerIniFile1)) {
-                fatal("file not found ", workerIniFile1);
-                exit(1);
-            }
-            string aurigaRoot = params[1];
+            string worker = params[2];
             string perftUUID = params[3];
             string taskUUID = params[4];
-            if (params.size() == 6 && params[5] == "-fetch") {
-                fetch(workerIniFile1, aurigaRoot, perftUUID);
+
+            string workerIniFile1 = aurigaRoot + PATH_SEPARATOR + "worker" + PATH_SEPARATOR + worker + ".worker.ini";
+            if (!FileUtil::fileExists(workerIniFile1)) {
+                fatal("file not found ", workerIniFile1);
+                exit(1);
             }
 
-            doPerft(aurigaRoot, perftUUID, taskUUID, workerIniFile1);
+            pair<string, string> uuids = fetch(workerIniFile1, aurigaRoot, perftUUID,taskUUID);
+            if (!uuids.first.empty()) {
+                string uuidTask = taskUUID == "?" ? uuids.second : taskUUID;
+                doPerft(aurigaRoot, uuids.first, uuidTask, workerIniFile1);
+            }
 
         } else {
             help(argv);
@@ -125,25 +114,20 @@ public:
         }
         log("Do perft perft_uuid: ", perftUUID, " task_uuid: ", taskUUID);
 
-        _perft::Perft perft(aurigaRoot,taskUUID, perftIniFile, workerIniFile1);
+        _perft::Perft perft(aurigaRoot, taskUUID, perftIniFile, workerIniFile1);
         perft.calculate();
     }
 
-    static pair<string, string> fetch(const string &workerIniFile, const string &aurigaRoot, const string &perftUUID = "") {
+    static pair<string, string> fetch(const string &workerIniFile, const string &aurigaRoot, const string &perftUUID, const string &taskUUID) {
 
         string dataDir = aurigaRoot + PATH_SEPARATOR "data" + PATH_SEPARATOR;
-        if (!perftUUID.empty()) {
-            if (FileUtil::fileExists(dataDir + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + perftUUID + ".ini")) {
-                warn("file " + dataDir + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + perftUUID + ".ini exists, skip fetch data");
-                return pair<string, string>(perftUUID, "");
-            }
-        }
+
         IniFile ini(workerIniFile);
         string aurigaHost = ini.getValue("host");
 
         //test connection
         if (ResolveHost::getIP(aurigaHost).empty()) {
-            fatal("cant't resolve host ",aurigaHost);
+            fatal("cant't resolve host ", aurigaHost);
             exit(1);
         }
 
@@ -164,7 +148,7 @@ public:
         GetGZ get;
         FileUtil::createDirectory(aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR);
         string fileName = dataDir + PATH_SEPARATOR + perftUUID + ".ini";
-        pair<string, string> uuids = get.get(aurigaHost, aurigaPort, "downloadini.php?id=" + perftUUID, aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR);
+        pair<string, string> uuids = get.get(aurigaHost, aurigaPort, "_downloadini.php?uuid_perft=" + perftUUID+"&uuid_task="+taskUUID, aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR);
         if (uuids.first.empty()) {
             warn("no data to fetch");
             return pair<string, string>("", "");
