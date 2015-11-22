@@ -46,7 +46,7 @@ header("Expires: 0"); // Proxies.
     <div class="row">
         <section>
 <aside >
-<textarea id="tree" type="text" style=" height:70%; border: none; background-color: Lavender ;"></textarea>
+<textarea readonly id="tree" type="text" style=" height:70%;border: none; background-color: Lavender ;"></textarea>
 </aside>
             <form method="post" onsubmit="return validate();" action="generate_master_ini.php" name="perftform" id="perftform" class="form form-stacked c-form">
                 fen:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="fen" type="text" id="fen" placeholder="Fen string"/>
