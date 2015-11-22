@@ -25,17 +25,15 @@ class GetOptMaster {
 public:
     static void help(char **argv) {
         string AURIGA_ROOT;
-        string AURIGA_ROOT_EX;
 #if defined(_WIN32)
         AURIGA_ROOT="%AURIGA_ROOT%";
          AURIGA_ROOT_EX = "c:\\chess\\auriga_root";
 #else
         AURIGA_ROOT = "$AURIGA_ROOT";
-        AURIGA_ROOT_EX = "/home/bob/auriga_root";
 #endif
         string exe = FileUtil::getFileName(argv[0]);
         cout << "Generate ini file:\t" << exe << " --generate-ini " << AURIGA_ROOT << " Ntask \"FEN\" DEPTH\n";
-        cout << "\texample: " << AURIGA_ROOT_EX << PATH_SEPARATOR << exe << " --generate-ini  " << AURIGA_ROOT_EX << "  1000 \"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\" 15\n\n";
+        cout << "\texample: " << AURIGA_ROOT << PATH_SEPARATOR << exe << " --generate-ini  " << AURIGA_ROOT << "  1000 \"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\" 15\n\n";
         cout << "Calculate Ntasks on reduce:\t" << exe << " --calculate-tasks \"FEN\" REDUCE\n";
     }
 

@@ -31,9 +31,9 @@ using namespace std;
 using namespace _uuid;
 
 void printHeader() {
-    cout << NAME << " - Distributed and collaborative Perft system by Giuseppe Cannella\n";
+    cout << NAME << " - Distributed and Collaborative Perft System by Giuseppe Cannella\n";
 #if UINTPTR_MAX == 0xffffffffffffffff
-    cout << "version 64-bit ";
+    cout << "64-bit version ";
 #else
     cout <<"32-bit version manages results <= 2^64\n";
 #endif

@@ -28,23 +28,19 @@ class GetOptTask {
 public:
     static void help(char **argv) {
         string AURIGA_ROOT;
-        string AURIGA_ROOT_EX;
 #if defined(_WIN32)
         AURIGA_ROOT="%AURIGA_ROOT%";
-         AURIGA_ROOT_EX = "c:\\chess\\auriga_root";
-
 #else
         AURIGA_ROOT = "$AURIGA_ROOT";
-        AURIGA_ROOT_EX="/home/bob/auriga_root";
 #endif
         string exe = FileUtil::getFileName(argv[0]);
 
         cout << "Calculate perft on uuid_perft and uuid_task:\t" << AURIGA_ROOT << PATH_SEPARATOR << exe << " --task " << AURIGA_ROOT << " WORKER PERFT_UUID TASK_UUID\n";
-        cout << "\texample: " << AURIGA_ROOT_EX << PATH_SEPARATOR << exe << " --task  " << AURIGA_ROOT_EX << "  stockfish 47E1A274-74D3-9A5D-6AD0-E3B06FD37D0F    AF02E872-10D0-DE6C-4089-1F23DB5D4324\n\n";
+        cout << "\texample: " << AURIGA_ROOT << PATH_SEPARATOR << exe << " --task  " << AURIGA_ROOT << "  stockfish 47E1A274-74D3-9A5D-6AD0-E3B06FD37D0F    AF02E872-10D0-DE6C-4089-1F23DB5D4324\n\n";
         cout << "Calculate perft on uuid_perft and random uuid_task:\t" << exe << " --task " << AURIGA_ROOT << " WORKER PERFT_UUID ?\n";
-        cout << "\texample: " << AURIGA_ROOT_EX << PATH_SEPARATOR << exe << " --task  " << AURIGA_ROOT_EX << "  stockfish 47E1A274-74D3-9A5D-6AD0-E3B06FD37D0F    ?\n\n";
+        cout << "\texample: " << AURIGA_ROOT << PATH_SEPARATOR << exe << " --task  " << AURIGA_ROOT << "  stockfish 47E1A274-74D3-9A5D-6AD0-E3B06FD37D0F    ?\n\n";
         cout << "Calculate perft on random uuid_perft and random uuid_task:\t" << exe << " --task " << AURIGA_ROOT << " WORKER ? ?\n";
-        cout << "\texample: " << AURIGA_ROOT_EX << PATH_SEPARATOR << exe << " --task  " << AURIGA_ROOT_EX << "  stockfish ?    ?\n\n";
+        cout << "\texample: " << AURIGA_ROOT << PATH_SEPARATOR << exe << " --task  " << AURIGA_ROOT << "  stockfish ?    ?\n\n";
     }
 
     static void parse(int argc, char **argv) {
