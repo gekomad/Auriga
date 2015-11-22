@@ -22,7 +22,7 @@ header("Expires: 0"); // Proxies.
 		
 		res=0;
 		pretask=1;
-		while(res<=5000)
+		while(res<=10000)
 		{
 			res = gettasks(fen,rd);
 			document.getElementById("tree").innerHTML +="tasks >= "+pretask+" and <=" + res+" reduce depth: "+rd+"\n";
@@ -60,7 +60,7 @@ header("Expires: 0"); // Proxies.
 				<br>
 			
 				<br>tasks:&nbsp;&nbsp;<input name="tasks" type="text" id="tasks" placeholder="tasks number"/>
-                <small id="error_tasks" class="hidden">tasks is a number between 1 and 5000</small>
+                <small id="error_tasks" class="hidden">tasks is a number between 1 and 10000</small>
                 <br>
                 <br>
                 depth:&nbsp;<input name="depth" type="text" id="depth" placeholder="depth"/>
