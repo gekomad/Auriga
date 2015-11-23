@@ -20,8 +20,7 @@
 			<p><a href="https://chsfsft"><img src="/img/os/WIN.png" height="50" width="50" />Windows</a> </p>
 			<p><a href="https://chsfsft"><img src="/img/os/LINUX.png" height="50" width="50" />Linux</a> </p>
 			<p><a href="https://chsfsft"><img src="/img/os/APPLE.png" height="50" width="50" />Mac</a> </p>
-			<p><a href="https://chsfsft"><img src="/img/os/ODROID.png" height="11" width="50" />Odroid</a> </p>
-			<p><a href="https://chsfsft"><img src="/img/os/RASPBERRY.png" height="50" width="40" />Raspberry</a> </p> 
+			<p><a href="https://chsfsft"><img src="/img/os/ARM.png" height="50" width="40" />Raspberry</a> </p>
      		<p><a href="https://chsfsft"><img src="/img/GITHUB.png" height="42" width="50" />Source</a> </p>         
           </section>        
 	   </div>

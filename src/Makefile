@@ -49,7 +49,6 @@ help:
 	@echo "make auriga64      [COMP=compiler]"
 	@echo "make auriga32      [COMP=compiler]"
 	@echo "make auriga-ARM    [COMP=compiler]"
-	@echo "make auriga-ODROID [COMP=compiler]"
 
 	@echo ""
 	@echo "g++ is the default compiler, add COMP=yourcompiler to use another compiler"
@@ -65,10 +64,7 @@ auriga32:
 	$(MAKE) LIBS="$(LIBS) lib/$(OS)/32/libCinnamon.a lib/$(OS)/32/libz.a" ARC="-m32" build
 
 auriga-ARM:
-	$(MAKE) LIBS="$(LIBS) lib/ARM/32/libCinnamon.a lib/ARM/32/libz.a" ARC="-fno-gcse -w -D_AURIGA_RASPBERRY -fsigned-char" build
-
-auriga-ODROID:
-	$(MAKE) LIBS="$(LIBS) lib/ODROID/32/libCinnamon.a lib/ODROID/32/libz.a" ARC="-fno-gcse -w -D_AURIGA_ODROID -fsigned-char" build
+	$(MAKE) LIBS="$(LIBS) lib/ARM/32/libCinnamon.a lib/ARM/32/libz.a" ARC="-fno-gcse -w -D_AURIGA_ARM -fsigned-char" build
 
 auriga64:
 	$(MAKE) LIBS="$(LIBS) lib/$(OS)/64/libCinnamon.a  lib/$(OS)/64/libz.a" ARC="-m64" build

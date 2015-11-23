@@ -39,9 +39,8 @@ namespace _perft {
         static const int OS_WIN =             0b10;
         static const int OS_APPLE =          0b100;
         static const int OS_LINUX =         0b1000;
-        static const int OS_RASPBERRY =    0b10000;
-        static const int OS_ODROID =      0b100000;
-        static const int OS_UNIX =       0b1000000;
+        static const int OS_ARM =          0b10000;
+        static const int OS_UNIX =        0b100000;
 
         string taskUUID;
         string masterFile;

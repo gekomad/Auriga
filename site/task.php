@@ -75,17 +75,15 @@ if ($result->num_rows == 0) {
 	define("OS_WIN", 0b10);
 	define("OS_APPLE", 0b100);
 	define("OS_LINUX", 0b1000);
-	define("OS_RASPBERRY", 0b10000);
-	define("OS_ODROID", 0b100000);
-	define("OS_UNIX", 0b1000000);
+	define("OS_ARM", 0b10000);
+	define("OS_UNIX", 0b100000);
 
 	function getOStype($heartbeat){
 
 		if($heartbeat & OS_WIN)return "WIN";
 		if($heartbeat & OS_APPLE)return "APPLE";
 		if($heartbeat & OS_LINUX)return "LINUX";
-		if($heartbeat & OS_RASPBERRY)return "RASPBERRY";
-		if($heartbeat & OS_ODROID)return "ODROID";
+		if($heartbeat & OS_ARM)return "ARM";
 		if($heartbeat & OS_UNIX)return "UNIX";
 		return "none";
 	}
