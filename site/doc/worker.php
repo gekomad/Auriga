@@ -16,10 +16,9 @@
           </hgroup>
 
         <div class="row">
-          <section class="col-xs-12 col-sm-6 col-md-6">
-			
+          <section class="col-xs-12 col-sm-6 col-md-6">			
             <section>             			             
-				<p>Il worker è un file contenuto nella cartella <code>$AURIGA_ROOT/worker</code> e identifica il motore utilizzato sulla tua macchina per calcolare il perft.</p>	
+				<p>The worker is a file in the folder <code>$AURIGA_ROOT/worker</code> and identifies the engine used on your machine to calculate the perft.</p>	
             
 <pre>
 #AURIGA worker ini file
@@ -31,6 +30,7 @@ port=host port
 <b>[worker]</b>
 #your name (will be published)
 public_name=name or nick
+personal_uuid=00000000-0000-0000-0000-000000000001
 
 <b>[engine]</b>
 path=full path engine
@@ -48,9 +48,8 @@ instances=n' instances
 
 </pre>
 
-Devi settare opportunamente la voce <b>path</b> con il path assoluto del motore che vuoi utilizzare e la voce <b>regex_perft_moves</b> è la stringa che restituisce il motore dopo aver eseguito un perft
-
-<br>example of <b>Cinnamon</b> worker with some uci options:<br><br>
+It is necessary set properly the entry <b>path</b> with the absolute path of the engine you want to use and the entry <b>regex_perft_moves</b> is the string that returns the engine after running a perft.
+<br>Example of <b>Cinnamon</b> worker with some uci options:<br><br>
 <pre>
 #AURIGA worker ini file
 
@@ -59,24 +58,19 @@ host=auriga-cinnamon.rhcloud.com
 port=80
 
 <b>[worker]</b>
-#your name (will be published)
 public_name=John Smith (Notebook Dell)
+personal_uuid=00000000-0000-0000-0000-000000000001
 
 <b>[engine]</b>
-path=c:\chess\engines\cinnamon.exe
+path=/home/geko/cinnamon
 
-#engine output for perft result
 regex_perft_moves=<span style="color:red">Perft moves: (\d+) in .*</span>
 
 force_restart=true
 
-#run a single instance with 4 threads
 instances=1
 
 <b>[setoption_name_value]</b>
-#uci options
-#option=value
-
 #send to engine: setoption name PerftThreads value 4
 PerftThreads=4
 
@@ -84,14 +78,14 @@ PerftThreads=4
 PerftHashSize=1000
 </pre>
 
-to found <b>regex_perft_moves</b> run a simple perft and create la regex corrispondente, deve essere presente un solo (\d+) che identifica le mosse calcolate
+in this example will be run one process of cinnamon with 4 threads and 1 Gb hashtable. To found <b>regex_perft_moves</b> run a simple perft and creates the regex matching, must be only one (\d+) that identifies the moves calculated<br><br>
 <pre>
 perft 1
 <span style="color:red">Perft moves: 20 in 0 seconds 1 millsec</span>
 </pre>
 
 
-<br>example of <b>Crafty</b> worker:<br><br>
+<br>Example of <b>Crafty</b> worker, will be run 2 parallel process:<br><br>
 <pre>
 #AURIGA worker ini file
 
@@ -101,15 +95,16 @@ port=80
 
 <b>[worker]</b>
 public_name=Alice L.
+personal_uuid=00000000-0000-0000-0000-000000000001
 
 <b>[engine]</b>
-path=/home/geko/crafty
+path=/Users/geeno/engines/crafty
 regex_perft_moves=<span style="color:red">total moves=(\d+)  time=.*</span>
 force_restart=true
 instances=2
 </pre>
 
-to found <b>regex_perft_moves</b> run a simple perft and create la regex corrispondente, deve essere presente un solo (\d+) che identifica le mosse calcolate
+to found <b>regex_perft_moves</b> run a simple perft and creates the regex matching, must be only one (\d+) that identifies the moves calculated<br><br>
 <pre>
 White(1): xboard
 
@@ -119,7 +114,7 @@ perft 2
 <span style="color:red">total moves=400  time=0.00</span>
 </pre>
 
-<br>example of <b>Stockfish</b> worker:<br><br>
+<br>Example of <b>Stockfish</b> worker, will be run 4 parallel process:<br><br>
 <pre>
 #AURIGA worker ini file
 
@@ -129,15 +124,16 @@ port=80
 
 <b>[worker]</b>
 public_name=Bob (I7)
+personal_uuid=00000000-0000-0000-0000-000000000001
 
 <b>[engine]</b>
-path=/home/geko/stockfish
+path=c:\chess\myengines\stockfish.exe
 regex_perft_moves=<span style="color:red">Nodes searched  : (\d+)\n</span>
 force_restart=true
-instances=2
+instances=4
 </pre>
 
-to found <b>regex_perft_moves</b> run a simple perft and create la regex corrispondente, deve essere presente un solo (\d+) che identifica le mosse calcolate
+to found <b>regex_perft_moves</b> run a simple perft and creates the regex matching, must be only one (\d+) that identifies the moves calculated. In this case don't set <b>\r\n</b> but only <b>\n</b><br><br>
 <pre>
 Stockfish 6 64 by Tord Romstad, Marco Costalba and Joona Kiiski
 perft 1
