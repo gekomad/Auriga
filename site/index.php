@@ -23,34 +23,34 @@
                     <a href="https://en.wikipedia.org/wiki/Auriga_%28slave%29">
                         <img src="img/logo.jpg"/> <br></a>
 
-                    <p>Auriga è un sistema open source distribuito collaborativo e multi piattaforma per il calcolo della funzione <a href="https://chessprogramming.wikispaces.com/Perft">Perft</a>.
+                    <p>Auriga is an open source distributed collaborative and multi platform for the calculation of the function <a href="https://chessprogramming.wikispaces.com/Perft">Perft</a>.
 
-                    <h3>Come funziona</h3>
+                    <h3>How does it work</h3>
+					<p>The tree is divided into tasks, each task will be analyzed from a single machine (<b>worker</b>) and the result will be sent automatically to this site. When all tasks are processed you will have the result of perft.
 
-                    <p>L'albero viene suddiviso in tasks, ogni task sarà analizzato da una singola macchina (<b>worker</b>) e il risultato sarà inviato automaticamente a questo sito. Quando tutti i tasks saranno elaborati si avrà il risultato finale del perft.
 
                     <h3>Setup worker</h3>
-                    <a href="download.php">Scaricare</a> Auriga per la tua piattaforma e copiare la cartella in quelche parte del tuo file system;
-                    settare la variabile di ambiente AURIGA_ROOT ad esempio su ubuntu inserisci nel file ~/.bashrc <br><br>
+                    <a href="download.php">Download</a> auriga for your platform and copy the folder somewhere in your file system, set the environment variable AURIGA_ROOT example of ubuntu insert in the file ~/.bashrc <br><br>
                     <code>export AURIGA_ROOT="/your/path/auriga_root"</code>
-                    per windows clicca <a href="https://support.microsoft.com/en-us/kb/310519">qui.</a><br><br>La cartella <i>auriga_root</i> contiene un'altra cartella denominata <i>worker</i> con le configurazioni per alcuni motori, vedi <a href="doc/worker.php">qui</a> per la configurazione del worker.
+                    for windows click <a href="https://support.microsoft.com/en-us/kb/310519">here.</a><br>
+					<br>The directory <i>auriga_root</i> contains another folder named <i>worker</i> with some configuration engines, see <a href="doc/worker.php">here</a> for the configuration of the worker.
                     </p>
 
-                    <h3>Lanciare un worker</h3>
-                    Prima di lanciare un worker devi averlo <a href="doc/worker.php">configurato</a>.<br><br>
+                    <h3>Launch a worker</h3>
+                    Before launching a worker you must have <a href="doc/worker.php">configured</a>.<br><br>
 
-                    <p>Puoi lanciare un worker su:
+                    <p>You can launch a worker on:
                     <ul>
-                        <li> un task random non acora completato, vai <a href="allperft.php">qui</a> seleziona un worker e clicca sul bottone 'Generate command for random task',
-                            copia e incolla il comando generato sulla shell della tua macchina.
+							
+                        <li>a random perft and task not yet completed, go <a href="allperft.php">here</a> select a worker and click on <code>Generate command for random perft/task</code>, copy and paste the generated command in a shell on your machine.
                         </li>
 
-                        <li>Tutti i task non completati di un perft - vai <a href="allperft.php">qui</a> clicca su un perft e poi su 'Generate command for uncompleted tasks' copia e incolla il comando generato sulla shell della tua macchina.</li>
+                        <li>a random task on a given perft not yet completed, go <a href="allperft.php">here</a> click on a perft and click on <code>Generate command for random tasks</code>, copy and paste the generated command shell on your machine.</li>
 
-                        <li>Un determinato task - dalla pagina precedente clicca su un task e poi su 'Generate command' copia e incolla il comando generato sulla shell della tua macchina.</li>
+                        <li>a specific task - the previous page click on a task and then on <code>Generate command</code> copy and paste the generated command shell on your machine.</li>
                     </p>
                     </ul>
-                    <h2>Lavorare sulla tua rete</h2>
+                    <h2>Work on your network</h2>
                     <p>View <a href="doc/inside_auriga.php">inside auriga</a></p>
                 </section>
         </div>
