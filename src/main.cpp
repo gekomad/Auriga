@@ -68,7 +68,7 @@ void printHeader() {
     cout << flush;
 }
 
-int main(int argc, char *argv[]) {//TODO eliminare directory site
+int main(int argc, char *argv[]) {
 
     printHeader();
 

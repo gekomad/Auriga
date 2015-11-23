@@ -42,9 +42,9 @@ private:
     HANDLE g_hChildStd_OUT_Rd = NULL;
     HANDLE g_hChildStd_ERR_Rd = NULL;
 
-    HANDLE g_hChildStd_IN_Rd = NULL;//TODO provare a chiudere subito e lasciarlo locale
-    HANDLE g_hChildStd_OUT_Wr = NULL;//TODO provare a chiudere subito e lasciarlo locale
-    HANDLE g_hChildStd_ERR_Wr = NULL;//TODO provare a chiudere subito e lasciarlo locale
+    HANDLE g_hChildStd_IN_Rd = NULL;
+    HANDLE g_hChildStd_OUT_Wr = NULL;
+    HANDLE g_hChildStd_ERR_Wr = NULL;
 };
 
 #endif
