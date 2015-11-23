@@ -21,16 +21,10 @@
           <hgroup>
 
  		
-         </hgroup><div class="row"><section>
-              <h2>Depsloying code changes</h2>
-                <p>OpenShift uses the <a href="http://git-scm.com/">Git version control system</a>
- for your source code, and grants you access to it via the Secure Shell 
-(SSH) protocol. In order to upload and download code to your application
- you need to give us your <a href="https://developers.openshift.com/en/managing-remote-connection.html">public SSH key</a>. You can upload it within the web console or install the <a href="https://developers.openshift.com/en/managing-client-tools.html">RHC command line tool</a> and run <code>rhc setup</code> to generate and upload your key automatically.</p>
-               
+         </hgroup><div class="row"><section>             
+                <p>It's the list of tasks with different results among the various engines.</p>               
 
          <?php  
-
 
 	include 'mysql_connect.php';
 	$sql = "select uuid_perft,uuid_task,fen,depth,tot from tasks where anomaly !=1";
@@ -63,6 +57,8 @@
 			echo "</tr>";
     	}
 		echo "</table>";
+	}else{
+		echo "No anomaly found :)";
 	}
 	
 	$conn->close();	
