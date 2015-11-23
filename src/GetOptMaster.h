@@ -34,7 +34,8 @@ public:
         string exe = FileUtil::getFileName(argv[0]);
         cout << "Generate ini file:\t" << exe << " --generate-ini " << AURIGA_ROOT << " Ntask \"FEN\" DEPTH\n";
         cout << "\texample: " << AURIGA_ROOT << PATH_SEPARATOR << exe << " --generate-ini  " << AURIGA_ROOT << "  1000 \"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\" 15\n\n";
-        cout << "Calculate Ntasks on reduce:\t" << exe << " --calculate-tasks \"FEN\" REDUCE\n";
+        cout << "Calculate Ntasks on reduce:\t" << exe << " --calculate-tasks \"FEN\"\n";
+        cout << "\texample: " << AURIGA_ROOT << PATH_SEPARATOR << exe << " --calculate-tasks  " << " \"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\" \n\n";
     }
 
     static void parse(int argc, char **argv) {
@@ -43,13 +44,17 @@ public:
             params.push_back(argv[i]);
         }
 
-        if (params[0] == "--calculate-tasks" && params.size() == 3) {
+        if (params[0] == "--calculate-tasks" && params.size() == 2) {
             string fen = params[1];
-            int reduce = stoi(params[2]);
-            WrapperCinnamon wrapperCinnamon;
 
-            pair<int, int> tasksReduce = wrapperCinnamon.getNtasks(fen, reduce, INT_MAX);
-            cout << "N tasks: " << tasksReduce.second << " reduce " << tasksReduce.first << endl;
+            WrapperCinnamon wrapperCinnamon;
+            unsigned tasksReduce = 0;
+            int depth=1;
+            while (tasksReduce < 10000) {
+                tasksReduce = wrapperCinnamon.perft(fen, depth);
+                cout << "N tasks: " << tasksReduce << " reduce depth " << depth << endl;
+                depth++;
+            }
 
         } else if (params[0] == "--generate-ini" && params.size() == 5) {
             string aurigaRoot = params[1];

@@ -29,5 +29,5 @@ class WrapperCinnamon {
 
 public:
     vector<string> getSuccessorsFen(const string &fen, const int depth);
-    pair<int,int> getNtasks(const string &fen, const int reduce, const int maxTasks);//TODO eliminare e usare perft
+    unsigned perft(const string &fen, const int depth);
 };
