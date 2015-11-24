@@ -55,7 +55,7 @@ void Post::preparePost(const string &personalUUID, const string &uuid_perft, con
     string dataType8 = "&minutes=";
     string dataType9 = "&depth=";
 
-    string FormAction = string("https://").append(ip).append(to_string(port)).append("/insert_task.php");
+    string FormAction = string("https://").append(ip).append(to_string(port)).append("/php/insert_task.php");
 
     auto ContentLength = personalUUID.size() + uuid_perft.size() + uuid_task.size() + heartbeat.size() + tot.size() + engine.size() + author.size() + fen.size() + minutes.size() + depth.size() + dataType0.size() + dataType1.size() + dataType2.size() + dataType3.size() + dataType4.size() + dataType5.size() + dataType6.size() + dataType7.size() + dataType8.size() + dataType9.size();
     
