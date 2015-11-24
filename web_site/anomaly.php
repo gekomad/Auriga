@@ -12,14 +12,10 @@
 <?php include 'menu.php';?>   
 
 <section class="container">
-<hgroup><h1>Anomaly Fen</h1></hgroup>
+<hgroup><h1><br>Anomaly Fen</h1><br></hgroup>
 
 <?php $fen=$_POST['fen'];?>
-
-
-</form>
-          <hgroup>
-
+</form>     <hgroup>
  		
          </hgroup><div class="row"><section>             
                 <p>It's the list of tasks with different results among the various engines.</p>               

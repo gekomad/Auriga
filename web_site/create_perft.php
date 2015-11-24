@@ -43,7 +43,7 @@ include 'menu.php';?>
 
 <section class="container">
     <hgroup>
-        <h1>Tasks Calculator</h1>
+        <h1><br>Create new Perft</h1><br>
     </hgroup>   
     <div class="row">
         <section>

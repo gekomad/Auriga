@@ -46,13 +46,7 @@ $perc_completed =$row["perc_completed"];
 <section class="container">
           <hgroup><?php echo "<h1>Perft id ".$uuid_perft."</h1> ";?></hgroup>
         <div class="row">        
-            <section>
-              <h2>Depsloying code changes</h2>
-                <p>OpenShift uses the <a href="http://git-scm.com/">Git version control system</a>
- for your source code, and grants you access to it via the Secure Shell 
-(SSH) protocol. In order to upload and download code to your application
- you need to give us your <a href="https://developers.openshift.com/en/managing-remote-connection.html">public SSH key</a>. You can upload it within the web console or install the <a href="https://developers.openshift.com/en/managing-client-tools.html">RHC command line tool</a> and run <code>rhc setup</code> to generate and upload your key automatically.</p>
-
+            <section>             
 <?php   
 
 echo "<div align='center'><img src='http://webchess.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=lavander&amp&color2=635147&amp&color3=000000'  height='300' width='300'></div>";

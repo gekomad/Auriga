@@ -13,7 +13,7 @@
 <?php include 'menu.php';?>   
 
 <section class="container">
-<hgroup><h1>Search Fen</h1></hgroup>
+<hgroup><h1><br>Search Fen</h1><br></hgroup>
 
 <?php $fen=$_POST['fen'];?>
 
@@ -22,12 +22,8 @@ Search fen: <input name="fen" type="text" id="fen" placeholder="Fen string" valu
 <small id="error_fen" class="hidden">fen format is wrong [fen validator: <a href="https://github.com/jhlywa/chess.js">https://github.com/jhlywa/chess.js</a>]</small>
 
 </form>
-          <hgroup>
-
- 		
-         </hgroup><div class="row"><section>
-             
-
+          <hgroup> 		
+         </hgroup><div class="row"><section>             
          <?php  
 
 if($fen!="") {	

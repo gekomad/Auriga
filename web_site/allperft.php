@@ -20,7 +20,7 @@ echo "<input type='hidden' value=\"".$time_zone."\">";
 <section class="container">
 	<div class="row">
 	<hgroup>
-		<h1>All Perfts</h1> 
+		<h1><br>All Perfts</h1> <br>
 	</hgroup>
 <?php include("_command_area.php");?>
 <?php echo "<button onclick='writeCommandRandomPerftTask()'>Generate command for random perft/task</button>";?>

@@ -20,14 +20,14 @@
 			
             <section>             
 			
-                <h2>Work on your network</h2>
-				<p>You can use Auriga outside of this site, in this tutorial you will see how to configure a cluster with 3 machines (workers) 192.168.1.100, 192.168.1.101, 192.168.1.102 (you can use all the machines you want) on the three machines <a href="download.php">Download</a> auriga and configure the environment variable $AURIGA_ROOT
+                <h2>Work on your cluster</h2>
+				<p>You can use Auriga outside of this site, in this page you will see how to configure a cluster with 3 machines (workers) 192.168.1.100, 192.168.1.101, 192.168.1.102 (you can use all the machines you want), on the three machines <a href="download.php">Download</a> auriga and configure the environment variable <code>$AURIGA_ROOT</code>
 </p>	
-                <h3>create a Perft in your shell (command line)</h3>
+                <h3>create a Perft (command line)</h3>
 				<p>
-                on 192.168.1.100 launch <pre>./auriga --generate-ini $AURIGA_ROOT Ntask "FEN" DEPTH</pre>
-				example:
-				<pre>./auriga --generate-ini $AURIGA_ROOT 100 "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" 10</pre>
+                on 192.168.1.100 launch <pre>$AURIGA_ROOT/auriga --generate-ini $AURIGA_ROOT Ntask "FEN" DEPTH</pre>
+				example create a perft with 100 tasks and depth 10:
+				<pre>$AURIGA_ROOT/auriga --generate-ini $AURIGA_ROOT 100 "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" 10</pre>
 <pre>
 Auriga 0.1.x - Distributed and collaborative Perft system by Giuseppe Cannella
 version 64-bit compiled Nov 10 2015 with GNU GCC 5.1.0
@@ -53,7 +53,6 @@ $ ls -l $AURIGA_ROOT/data/799GCE65-CDD6-43BA-G7D3-18AG9C4833D6
  -rw-r--r-- 1 geko geko 1962 nov 12 13:36 task_fens.txt
 </pre>
 
-*.txt files can be deleted<br><br>
 <pre>zmore $AURIGA_ROOT/data/799GCE65-CDD6-43BA-G7D3-18AG9C4833D6/799GCE65-CDD6-43BA-G7D3-18AG9C4833D6.ini.gz</pre>
 <pre>
 #auriga ini file - AUTO-GENERATED FILE - DO NOT EDIT
@@ -85,7 +84,7 @@ send the .gz file on the workers:
 scp $AURIGA_ROOT/data/799GCE65-CDD6-43BA-G7D3-18AG9C4833D6/799GCE65-CDD6-43BA-G7D3-18AG9C4833D6.ini.gz user@192.168.1.101:$AURIGA_ROOT/data/799GCE65-CDD6-43BA-G7D3-18AG9C4833D6
 scp $AURIGA_ROOT/data/799GCE65-CDD6-43BA-G7D3-18AG9C4833D6/799GCE65-CDD6-43BA-G7D3-18AG9C4833D6.ini.gz user@192.168.1.102:$AURIGA_ROOT/data/799GCE65-CDD6-43BA-G7D3-18AG9C4833D6
 </pre>
-remove the host entry in worker file (ex. $AURIGA_ROOT/worker/stockfish.worker.ini) 
+remove the host entry in worker file (example $AURIGA_ROOT/worker/stockfish.worker.ini) 
 <br>from
 <pre>host=auriga-cinnamon.rhcloud.com</pre>
 to
@@ -101,7 +100,8 @@ in windows machine launch
 %AURIGA_ROOT%\auriga.exe --task %AURIGA_ROOT% stockfish 6EDBD9C7-B1B5-C402-FEDD-1CE33A016572  2AD20F3E-C861-E557-250E-0F2871309DGG
 </pre>
 
-at the end of the work in <code>$AURIGA_ROOT/data/6EDBD9C7-B1B5-C402-FEDD-1CE33A016572/results.log</code> there is the result of calculation for the task 2AD20F3E-C861-E557-250E-0F2871309DGG
+at the end of the work in <code>$AURIGA_ROOT/data/6EDBD9C7-B1B5-C402-FEDD-1CE33A016572/results.log</code> there is the result of calculation for the task 2AD20F3E-C861-E557-250E-0F2871309DGG, repeat last command for all uuid_task.
+
 
 </p>
 </section>        

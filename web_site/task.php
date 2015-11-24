@@ -57,17 +57,12 @@ if ($result->num_rows == 0) {
           <hgroup>
 
 <?php 
-  echo "<h1>task id ".$uuid_task."</h1> ";
-	echo "perft uuid: <a href='perft.php?uuid_perft=$uuid_perft'>$uuid_perft</a><br><br>";
+  echo "<h1><br>Task id ".$uuid_task."</h1> ";
+	echo "<h2><br>Perft id <a href='perft.php?uuid_perft=$uuid_perft'>$uuid_perft</a></h2><br><br>";
 	?>
           </hgroup><div class="row"><section>
 			
-              <h2>Deploying code changes</h2>
-                <p>OpenShift uses the <a href="http://git-scm.com/">Git version control system</a>
- for your source code, and grants you access to it via the Secure Shell 
-(SSH) protocol. In order to upload and download code to your application
- you need to give us your <a href="https://developers.openshift.com/en/managing-remote-connection.html">public SSH key</a>. You can upload it within the web console or install the <a href="https://developers.openshift.com/en/managing-client-tools.html">RHC command line tool</a> and run <code>rhc setup</code> to generate and upload your key automatically.</p>
-
+              
 <?php include("_command_area.php");?>
 <?php echo "<button onclick='writeCommand(\"$uuid_perft\",\"$uuid_task\")'>Generate command</button>";?>
 <?php 
