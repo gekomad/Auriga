@@ -1,10 +1,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-    <?php
-header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
-header("Pragma: no-cache"); // HTTP 1.0.
-header("Expires: 0"); // Proxies.
+<?php
+header("Cache-Control: no-cache, no-store, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
+include_once 'set_variable.php';
 ?>
     <meta name="robots" content="noindex">
     <title>New Perft</title>
@@ -22,7 +23,7 @@ header("Expires: 0"); // Proxies.
 		
 		res=0;
 		pretask=1;
-		while(res<=1000)
+		while(res<= <?php echo "$max_tasks";?> )
 		{
 			res = gettasks(fen,rd);
 			document.getElementById("tree").innerHTML +="tasks >= "+pretask+" and <=" + res+" reduce depth: "+rd+"\n";
@@ -37,8 +38,9 @@ header("Expires: 0"); // Proxies.
 </head>
 <body>
 
-<?php include_once("analyticstracking.php");?>
-<?php include 'menu.php';?>
+<?php include_once("analyticstracking.php");
+include 'menu.php';?>
+
 <section class="container">
     <hgroup>
         <h1>Tasks Calculator</h1>
@@ -48,7 +50,7 @@ header("Expires: 0"); // Proxies.
 <aside >
 <textarea readonly id="tree" type="text" style=" height:70%;border: none; background-color: Lavender ;"></textarea>
 </aside>
-            <form method="post" onsubmit="return validate();" action="generate_master_ini.php" name="perftform" id="perftform" class="form form-stacked c-form">
+            <form method="post" onsubmit='return validate(<?php echo "$max_tasks";?>);' action="generate_master_ini.php" name="perftform" id="perftform" class="form form-stacked c-form">
                 fen:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="fen" type="text" id="fen" placeholder="Fen string"/>
 				<input id="calculatebutton" type="button" value="Calculate Tasks" onclick="calculateTasks();" /> 	
                 <br><small id="error_fen" class="hidden">fen format is wrong [fen validator: <a href="https://github.com/jhlywa/chess.js">https://github.com/jhlywa/chess.js</a>]</small>
@@ -56,11 +58,11 @@ header("Expires: 0"); // Proxies.
 				<br>
 			
 				<br>tasks:&nbsp;&nbsp;<input name="tasks" type="text" id="tasks" placeholder="tasks number"/>
-                <small id="error_tasks" class="hidden">tasks is a number between 1 and 1000</small>
+                <small id="error_tasks" class="hidden">tasks between 1 and <?php echo "$max_tasks";?></small>
                 <br>
                 <br>
                 depth:&nbsp;<input name="depth" type="text" id="depth" placeholder="depth"/>
-                <small id="error_depth" class="hidden">depth is a number between 2 and 100</small>
+                <small id="error_depth" class="hidden">depth between 2 and 100</small>
                 
 
                 <br><br>

@@ -2,7 +2,7 @@
 
 <?php
 
-include 'set_variable.php';	
+include_once 'set_variable.php';	
 
 session_start();
 shell_exec("find tmp/* -type f -mmin +1 -exec rm {} \;");
@@ -20,7 +20,7 @@ $fen=substr($fen,0,100);
 
 $depth=$_POST["depth"];
 $tasks=$_POST["tasks"];
-if (!is_numeric($depth)||!is_numeric($tasks)||$tasks>1000||$depth>100) {
+if (!is_numeric($depth)||!is_numeric($tasks)||$tasks>$max_tasks||$depth>100) {
     echo "error";
 	return;
 } 

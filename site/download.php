@@ -20,7 +20,7 @@
 			<p><a href="https://chsfsft"><img src="/img/os/WIN.png" height="50" width="50" />Windows</a> </p>
 			<p><a href="https://chsfsft"><img src="/img/os/LINUX.png" height="50" width="50" />Linux</a> </p>
 			<p><a href="https://chsfsft"><img src="/img/os/APPLE.png" height="50" width="50" />Mac</a> </p>
-			<p><a href="https://chsfsft"><img src="/img/os/ARM.png" height="11" width="50" />Arm</a> </p>
+			<p><a href="https://chsfsft"><img src="/img/os/ARM.png" height="50" width="50" />Arm</a> </p>
      		<p><a href="https://chsfsft"><img src="/img/GITHUB.png" height="42" width="50" />Source</a> </p>         
           </section>        
 	   </div>

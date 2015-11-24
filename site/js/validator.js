@@ -16,7 +16,7 @@ function validate_single_fen() {
 	fen.style.backgroundColor = "initial";
 	document.getElementById("error_fen").className = 'hidden';
 }
-function validate() {
+function validate(maxTasks) {
 	ff=validate_single_fen();
 	if(ff==false)return;
 	
@@ -31,7 +31,7 @@ function validate() {
 	depth.style.backgroundColor ="initial";
 
 	tasks =document.getElementById('tasks');
-	if(!isNumeric(tasks.value)|| (tasks.value<1||tasks.value>1000)){
+	if(!isNumeric(tasks.value)|| (tasks.value<1||tasks.value>maxTasks)){
 		tasks.style.backgroundColor = "red";
 		document.getElementById("error_tasks").className = 'nohidden';
 		return false;

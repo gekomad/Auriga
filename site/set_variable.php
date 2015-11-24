@@ -15,5 +15,6 @@ $db_host = $_ENV['OPENSHIFT_MYSQL_DB_HOST'];
 	$db_port = 3306;	
 	$auriga_root = "/var/www/html/auriga_root";
 
+	$max_tasks=1000;
 ?>
 
