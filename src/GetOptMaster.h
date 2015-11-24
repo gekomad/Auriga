@@ -49,10 +49,11 @@ public:
 
             WrapperCinnamon wrapperCinnamon;
             unsigned tasksReduce = 0;
-            int depth=1;
+            int depth = 1;
             while (tasksReduce < 10000) {
+                int oldTask = tasksReduce + 1;
                 tasksReduce = wrapperCinnamon.perft(fen, depth);
-                cout << "N tasks: " << tasksReduce << " reduce depth " << depth << endl;
+                cout << "N tasks  >= " << oldTask << " and <= " << tasksReduce << " reduce depth " << depth << endl;
                 depth++;
             }
 
