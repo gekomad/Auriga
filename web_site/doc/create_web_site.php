@@ -7,6 +7,7 @@
 
  </head>
  <body>
+<?php include_once("../analyticstracking.php");?>
 <?php include '../menu.php';?>
 <div class="container2">
 <section class="container">

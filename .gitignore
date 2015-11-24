@@ -20,7 +20,6 @@ cmake_install.cmake
 *.jar
 *.rar
 *.tar
-*.zip
  
 # Logs and databases #
 ######################
@@ -36,5 +35,4 @@ cmake_install.cmake
 ehthumbs.db
 Thumbs.db
 *.gcda
-src/cinnamon
 .idea/

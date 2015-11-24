@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="css/layout.css" type="text/css" />
 </head>
 <body onload="checkCookie()">
-
+<?php include_once("analyticstracking.php");?>
 <?php
 echo "<input type='hidden' value=\"".$time_zone."\">";
 
