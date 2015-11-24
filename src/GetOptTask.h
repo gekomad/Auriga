@@ -158,7 +158,7 @@ public:
         GetGZ get;
         FileUtil::createDirectory(aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR);
         string fileName = dataDir + PATH_SEPARATOR + perftUUID + ".ini";
-        pair<string, string> uuids = get.get(aurigaHost, aurigaPort, "php/downloadini.php?uuid_perft=" + perftUUID + "&uuid_task=" + taskUUID, aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR);
+        pair<string, string> uuids = get.get(aurigaHost, aurigaPort, "_downloadini.php?uuid_perft=" + perftUUID + "&uuid_task=" + taskUUID, aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR);
         if (uuids.first.empty()) {
             warn("no data to fetch");
             return pair<string, string>("", "");
