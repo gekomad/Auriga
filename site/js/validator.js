@@ -31,7 +31,7 @@ function validate() {
 	depth.style.backgroundColor ="initial";
 
 	tasks =document.getElementById('tasks');
-	if(!isNumeric(tasks.value)|| (tasks.value<1||tasks.value>10000)){
+	if(!isNumeric(tasks.value)|| (tasks.value<1||tasks.value>1000)){
 		tasks.style.backgroundColor = "red";
 		document.getElementById("error_tasks").className = 'nohidden';
 		return false;
