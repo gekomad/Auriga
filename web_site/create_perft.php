@@ -51,17 +51,17 @@ include 'menu.php';?>
 <textarea readonly id="tree" type="text" style=" height:70%;border: none; background-color: Lavender ;"></textarea>
 </aside>
             <form method="post" onsubmit='return validate(<?php echo "$max_tasks";?>);' action="generate_master_ini.php" name="perftform" id="perftform" class="form form-stacked c-form">
-                fen:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="fen" type="text" id="fen" placeholder="Fen string"/>
+                Fen:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="fen" type="text" id="fen" placeholder="Fen string"/>
 				<input id="calculatebutton" type="button" value="Calculate Tasks" onclick="calculateTasks();" /> 	
                 <br><small id="error_fen" class="hidden">fen format is wrong [fen validator: <a href="https://github.com/jhlywa/chess.js">https://github.com/jhlywa/chess.js</a>]</small>
   				
 				<br>
 			
-				<br>tasks:&nbsp;&nbsp;<input name="tasks" type="text" id="tasks" placeholder="tasks number"/>
+				<br>Tasks:&nbsp;&nbsp;<input name="tasks" type="text" id="tasks" placeholder="tasks number"/>
                 <small id="error_tasks" class="hidden">tasks between 1 and <?php echo "$max_tasks";?></small>
                 <br>
                 <br>
-                depth:&nbsp;<input name="depth" type="text" id="depth" placeholder="depth"/>
+                Depth:&nbsp;<input name="depth" type="text" id="depth" placeholder="depth"/>
                 <small id="error_depth" class="hidden">depth between 2 and 100</small>
                 
 
