@@ -21,6 +21,7 @@
 #include <iomanip>
 #include <atomic>
 #include <fstream>
+#include <map>
 #include <unistd.h>
 #include <set>
 #include "../../lib/WrapperCinnamon.h"
