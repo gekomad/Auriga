@@ -25,35 +25,46 @@ Search fen: <input name="fen" type="text" id="fen" placeholder="Fen string" valu
           <hgroup> 		
          </hgroup><div class="row"><section>             
          <?php  
+function getSql($fen){
+return "SELECT 'Task' type, uuid_task id,depth FROM task_fens where fen ='".$fen."'
+ union 
+SELECT 'Perft' type,uuid_perft id,depth FROM perft where fen ='".$fen."'";
+
+}
 
 if($fen!="") {	
 	$fen = str_replace("%", "",$fen);
 	$fen = str_replace("'", "",$fen);
 	$fen = str_replace("\"", "",$fen);
-	echo "<h1>Fen ".$fen."</h1> ";
+	
 	include 'mysql_connect.php';
-	$sql = "SELECT uuid_task,depth FROM task_fens where fen ='".$fen."'";
+	$sql = getSql($fen);
+
 
 	$result = $conn->query($sql);
 	if($result->num_rows <= 0){
 		preg_match('/(.+) (.+) (.+) (.+) (.+ .+)/', $fen, $re);
 		$fen = $re[1]." ".$re[2]." ".$re[3]." ".$re[4]." 0 1";
-		$sql = "SELECT uuid_task,depth FROM task_fens where fen ='".$fen."'";
+		$sql = getSql($fen);
 		$result = $conn->query($sql);
 	}else {
 		
 		$uuid_task=$row["uuid_task"];
 
-		echo "<img src='http://webchess.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'>";
+		echo "<div align='center'><img src='http://webchess.freehostia.com/diag/chessdiag.php?fen=".$fen."&amp&size=large&amp&coord=yes&amp&cap=no&amp&stm=yes&amp&fb=no&amp&theme=classic&amp&color1=E3CEAA&amp&color2=635147&amp&color3=000000'  height='300' width='300'></div>";
+		echo "<h1>FEN ".$fen."</h1> ";
 		echo "<br>";	
 		echo "<table>";
 		echo "<tr>";
-		echo "<td><b>Task ID</b></td>" ;
+		echo "<td><b>Type</b></td>" ;
+		echo "<td><b>ID</b></td>" ;
 		echo "<td><b>Depth</b></td>" ;
 	 	echo "</tr>";
     	while($row = $result->fetch_assoc()) {
 			echo "<tr>";
-			echo '<td><a href="task.php?uuid_task='.$row["uuid_task"].'&uuid_perft='.$uuid_perft.'">'.$row["uuid_task"].'</a></td>';
+			echo "<td>".$row["type"]."</td>";
+			if($row["type"]=="Task")echo '<td><a href="task.php?uuid_task='.$row["id"].'">'.$row["id"].'</a></td>';
+			else echo '<td><a href="perft.php?uuid_perft='.$row["id"].'">'.$row["id"].'</a></td>';
 			echo "<td>".$row["depth"]."</td>";
 			echo "</tr>";
     	}
