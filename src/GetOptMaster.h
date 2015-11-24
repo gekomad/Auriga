@@ -27,7 +27,6 @@ public:
         string AURIGA_ROOT;
 #if defined(_WIN32)
         AURIGA_ROOT="%AURIGA_ROOT%";
-         AURIGA_ROOT_EX = "c:\\chess\\auriga_root";
 #else
         AURIGA_ROOT = "$AURIGA_ROOT";
 #endif
