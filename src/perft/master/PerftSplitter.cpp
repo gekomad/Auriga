@@ -29,33 +29,43 @@ string PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask,
 
     WrapperCinnamon wrapperCinnamon;
 
-    vector<string> successorsFen;
 
     int effectiveNtask = Ntask;
     int succDepth = 0;
-    while (true) {
-        successorsFen = wrapperCinnamon.getSuccessorsFen(fen, ++succDepth);
-        if (successorsFen.size() >= Ntask)break;
-        if (succDepth > depth - 2) {
-            effectiveNtask = std::min((unsigned) successorsFen.size(), Ntask);
-            break;
+    map<string, int> successorsFenMap;
+    {
+        vector<string> successorsFenVector;
+        while (true) {
+            successorsFenVector = wrapperCinnamon.getSuccessorsFen(fen, ++succDepth);
+            if (successorsFenVector.size() >= Ntask)break;
+            if (succDepth > depth - 2) {
+                effectiveNtask = std::min((unsigned) successorsFenVector.size(), Ntask);
+                break;
+            }
+        }
+        for (string fen:successorsFenVector) {
+            successorsFenMap[fen]++;
         }
     }
+
     info("Fen: ", fen);
     info("depth: ", depth);
     info("tot Ntask: ", Ntask);
     info("tot effectiveNtask: ", effectiveNtask);
-    info("tot Fen: ", successorsFen.size());
+    info("tot Fen: ", successorsFenMap.size());
     taskEntityList.reserve(effectiveNtask);
     for (int i = 0; i < effectiveNtask; i++) {
-
         TaskEntity task;
         task.setDepth(depth - succDepth);
         taskEntityList.push_back(task);
     }
     int c = 0;
-    for (unsigned i = 0; i < successorsFen.size(); i++) {
-        taskEntityList.at((c++) % effectiveNtask).addFen(successorsFen[i]);
+    for (pair<string, int> f :successorsFenMap) {
+        //equal fens in single task
+        for (int i = 0; i < f.second; i++) {
+            taskEntityList.at(c % effectiveNtask).addFen(f.first);
+        }
+        c++;
     }
 
     TaskEntityDao taskEntityDao(taskEntityList);
@@ -68,9 +78,6 @@ string PerftSplitter::generateMasterINI(const string &fen, const unsigned Ntask,
     res.append("\n#END FILE");
     trace("\nwrite file", filename, "\n-------------\n", res, "\n-------------------");
 
-//    myfile.open(filename);
-//    myfile << res;
-//    myfile.close();
     Compression compression;
 
     compression.compress(res, filename);
