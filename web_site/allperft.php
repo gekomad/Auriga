@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="robots" content="noindex">
-  <title>all perft</title>
+  <title>Chess Perft Results</title>
 <link rel="stylesheet"  href="css/css1.css" type="text/css"/>
 <link rel="stylesheet" href="css/layout.css" type="text/css" />
  </head>
@@ -20,7 +20,7 @@ echo "<input type='hidden' value=\"".$time_zone."\">";
 <section class="container">
 	<div class="row">
 	<hgroup>
-		<h1><br>All Perfts</h1> <br>
+		<h1><br>Chess Perft Results</h1> <br>
 	</hgroup>
 <?php include("_command_area.php");?>
 <?php echo "<button onclick='writeCommandRandomPerftTask()'>Generate command for random perft/task</button>";?>
