@@ -38,7 +38,7 @@ void Engine::readStdin() {
             ASSERT(result != NO_RESULT);
         }
         if (result != NO_RESULT) {
-            log(engineName, " id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
+            LOG(engineName, " id:", getId(), " Reading from engine stdout: |" + receiveOutput + "|");
             cv.notify_all();
         }
     }
@@ -74,7 +74,7 @@ void Engine::readStderr() {
             debug(engineName, " err match tot: ", match[1].str(), "=", result, " id:", getId());
         }
         if (result != NO_RESULT) {
-            log(engineName, " id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
+            LOG(engineName, " id:", getId(), " Reading from engine stderr: |" + receiveStdErr + "|");
             cv.notify_all();
         }
     }
@@ -184,7 +184,7 @@ void Engine::init(const string &confFileName1) {
                 break;
             };
             receiveOutput.append(readbuffer);
-            log(receiveOutput);
+            LOG(receiveOutput);
             std::smatch match;
             if (regex_search(receiveOutput, match, GET_NAME_REGEX[protocol]) && match.size() > 1) {
                 engineName = match[1].str();
@@ -208,7 +208,7 @@ void Engine::init(const string &confFileName1) {
                 break;
             };
             receiveOutput.append(readbuffer);
-            log(engineName, " id: ", receiveOutput);
+            LOG(engineName, " id: ", receiveOutput);
             std::smatch match;
             if (regex_search(receiveOutput, match, GET_NAME_REGEX[protocol]) && match.size() > 1) {
                 engineName = match[1].str();

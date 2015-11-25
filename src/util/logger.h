@@ -89,7 +89,7 @@ namespace _logger {
 
 #define LINE_INFO __FILENAME__,":",__LINE__," "
 
-#define log(...)                            {logger._log<LOG_LEVEL::_ALWAYS>(LINE_INFO,__VA_ARGS__);}
+#define LOG(...)                            {logger._log<LOG_LEVEL::_ALWAYS>(LINE_INFO,__VA_ARGS__);}
 #define trace(...) if (_TRACE >= DLOG_LEVEL) {logger._log<LOG_LEVEL::_TRACE>( LINE_INFO,__VA_ARGS__);}
 #define debug(...) if (_DEBUG >= DLOG_LEVEL) {logger._log<LOG_LEVEL::_DEBUG>( LINE_INFO,__VA_ARGS__);}
 #define info(...)  if (_INFO  >= DLOG_LEVEL) {logger._log<LOG_LEVEL::_INFO> ( LINE_INFO,__VA_ARGS__);}
