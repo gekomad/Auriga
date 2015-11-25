@@ -152,7 +152,7 @@ public:
 
         //test connection
         if (ResolveHost::getIP(aurigaHost).empty()) {
-            fatal("cant't resolve host ", aurigaHost);
+            fatal("can't resolve host ", aurigaHost);
             exit(1);
         }
 
