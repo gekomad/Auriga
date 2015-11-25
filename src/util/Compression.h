@@ -26,18 +26,19 @@
 #include <regex>
 
 using namespace std;
+
 class Compression {
 private:
     std::regex rgxName;
 public:
-    Compression(){
+    Compression() {
         rgxName.assign("(.*)\\.gz");
     }
+
     int decompress(const string &fileGZ) {
         string fileOut;
         std::smatch match;
         if (regex_search(fileGZ, match, rgxName) && match.size() > 1) {
-//        if (regex_search(((const string) fileGZ).begin(), ((const string) fileGZ).end(), match, rgxName)) {
             fileOut = match[1].str();
         }
         const int LENGTH = 0x1000;
@@ -46,8 +47,7 @@ public:
         gzFile file;
         file = gzopen(file_name, "r");
         if (!file) {
-            fprintf(stderr, "gzopen of '%s' failed: %s.\n", file_name,
-                    strerror(errno));
+            fprintf(stderr, "gzopen of '%s' failed: %s.\n", file_name, strerror(errno));
             exit(EXIT_FAILURE);
         }
         while (1) {
@@ -61,8 +61,7 @@ public:
             if (bytes_read < LENGTH - 1) {
                 if (gzeof(file)) {
                     break;
-                }
-                else {
+                } else {
                     const char *error_string;
                     error_string = gzerror(file, &err);
                     if (err) {
@@ -93,9 +92,7 @@ public:
         strm->zalloc = Z_NULL;
         strm->zfree = Z_NULL;
         strm->opaque = Z_NULL;
-        CALL_ZLIB (deflateInit2(strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED,
-                                15 | 16, 8,
-                                Z_DEFAULT_STRATEGY));
+        CALL_ZLIB (deflateInit2(strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED, 15 | 16, 8, Z_DEFAULT_STRATEGY));
     }
 
 
@@ -116,8 +113,7 @@ public:
             CALL_ZLIB (deflate(&strm, Z_FINISH));
             have = CHUNK - strm.avail_out;
             fwrite(out, sizeof(char), have, pFile);
-        }
-        while (strm.avail_out == 0);
+        } while (strm.avail_out == 0);
         deflateEnd(&strm);
         fclose(pFile);
 

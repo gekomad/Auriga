@@ -60,12 +60,7 @@ public:
         if (hp != NULL) {
             if (hp->h_addr_list[0] != NULL) {
                 return inet_ntoa(*(struct in_addr *) (hp->h_addr_list[0]));
-            }/*
-            unsigned int i = 0;
-            while (hp->h_addr_list[i] != NULL) {
-                return inet_ntoa(*(struct in_addr *) (hp->h_addr_list[i]));
-                i++;
-            }*/
+            }
         }
         return "";
     }

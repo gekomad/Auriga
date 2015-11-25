@@ -77,7 +77,7 @@ pair<string, string> GetGZ::get(const string &host, const int port, const string
                 info("fetching...");
                 FileUtil::createDirectory(dataDir + PATH_SEPARATOR + UUID_PERFT);
                 fileGzipped = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR + UUID_PERFT + ".ini.gz";
-                tmp.open(fileGzipped,ios_base::out|ios_base::binary);
+                tmp.open(fileGzipped, ios_base::out | ios_base::binary);
             } else {
                 debug("no data fetched");
                 return pair<string, string>("", "");
@@ -115,7 +115,7 @@ pair<string, string> GetGZ::get(const string &host, const int port, const string
     info("decompress..");
     compression.decompress(fileGzipped);
 
-    //std::remove(fileGzipped.c_str());
+    std::remove(fileGzipped.c_str());
 
     return pair<string, string>(UUID_PERFT, UUID_TASK);
 }

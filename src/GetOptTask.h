@@ -69,18 +69,22 @@ public:
                         |          --task_uuid1.log
                         |
                         --task_uuid2/
-                                   |
-                                   --task_uuid2.ini
-                                   |
-                                   --task_uuid2.log
+                        |          |
+                        |          --task_uuid2.ini
+                        |          |
+                        |          --task_uuid2.log
+                        |
+                         --results.log
             |
              --perft_uuid2/
                         |
                         --task_uuid3/
-                                   |
-                                   --task_uuid3.ini
-                                   |
-                                   --task_uuid3.log
+                        |          |
+                        |          --task_uuid3.ini
+                        |          |
+                        |          --task_uuid3.log
+                        |
+                        --results.log
 
         */
         if (params.size() == 5) {

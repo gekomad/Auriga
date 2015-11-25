@@ -29,7 +29,7 @@ void HttpPost::postThread(const string &host, const int port, const string &pers
     Post *httpClient = new Post();
     if (httpClient->init(host, port)) {
         httpClients.insert(httpClient);
-        httpClient->preparePost(personalUUID,uuid_perft, uuid_task, heartbeat, tot, engine, author, fen, minutes, depth);
+        httpClient->preparePost(personalUUID, uuid_perft, uuid_task, heartbeat, tot, engine, author, fen, minutes, depth);
         httpClient->start();
         httpClient->join();
     } else {

@@ -29,5 +29,6 @@ class WrapperCinnamon {
 
 public:
     vector<string> getSuccessorsFen(const string &fen, const int depth);
+
     unsigned perft(const string &fen, const int depth);
 };

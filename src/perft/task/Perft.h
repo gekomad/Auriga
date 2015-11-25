@@ -30,17 +30,17 @@
 namespace _perft {
     class Perft : public ObserverEngine {
     public :
-        Perft(const string& aurigaRoot1,const string &taskUUID, const string &masterFile, const string &engineConfFile);
+        Perft(const string &aurigaRoot1, const string &taskUUID, const string &masterFile, const string &engineConfFile);
 
         void calculate();
 
     private:
-        static const int HEARTBEAT =           0b1;
-        static const int OS_WIN =             0b10;
-        static const int OS_APPLE =          0b100;
-        static const int OS_LINUX =         0b1000;
-        static const int OS_ARM =          0b10000;
-        static const int OS_UNIX =        0b100000;
+        static const int HEARTBEAT = 0b1;
+        static const int OS_WIN = 0b10;
+        static const int OS_APPLE = 0b100;
+        static const int OS_LINUX = 0b1000;
+        static const int OS_ARM = 0b10000;
+        static const int OS_UNIX = 0b100000;
 
         string taskUUID;
         string masterFile;

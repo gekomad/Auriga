@@ -19,8 +19,6 @@
 #include "Post.h"
 #include "ResolveHost.h"
 
-// HttpPost::getInstance().postThread("auriga-cinnamon.rhcloud.com", 80, "92165e61-7afc-11e5-ab63-0ec7b1e84563", "task_uuid", "2", "3", "engineName", "author", "fen","1");
-
 bool Post::init(const string &host1, const int port1) {
     if (host1.empty()) {
         return false;
@@ -58,7 +56,7 @@ void Post::preparePost(const string &personalUUID, const string &uuid_perft, con
     string FormAction = string("https://").append(ip).append(to_string(port)).append("/insert_task.php");
 
     auto ContentLength = personalUUID.size() + uuid_perft.size() + uuid_task.size() + heartbeat.size() + tot.size() + engine.size() + author.size() + fen.size() + minutes.size() + depth.size() + dataType0.size() + dataType1.size() + dataType2.size() + dataType3.size() + dataType4.size() + dataType5.size() + dataType6.size() + dataType7.size() + dataType8.size() + dataType9.size();
-    
+
     // header
     formBuffer << "POST " << FormAction.c_str() << " HTTP/1.1\n";
     formBuffer << "Content-Type: application/x-www-form-urlencoded\n";

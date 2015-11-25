@@ -35,7 +35,9 @@ public :
     const string readStderr();
 
     bool init(const string &enginePath);
+
     int isZombie();
+
 private:
     pid_t childpid;
     bool initialized;

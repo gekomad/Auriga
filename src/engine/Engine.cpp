@@ -124,7 +124,6 @@ void Engine::put(string command) {
     command.append("\n");
     int nbytes = command.size();
     assert(pipe->writeStdout(command) == nbytes);
-//    usleep(500000);
     sleep(1);
 }
 
@@ -136,7 +135,7 @@ void Engine::setPosition(const string &fen1) {
 void Engine::init(const string &confFileName1) {
     result = 0;
     if (!forceRestart && initialized)return;
-    if(initialized)put("quit");
+    if (initialized)put("quit");
     WorkerEntityDao workerEntityDao(confFileName1);
     string enginePath = workerEntityDao.getWorkerEntity().getEnginePath();
     forceRestart = workerEntityDao.getWorkerEntity().getForce_restart();
@@ -151,7 +150,7 @@ void Engine::init(const string &confFileName1) {
 
     bool detected = false;
     for (unsigned ii = 0; ii < SEND_INIT_STRING->size(); ii++) {
-        if(detected)break;
+        if (detected)break;
         put(SEND_INIT_STRING[ii]);
         const string &readbuffer = pipe->readStdin();
         if (readbuffer.empty()) {
@@ -173,7 +172,6 @@ void Engine::init(const string &confFileName1) {
         exit(1);
     };
 
-    ///////
     receiveOutput.clear();
     initialized = false;
     int count = 0;
@@ -190,7 +188,7 @@ void Engine::init(const string &confFileName1) {
             std::smatch match;
             if (regex_search(receiveOutput, match, GET_NAME_REGEX[protocol]) && match.size() > 1) {
                 engineName = match[1].str();
-                info("engine name is ", engineName, " protocol ",SEND_INIT_STRING[protocol]);
+                info("engine name is ", engineName, " protocol ", SEND_INIT_STRING[protocol]);
             }
 
             if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
@@ -210,11 +208,11 @@ void Engine::init(const string &confFileName1) {
                 break;
             };
             receiveOutput.append(readbuffer);
-            log(engineName, " id: ",receiveOutput);
+            log(engineName, " id: ", receiveOutput);
             std::smatch match;
             if (regex_search(receiveOutput, match, GET_NAME_REGEX[protocol]) && match.size() > 1) {
                 engineName = match[1].str();
-                info("engine name is ", engineName, " protocol ",SEND_INIT_STRING[protocol]);
+                info("engine name is ", engineName, " protocol ", SEND_INIT_STRING[protocol]);
             }
             if (initialized)break;
             if (receiveOutput.find(RECEIVE_INIT_STRING[protocol]) != string::npos) {
