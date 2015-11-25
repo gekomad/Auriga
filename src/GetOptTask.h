@@ -125,10 +125,14 @@ public:
 
         string perftIniFile = aurigaRoot + PATH_SEPARATOR "data" + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + perftUUID + ".ini";
         if (!FileUtil::fileExists(perftIniFile)) {
-            if (FileUtil::fileExists(perftIniFile+".gz")) {
+            if (FileUtil::fileExists(perftIniFile + ".gz")) {
                 Compression compression;
-                compression.decompress(perftIniFile+".gz");
-            }else {
+                compression.decompress(perftIniFile + ".gz");
+                if (!FileUtil::contains(perftIniFile, "#END FILE")) {
+                    fatal("invalid file ", perftIniFile);
+                    exit(1);
+                }
+            } else {
                 fatal("file not found ", perftIniFile);
                 exit(1);
             }
@@ -169,12 +173,19 @@ public:
         GetGZ get;
         FileUtil::createDirectory(aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR);
         string fileName = dataDir + PATH_SEPARATOR + perftUUID + ".ini";
-        pair<string, string> uuids = get.get(aurigaHost, aurigaPort, "_downloadini.php?uuid_perft=" + perftUUID + "&uuid_task=" + taskUUID, aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR);
-        if (uuids.first.empty()) {
+        tuple<string, string, string> uuids_file = get.get(aurigaHost, aurigaPort, "_downloadini.php?uuid_perft=" + perftUUID + "&uuid_task=" + taskUUID, aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR);
+        //tuple<perft_uuid, task_uuid, ini_file> uuids_file;
+        if (std::get<0>(uuids_file).empty()) {
             warn("no data to fetch");
             return pair<string, string>("", "");
         }
-        return uuids;
+
+        if (!FileUtil::contains(std::get<2>(uuids_file), "#END FILE")) {
+            fatal("invalid file ", std::get<2>(uuids_file));
+            exit(1);
+        }
+        //return perft_uuid task_uuid
+        return pair<string, string>(std::get<0>(uuids_file), std::get<1>(uuids_file));
     }
 };
 

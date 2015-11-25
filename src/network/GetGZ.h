@@ -53,5 +53,5 @@ private:
 public:
     GetGZ();
 
-    pair<string, string> get(const string &host, const int port, const string &url, const string &dataDir);
+    tuple<string, string,string> get(const string &host, const int port, const string &url, const string &dataDir);
 };

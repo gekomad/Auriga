@@ -35,7 +35,7 @@ public:
         rgxName.assign("(.*)\\.gz");
     }
 
-    int decompress(const string &fileGZ) {
+    string decompress(const string &fileGZ) {
         string fileOut;
         std::smatch match;
         if (regex_search(fileGZ, match, rgxName) && match.size() > 1) {
@@ -73,7 +73,7 @@ public:
         }
         gzclose(file);
         fclose(pFile);
-        return 0;
+        return fileOut;
     }
 
     void compress(const string &msg, const string &fileOut) {

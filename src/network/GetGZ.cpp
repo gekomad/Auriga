@@ -4,13 +4,13 @@ GetGZ::GetGZ() {
     rgxSize.assign(R"(.*Content-Length: (\d+)\r\nuuid_perft: (.+)\r\nuuid_task: (.*)\r.*)");
 }
 
-pair<string, string> GetGZ::get(const string &host, const int port, const string &url, const string &dataDir) {
+tuple<string, string, string> GetGZ::get(const string &host, const int port, const string &url, const string &dataDir) {
     char buf[4096];
     debug("resolving host ", host);
     string ip = ResolveHost::getIP(host);
     if (!ip.size()) {
         error("unknow host ", host);
-        return pair<string, string>("", "");
+        return tuple<string, string, string>("", "", "");
     }
 
     debug("resolved host ", host, " -> ", ip);
@@ -72,7 +72,7 @@ pair<string, string> GetGZ::get(const string &host, const int port, const string
                 string ini = dataDir + PATH_SEPARATOR + UUID_PERFT + PATH_SEPARATOR + UUID_PERFT + ".ini";
                 if (FileUtil::fileExists(ini)) {
                     info("file ", ini, " exists skip fetch")
-                    return pair<string, string>(UUID_PERFT, UUID_TASK);
+                    return tuple<string, string, string>(UUID_PERFT, UUID_TASK, ini);
                 }
                 info("fetching...");
                 FileUtil::createDirectory(dataDir + PATH_SEPARATOR + UUID_PERFT);
@@ -80,13 +80,13 @@ pair<string, string> GetGZ::get(const string &host, const int port, const string
                 tmp.open(fileGzipped, ios_base::out | ios_base::binary);
             } else {
                 debug("no data fetched");
-                return pair<string, string>("", "");
+                return tuple<string, string, string>("", "", "");
             }
 
             char *h = strstr(buf, (const char *) GZIP_HEADER);
             if (!h) {
                 error("error on fatching data");
-                return pair<string, string>("", "");
+                return tuple<string, string, string>("", "", "");
             }
             totWritten = r - (h - buf);
             tmp.write(h, totWritten);
@@ -108,15 +108,12 @@ pair<string, string> GetGZ::get(const string &host, const int port, const string
 
     info("fetched ", totWritten, " bytes");
     if (!tmp.is_open()) {
-        return pair<string, string>("", "");
+        return tuple<string, string, string>("", "", "");
     }
     tmp.close();
     Compression compression;
     info("decompress..");
-    compression.decompress(fileGzipped);
-
-    std::remove(fileGzipped.c_str());
-
-    return pair<string, string>(UUID_PERFT, UUID_TASK);
+    string iniFile = compression.decompress(fileGzipped);
+    return tuple<string, string, string>(UUID_PERFT, UUID_TASK, iniFile);
 }
 

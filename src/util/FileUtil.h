@@ -62,5 +62,20 @@ public:
         while (getline(iss, token, '/'));
         return token;
     }
+
+    static bool contains(const string &filename, const string keyword) {
+        string line;
+        ifstream in(filename);
+        if (in.is_open()) {
+            while (getline(in, line)) {
+                if (line.find(keyword) != std::string::npos) {
+                    in.close();
+                    return true;
+                }
+            }
+        }
+        in.close();
+        return false;
+    }
 };
 
