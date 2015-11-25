@@ -6,11 +6,12 @@ GetGZ::GetGZ() {
 
 tuple<string, string, string> GetGZ::get(const string &host, const int port, const string &url, const string &dataDir) {
     char buf[4096];
+    tuple<string, string, string> NONE("", "", "");
     debug("resolving host ", host);
     string ip = ResolveHost::getIP(host);
     if (!ip.size()) {
         error("unknow host ", host);
-        return tuple<string, string, string>("", "", "");
+        return NONE;
     }
 
     debug("resolved host ", host, " -> ", ip);
@@ -18,7 +19,7 @@ tuple<string, string, string> GetGZ::get(const string &host, const int port, con
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(1,1), &wsaData) == SOCKET_ERROR) {
         error ("Error initialising WSA");
-        return pair<string, string>("", "");
+        return NONE;
     }
 #endif
     int sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -80,13 +81,13 @@ tuple<string, string, string> GetGZ::get(const string &host, const int port, con
                 tmp.open(fileGzipped, ios_base::out | ios_base::binary);
             } else {
                 debug("no data fetched");
-                return tuple<string, string, string>("", "", "");
+                return NONE;
             }
 
             char *h = strstr(buf, (const char *) GZIP_HEADER);
             if (!h) {
                 error("error on fatching data");
-                return tuple<string, string, string>("", "", "");
+                return NONE;
             }
             totWritten = r - (h - buf);
             tmp.write(h, totWritten);
@@ -108,7 +109,7 @@ tuple<string, string, string> GetGZ::get(const string &host, const int port, con
 
     info("fetched ", totWritten, " bytes");
     if (!tmp.is_open()) {
-        return tuple<string, string, string>("", "", "");
+        return NONE;
     }
     tmp.close();
     Compression compression;
