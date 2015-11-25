@@ -57,7 +57,7 @@ const string PipePosix::readStderr() {
 bool PipePosix::init(const string &enginePath) {
     initialized = false;
     if (!FileUtil::fileExists(enginePath)) {
-        warn("engine not found", enginePath);
+        warn("engine not found ", enginePath);
         return initialized;
     }
     assert(!pipe(fd_p2c) && !pipe(stdIn) && !pipe(stdErr));

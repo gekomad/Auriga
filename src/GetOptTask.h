@@ -88,21 +88,23 @@ public:
 
         */
         if (params.size() == 5) {
+            pair<string, string> uuids;
             string aurigaRoot = params[1];
             string worker = params[2];
-            string perftUUID = params[3];
-            string taskUUID = params[4];
+            uuids.first = params[3];
+            uuids.second = params[4];
 
             string workerIniFile1 = aurigaRoot + PATH_SEPARATOR + "worker" + PATH_SEPARATOR + worker + ".worker.ini";
             if (!FileUtil::fileExists(workerIniFile1)) {
                 fatal("file not found ", workerIniFile1);
                 exit(1);
             }
-
-            pair<string, string> uuids = fetch(workerIniFile1, aurigaRoot, perftUUID, taskUUID);
+            if (uuids.first == "?" || uuids.second == "?") {
+                //get ids from server
+                uuids = fetch(workerIniFile1, aurigaRoot, uuids.first, uuids.second);
+            }
             if (!uuids.first.empty()) {
-                string uuidTask = taskUUID == "?" ? uuids.second : taskUUID;
-                doPerft(aurigaRoot, uuids.first, uuidTask, workerIniFile1);
+                doPerft(aurigaRoot, uuids.first, uuids.second, workerIniFile1);
             }
 
         } else {
@@ -123,8 +125,13 @@ public:
 
         string perftIniFile = aurigaRoot + PATH_SEPARATOR "data" + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + perftUUID + ".ini";
         if (!FileUtil::fileExists(perftIniFile)) {
-            fatal("file not found ", perftIniFile);
-            exit(1);
+            if (FileUtil::fileExists(perftIniFile+".gz")) {
+                Compression compression;
+                compression.decompress(perftIniFile+".gz");
+            }else {
+                fatal("file not found ", perftIniFile);
+                exit(1);
+            }
         }
         LOG("Do perft perft_uuid: ", perftUUID, " task_uuid: ", taskUUID);
 

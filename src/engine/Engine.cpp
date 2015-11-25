@@ -144,7 +144,7 @@ void Engine::init(const string &confFileName1) {
 
     info(" load engine ", enginePath);
     if (!pipe->init(enginePath)) {
-        fatal(" Failed to execute ", enginePath);
+        fatal(" Failed to execute ", enginePath, ". Check entry in worker file");
         exit(1);
     };
 
