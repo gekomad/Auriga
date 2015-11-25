@@ -2,6 +2,11 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="robots" content="noindex">
+
+	<meta name="description" content="Distributed and collaborative perft chess" />
+	<meta name="keywords" content="chess,perft,perft results,chess engine,open source" />
+	<meta name="author" content="Giuseppe Cannella" />
+
     <title>Auriga</title>
     <link rel="stylesheet" href="css/css1.css" type="text/css"/>
     <link rel="stylesheet" href="css/layout.css" type="text/css"/>

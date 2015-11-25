@@ -3,6 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="robots" content="noindex">
+  <meta name="description" content="Perft chess results" />
   <title>Chess Perft Results</title>
 <link rel="stylesheet"  href="css/css1.css" type="text/css"/>
 <link rel="stylesheet" href="css/layout.css" type="text/css" />
