@@ -31,7 +31,7 @@ port=host port
 <b>[worker]</b>
 #your name (will be published)
 public_name=name or nick
-personal_uuid=00000000-0000-0000-0000-000000000001
+personal_uuid=0
 
 <b>[engine]</b>
 path=full path engine
@@ -60,7 +60,7 @@ port=80
 
 <b>[worker]</b>
 public_name=John Smith (Notebook Dell)
-personal_uuid=00000000-0000-0000-0000-000000000001
+personal_uuid=0
 
 <b>[engine]</b>
 path=/home/geko/cinnamon
@@ -96,7 +96,7 @@ port=80
 
 <b>[worker]</b>
 public_name=Alice L.
-personal_uuid=00000000-0000-0000-0000-000000000001
+personal_uuid=0
 
 <b>[engine]</b>
 path=/Users/geeno/engines/crafty
@@ -125,7 +125,7 @@ port=80
 
 <b>[worker]</b>
 public_name=Bob (I7)
-personal_uuid=00000000-0000-0000-0000-000000000001
+personal_uuid=0
 
 <b>[engine]</b>
 path=c:\chess\myengines\stockfish.exe
