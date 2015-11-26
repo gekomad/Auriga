@@ -117,7 +117,7 @@ if ($result->num_rows == 0) {
 		$time=$row["time"];
 		if($time=="0 min")$time="<1 min";
 		echo "<td>".$row["time"]."</td>";		
-		echo "<td> <img src='img/flags/".$row["country"].".png'> </td>";
+		echo "<td> <div align ='middle' ><img src='img/flags/".$row["country"].".png'> </div></td>";
 		$OS=getOStype($heartbeat);
 		echo "<td> <img src='img/os/".$OS.".png' height='30' width='30' alt='".$OS."' title='".$OS."'> </td>";		
 	 	echo "</tr>";
