@@ -53,7 +53,7 @@ echo "<div align='center'><img src='http://webchess.freehostia.com/diag/chessdia
 echo "<br><br>Fen: $fen<br>";
 echo "Depth: $deph<br>";
 echo "Tasks: $tasks<br>";
-echo "Last pudate: $creation_date<br>";
+echo "Last update: $creation_date<br>";
 echo "Tot: $tot<br>";
 echo "Completed: $perc_completed%<br>";
 $sql="SELECT engine  FROM perft_engines where uuid_perft='".$uuid_perft."'";
