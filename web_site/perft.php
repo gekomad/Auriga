@@ -56,15 +56,16 @@ echo "Tasks: $tasks<br>";
 echo "Last update: $creation_date<br>";
 echo "Tot: $tot<br>";
 echo "Completed: $perc_completed%<br>";
-$sql="SELECT engine  FROM perft_engines where uuid_perft='".$uuid_perft."'";
+$sql="SELECT engine FROM perft_engines where uuid_perft='".$uuid_perft."'";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
 	echo "Engines: ";
 	while($row = $result->fetch_assoc()) {		
-		echo $row["engine"]." ";
+		echo $row["engine"];
+		if((++$count) != $result->num_rows)echo ", ";
 	}
 }
-echo "<br>";
+echo "<br><hr><br>";
 
 $sql="select uuid_task,engine n_engine,perc_completed, creation_date,minutes,if(minutes=0,' < 1 min', if(minutes>=60*24,concat(round(minutes/60/24),' days'),if(minutes>=60,concat(round(minutes/60,' hours'),' hours'),concat(minutes,' min'))))time from perft_tasks where uuid_perft ='".$uuid_perft."' order by creation_date desc,perc_completed asc limit ".$from.",500";
 
@@ -72,7 +73,7 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
 
 	include("_command_area.php");
-	echo "<button onclick='writeCommandRandomTask(\"$uuid_perft\")'>Generate command for random task</button>";
+	echo "<button onclick='writeCommandRandomTask(\"$uuid_perft\")'>Generate command for random task</button><br><br>";
 
 
 	echo "<table>";

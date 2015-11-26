@@ -31,12 +31,25 @@ include_once 'set_variable.php';
 			rd++;
 		}
 		
-}
+	}
+	function setCareful(){
+		if (navigator.appVersion.indexOf("Win")!=-1){
+			document.getElementById("careful").innerHTML ='Please insert data careful, try before on your client the command:<br><br>'
+			+ '%AURIGA_ROOT%\\auriga.exe --generate-ini %AURIGA_ROOT% Ntask "FEN" DEPTH<br><br>'
+			+'example: %AURIGA_ROOT%\\auriga.exe --generate-ini  %AURIGA_ROOT%  1000 "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" 15';	
+		}else{
+			document.getElementById("careful").innerHTML ='Please insert data careful, try on your client the command:<br><br>'
+			+ '$AURIGA_ROOT/auriga --generate-ini $AURIGA_ROOT Ntask "FEN" DEPTH<br><br>'
+			+'example: $AURIGA_ROOT/auriga --generate-ini  $AURIGA_ROOT  1000 "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" 15';	
+		}
+		
+	}
+
  </script> 
     <?php include 'captcha.php';	?>
 
 </head>
-<body>
+<body onload="setCareful()">
 
 <?php include_once("analyticstracking.php");
 include 'menu.php';?>
@@ -44,12 +57,20 @@ include 'menu.php';?>
 <section class="container">
     <hgroup>
         <h1><br>Create new Perft</h1><br>
+<p>
+
+<pre id="careful" />
+</p>
+
     </hgroup>   
     <div class="row">
         <section>
+<br><br>
 <aside >
-<textarea readonly id="tree" type="text" style=" height:70%;border: none; background-color: Lavender ;"></textarea>
+
+<pre id="tree" style=" height:40%;border: none; background-color: Lavender ;"></pre>
 </aside>
+
             <form method="post" onsubmit='return validate(<?php echo "$max_tasks";?>);' action="generate_master_ini.php" name="perftform" id="perftform" class="form form-stacked c-form">
                 Fen:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="fen" type="text" id="fen" placeholder="Fen string"/>
 				<input id="calculatebutton" type="button" value="Calculate Tasks" onclick="calculateTasks();" /> 	

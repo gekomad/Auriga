@@ -64,7 +64,7 @@ if ($result->num_rows == 0) {
 			
               
 <?php include("_command_area.php");?>
-<?php echo "<button onclick='writeCommand(\"$uuid_perft\",\"$uuid_task\")'>Generate command</button>";?>
+<?php echo "<button onclick='writeCommand(\"$uuid_perft\",\"$uuid_task\")'>Generate command</button><br><br>";?>
 <?php 
 	define("HEARTBEAT_TYPE", 0b1);
 	define("OS_WIN", 0b10);

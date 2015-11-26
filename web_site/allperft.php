@@ -24,7 +24,7 @@ echo "<input type='hidden' value=\"".$time_zone."\">";
 		<h1><br>Chess Perft Results</h1> <br>
 	</hgroup>
 <?php include("_command_area.php");?>
-<?php echo "<button onclick='writeCommandRandomPerftTask()'>Generate command for random perft/task</button>";?>
+<?php echo "<button onclick='writeCommandRandomPerftTask()'>Generate command for random perft/task</button><br><br>";?>
 <?php
 
 	include 'mysql_connect.php';
