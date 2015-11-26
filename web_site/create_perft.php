@@ -34,7 +34,7 @@ include_once 'set_variable.php';
 	}
 	function setCareful(){
 		if (navigator.appVersion.indexOf("Win")!=-1){
-			document.getElementById("careful").innerHTML ='Please insert data careful, try before on your client the command:<br><br>'
+			document.getElementById("careful").innerHTML ='Before inserting the data you can do tests on your client with the command:<br><br>'
 			+ '%AURIGA_ROOT%\\auriga.exe --generate-ini %AURIGA_ROOT% Ntask "FEN" DEPTH<br><br>'
 			+'example: %AURIGA_ROOT%\\auriga.exe --generate-ini  %AURIGA_ROOT%  1000 "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" 15';	
 		}else{
