@@ -101,7 +101,7 @@ tuple<string, string, string> GetGZ::get(const string &host, const int port, con
             info("fetching tot", totWritten, "bytes");
             break;
         }
-        info("fetching...", r, " bytes...");
+        debug("fetching...", r, " bytes...");
         totWritten += r;
         tmp.write(buf, r);
     }
@@ -113,7 +113,7 @@ tuple<string, string, string> GetGZ::get(const string &host, const int port, con
     }
     tmp.close();
     Compression compression;
-    info("decompress..");
+    info("unzip..");
     string iniFile = compression.decompress(fileGzipped);
     return tuple<string, string, string>(UUID_PERFT, UUID_TASK, iniFile);
 }
