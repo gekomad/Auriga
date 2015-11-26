@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.19, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.1.73, for redhat-linux-gnu (x86_64)
 --
--- Host: localhost    Database: auriga
+-- Host: 127.12.95.2    Database: auriga
 -- ------------------------------------------------------
--- Server version	5.6.19-0ubuntu0.14.04.1
+-- Server version	5.5.45
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -122,7 +122,7 @@ DROP TABLE IF EXISTS `personal_uuid`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `personal_uuid` (
-  `uuid` char(36) COLLATE utf8_bin NOT NULL,
+  `uuid` int(10) unsigned NOT NULL,
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -143,7 +143,7 @@ CREATE TABLE `task_fens` (
   KEY `task_fs_fen_IDX` (`fen`),
   KEY `ptasksds_bf3_2` (`uuid_task`),
   CONSTRAINT `iptaxdds_bf3_2` FOREIGN KEY (`uuid_task`) REFERENCES `perft_tasks` (`uuid_task`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=461893 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=428964 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -167,14 +167,14 @@ CREATE TABLE `tasks` (
   `minutes` int(11) DEFAULT NULL,
   `country` char(2) COLLATE utf8_bin DEFAULT NULL,
   `anomaly` int(11) DEFAULT NULL,
-  `personal_uuid` char(36) COLLATE utf8_bin NOT NULL,
+  `personal_uuid` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `uuid_task` (`uuid_task`),
-  KEY `tadkds_ibifk_1` (`uuid_perft`),
-  KEY `tadbfk_1` (`personal_uuid`),
-  CONSTRAINT `tadbfk_1` FOREIGN KEY (`personal_uuid`) REFERENCES `personal_uuid` (`uuid`),
-  CONSTRAINT `tadkdds_ibfk_1` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8708 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  KEY `tadds_ibifk_1` (`uuid_perft`),
+  KEY `tadfk_1` (`personal_uuid`),
+  CONSTRAINT `taddds_ibfk_1` FOREIGN KEY (`uuid_perft`) REFERENCES `perft` (`uuid_perft`) ON DELETE CASCADE,
+  CONSTRAINT `tadfk_1` FOREIGN KEY (`personal_uuid`) REFERENCES `personal_uuid` (`uuid`)
+) ENGINE=InnoDB AUTO_INCREMENT=10941 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -186,4 +186,4 @@ CREATE TABLE `tasks` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-24 11:56:46
+-- Dump completed on 2015-11-26 13:15:54
