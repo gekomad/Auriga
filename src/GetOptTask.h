@@ -54,8 +54,8 @@ public:
      |
      -worker
      |      |
-     |      --stockfish-auriga.ini
-     |      --crafty-auriga.ini
+     |      --stockfish.worker.ini
+     |      --crafty.worker.ini
      |      .. ecc ..
      |
       --data
