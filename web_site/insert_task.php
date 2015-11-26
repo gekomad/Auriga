@@ -15,7 +15,7 @@ $ip = $_SERVER['REMOTE_ADDR'];
 if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
     $ip = array_pop(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']));
 }
-
+#error_log("ip:".$ip);
 preg_match('/^(\d{1,3}\.\d{1,3}\.\d{1,3})\.\d{1,3}\z/', $ip, $re);
 $miniip = $re[1];
 
@@ -27,6 +27,15 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
 	$row = $result->fetch_assoc();
 	$country=$row['country_iso_code'];
+}else{
+	preg_match('/^(\d{1,3}\.\d{1,3}\.\d{1,3})\z/', $ip, $re);
+	$miniip = $re[1];
+	$sql = "select country_iso_code from ip_country_timezone where network ='$miniip'";
+	$result = $conn->query($sql);
+	if ($result->num_rows > 0) {
+		$row = $result->fetch_assoc();
+		$country=$row['country_iso_code'];
+	}
 }
 
 include 'updateStatistics.php';
