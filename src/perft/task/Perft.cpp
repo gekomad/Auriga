@@ -75,7 +75,9 @@ void Perft::observerTotResult(const u64 result, const string &fen, const string 
     ofstream logResult(aurigaRoot + PATH_SEPARATOR + "data" + PATH_SEPARATOR + perftUUID + PATH_SEPARATOR + "results.log", std::ofstream::out | std::ofstream::app);
 
     int type = getOStype();
-    logResult << /*id*/ TAB << perftUUID << TAB << taskUUID << TAB << fen << TAB << depth << TAB/*creation_date*/<< type << TAB << engineName << TAB << author << TAB/*country*/<< TAB/*anomaly*/<< personalUUID << TAB << minutes << " " << depth << "\n";
+    logResult << "LOAD DATA LOCAL INFILE 'results.log' INTO TABLE tasks CHARACTER SET UTF8 FIELDS TERMINATED BY '\\t'\n";
+    logResult << "php batch_update_stats.php\n";
+    logResult << "" <</*id*/ TAB << perftUUID << TAB << taskUUID << TAB << fen << TAB << depth << TAB << ""/*creation_date*/ << TAB << type << TAB << result << TAB << engineName << TAB << author << TAB << minutes << TAB <</*country*/"" << TAB << 1 << TAB << personalUUID << "\n";
     logResult.close();
 
     HttpPost::getInstance().postThread(aurigaHost, aurigaPort, personalUUID, perftUUID, taskUUID, to_string(type), String::toString(result), engineName, author, fen, to_string(minutes), to_string(depth));
