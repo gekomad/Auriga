@@ -18,7 +18,7 @@ function validate_single_fen() {
 }
 function validate(maxTasks) {
 	ff=validate_single_fen();
-	if(ff==false)return;
+	if(ff==false)return false;
 	
 
 	depth =document.getElementById('depth');

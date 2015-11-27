@@ -32,24 +32,12 @@ include_once 'set_variable.php';
 		}
 		
 	}
-	function setCareful(){
-		if (navigator.appVersion.indexOf("Win")!=-1){
-			document.getElementById("careful").innerHTML ='Before inserting the data you can do tests on your client with the command:<br><br>'
-			+ '%AURIGA_ROOT%\\auriga.exe --generate-ini %AURIGA_ROOT% Ntask "FEN" DEPTH<br><br>'
-			+'example: %AURIGA_ROOT%\\auriga.exe --generate-ini  %AURIGA_ROOT%  1000 "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" 15';	
-		}else{
-			document.getElementById("careful").innerHTML ='Please insert data careful, try on your client the command:<br><br>'
-			+ '$AURIGA_ROOT/auriga --generate-ini $AURIGA_ROOT Ntask "FEN" DEPTH<br><br>'
-			+'example: $AURIGA_ROOT/auriga --generate-ini  $AURIGA_ROOT  1000 "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1" 15';	
-		}
-		
-	}
-
+	
  </script> 
-    <?php include 'captcha.php';	?>
+   <!-- <?php include 'captcha.php';	?>-->
 
 </head>
-<body onload="setCareful()">
+<body>
 
 <?php include_once("analyticstracking.php");
 include 'menu.php';?>
@@ -57,10 +45,6 @@ include 'menu.php';?>
 <section class="container">
     <hgroup>
         <h1><br>Create new Perft</h1><br>
-<p>
-
-<pre id="careful" />
-</p>
 
     </hgroup>   
     <div class="row">
@@ -87,9 +71,8 @@ include 'menu.php';?>
                 
 
                 <br><br>
-                <?php echo"<img src=\"tmp/$image.jpg\" width=\"120\" height=\"30\" border=\"1\" alt=\"CAPTCHA\">";?><br>
-                <input type="text" size="6" maxlength="5" id="captcha" name="captcha" value="">
-                <small>copy the digits from the image into this box</small>
+                <input type="text" size="6" id="captcha" name="captcha" value="">
+                <small>insert personal code</small>
 
                 <br><br><input type="submit" class="submit btn outline" id="submit" value="Create perft"/>
             </form>

@@ -4,16 +4,6 @@
 
 include_once 'set_variable.php';	
 
-session_start();
-shell_exec("find tmp/* -type f -mmin +1 -exec rm {} \;");
-if($_POST['captcha'] != $_SESSION['digit']) {
-	session_destroy();
-	sleep(2);
-	header("Location: error_captcha.html");//TODO fare pagina
-	exit;
-}
-session_destroy();
-
 $fen=$_POST["fen"];
 $fen=trim($fen);
 $fen=substr($fen,0,100);
@@ -27,11 +17,24 @@ if (!is_numeric($depth)||!is_numeric($tasks)||$tasks>$max_tasks||$depth>100) {
 
 
 include 'mysql_connect.php';
-$sql = "SELECT count(1)count FROM perft where fen ='".$fen."' and depth=".$depth." and tasks = ".$tasks;
+
+////// personal code
+$sql = "SELECT 1 FROM personal_uuid where uuid!=0 and uuid ='".$_POST['captcha']."'";
 
 $result = $conn->query($sql);
-$row = $result->fetch_assoc();
-if($row["count"]!=0){
+
+if($result->num_rows <= 0){
+	$conn->close();
+	sleep(2);
+	header("Location: error_personalcode.html");//TODO fare pagina
+	exit;
+}
+
+/////////////
+$sql = "SELECT 1 FROM perft where fen ='".$fen."' and depth=".$depth." and tasks = ".$tasks;
+
+$result = $conn->query($sql);
+if($result->num_rows >0){
 	$conn->close();
 	echo "fen exists<br>";//TODO fare pagina
 	return;

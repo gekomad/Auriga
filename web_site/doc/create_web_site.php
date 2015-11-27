@@ -25,7 +25,6 @@
 					<li><a href="https://github.com/gekomad/Auriga">Download Auriga source</a></li>					
 					<li>Copy all files from <code>Auriga/web_site</code> in your document root</li>
                     <li>Create a new database named auriga and import schema <code>mysql -u$USER -p$PASSWORD auriga < Auriga/web_site/mysql/auriga.sql</code></li>
-                    <li>Insert generic user in mysql: <code>insert into personal_uuid values(0)</code></li>                                        
 					<li>In your worker file change host/port with your new host</li>
 					<li>Define your variables in <code>set_variable.php</code></li>
                   </ul>				
