@@ -1,7 +1,11 @@
-# Auriga
-Overview
+Auriga
+==========
 
 Auriga is an open source distributed collaborative and multi platform system for the calculation of the function Perft.
+
+Version
+----------
+1.0
 
 How does it work
 ----------
@@ -11,3 +15,51 @@ The tree is divided into tasks, each task will be analyzed from a single machine
  
 ![alt tag](http://auriga-cinnamon.rhcloud.com/img/auriga.png)
  
+
+Features
+----------
+
+- Available for both Unix, Windows, Mac and ARM
+- Works with UCI and xboard chess engines
+- GPL 3 License
+- C++11 source
+- Available PHP Web Site
+
+
+Binaries
+----------
+
+Binaries are available [here][1].
+
+
+Compiling
+---------
+
+Auriga requires C++11 or greater, use unique Makefile to compile for many architectures:
+
+    $ make
+
+    Makefile for cross-compile Linux/Windows/OSX/ARM
+
+    make auriga64      [COMP=compiler]
+    make auriga32      [COMP=compiler]
+    make auriga-ARM    [COMP=compiler]
+
+    g++ is the default compiler, add COMP=yourcompiler to use another compiler
+     example: make auriga64 COMP=clang++
+
+
+
+License
+-------
+
+Auriga is released under the GPLv3+ license.
+
+Credits
+-------
+
+Auriga was written by Giuseppe Cannella at gmail dot com. Uses [cinnamon chess engine][2] and [ThreadPool][3]
+
+  [1]: http://auriga-cinnamon.rhcloud.com/download.php
+  [2]: http://cinnamonchess.altervista.org/
+  [3]: https://github.com/gekomad/ThreadPool
