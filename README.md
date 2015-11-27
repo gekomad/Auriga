@@ -1,7 +1,7 @@
 # Auriga
 Overview
 
-Auriga is an open source distributed collaborative and multi platform for the calculation of the function Perft.
+Auriga is an open source distributed collaborative and multi platform system for the calculation of the function Perft.
 
 How does it work
 ----------

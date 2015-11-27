@@ -28,7 +28,7 @@
                     <h2>Overview</h2>
                     
 
-                    <p>Auriga is an open source distributed collaborative and multi platform for the calculation of the function <a href="https://chessprogramming.wikispaces.com/Perft">Perft</a>.
+                    <p>Auriga is an open source distributed collaborative and multi platform system for the calculation of the function <a href="https://chessprogramming.wikispaces.com/Perft">Perft</a>.
 
                     <h3>How does it work</h3>
 					<p>The tree is divided into tasks, each task will be analyzed from a single machine (<b>worker</b>) and the result will be sent automatically to this site. When all tasks are processed you will have the result of perft.
