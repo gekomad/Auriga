@@ -5,7 +5,6 @@
 <title>Perft</title>
 <link rel="stylesheet"  href="/css/css1.css" type="text/css"/>
 <link rel="stylesheet" href="/css/layout.css" type="text/css" />
-<link type="text/css" rel="stylesheet" href="/css/tsc_pagination.css" />
 
 </head>
 <body onload="checkCookie()">
