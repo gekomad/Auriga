@@ -53,7 +53,7 @@ Auriga is released under the GPLv3+ license.
 
 ### Credits
 
-Auriga was written by Giuseppe Cannella at gmail dot com and uses [cinnamon chess engine][2] and [ThreadPool][3]
+Auriga was written by Giuseppe Cannella at gmail dot com and uses [Cinnamon chess engine][2] and [ThreadPool][3]
 
   [1]: http://auriga-cinnamon.rhcloud.com/download.php
   [2]: http://cinnamonchess.altervista.org/
