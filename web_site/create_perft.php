@@ -33,9 +33,7 @@ include_once 'set_variable.php';
 		
 	}
 	
- </script> 
-   <!-- <?php include 'captcha.php';	?>-->
-
+ </script>   
 </head>
 <body>
 
@@ -71,8 +69,8 @@ include 'menu.php';?>
                 
 
                 <br><br>
-                <input type="text" size="6" id="captcha" name="captcha" value="">
-                <small>insert personal code</small>
+                <input type="text" size="6" id="personal_code" name="personal_code" value="">
+                <small>insert your personal code (request it at mail below)</small>
 
                 <br><br><input type="submit" class="submit btn outline" id="submit" value="Create perft"/>
             </form>

@@ -19,7 +19,7 @@ if (!is_numeric($depth)||!is_numeric($tasks)||$tasks>$max_tasks||$depth>100) {
 include 'mysql_connect.php';
 
 ////// personal code
-$sql = "SELECT 1 FROM personal_uuid where uuid!=0 and uuid ='".$_POST['captcha']."'";
+$sql = "SELECT 1 FROM personal_uuid where uuid!=0 and uuid ='".$_POST['personal_code']."'";
 
 $result = $conn->query($sql);
 
