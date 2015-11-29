@@ -20,7 +20,8 @@ preg_match('/^(\d{1,3}\.\d{1,3}\.\d{1,3})\.\d{1,3}\z/', $ip, $re);
 $miniip = $re[1];
 
 include 'mysql_connect.php';
-
+$conn->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
+$conn->autocommit(FALSE);
 $country="";
 $sql = "select country_iso_code from ip_country_timezone where network ='$miniip'";
 
@@ -70,6 +71,7 @@ $conn->query($sql);
 $sql= insertPerftEngine($uuid_perft,$engine);
 $conn->query($sql);
 //
+$conn->commit();
 $conn->close();
 
 ?>

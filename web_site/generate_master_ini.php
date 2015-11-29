@@ -26,7 +26,7 @@ $result = $conn->query($sql);
 if($result->num_rows <= 0){
 	$conn->close();
 	sleep(2);
-	header("Location: error_personalcode.html");
+	header("Location: error_personalcode.html");//TODO fare pagina
 	exit;
 }
 
@@ -36,7 +36,7 @@ $sql = "SELECT 1 FROM perft where fen ='".$fen."' and depth=".$depth." and tasks
 $result = $conn->query($sql);
 if($result->num_rows >0){
 	$conn->close();
-	echo "fen exists<br>";
+	echo "fen exists<br>";//TODO fare pagina
 	return;
 }
 $conn->close();

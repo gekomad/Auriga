@@ -18,7 +18,7 @@ $uuid_perft=$_GET['uuid_perft'];
 $from =$_GET["from"];
 if($from == "")$from=0;
 if($uuid_perft == ""){
-	header("Location: 404.html");
+	header("Location: 404.html");//TODO fare pagina
 }
 
 include 'mysql_connect.php';
@@ -28,7 +28,7 @@ $sql = "SELECT fen, depth,tasks, creation_date,tot,ifnull(perc_completed,0)perc_
 $result = $conn->query($sql);
 if ($result->num_rows == 0 ) {
 	$conn->close();
-	header("Location: 404.html");
+	header("Location: 404.html");//TODO fare pagina
 }
 $row = $result->fetch_assoc();
 $fen =$row["fen"];

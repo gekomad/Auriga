@@ -18,7 +18,7 @@ include 'menu.php';?>
 $uuid_task=$_GET['uuid_task'];
 $uuid_perft=$_GET['uuid_perft'];
 if($uuid_task == ""){
-	header("Location: 404.html");
+	header("Location: 404.html");//TODO fare pagina
 }
 
 
@@ -32,11 +32,11 @@ if($uuid_perft == ""){
 		$uuid_perft=$row['uuid_perft'];
 	}else{
 		$conn->close();
-		header("Location: 404.html");
+		header("Location: 404.html");//TODO fare pagina
 	}	
 	if($uuid_perft == ""){
 		$conn->close();
-		header("Location: 404.html");
+		header("Location: 404.html");//TODO fare pagina
 	}
 }
 
@@ -49,7 +49,7 @@ $result = $conn->query($sql);
 
 if ($result->num_rows == 0) {
 	$conn->close();	
-	header("Location: 404.html");
+	header("Location: 404.html");//TODO fare pagina
 }
 
 ?>

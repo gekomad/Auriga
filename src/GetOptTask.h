@@ -99,7 +99,8 @@ public:
                 fatal("file not found ", workerIniFile1);
                 exit(1);
             }
-            if (uuids.first == "?" || uuids.second == "?") {
+            string perftIniFile = aurigaRoot + PATH_SEPARATOR "data" + PATH_SEPARATOR + uuids.first + PATH_SEPARATOR + uuids.first + ".ini";
+            if (uuids.first == "?" || uuids.second == "?" || !FileUtil::fileExists(perftIniFile)) {
                 //get ids from server
                 uuids = fetch(workerIniFile1, aurigaRoot, uuids.first, uuids.second);
             }
