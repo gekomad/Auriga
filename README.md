@@ -7,7 +7,7 @@ Auriga is an open source distributed collaborative and multi platform system for
 ----------
 
 ### Version
-1.0
+1.1
 
 ### How does it work
 
