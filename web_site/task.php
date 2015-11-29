@@ -101,6 +101,7 @@ if ($result->num_rows == 0) {
 	$color=0;
     while($row = $result->fetch_assoc()) {
 		$heartbeat=	$row["heartbeat"];
+		$country=$row["country"];
 		echo "<tr>";	
 		$fen=$row["fen"];
 		if($fen!=$lastFen){$color++;$lastFen=$fen;}
@@ -117,7 +118,7 @@ if ($result->num_rows == 0) {
 		$time=$row["time"];
 		if($time=="0 min")$time="<1 min";
 		echo "<td>".$row["time"]."</td>";		
-		echo "<td> <div align ='middle' ><img src='img/flags/".$row["country"].".png'> </div></td>";
+		echo "<td> <div align ='middle' ><img alt='".$country."' title='".$country."' src='img/flags/".$country.".png'> </div></td>";
 		$OS=getOStype($heartbeat);
 		echo "<td> <img src='img/os/".$OS.".png' height='30' width='30' alt='".$OS."' title='".$OS."'> </td>";		
 	 	echo "</tr>";
