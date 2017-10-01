@@ -87,7 +87,7 @@ scp $AURIGA_ROOT/data/799GCE65-CDD6-43BA-G7D3-18AG9C4833D6/799GCE65-CDD6-43BA-G7
 </pre>
 remove the host entry in worker file (example $AURIGA_ROOT/worker/stockfish.worker.ini) 
 <br>from
-<pre>host=auriga-cinnamon.rhcloud.com</pre>
+<pre>host=cinnamonchess.altervista.org/auriga</pre>
 to
 <pre>host=</pre>
 

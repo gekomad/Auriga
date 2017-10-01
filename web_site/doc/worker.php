@@ -55,7 +55,7 @@ It is necessary set properly the entry <b>path</b> with the absolute path of the
 #AURIGA worker ini file
 
 <b>[auriga_server]</b>
-host=auriga-cinnamon.rhcloud.com
+host=cinnamonchess.altervista.org/auriga
 port=80
 
 <b>[worker]</b>
@@ -91,7 +91,7 @@ perft 1
 #AURIGA worker ini file
 
 <b>[auriga_server]</b>
-host=auriga-cinnamon.rhcloud.com
+host=cinnamonchess.altervista.org/auriga
 port=80
 
 <b>[worker]</b>
@@ -120,7 +120,7 @@ perft 2
 #AURIGA worker ini file
 
 <b>[auriga_server]</b>
-host=auriga-cinnamon.rhcloud.com
+host=cinnamonchess.altervista.org/auriga
 port=80
 
 <b>[worker]</b>
