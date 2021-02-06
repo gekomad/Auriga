@@ -1,6 +1,6 @@
 Auriga
 ==========
-<a href="https://en.wikipedia.org/wiki/Auriga_%28slave%29"><img src="http://cinnamonchess.altervista.org/auriga/img/logo.jpg" align="left" hspace="10" vspace="6"></a>
+<img src="https://gekomad.github.io/Cinnamon/img/auriga.gif" align="left" hspace="10" vspace="6"></a>
 
 Auriga is an open source distributed collaborative and multi platform system for the calculation of the function Perft.
 
@@ -13,7 +13,7 @@ Auriga is an open source distributed collaborative and multi platform system for
 
 The tree is divided into tasks, each task will be analyzed from a single machine (worker) and the result will be sent automatically to http://cinnamonchess.altervista.org/auriga. When all tasks are processed you will have the result of perft.
  
-<img src="http://cinnamonchess.altervista.org/auriga/img/auriga.png">
+<img src="https://gekomad.github.io/Cinnamon/img/auriga.png">
 
 
 ### Features
@@ -21,7 +21,7 @@ The tree is divided into tasks, each task will be analyzed from a single machine
 - Available for both Unix, Windows, Mac and ARM
 - Works with UCI and xboard chess engines
 - GPL 3 License
-- C++11 source
+- C++ source
 - Available PHP Web Site
 
 
@@ -55,6 +55,6 @@ Auriga is released under the GPLv3+ license.
 
 Auriga was written by Giuseppe Cannella at gmail dot com and uses [Cinnamon chess engine][2] and [ThreadPool][3]
 
-  [1]: http://cinnamonchess.altervista.org/auriga/download.php
-  [2]: http://cinnamonchess.altervista.org/
+  [1]: https://github.com/gekomad/Auriga/releases
+  [2]: https://github.com/gekomad/Cinnamon
   [3]: https://github.com/gekomad/ThreadPool
