@@ -1,6 +1,6 @@
 Auriga
 ==========
-<img src="https://gekomad.github.io/Cinnamon/img/auriga.gif" align="left" hspace="10" vspace="6"></a>
+<img src="https://gekomad.github.io/Cinnamon/img/auriga.gif"></a>
 
 Auriga is an open source distributed collaborative and multi platform system for the calculation of the function Perft.
 
